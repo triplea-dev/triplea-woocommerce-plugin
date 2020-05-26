@@ -1,0 +1,21 @@
+{
+    "name": "triplea/triplea-payment-gateway-for-woocommerce",
+    "description": "This is a short description of what plugin_title does.",
+    "type": "wordpress-plugin",
+    "license": "GPL-2.0+-or-later",
+    "authors": [
+        {
+            "name": "TripleA",
+            "email": "andy.hoebeke@triple-a.io"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "config": {
+        "process-timeout": 0
+    },
+    "require-dev": {
+        "dealerdirect/phpcodesniffer-composer-installer": "*",
+        "wp-coding-standards/wpcs": "*",
+    }
+}
