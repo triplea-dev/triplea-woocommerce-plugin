@@ -20,6 +20,10 @@
             "type": "git"
         },
         {
+            "url": "https://github.com/BrianHenryIE/composer-phpstorm",
+            "type": "git"
+        },
+        {
             "type":"composer",
             "url":"https://wpackagist.org"
         }
@@ -32,6 +36,7 @@
         "wp-coding-standards/wpcs": "*",
         "wordpress/wordpress": "^5.4",
         "kporras07/composer-symlinks": "dev-master",
+        "brianhenryie/composer-phpstorm": "dev-master",
         "wpackagist-plugin/woocommerce": "^4.1",
         "wpackagist-theme/storefront": "*"
     },
@@ -42,6 +47,20 @@
             "src": "wp-content/plugins/triplea-payment-gateway-for-woocommerce",
             "vendor/wordpress/wordpress/src": "wordpress"
         },
+        "phpstorm": {
+            "exclude_folders": {
+                "folders": [
+                    "vendor/wordpress/wordpress/src",
+                    "vendor/wordpress/wordpress/build",
+                    "wp-content/plugins/triplea-payment-gateway-for-woocommerce",
+                    "wordpress/wp-content/plugins"
+                ],
+                "include_folders": [
+                    "vendor/wordpress/wordpress/"
+                ],
+                "composer-symlinks": false
+            }
+        }
     },
     "scripts": {
         "post-install-cmd": [
@@ -50,12 +69,15 @@
             "Kporras07\\ComposerSymlinks\\ScriptHandler::createSymlinks",
             "mkdir -p wordpress/wp-content/uploads",
             "BrianHenryIE\\ComposerPhpStorm\\ExcludeFolders::update",
+            "BrianHenryIE\\ComposerPhpStorm\\PHPUnitRunConfigurations::update"
         ],
         "post-update-cmd": [
             "rm vendor/wordpress/wordpress/build/wp-content || true",
             "cd vendor/wordpress/wordpress; npm install; npm run build; cd ../../..",
             "Kporras07\\ComposerSymlinks\\ScriptHandler::createSymlinks",
             "mkdir -p wordpress/wp-content/uploads",
+            "BrianHenryIE\\ComposerPhpStorm\\ExcludeFolders::update",
+            "BrianHenryIE\\ComposerPhpStorm\\PHPUnitRunConfigurations::update"
         ]
     }
 }
