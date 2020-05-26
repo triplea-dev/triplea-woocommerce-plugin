@@ -78,9 +78,9 @@ if ( ! function_exists( 'triplea_write_log' ) ) {
 }
 
 
-require_once ABSPATH . 'wp-admin/includes/plugin.php';
 add_action( 'plugins_loaded', 'triplea_payment_gateway_for_woocommerce_check', 99 );
 function triplea_payment_gateway_for_woocommerce_check() {
+	require_once ABSPATH . 'wp-admin/includes/plugin.php';
 	if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
 		triplea_payment_gateway_for_woocommerce_run();
 	} else {
