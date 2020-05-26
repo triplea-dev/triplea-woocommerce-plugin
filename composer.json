@@ -14,8 +14,33 @@
     "config": {
         "process-timeout": 0
     },
+    "repositories": [
+        {
+            "url": "https://github.com/WordPress/wordpress-develop",
+            "type": "git"
+        },
+        {
+            "type":"composer",
+            "url":"https://wpackagist.org"
+        }
+    ],
+    "require": {
+        "php": ">=7.2",
+    },
     "require-dev": {
         "dealerdirect/phpcodesniffer-composer-installer": "*",
         "wp-coding-standards/wpcs": "*",
+        "wordpress/wordpress": "^5.4",
+        "wpackagist-plugin/woocommerce": "^4.1",
+        "wpackagist-theme/storefront": "*"
+    "scripts": {
+        "post-install-cmd": [
+            "rm vendor/wordpress/wordpress/build/wp-content || true",
+            "cd vendor/wordpress/wordpress; npm install; npm run build; cd ../../..",
+        ],
+        "post-update-cmd": [
+            "rm vendor/wordpress/wordpress/build/wp-content || true",
+            "cd vendor/wordpress/wordpress; npm install; npm run build; cd ../../..",
+        ]
     }
 }
