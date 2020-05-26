@@ -30,13 +30,13 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	exit;
 }
 
-//define a vairbale and store an option name as the value.
-$plugin_options  = 'woocommerce_' . 'triplea_payment_gateway' . '_settings'; // Format: $wc_plugin_id + $plugin_own_id + option key
-$option_name = $plugin_options;
+// define a vairbale and store an option name as the value.
+$plugin_options = 'woocommerce_' . 'triplea_payment_gateway' . '_settings'; // Format: $wc_plugin_id + $plugin_own_id + option key
+$option_name    = $plugin_options;
 
-//call delete option and use the variable inside the quotations
-update_option($option_name, NULL);
-delete_option($option_name);
+// call delete option and use the variable inside the quotations
+update_option( $option_name, null );
+delete_option( $option_name );
 
 // for site options in Multisite
-//delete_site_option($option_name);
+// delete_site_option($option_name);
