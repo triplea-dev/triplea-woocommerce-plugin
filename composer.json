@@ -31,16 +31,31 @@
         "dealerdirect/phpcodesniffer-composer-installer": "*",
         "wp-coding-standards/wpcs": "*",
         "wordpress/wordpress": "^5.4",
+        "kporras07/composer-symlinks": "dev-master",
         "wpackagist-plugin/woocommerce": "^4.1",
         "wpackagist-theme/storefront": "*"
+    },
+    "extra": {
+        "symlinks": {
+            "wp-content": "vendor/wordpress/wordpress/build/wp-content",
+            "wp-content/plugins": "vendor/wordpress/wordpress/src/wp-content/plugins",
+            "src": "wp-content/plugins/triplea-payment-gateway-for-woocommerce",
+            "vendor/wordpress/wordpress/src": "wordpress"
+        },
+    },
     "scripts": {
         "post-install-cmd": [
             "rm vendor/wordpress/wordpress/build/wp-content || true",
             "cd vendor/wordpress/wordpress; npm install; npm run build; cd ../../..",
+            "Kporras07\\ComposerSymlinks\\ScriptHandler::createSymlinks",
+            "mkdir -p wordpress/wp-content/uploads",
+            "BrianHenryIE\\ComposerPhpStorm\\ExcludeFolders::update",
         ],
         "post-update-cmd": [
             "rm vendor/wordpress/wordpress/build/wp-content || true",
             "cd vendor/wordpress/wordpress; npm install; npm run build; cd ../../..",
+            "Kporras07\\ComposerSymlinks\\ScriptHandler::createSymlinks",
+            "mkdir -p wordpress/wp-content/uploads",
         ]
     }
 }
