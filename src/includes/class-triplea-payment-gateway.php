@@ -85,12 +85,19 @@ class TripleA_Payment_Gateway_For_Woocommerce {
 		}
 		$this->plugin_name = 'triplea-payment-gateway-for-woocommerce';
 
+
+		$this->set_locale();
+
+		$this->add_action('woocommerce_init', $this, 'woocommerce_init' );
+	}
+
+	public function woocommerce_init() {
+
 		/**
 		 * The class responsible for integrating with WooCommerce checkout.
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/triplea-payment-gateway-main-class.php';
 
-		$this->set_locale();
 	}
 
 	/**
