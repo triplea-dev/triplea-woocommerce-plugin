@@ -130,6 +130,8 @@ register_deactivation_hook( __FILE__, 'deactivate_triplea_payment_gateway_for_wo
  */
 require_once plugin_dir_path( __FILE__ ) . 'includes/class-triplea-payment-gateway.php';
 
+$GLOBALS['triplea_payment_gateway_for_woocommerce'] = new Triplea_Payment_Gateway_For_Woocommerce();
+
 /**
  * Begins execution of the plugin.
  *
@@ -173,7 +175,8 @@ function triplea_payment_gateway_for_woocommerce_run() {
 		}
 	);
 
-	$plugin = new Triplea_Payment_Gateway_For_Woocommerce(); // TripleA_Bitcoin_Ecommerce_for_WooCommerce_Payment
+	/** @var Triplea_Payment_Gateway_For_Woocommerce $plugin */
+	$plugin = $GLOBALS['triplea_payment_gateway_for_woocommerce']; // TripleA_Bitcoin_Ecommerce_for_WooCommerce_Payment
 	$plugin->run();
 
 	add_action( 'admin_notices', 'triplea_payment_gateway_for_woocommerce_wc_admin_update_notices', 99 );
