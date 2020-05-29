@@ -85,7 +85,7 @@ class TripleA_Payment_Gateway_For_Woocommerce {
 		}
 		$this->plugin_name = 'triplea-payment-gateway-for-woocommerce';
 
-
+		require_once __DIR__ . '/class-i18n.php';
 		$this->set_locale();
 
 		$this->add_action('woocommerce_init', $this, 'woocommerce_init' );
@@ -167,15 +167,6 @@ class TripleA_Payment_Gateway_For_Woocommerce {
 		}
 	}
 
-	public function load_plugin_textdomain() {
-		load_plugin_textdomain(
-			'triplea-payment-gateway-for-woocommerce',
-			false,
-			dirname( dirname( plugin_basename( __FILE__ ) ) ) . '/languages/'
-		);
-
-	}
-
 	/**
 	 * Define the locale for this plugin for internationalization.
 	 *
@@ -186,7 +177,10 @@ class TripleA_Payment_Gateway_For_Woocommerce {
 	 * @access   private
 	 */
 	private function set_locale() {
-		$this->add_action( 'plugins_loaded', $this, 'load_plugin_textdomain' );
+
+		$plugin_i18n = new TripleA_Payment_Gateway_For_WooCommerce\includes\I18n();
+
+		$this->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
 	}
 
 	/**
