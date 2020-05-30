@@ -40,7 +40,6 @@
         "phpunit/phpcov": "^5.0",
         "10up/wp_mock": "0.4.2",
         "brianhenryie/composer-phpstorm": "dev-master",
-        "phpcompatibility/phpcompatibility-wp": "*",
         "lucatume/wp-browser": "2.5.5",
         "codeception/module-asserts": "*",
         "voku/portable-ascii": "dev-master",
@@ -55,18 +54,6 @@
         "wpackagist-plugin/bh-wc-set-gateway-by-url": "1.0.5"
     },
     "extra": {
-        "patches": {
-            "coenjacobs/mozart": {
-                "Allow default packages": "https://github.com/coenjacobs/mozart/pull/49.patch"
-            }
-        },
-        "mozart": {
-            "dep_namespace": "TripleA_Payment_Gateway_For_WooCommerce\\",
-            "dep_directory": "/src/vendor/",
-            "classmap_prefix": "TripleA_Payment_Gateway_For_WooCommerce_",
-            "classmap_directory": "/src/dependencies/",
-            "delete_vendor_directories": false
-        },
         "symlinks": {
             "wp-content": "vendor/wordpress/wordpress/build/wp-content",
             "wp-content/plugins": "vendor/wordpress/wordpress/src/wp-content/plugins",
@@ -90,7 +77,6 @@
     },
     "scripts": {
         "post-install-cmd": [
-            "\"vendor/bin/mozart\" compose",
             "rm vendor/wordpress/wordpress/build/wp-content || true",
             "cd vendor/wordpress/wordpress; npm install; npm run build; cd ../../..",
             "Kporras07\\ComposerSymlinks\\ScriptHandler::createSymlinks",
@@ -99,7 +85,6 @@
             "BrianHenryIE\\ComposerPhpStorm\\PHPUnitRunConfigurations::update"
         ],
         "post-update-cmd": [
-            "\"vendor/bin/mozart\" compose",
             "rm vendor/wordpress/wordpress/build/wp-content || true",
             "cd vendor/wordpress/wordpress; npm install; npm run build; cd ../../..",
             "Kporras07\\ComposerSymlinks\\ScriptHandler::createSymlinks",
