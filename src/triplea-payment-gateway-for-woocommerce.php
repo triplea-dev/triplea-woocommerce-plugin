@@ -56,8 +56,8 @@ require_once __DIR__ . '/logger.php';
 add_action( 'plugins_loaded', 'triplea_payment_gateway_for_woocommerce_check', 99 );
 function triplea_payment_gateway_for_woocommerce_check() {
 	require_once ABSPATH . 'wp-admin/includes/plugin.php';
-	if ( !in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
-	    add_action( 'admin_notices', 'triplea_payment_gateway_for_woocommerce_wc_needed', 99 );
+	if ( ! in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+		add_action( 'admin_notices', 'triplea_payment_gateway_for_woocommerce_wc_needed', 99 );
 		add_action( 'admin_notices', 'triplea_payment_gateway_for_woocommerce_wc_admin_notices', 99 );
 		deactivate_plugins( plugin_basename( __FILE__ ) );
 	}
@@ -113,8 +113,8 @@ function instantiate_triplea_payment_gateway_for_woocommerce() {
 	return $plugin;
 }
 
-$GLOBALS['triplea_payment_gateway_for_woocommerce'] = instantiate_triplea_payment_gateway_for_woocommerce();
-
+$GLOBALS['triplea_payment_gateway_for_woocommerce'] = $triplea_payment_gateway_for_woocommerce = instantiate_triplea_payment_gateway_for_woocommerce();
+$triplea_payment_gateway_for_woocommerce->run();
 
 
 
@@ -160,11 +160,6 @@ function triplea_payment_gateway_for_woocommerce_run() {
 			);
 		}
 	);
-
-	/** @var Triplea_Payment_Gateway_For_Woocommerce $plugin */
-	$plugin = $GLOBALS['triplea_payment_gateway_for_woocommerce']; // TripleA_Bitcoin_Ecommerce_for_WooCommerce_Payment
-	$plugin->run();
-
 	add_action( 'admin_notices', 'triplea_payment_gateway_for_woocommerce_wc_admin_update_notices', 99 );
 }
 
@@ -588,13 +583,6 @@ function triplea_get_orderid_from_txid( $order_tx_id, $debug_log_enabled ) {
 
 
 /** --------------- **/
-
-add_filter( 'woocommerce_payment_gateways', 'triplea_payment_gateway_for_woocommerce_add_gateway' );
-
-function triplea_payment_gateway_for_woocommerce_add_gateway( $methods ) {
-	$methods[] = 'TripleA_Bitcoin_Ecommerce_for_WooCommerce_Payment';
-	return $methods;
-}
 
 
 function triplea_payment_gateway_for_woocommerce_wc_admin_notices() {

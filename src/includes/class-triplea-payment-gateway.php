@@ -14,6 +14,7 @@
  */
 
 use TripleA_Payment_Gateway_For_WooCommerce\Admin\Plugins_Page;
+use TripleA_Payment_Gateway_For_WooCommerce\WooCommerce\Payment_Gateways;
 use TripleA_Payment_Gateway_For_WooCommerce\WPPB\WPPB_Loader_Interface;
 use TripleA_Payment_Gateway_For_WooCommerce\WPPB\WPPB_Object;
 
@@ -80,15 +81,23 @@ class TripleA_Payment_Gateway_For_Woocommerce extends WPPB_Object {
 		$this->set_locale();
 
 		$this->define_admin_hooks();
+		$this->define_woocommerce_hooks();
 	}
 
 	private function define_admin_hooks() {
 
 		$plugins_page = new Plugins_Page();
 
-		$plugin_basename    = $this->get_plugin_name() . '/' . $this->get_plugin_name() . '.php';
+		$plugin_basename = $this->get_plugin_name() . '/' . $this->get_plugin_name() . '.php';
 		$this->loader->add_filter( 'plugin_action_links_' . $plugin_basename, $plugins_page, 'display_plugin_action_links' );
 
+	}
+
+	private function define_woocommerce_hooks() {
+
+		$payment_gateways = new Payment_Gateways();
+
+		$this->loader->add_filter( 'woocommerce_payment_gateways', $payment_gateways, 'triplea_payment_gateway_for_woocommerce_add_gateway' );
 	}
 
 	/**
