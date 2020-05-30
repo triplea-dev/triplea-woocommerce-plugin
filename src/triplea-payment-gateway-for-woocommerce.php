@@ -46,30 +46,7 @@ if ( ! defined( 'TRIPLEA_PAYMENT_GATEWAY_FOR_WOOCOMMERCE_MAIN_FILE' ) ) {
 	define( 'TRIPLEA_PAYMENT_GATEWAY_FOR_WOOCOMMERCE_MAIN_FILE', __FILE__ );
 }
 
-if ( ! function_exists( 'triplea_write_log' ) ) {
-
-	function triplea_write_log( $log, $logging_enabled = false ) {
-
-		$uploads  = wp_upload_dir( null, false );
-		$logs_dir = $uploads['basedir'] . '/triplea-bitcoin-payment-logs';
-
-		if ( ! is_dir( $logs_dir ) ) {
-			mkdir( $logs_dir, 0755, true );
-		}
-		$file = $logs_dir . '/' . 'triplea-bitcoin-payment-logs.log';
-
-		if ( $logging_enabled ) {
-			if ( is_array( $log ) || is_object( $log ) ) {
-				error_log( print_r( $log, true ), 3, $file );
-			} else {
-				$datetime = date( 'Y-m-d h:i:sa' );
-				error_log( $datetime . ' : ' . $log, 3, $file );
-			}
-			error_log( PHP_EOL, 3, $file );
-		}
-	}
-}
-
+require_once __DIR__ . '/logger.php';
 
 add_action( 'plugins_loaded', 'triplea_payment_gateway_for_woocommerce_check', 99 );
 function triplea_payment_gateway_for_woocommerce_check() {
