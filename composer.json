@@ -77,16 +77,14 @@
     },
     "scripts": {
         "post-install-cmd": [
-            "rm vendor/wordpress/wordpress/build/wp-content || true",
-            "cd vendor/wordpress/wordpress; npm install; npm run build; cd ../../..",
+            "cd vendor/wordpress/wordpress; rm build/wp-content || true; npm install; npm run build; cd ../../..",
             "Kporras07\\ComposerSymlinks\\ScriptHandler::createSymlinks",
             "mkdir -p wordpress/wp-content/uploads",
             "BrianHenryIE\\ComposerPhpStorm\\ExcludeFolders::update",
             "BrianHenryIE\\ComposerPhpStorm\\PHPUnitRunConfigurations::update"
         ],
         "post-update-cmd": [
-            "rm vendor/wordpress/wordpress/build/wp-content || true",
-            "cd vendor/wordpress/wordpress; npm install; npm run build; cd ../../..",
+            "cd vendor/wordpress/wordpress; rm build/wp-content || true; npm install; npm run build; cd ../../..",
             "Kporras07\\ComposerSymlinks\\ScriptHandler::createSymlinks",
             "mkdir -p wordpress/wp-content/uploads",
             "BrianHenryIE\\ComposerPhpStorm\\ExcludeFolders::update",
