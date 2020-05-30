@@ -4,7 +4,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $plugin_options  = 'woocommerce_' . 'triplea_payment_gateway' . '_settings';
-$plugin_settings = get_option( $plugin_options );
+$plugin_settings_defaults = array();
+$plugin_settings = get_option( $plugin_options, $plugin_settings_defaults );
 // access plugin settings : $plugin_settings['setting_name']
 
 $tripleaStatuses = array(
@@ -95,7 +96,8 @@ ob_start();
 							   id="logo_large"
 							   name="triplea_bitcoin_logo_option"
 						   <?php
-							if ( $plugin_settings['triplea_bitcoin_logo_option'] === 'large-logo' || empty( $plugin_settings['triplea_bitcoin_logo_option'] ) ) {
+							if ( empty( $plugin_settings['triplea_bitcoin_logo_option'] )
+                                 || 'large-logo' === $plugin_settings['triplea_bitcoin_logo_option'] ) {
 								echo 'checked';
 							}
 							?>
@@ -108,7 +110,8 @@ ob_start();
 							   id="logo_short"
 							   name="triplea_bitcoin_logo_option"
 						   <?php
-							if ( $plugin_settings['triplea_bitcoin_logo_option'] === 'short-logo' ) {
+							if ( isset( $plugin_settings['triplea_bitcoin_logo_option'] )
+                                  && 'short-logo' === $plugin_settings['triplea_bitcoin_logo_option'] ) {
 								echo 'checked';
 							}
 							?>
@@ -121,7 +124,8 @@ ob_start();
 							   id="logo_none"
 							   name="triplea_bitcoin_logo_option"
 						   <?php
-							if ( $plugin_settings['triplea_bitcoin_logo_option'] === 'no-logo' ) {
+						   if ( isset( $plugin_settings['triplea_bitcoin_logo_option'] )
+						        && 'no-logo' === $plugin_settings['triplea_bitcoin_logo_option'] ) {
 								echo 'checked';
 							}
 							?>
@@ -139,7 +143,8 @@ ob_start();
 								  onchange="updatePreviewOnChange()"
 								  name="triplea_bitcoin_text_option"
 							  <?php
-								if ( $plugin_settings['triplea_bitcoin_text_option'] === 'default-text' ) {
+							  if ( isset( $plugin_settings['triplea_bitcoin_text_option'] )
+							       && 'default-text' === $plugin_settings['triplea_bitcoin_text_option'] ) {
 									echo 'checked';
 								}
 								?>
@@ -151,7 +156,8 @@ ob_start();
 						   <input type="radio"
 								  id="text_custom"
 							  <?php
-								if ( $plugin_settings['triplea_bitcoin_text_option'] === 'custom-text' ) {
+							  if ( isset( $plugin_settings['triplea_bitcoin_text_option'] )
+							       && 'custom-text' === $plugin_settings['triplea_bitcoin_text_option'] ) {
 									echo 'checked';
 								}
 								?>
@@ -185,7 +191,7 @@ ob_start();
 								  onchange="updatePreviewOnChange()"
 								  value="desc-default"
 							  <?php
-								if ( $plugin_settings['triplea_bitcoin_descriptiontext_option'] === 'desc-default' || empty( $plugin_settings['triplea_bitcoin_descriptiontext_option'] ) ) {
+								if ( empty( $plugin_settings['triplea_bitcoin_descriptiontext_option'] ) || $plugin_settings['triplea_bitcoin_descriptiontext_option'] === 'desc-default' ) {
 									echo 'checked';
 								}
 								?>
@@ -198,7 +204,7 @@ ob_start();
 								  onchange="updatePreviewOnChange()"
 								  value="desc-custom"
 							  <?php
-								if ( $plugin_settings['triplea_bitcoin_descriptiontext_option'] === 'desc-custom' ) {
+								if ( isset( $plugin_settings['triplea_bitcoin_descriptiontext_option']  ) && 'desc-custom' === $plugin_settings['triplea_bitcoin_descriptiontext_option'] ) {
 									echo 'checked';
 								}
 								?>
@@ -239,12 +245,9 @@ ob_start();
 								name="triplea_woocommerce_order_states[<?php echo $tripleaState; ?>]">
 						   <?php
 							// $orderStates = get_option('woocommerce_triplea_payment_gateway_triplea_woocommerce_order_states');
-							$orderStates = $plugin_settings['triplea_woocommerce_order_states'];
+						   $orderStates = isset( $plugin_settings['triplea_woocommerce_order_states'] ) ? $plugin_settings['triplea_woocommerce_order_states'] : array();
 							foreach ( $wcStatuses as $wcState => $wcName ) {
-								$currentOption = $orderStates[ $tripleaState ];
-								if ( true === empty( $currentOption ) ) {
-									$currentOption = $statuses[ $tripleaState ];
-								}
+								$currentOption = isset( $orderStates[ $tripleaState ] ) ? $orderStates[ $tripleaState ] : $statuses[ $tripleaState ] ;
 								echo "<option value='$wcState'";
 								if ( $currentOption === $wcState ) {
 									echo 'selected';
