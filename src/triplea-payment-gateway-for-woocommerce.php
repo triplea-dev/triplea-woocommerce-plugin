@@ -63,10 +63,7 @@ function triplea_payment_gateway_for_woocommerce_check() {
 	}
 }
 
-add_action( 'woocommerce_init', 'run_triplea_payment_gateway', 1 );
-function run_triplea_payment_gateway() {
-	triplea_payment_gateway_for_woocommerce_run();
-}
+
 
 function triplea_payment_gateway_for_woocommerce_wc_needed() {
 
@@ -126,6 +123,11 @@ function instantiate_triplea_payment_gateway_for_woocommerce() {
 }
 
 $GLOBALS['triplea_payment_gateway_for_woocommerce'] = instantiate_triplea_payment_gateway_for_woocommerce();
+
+
+
+
+add_action( 'woocommerce_init', 'triplea_payment_gateway_for_woocommerce_run', 1 );
 
 /**
  * Begins execution of the plugin.
