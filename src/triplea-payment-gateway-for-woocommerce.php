@@ -15,10 +15,7 @@
  * @wordpress-plugin
  * Plugin Name:       Bitcoin Payment Gateway for WooCommerce
  * Plugin URI:        https://triple-a.io/ecommerce/#woocommerce
- * Description:       Offer bitcoin as a payment option on your website and get
- * access to even more clients. Receive payments in bitcoins or in your local
- * currency, directly in your bank account. Enjoy an easy setup, no bitcoin
- * expertise required. Powered by TripleA.
+ * Description:       Offer bitcoin as a payment option on your website and get access to even more clients. Receive payments in bitcoins or in your local currency, directly in your bank account. Enjoy an easy setup, no bitcoin expertise required. Powered by TripleA.
  * Version: 1.3.1
  * Author: TripleA
  * Author URI: https://triple-a.io
