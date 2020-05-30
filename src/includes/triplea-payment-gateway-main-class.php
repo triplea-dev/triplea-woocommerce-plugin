@@ -13,7 +13,7 @@ class TripleA_Bitcoin_Ecommerce_for_WooCommerce_Payment extends WC_Payment_Gatew
 	public function __construct() {
 
 		$this->id           = 'triplea_payment_gateway';
-		$this->method_title = __( 'Bitcoin Payment Gateway (by TripleA)', TRIPLEA_PAYMENT_GATEWAY_FOR_WOOCOMMERCE_TEXTDOMAIN );
+		$this->method_title = __( 'Bitcoin Payment Gateway (by TripleA)', 'triplea-payment-gateway-for-woocommerce' );
 		$this->has_fields   = true;
 		$this->supports     = array(
 			'products',
@@ -41,7 +41,7 @@ class TripleA_Bitcoin_Ecommerce_for_WooCommerce_Payment extends WC_Payment_Gatew
 		/**
 		 * Display text customisation options
 		 */
-		$this->description = __( 'Secure and easy payment with Bitcoin using the TripleA.io service.', TRIPLEA_PAYMENT_GATEWAY_FOR_WOOCOMMERCE_TEXTDOMAIN );
+		$this->description = __( 'Secure and easy payment with Bitcoin using the TripleA.io service.', 'triplea-payment-gateway-for-woocommerce' );
 
 		$this->triplea_mode                = $this->get_option( 'triplea_mode' );
 		$this->triplea_notifications_email = $this->get_option( 'triplea_notifications_email' );
@@ -170,12 +170,12 @@ class TripleA_Bitcoin_Ecommerce_for_WooCommerce_Payment extends WC_Payment_Gatew
 			__(
 				"With TripleA, you get to choose.<br>
 You can receive your transaction payments in bitcoins or in your local currency. Just provide your wallet's public key to receive bitcoins.<br>If you want to receive fiat currency (USD, EUR, and more), create a TripleA wallet within seconds directly from WordPress.<br>You just need to provide your email address to get started.",
-				TRIPLEA_PAYMENT_GATEWAY_FOR_WOOCOMMERCE_TEXTDOMAIN
+				'triplea-payment-gateway-for-woocommerce'
 			)
 		);
 
 		if ( 'test' === $this->triplea_mode ) {
-			$this->description = $this->description . sprintf( '<br>' . '<strong>' . __( 'TripleA TEST MODE enabled.', TRIPLEA_PAYMENT_GATEWAY_FOR_WOOCOMMERCE_TEXTDOMAIN ) . '</strong>' );
+			$this->description = $this->description . sprintf( '<br>' . '<strong>' . __( 'TripleA TEST MODE enabled.', 'triplea-payment-gateway-for-woocommerce' ) . '</strong>' );
 			$this->description = trim( $this->description );
 		}
 
@@ -230,6 +230,9 @@ You can receive your transaction payments in bitcoins or in your local currency.
 	// wp_register_script( 'woocommerce_stripe', plugins_url( 'assets/js/pay_for_order.js', WC_STRIPE_MAIN_FILE ), array( 'jquery-payment', 'stripe' ), WC_STRIPE_VERSION, true );
 	// }
 
+	/**
+	 * @see WC_Settings_API::init_form_fields()
+	 */
 	public function init_form_fields() {
 		$this->form_fields = include 'triplea-payment-gateway-settings-page.php';
 		wp_enqueue_media();
@@ -373,7 +376,7 @@ You can receive your transaction payments in bitcoins or in your local currency.
 	public static function wc_ajax_start_checkout() {
 
 		if ( ! wp_verify_nonce( $_GET['_wpnonce'], '_wc_triplea_start_checkout_nonce' ) ) {
-			wp_die( __( 'Bad attempt', TRIPLEA_PAYMENT_GATEWAY_FOR_WOOCOMMERCE_TEXTDOMAIN ) );
+			wp_die( __( 'Bad attempt', 'triplea-payment-gateway-for-woocommerce' ) );
 		}
 
 		add_action( 'woocommerce_after_checkout_validation', 'TripleA_Bitcoin_Ecommerce_for_WooCommerce_Payment::start_checkout_check', 10, 2 );
@@ -476,15 +479,15 @@ You can receive your transaction payments in bitcoins or in your local currency.
 	}
 
 	public function triplea_payment_gateway_for_woocommerce_notice_payments_enabled() {
-		echo '<div class="updated notice is-dismissable"><p>' . __( 'You are now accepting bitcoin payments.', TRIPLEA_PAYMENT_GATEWAY_FOR_WOOCOMMERCE_TEXTDOMAIN ) . '</p></div>';
+		echo '<div class="updated notice is-dismissable"><p>' . __( 'You are now accepting bitcoin payments.', 'triplea-payment-gateway-for-woocommerce' ) . '</p></div>';
 	}
 
 	public function triplea_payment_gateway_for_woocommerce_notice_payments_disabled() {
-		echo '<div class="updated notice is-dismissable"><p>' . __( 'Bitcoin Payments disabled.', TRIPLEA_PAYMENT_GATEWAY_FOR_WOOCOMMERCE_TEXTDOMAIN ) . '</p></div>';
+		echo '<div class="updated notice is-dismissable"><p>' . __( 'Bitcoin Payments disabled.', 'triplea-payment-gateway-for-woocommerce' ) . '</p></div>';
 	}
 
 	public function triplea_payment_gateway_for_woocommerce_notice_payments_disabled_missing_apiid() {
-		echo '<div class="error notice is-dismissable"><p>' . __( 'Bitcoin payments disabled, no active wallets.', TRIPLEA_PAYMENT_GATEWAY_FOR_WOOCOMMERCE_TEXTDOMAIN ) . '</p></div>';
+		echo '<div class="error notice is-dismissable"><p>' . __( 'Bitcoin payments disabled, no active wallets.', 'triplea-payment-gateway-for-woocommerce' ) . '</p></div>';
 	}
 
 
@@ -768,10 +771,10 @@ You can receive your transaction payments in bitcoins or in your local currency.
 	public function get_title() {
 		if ( $this->get_option( 'triplea_bitcoin_text_option' ) === 'custom-text' ) {
 			$title_text = $this->get_option( 'triplea_bitcoin_text_custom_value' );
-			$title      = __( $title_text, TRIPLEA_PAYMENT_GATEWAY_FOR_WOOCOMMERCE_TEXTDOMAIN );
+			$title      = __( $title_text, 'triplea-payment-gateway-for-woocommerce' );
 
 		} else {
-			$title = __( 'Bitcoin', TRIPLEA_PAYMENT_GATEWAY_FOR_WOOCOMMERCE_TEXTDOMAIN );
+			$title = __( 'Bitcoin', 'triplea-payment-gateway-for-woocommerce' );
 		}
 
 		return apply_filters( 'woocommerce_gateway_title', $title, $this->id );
@@ -779,14 +782,14 @@ You can receive your transaction payments in bitcoins or in your local currency.
 
 	public function get_description() {
 		if ( $this->get_option( 'triplea_bitcoin_descriptiontext_option' ) === 'desc-default' || empty( $this->get_option( 'triplea_bitcoin_descriptiontext_option' ) ) ) {
-			$description = __( 'Secure and easy payment with Bitcoin', TRIPLEA_PAYMENT_GATEWAY_FOR_WOOCOMMERCE_TEXTDOMAIN );
+			$description = __( 'Secure and easy payment with Bitcoin', 'triplea-payment-gateway-for-woocommerce' );
 		} elseif ( $this->get_option( 'triplea_bitcoin_descriptiontext_option' ) === 'desc-custom'
 		&& ! empty( $this->get_option( 'triplea_bitcoin_descriptiontext_value' ) ) ) {
 			$title_text  = $this->get_option( 'triplea_bitcoin_descriptiontext_value' );
-			$description = __( $title_text, TRIPLEA_PAYMENT_GATEWAY_FOR_WOOCOMMERCE_TEXTDOMAIN );
+			$description = __( $title_text, 'triplea-payment-gateway-for-woocommerce' );
 
 		} else {
-			$description = __( 'Secure and easy payment with Bitcoin', TRIPLEA_PAYMENT_GATEWAY_FOR_WOOCOMMERCE_TEXTDOMAIN );
+			$description = __( 'Secure and easy payment with Bitcoin', 'triplea-payment-gateway-for-woocommerce' );
 		}
 
 		return apply_filters( 'woocommerce_gateway_description', $description, $this->id );
@@ -925,7 +928,7 @@ You can receive your transaction payments in bitcoins or in your local currency.
 				$notes[] = 'Payment form expired before receiving any extra transaction to make up for the difference.';
 			}
 			foreach ( $notes as $note ) {
-				$wc_order->add_order_note( __( $note, TRIPLEA_PAYMENT_GATEWAY_FOR_WOOCOMMERCE_TEXTDOMAIN ), 'woocommerce' );
+				$wc_order->add_order_note( __( $note, 'triplea-payment-gateway-for-woocommerce' ), 'woocommerce' );
 			}
 
 			WC()->cart->empty_cart();
@@ -1039,7 +1042,7 @@ You can receive your transaction payments in bitcoins or in your local currency.
 			triplea_update_bitcoin_payment_order_status( $order_status, $notes, $wc_order, $addr, $tx_status, $crypto_amount_paid_total, $crypto_amount, $local_currency, $order_amount, $exchange_rate );
 
 			foreach ( $notes as $note ) {
-				$wc_order->add_order_note( __( $note, TRIPLEA_PAYMENT_GATEWAY_FOR_WOOCOMMERCE_TEXTDOMAIN ), 'woocommerce' );
+				$wc_order->add_order_note( __( $note, 'triplea-payment-gateway-for-woocommerce' ), 'woocommerce' );
 			}
 
 			WC()->cart->empty_cart();
@@ -1056,7 +1059,7 @@ You can receive your transaction payments in bitcoins or in your local currency.
 				  $error_message = $error->getMessage();
 			}
 
-			wc_add_notice( __( 'Payment Failed ', TRIPLEA_PAYMENT_GATEWAY_FOR_WOOCOMMERCE_TEXTDOMAIN ) . '( ' . $error_message . ' ).', $notice_type = 'error' );
+			wc_add_notice( __( 'Payment Failed ', 'triplea-payment-gateway-for-woocommerce' ) . '( ' . $error_message . ' ).', $notice_type = 'error' );
 
 			return array(
 				'reload'   => false,
