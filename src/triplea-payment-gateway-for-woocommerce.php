@@ -74,14 +74,16 @@ if ( ! function_exists( 'triplea_write_log' ) ) {
 add_action( 'plugins_loaded', 'triplea_payment_gateway_for_woocommerce_check', 99 );
 function triplea_payment_gateway_for_woocommerce_check() {
 	require_once ABSPATH . 'wp-admin/includes/plugin.php';
-	if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
-		triplea_payment_gateway_for_woocommerce_run();
-	} else {
-		add_action( 'admin_notices', 'triplea_payment_gateway_for_woocommerce_wc_needed', 99 );
+	if ( !in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+	    add_action( 'admin_notices', 'triplea_payment_gateway_for_woocommerce_wc_needed', 99 );
 		add_action( 'admin_notices', 'triplea_payment_gateway_for_woocommerce_wc_admin_notices', 99 );
 		deactivate_plugins( plugin_basename( __FILE__ ) );
-		return;
 	}
+}
+
+add_action( 'woocommerce_init', 'run_triplea_payment_gateway', 1 );
+function run_triplea_payment_gateway() {
+	triplea_payment_gateway_for_woocommerce_run();
 }
 
 function triplea_payment_gateway_for_woocommerce_wc_needed() {
@@ -140,7 +142,7 @@ function triplea_payment_gateway_for_woocommerce_run() {
 	}
 
 	add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'display_plugin_action_links' );
-	add_filter( 'woocommerce_payment_gateways', 'triplea_payment_gateway_for_woocommerce_add_gateway' );
+
 	add_action( 'wc_ajax_wc_triplea_start_checkout', 'TripleA_Bitcoin_Ecommerce_for_WooCommerce_Payment::wc_ajax_start_checkout' );
 
 	add_filter( 'woocommerce_thankyou_order_received_text', 'triplea_change_order_received_text', 10, 2 );
@@ -595,6 +597,8 @@ function triplea_get_orderid_from_txid( $order_tx_id, $debug_log_enabled ) {
 
 
 /** --------------- **/
+
+add_filter( 'woocommerce_payment_gateways', 'triplea_payment_gateway_for_woocommerce_add_gateway' );
 
 function triplea_payment_gateway_for_woocommerce_add_gateway( $methods ) {
 	$methods[] = 'TripleA_Bitcoin_Ecommerce_for_WooCommerce_Payment';

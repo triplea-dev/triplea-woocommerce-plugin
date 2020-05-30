@@ -88,7 +88,7 @@ class TripleA_Payment_Gateway_For_Woocommerce {
 		require_once __DIR__ . '/class-i18n.php';
 		$this->set_locale();
 
-		$this->add_action('woocommerce_init', $this, 'woocommerce_init' );
+		$this->add_action('woocommerce_init', $this, 'woocommerce_init', 1 );
 	}
 
 	public function woocommerce_init() {
