@@ -9,11 +9,11 @@
 namespace TripleA_Payment_Gateway_For_WooCommerce\includes;
 
 /**
- * Class TripleA_Payment_Gateway_For_WooCommerce_Test
+ * Class I18n_Test
  *
  * @see I18n
  */
-class TripleA_Payment_Gateway_For_WooCommerce_I18n_Test extends \Codeception\TestCase\WPTestCase {
+class I18n_Test extends \Codeception\TestCase\WPTestCase {
 
 	/**
 	 * Checks if the filter run by WordPress in the load_plugin_textdomain() function is called.
@@ -34,9 +34,6 @@ class TripleA_Payment_Gateway_For_WooCommerce_I18n_Test extends \Codeception\Tes
 		};
 
 		add_filter( 'plugin_locale', $filter, 10, 2 );
-
-		global $plugin_root_dir;
-		require_once $plugin_root_dir . '/includes/class-i18n.php';
 
 		$i18n = new I18n();
 

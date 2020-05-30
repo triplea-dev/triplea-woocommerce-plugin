@@ -49,8 +49,6 @@ class Plugin_WP_Mock_Test extends \Codeception\Test\Unit {
 
 		require_once $plugin_root_dir . '/triplea-payment-gateway-for-woocommerce.php';
 
-		require_once $plugin_root_dir . '/includes/class-triplea-payment-gateway.php';
-
 		$this->assertArrayHasKey( 'triplea_payment_gateway_for_woocommerce', $GLOBALS );
 
 		$this->assertInstanceOf( TripleA_Payment_Gateway_For_Woocommerce::class, $GLOBALS['triplea_payment_gateway_for_woocommerce'] );
