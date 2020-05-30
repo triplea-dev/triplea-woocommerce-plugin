@@ -13,6 +13,8 @@
  * @subpackage TripleA_Payment_Gateway_For_Woocommerce/includes
  */
 
+use BH_WC_Set_Gateway_By_URL\WPPB\WPPB_Loader_Interface;
+
 /**
  * The core plugin class.
  *
@@ -65,6 +67,8 @@ class TripleA_Payment_Gateway_For_Woocommerce {
 	 */
 	protected $filters;
 
+	protected $loader;
+
 	/**
 	 * Define the core functionality of the plugin.
 	 *
@@ -73,11 +77,10 @@ class TripleA_Payment_Gateway_For_Woocommerce {
 	 * the public-facing side of the site.
 	 *
 	 * @since    1.0.0
+	 *
+	 * @param WPPB_Loader_Interface $loader
 	 */
-	public function __construct() {
-		$this->actions = array();
-		$this->filters = array();
-
+	public function __construct( $loader ) {
 		if ( defined( 'TRIPLEA_PAYMENT_GATEWAY_FOR_WOOCOMMERCE_VERSION' ) ) {
 			$this->version = TRIPLEA_PAYMENT_GATEWAY_FOR_WOOCOMMERCE_VERSION;
 		} else {
@@ -85,72 +88,11 @@ class TripleA_Payment_Gateway_For_Woocommerce {
 		}
 		$this->plugin_name = 'triplea-payment-gateway-for-woocommerce';
 
+		$this->loader = $loader;
+
 		require_once __DIR__ . '/class-i18n.php';
 		$this->set_locale();
 
-		$this->add_action('woocommerce_init', $this, 'woocommerce_init', 1 );
-	}
-
-	public function woocommerce_init() {
-
-		/**
-		 * The class responsible for integrating with WooCommerce checkout.
-		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/triplea-payment-gateway-main-class.php';
-
-	}
-
-	/**
-	 * Add a new action to the collection to be registered with WordPress.
-	 *
-	 * @since    1.0.0
-	 * @param    string $hook             The name of the WordPress action that is being registered.
-	 * @param    object $component        A reference to the instance of the object on which the action is defined.
-	 * @param    string $callback         The name of the function definition on the $component.
-	 * @param    int    $priority         Optional. The priority at which the function should be fired. Default is 10.
-	 * @param    int    $accepted_args    Optional. The number of arguments that should be passed to the $callback. Default is 1.
-	 */
-	public function add_action( $hook, $component, $callback, $priority = 10, $accepted_args = 1 ) {
-		$this->actions = $this->add( $this->actions, $hook, $component, $callback, $priority, $accepted_args );
-	}
-
-	/**
-	 * Add a new filter to the collection to be registered with WordPress.
-	 *
-	 * @since    1.0.0
-	 * @param    string $hook             The name of the WordPress filter that is being registered.
-	 * @param    object $component        A reference to the instance of the object on which the filter is defined.
-	 * @param    string $callback         The name of the function definition on the $component.
-	 * @param    int    $priority         Optional. The priority at which the function should be fired. Default is 10.
-	 * @param    int    $accepted_args    Optional. The number of arguments that should be passed to the $callback. Default is 1
-	 */
-	public function add_filter( $hook, $component, $callback, $priority = 10, $accepted_args = 1 ) {
-		$this->filters = $this->add( $this->filters, $hook, $component, $callback, $priority, $accepted_args );
-	}
-
-	/**
-	 * A utility function that is used to register the actions and hooks into a single
-	 * collection.
-	 *
-	 * @since    1.0.0
-	 * @access   private
-	 * @param    array  $hooks            The collection of hooks that is being registered (that is, actions or filters).
-	 * @param    string $hook             The name of the WordPress filter that is being registered.
-	 * @param    object $component        A reference to the instance of the object on which the filter is defined.
-	 * @param    string $callback         The name of the function definition on the $component.
-	 * @param    int    $priority         The priority at which the function should be fired.
-	 * @param    int    $accepted_args    The number of arguments that should be passed to the $callback.
-	 * @return   array                                  The collection of actions and filters registered with WordPress.
-	 */
-	private function add( $hooks, $hook, $component, $callback, $priority, $accepted_args ) {
-		$hooks[] = array(
-			'hook'          => $hook,
-			'component'     => $component,
-			'callback'      => $callback,
-			'priority'      => $priority,
-			'accepted_args' => $accepted_args,
-		);
-		return $hooks;
 	}
 
 	/**
@@ -159,12 +101,7 @@ class TripleA_Payment_Gateway_For_Woocommerce {
 	 * @since    1.0.0
 	 */
 	public function run() {
-		foreach ( $this->filters as $hook ) {
-			add_filter( $hook['hook'], array( $hook['component'], $hook['callback'] ), $hook['priority'], $hook['accepted_args'] );
-		}
-		foreach ( $this->actions as $hook ) {
-			add_action( $hook['hook'], array( $hook['component'], $hook['callback'] ), $hook['priority'], $hook['accepted_args'] );
-		}
+		$this->loader->run();
 	}
 
 	/**
@@ -180,7 +117,7 @@ class TripleA_Payment_Gateway_For_Woocommerce {
 
 		$plugin_i18n = new TripleA_Payment_Gateway_For_WooCommerce\includes\I18n();
 
-		$this->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
+		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
 	}
 
 	/**

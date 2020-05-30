@@ -25,7 +25,12 @@
  * Path: /languages
  */
 
+
+use TripleA_Payment_Gateway_For_WooCommerce\WPPB\WPPB_Loader;
+
 require 'vendor/autoload.php';
+
+require_once __DIR__ . '/autoload.php';
 
 // If this file is called directly, abort.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -102,7 +107,25 @@ register_deactivation_hook( __FILE__, 'deactivate_triplea_payment_gateway_for_wo
  */
 require_once plugin_dir_path( __FILE__ ) . 'includes/class-triplea-payment-gateway.php';
 
-$GLOBALS['triplea_payment_gateway_for_woocommerce'] = new Triplea_Payment_Gateway_For_Woocommerce();
+
+/**
+ * Begins execution of the plugin.
+ *
+ * Since everything within the plugin is registered via hooks,
+ * then kicking off the plugin from this point in the file does
+ * not affect the page life cycle.
+ *
+ * @since    1.0.0
+ */
+function instantiate_triplea_payment_gateway_for_woocommerce() {
+
+	$loader = new WPPB_Loader();
+	$plugin = new Triplea_Payment_Gateway_For_Woocommerce( $loader );
+
+	return $plugin;
+}
+
+$GLOBALS['triplea_payment_gateway_for_woocommerce'] = instantiate_triplea_payment_gateway_for_woocommerce();
 
 /**
  * Begins execution of the plugin.

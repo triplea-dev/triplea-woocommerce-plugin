@@ -20,6 +20,14 @@
             "type": "git"
         },
         {
+            "url": "https://github.com/pablo-sg-pacheco/wp-namespace-autoloader",
+            "type": "git"
+        },
+        {
+            "url": "https://github.com/BrianHenryIE/WPPB-lib",
+            "type": "git"
+        },
+        {
             "url": "https://github.com/BrianHenryIE/composer-phpstorm",
             "type": "git"
         },
@@ -29,9 +37,12 @@
         }
     ],
     "require": {
+        "brianhenryie/wppb-lib": "dev-master",
         "php": ">=7.2"
     },
     "require-dev": {
+        "cweagans/composer-patches": "~1.0",
+        "coenjacobs/mozart": "0.6.0-beta-2",
         "dealerdirect/phpcodesniffer-composer-installer": "*",
         "wp-coding-standards/wpcs": "*",
         "wordpress/wordpress": "^5.4",
@@ -54,6 +65,18 @@
         "wpackagist-plugin/bh-wc-set-gateway-by-url": "1.0.5"
     },
     "extra": {
+        "patches": {
+            "coenjacobs/mozart": {
+                "Allow default packages": "https://github.com/coenjacobs/mozart/pull/49.patch"
+            }
+        },
+        "mozart": {
+            "dep_namespace": "TripleA_Payment_Gateway_For_WooCommerce\\",
+            "dep_directory": "/src/vendor/",
+            "classmap_prefix": "TripleA_Payment_Gateway_For_WooCommerce_",
+            "classmap_directory": "/src/dependencies/",
+            "delete_vendor_directories": false
+        },
         "symlinks": {
             "wp-content": "vendor/wordpress/wordpress/build/wp-content",
             "wp-content/plugins": "vendor/wordpress/wordpress/src/wp-content/plugins",
@@ -77,6 +100,7 @@
     },
     "scripts": {
         "post-install-cmd": [
+            "\"vendor/bin/mozart\" compose",
             "cd vendor/wordpress/wordpress; rm build/wp-content || true; npm install; npm run build; cd ../../..",
             "Kporras07\\ComposerSymlinks\\ScriptHandler::createSymlinks",
             "mkdir -p wordpress/wp-content/uploads",
@@ -84,6 +108,7 @@
             "BrianHenryIE\\ComposerPhpStorm\\PHPUnitRunConfigurations::update"
         ],
         "post-update-cmd": [
+            "\"vendor/bin/mozart\" compose",
             "cd vendor/wordpress/wordpress; rm build/wp-content || true; npm install; npm run build; cd ../../..",
             "Kporras07\\ComposerSymlinks\\ScriptHandler::createSymlinks",
             "mkdir -p wordpress/wp-content/uploads",
