@@ -15,7 +15,10 @@
     <exclude-pattern>/scratch/</exclude-pattern>
     <exclude-pattern>/src/dependencies/*</exclude-pattern>
     <exclude-pattern>/src/vendor/*</exclude-pattern>
-
+    <exclude-pattern>/tests/_data</exclude-pattern>
+    <exclude-pattern>/tests/_output</exclude-pattern>
+    <exclude-pattern>/tests/_support</exclude-pattern>
+    <exclude-pattern>/tests/acceptance</exclude-pattern>
     <exclude-pattern>/vendor/*</exclude-pattern>
     <exclude-pattern>/wordpress/</exclude-pattern>
     <exclude-pattern>/wp-content/</exclude-pattern>

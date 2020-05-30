@@ -12,7 +12,7 @@
  * @subpackage TripleA_Payment_Gateway_For_WooCommerce/includes
  */
 
-namespace TripleA_Payment_Gateway_For_WooCommerce\includes;
+namespace TripleA_Payment_Gateway_For_WooCommerce\Includes;
 
 /**
  * Define the internationalization functionality.

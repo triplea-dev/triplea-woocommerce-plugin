@@ -6,7 +6,7 @@
  * @author  TripleA <andy.hoebeke@triple-a.io>
  */
 
-namespace TripleA_Payment_Gateway_For_WooCommerce\includes;
+namespace TripleA_Payment_Gateway_For_WooCommerce\Includes;
 
 /**
  * Class I18n_Test

@@ -15,6 +15,7 @@
 
 use TripleA_Payment_Gateway_For_WooCommerce\Admin\Admin;
 use TripleA_Payment_Gateway_For_WooCommerce\Admin\Plugins_Page;
+use TripleA_Payment_Gateway_For_WooCommerce\Includes\I18n;
 use TripleA_Payment_Gateway_For_WooCommerce\WooCommerce\Payment_Gateways;
 use TripleA_Payment_Gateway_For_WooCommerce\WPPB\WPPB_Loader_Interface;
 use TripleA_Payment_Gateway_For_WooCommerce\WPPB\WPPB_Object;
@@ -131,21 +132,8 @@ class TripleA_Payment_Gateway_For_Woocommerce extends WPPB_Object {
 		$this->loader->run();
 	}
 
-	/**
-	 * Define the locale for this plugin for internationalization.
-	 *
-	 * Uses the TripleA_Payment_Gateway_For_Woocommerce_i18n class in order to set the domain and to register the hook
-	 * with WordPress.
-	 *
-	 * @since    1.0.0
-	 * @access   private
-	 */
-	private function set_locale() {
+		$thank_you = new Thank_You();
 
-		$plugin_i18n = new TripleA_Payment_Gateway_For_WooCommerce\includes\I18n();
-
-		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
-	}
 
 	}
 
