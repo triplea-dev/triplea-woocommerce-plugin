@@ -83,6 +83,22 @@ class TripleA_Payment_Gateway_For_Woocommerce extends WPPB_Object {
 		$this->define_admin_hooks();
 		$this->define_woocommerce_hooks();
 	}
+	
+	/**
+	 * Define the locale for this plugin for internationalization.
+	 *
+	 * Uses the TripleA_Payment_Gateway_For_Woocommerce_i18n class in order to set the domain and to register the hook
+	 * with WordPress.
+	 *
+	 * @since    1.0.0
+	 * @access   protected
+	 */
+	protected function set_locale() {
+
+		$plugin_i18n = new I18n();
+
+		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
+	}
 
 	private function define_admin_hooks() {
 
@@ -125,25 +141,11 @@ class TripleA_Payment_Gateway_For_Woocommerce extends WPPB_Object {
 		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
 	}
 
-	/**
-	 * The name of the plugin used to uniquely identify it within the context of
-	 * WordPress and to define internationalization functionality.
-	 *
-	 * @since     1.0.0
-	 * @return    string    The name of the plugin.
-	 */
-	public function get_plugin_name() {
-		return $this->plugin_name;
 	}
 
 	/**
-	 * Retrieve the version number of the plugin.
 	 *
-	 * @since     1.0.0
-	 * @return    string    The version number of the plugin.
 	 */
-	public function get_version() {
-		return $this->version;
 	}
 
 }
