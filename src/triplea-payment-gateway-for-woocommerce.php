@@ -53,25 +53,6 @@ if ( ! defined( 'TRIPLEA_PAYMENT_GATEWAY_FOR_WOOCOMMERCE_MAIN_FILE' ) ) {
 
 require_once __DIR__ . '/logger.php';
 
-add_action( 'plugins_loaded', 'triplea_payment_gateway_for_woocommerce_check', 99 );
-function triplea_payment_gateway_for_woocommerce_check() {
-	require_once ABSPATH . 'wp-admin/includes/plugin.php';
-	if ( ! in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
-		add_action( 'admin_notices', 'triplea_payment_gateway_for_woocommerce_wc_needed', 99 );
-		add_action( 'admin_notices', 'triplea_payment_gateway_for_woocommerce_wc_admin_notices', 99 );
-		deactivate_plugins( plugin_basename( __FILE__ ) );
-	}
-}
-
-
-
-function triplea_payment_gateway_for_woocommerce_wc_needed() {
-
-	/* translators: 1. URL link. */
-	echo '<div class="error"><p><strong>' . sprintf( esc_html__( 'TripleA Bitcoin Payment Gateway plugin requires WooCommerce to be installed and active. You can download %s here.', 'triplea-payment-gateway-for-woocommerce' ), '<a href="https://woocommerce.com/" target="_blank">WooCommerce</a>' ) . '</strong></p></div>';
-
-}
-
 /**
  * The code that runs during plugin activation.
  */
@@ -160,7 +141,6 @@ function triplea_payment_gateway_for_woocommerce_run() {
 			);
 		}
 	);
-	add_action( 'admin_notices', 'triplea_payment_gateway_for_woocommerce_wc_admin_update_notices', 99 );
 }
 
 

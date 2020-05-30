@@ -13,6 +13,7 @@
  * @subpackage TripleA_Payment_Gateway_For_Woocommerce/includes
  */
 
+use TripleA_Payment_Gateway_For_WooCommerce\Admin\Admin;
 use TripleA_Payment_Gateway_For_WooCommerce\Admin\Plugins_Page;
 use TripleA_Payment_Gateway_For_WooCommerce\WooCommerce\Payment_Gateways;
 use TripleA_Payment_Gateway_For_WooCommerce\WPPB\WPPB_Loader_Interface;
@@ -100,7 +101,12 @@ class TripleA_Payment_Gateway_For_Woocommerce extends WPPB_Object {
 		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
 	}
 
-	private function define_admin_hooks() {
+
+	protected function define_admin_hooks() {
+
+		$admin = new Admin();
+		$this->loader->add_action( 'plugins_loaded', $admin, 'woocommerce_check', 99 );
+		$this->loader->add_action( 'admin_notices', $admin, 'settings_update_notice', 99 );
 
 		$plugins_page = new Plugins_Page();
 
