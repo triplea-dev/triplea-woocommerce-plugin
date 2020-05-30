@@ -13,7 +13,8 @@
  * @subpackage TripleA_Payment_Gateway_For_Woocommerce/includes
  */
 
-use BH_WC_Set_Gateway_By_URL\WPPB\WPPB_Loader_Interface;
+use TripleA_Payment_Gateway_For_WooCommerce\WPPB\WPPB_Loader_Interface;
+use TripleA_Payment_Gateway_For_WooCommerce\WPPB\WPPB_Object;
 
 /**
  * The core plugin class.
@@ -29,25 +30,7 @@ use BH_WC_Set_Gateway_By_URL\WPPB\WPPB_Loader_Interface;
  * @subpackage TripleA_Payment_Gateway_For_Woocommerce/includes
  * @author     TripleA <andy@triple-a.io>
  */
-class TripleA_Payment_Gateway_For_Woocommerce {
-
-	/**
-	 * The unique identifier of this plugin.
-	 *
-	 * @since    1.0.0
-	 * @access   protected
-	 * @var      string    $plugin_name    The string used to uniquely identify this plugin.
-	 */
-	protected $plugin_name;
-
-	/**
-	 * The current version of the plugin.
-	 *
-	 * @since    1.0.0
-	 * @access   protected
-	 * @var      string    $version    The current version of the plugin.
-	 */
-	protected $version;
+class TripleA_Payment_Gateway_For_Woocommerce extends WPPB_Object {
 
 	/**
 	 * The array of actions registered with WordPress.
@@ -82,11 +65,13 @@ class TripleA_Payment_Gateway_For_Woocommerce {
 	 */
 	public function __construct( $loader ) {
 		if ( defined( 'TRIPLEA_PAYMENT_GATEWAY_FOR_WOOCOMMERCE_VERSION' ) ) {
-			$this->version = TRIPLEA_PAYMENT_GATEWAY_FOR_WOOCOMMERCE_VERSION;
+			$version = TRIPLEA_PAYMENT_GATEWAY_FOR_WOOCOMMERCE_VERSION;
 		} else {
-			$this->version = '1.0.0-missing';
+			$version = '1.0.0-missing';
 		}
-		$this->plugin_name = 'triplea-payment-gateway-for-woocommerce';
+		$plugin_name = 'triplea-payment-gateway-for-woocommerce';
+
+		parent::__construct( $plugin_name, $version );
 
 		$this->loader = $loader;
 
