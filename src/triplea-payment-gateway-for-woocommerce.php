@@ -48,10 +48,6 @@ if ( ! defined( 'TRIPLEA_PAYMENT_GATEWAY_FOR_WOOCOMMERCE_MAIN_PATH' ) ) {
 if ( ! defined( 'TRIPLEA_PAYMENT_GATEWAY_FOR_WOOCOMMERCE_MAIN_FILE' ) ) {
 	define( 'TRIPLEA_PAYMENT_GATEWAY_FOR_WOOCOMMERCE_MAIN_FILE', __FILE__ );
 }
-if ( ! defined( 'TRIPLEA_PAYMENT_GATEWAY_FOR_WOOCOMMERCE_TEXTDOMAIN' ) ) {
-	define( 'TRIPLEA_PAYMENT_GATEWAY_FOR_WOOCOMMERCE_TEXTDOMAIN', 'triplea-payment-gateway-for-woocommerce' );
-}
-
 
 if ( ! function_exists( 'triplea_write_log' ) ) {
 
@@ -94,7 +90,7 @@ function triplea_payment_gateway_for_woocommerce_check() {
 function triplea_payment_gateway_for_woocommerce_wc_needed() {
 
 	/* translators: 1. URL link. */
-	echo '<div class="error"><p><strong>' . sprintf( esc_html__( 'TripleA Bitcoin Payment Gateway plugin requires WooCommerce to be installed and active. You can download %s here.', TRIPLEA_PAYMENT_GATEWAY_FOR_WOOCOMMERCE_TEXTDOMAIN ), '<a href="https://woocommerce.com/" target="_blank">WooCommerce</a>' ) . '</strong></p></div>';
+	echo '<div class="error"><p><strong>' . sprintf( esc_html__( 'TripleA Bitcoin Payment Gateway plugin requires WooCommerce to be installed and active. You can download %s here.', 'triplea-payment-gateway-for-woocommerce' ), '<a href="https://woocommerce.com/" target="_blank">WooCommerce</a>' ) . '</strong></p></div>';
 
 }
 
@@ -102,7 +98,7 @@ function display_plugin_action_links( $links ) {
 	$setting_link    = admin_url( 'admin.php?page=wc-settings&tab=checkout&section=triplea_payment_gateway' );
 	$conversion_link = admin_url( 'admin.php?page=wc-settings&tab=checkout&section=triplea_payment_gateway#conversion' );
 	$plugin_links    = array(
-		'<a href="' . $setting_link . '">' . __( 'Settings', TRIPLEA_PAYMENT_GATEWAY_FOR_WOOCOMMERCE_TEXTDOMAIN ) . '</a>',
+		'<a href="' . $setting_link . '">' . __( 'Settings', 'triplea-payment-gateway-for-woocommerce' ) . '</a>',
 	);
 	return array_merge( $plugin_links, $links );
 }
@@ -651,7 +647,7 @@ function triplea_payment_gateway_for_woocommerce_wc_admin_update_notices() {
 	// Display the notice
 	$class        = 'notice notice-warning'; // or 'notice-success'
 	$setting_link = admin_url( 'admin.php?page=wc-settings&tab=checkout&section=triplea_payment_gateway' );
-	$setting_text = __( 'Settings', TRIPLEA_PAYMENT_GATEWAY_FOR_WOOCOMMERCE_TEXTDOMAIN );
+	$setting_text = __( 'Settings', 'triplea-payment-gateway-for-woocommerce' );
 	$message      = 'Bitcoin Payment Gateway requires wallet updates. Please update your <a href="' . $setting_link . '" target="_self">' . $setting_text . '</a> to benefit from recent security improvements.';
 
 	printf( '<div class="%1$s"><p>%2$s</p></div>', esc_attr( $class ), $message );

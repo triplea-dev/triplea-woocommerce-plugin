@@ -144,7 +144,7 @@ ob_start();
 								}
 								?>
 								  value="default-text">
-						   "<?php echo __( 'Bitcoin', TRIPLEA_PAYMENT_GATEWAY_FOR_WOOCOMMERCE_TEXTDOMAIN ); ?>"
+						   "<?php echo __( 'Bitcoin', 'triplea-payment-gateway-for-woocommerce' ); ?>"
 						</label>
 						<br>
 						<label for="">
@@ -190,7 +190,7 @@ ob_start();
 								}
 								?>
 								  name="triplea_bitcoin_descriptiontext_option">
-						   "<?php echo __( 'Secure and easy payment with Bitcoin', TRIPLEA_PAYMENT_GATEWAY_FOR_WOOCOMMERCE_TEXTDOMAIN ); ?>"
+						   "<?php echo __( 'Secure and easy payment with Bitcoin', 'triplea-payment-gateway-for-woocommerce' ); ?>"
 						</label>
 						<br>
 						<label for="">
@@ -322,7 +322,7 @@ ob_start();
 	   if (document.getElementById('desc_default').checked)
 	   {
 		 descNode.innerText = "Secure and easy payment with Bitcoin";
-		 descNode.innerText = "<?php echo __( 'Secure and easy payment with Bitcoin', TRIPLEA_PAYMENT_GATEWAY_FOR_WOOCOMMERCE_TEXTDOMAIN ); ?>";
+		 descNode.innerText = "<?php echo __( 'Secure and easy payment with Bitcoin', 'triplea-payment-gateway-for-woocommerce' ); ?>";
 	   }
 	   else
 	   {
@@ -332,7 +332,7 @@ ob_start();
 	   // Update text (payment option title)
 	   if (document.getElementById('text_default').checked)
 	   {
-		 textNode.innerText = "<?php echo __( 'Bitcoin', TRIPLEA_PAYMENT_GATEWAY_FOR_WOOCOMMERCE_TEXTDOMAIN ); ?>";
+		 textNode.innerText = "<?php echo __( 'Bitcoin', 'triplea-payment-gateway-for-woocommerce' ); ?>";
 	   }
 	   else
 	   {
