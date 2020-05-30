@@ -72,15 +72,6 @@ function triplea_payment_gateway_for_woocommerce_wc_needed() {
 
 }
 
-function display_plugin_action_links( $links ) {
-	$setting_link    = admin_url( 'admin.php?page=wc-settings&tab=checkout&section=triplea_payment_gateway' );
-	$conversion_link = admin_url( 'admin.php?page=wc-settings&tab=checkout&section=triplea_payment_gateway#conversion' );
-	$plugin_links    = array(
-		'<a href="' . $setting_link . '">' . __( 'Settings', 'triplea-payment-gateway-for-woocommerce' ) . '</a>',
-	);
-	return array_merge( $plugin_links, $links );
-}
-
 /**
  * The code that runs during plugin activation.
  */
@@ -142,8 +133,6 @@ function triplea_payment_gateway_for_woocommerce_run() {
 	if ( defined( 'DOING_CRON' ) && DOING_CRON ) {
 		return;
 	}
-
-	add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'display_plugin_action_links' );
 
 	add_action( 'wc_ajax_wc_triplea_start_checkout', 'TripleA_Bitcoin_Ecommerce_for_WooCommerce_Payment::wc_ajax_start_checkout' );
 

@@ -13,6 +13,7 @@
  * @subpackage TripleA_Payment_Gateway_For_Woocommerce/includes
  */
 
+use TripleA_Payment_Gateway_For_WooCommerce\Admin\Plugins_Page;
 use TripleA_Payment_Gateway_For_WooCommerce\WPPB\WPPB_Loader_Interface;
 use TripleA_Payment_Gateway_For_WooCommerce\WPPB\WPPB_Object;
 
@@ -77,6 +78,16 @@ class TripleA_Payment_Gateway_For_Woocommerce extends WPPB_Object {
 
 		require_once __DIR__ . '/class-i18n.php';
 		$this->set_locale();
+
+		$this->define_admin_hooks();
+	}
+
+	private function define_admin_hooks() {
+
+		$plugins_page = new Plugins_Page();
+
+		$plugin_basename    = $this->get_plugin_name() . '/' . $this->get_plugin_name() . '.php';
+		$this->loader->add_filter( 'plugin_action_links_' . $plugin_basename, $plugins_page, 'display_plugin_action_links' );
 
 	}
 
