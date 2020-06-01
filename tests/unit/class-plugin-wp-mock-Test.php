@@ -8,7 +8,7 @@
 
 namespace TripleA_Payment_Gateway_For_WooCommerce;
 
-//use TripleA_Payment_Gateway_For_WooCommerce\includes\TripleA_Payment_Gateway_For_WooCommerce;
+// use TripleA_Payment_Gateway_For_WooCommerce\Includes\TripleA_Payment_Gateway_For_WooCommerce;
 use TripleA_Payment_Gateway_For_Woocommerce;
 
 /**

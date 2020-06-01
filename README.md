@@ -46,6 +46,12 @@ vendor/bin/codecept run integration;
 vendor/bin/codecept run acceptance;
 ```
 
+``````
+# Create dump after changing site.
+export $(grep -v '^#' .env.testing | xargs);
+mysqldump -u $TEST_SITE_DB_USER -p$TEST_SITE_DB_PASSWORD  $TEST_SITE_DB_NAME > tests/_data/dump.sql;
+```
+
 ### More Information
 
 See [github.com/BrianHenryIE/WordPress-Plugin-Boilerplate](https://github.com/BrianHenryIE/WordPress-Plugin-Boilerplate) for initial setup rationale. 

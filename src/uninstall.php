@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Fired when the plugin is uninstalled.
  *
@@ -31,12 +30,12 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 }
 
 // define a vairbale and store an option name as the value.
-$plugin_options = 'woocommerce_' . 'triplea_payment_gateway' . '_settings'; // Format: $wc_plugin_id + $plugin_own_id + option key
+$plugin_options = 'woocommerce_triplea_payment_gateway_settings'; // Format: $wc_plugin_id + $plugin_own_id + option key
 $option_name    = $plugin_options;
 
-// call delete option and use the variable inside the quotations
+// call delete option and use the variable inside the quotations.
 update_option( $option_name, null );
 delete_option( $option_name );
 
-// for site options in Multisite
+// for site options in Multisite.
 // delete_site_option($option_name);

@@ -51,6 +51,7 @@
         "phpunit/phpcov": "^5.0",
         "10up/wp_mock": "0.4.2",
         "brianhenryie/composer-phpstorm": "dev-master",
+        "phpcompatibility/phpcompatibility-wp": "*",
         "lucatume/wp-browser": "2.5.5",
         "codeception/module-asserts": "*",
         "voku/portable-ascii": "dev-master",

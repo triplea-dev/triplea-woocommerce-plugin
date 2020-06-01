@@ -1,0 +1,24 @@
+{
+  "result|return": " ..",
+  "status": " ..",
+  "payload": {
+    "order_status": "'failed_paid_too_little' || 'failed_expired' || 'paid' || 'paid_too_much'",
+    "exchange_rate": "9123.91645856853",
+    "local_currency": "USD",
+    "crypto_amount_paid_unconf": "0",
+    "order_amount": "0.56",
+    "exchange_rate_datetime": "2019-08-16T11:25:15Z",
+    "tx": [{
+      "id": "eba7d42ea53124749dfdec12fa2f3b6d3caa8089095dce122b960ceaa38e0635",
+      "created": "2019-08-16T11:27:24Z",
+      "conf": "5.432e-05",
+      "confirmations": 1,
+      "unconf": "0"
+    }],
+    "api_id": "HA1565669224NlgN_t",
+    "crypto_amount_paid_conf": "5.432e-05",
+    "amount_paid": "0.55",
+    "crypto_amount": "0.00005523",
+    "tx_status": "confirmed"
+  }
+}

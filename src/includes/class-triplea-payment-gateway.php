@@ -15,8 +15,11 @@
 
 use TripleA_Payment_Gateway_For_WooCommerce\Admin\Admin;
 use TripleA_Payment_Gateway_For_WooCommerce\Admin\Plugins_Page;
+use TripleA_Payment_Gateway_For_WooCommerce\API\API;
+use TripleA_Payment_Gateway_For_WooCommerce\API\REST;
 use TripleA_Payment_Gateway_For_WooCommerce\Includes\I18n;
 use TripleA_Payment_Gateway_For_WooCommerce\WooCommerce\Payment_Gateways;
+use TripleA_Payment_Gateway_For_WooCommerce\WooCommerce\Thank_You;
 use TripleA_Payment_Gateway_For_WooCommerce\WPPB\WPPB_Loader_Interface;
 use TripleA_Payment_Gateway_For_WooCommerce\WPPB\WPPB_Object;
 
@@ -57,6 +60,11 @@ class TripleA_Payment_Gateway_For_Woocommerce extends WPPB_Object {
 	protected $loader;
 
 	/**
+	 * @var API
+	 */
+	protected $api;
+
+	/**
 	 * Define the core functionality of the plugin.
 	 *
 	 * Set the plugin name and the plugin version that can be used throughout the plugin.
@@ -79,13 +87,15 @@ class TripleA_Payment_Gateway_For_Woocommerce extends WPPB_Object {
 
 		$this->loader = $loader;
 
-		require_once __DIR__ . '/class-i18n.php';
 		$this->set_locale();
+
+		// The guts of the plugin.
+		$this->api = new API();
 
 		$this->define_admin_hooks();
 		$this->define_woocommerce_hooks();
 	}
-	
+
 	/**
 	 * Define the locale for this plugin for internationalization.
 	 *
@@ -113,14 +123,30 @@ class TripleA_Payment_Gateway_For_Woocommerce extends WPPB_Object {
 
 		$plugin_basename = $this->get_plugin_name() . '/' . $this->get_plugin_name() . '.php';
 		$this->loader->add_filter( 'plugin_action_links_' . $plugin_basename, $plugins_page, 'display_plugin_action_links' );
-
 	}
 
-	private function define_woocommerce_hooks() {
+	/**
+	 * Enable endpoints for the return_url used by TripleA API for Tx validation updates.
+	 */
+	protected function define_rest_hooks() {
+
+		$rest = new REST( $api );
+
+		$this->loader->add_action( 'rest_api_init', $rest, 'rest_api_init' );
+	}
+
+	protected function define_woocommerce_hooks() {
 
 		$payment_gateways = new Payment_Gateways();
 
 		$this->loader->add_filter( 'woocommerce_payment_gateways', $payment_gateways, 'triplea_payment_gateway_for_woocommerce_add_gateway' );
+
+		$this->loader->add_action( 'wc_ajax_wc_triplea_start_checkout', TripleA_Bitcoin_Ecommerce_for_WooCommerce_Payment::class, 'wc_ajax_start_checkout' );
+
+		$thank_you = new Thank_You();
+
+		$this->loader->add_filter( 'woocommerce_thankyou_order_received_text', $thank_you, 'triplea_change_order_received_text', 10, 2 );
+
 	}
 
 	/**
@@ -131,15 +157,4 @@ class TripleA_Payment_Gateway_For_Woocommerce extends WPPB_Object {
 	public function run() {
 		$this->loader->run();
 	}
-
-		$thank_you = new Thank_You();
-
-
-	}
-
-	/**
-	 *
-	 */
-	}
-
 }

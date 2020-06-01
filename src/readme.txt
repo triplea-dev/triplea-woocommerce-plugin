@@ -1,5 +1,5 @@
 === Bitcoin Payment Gateway for WooCommerce ===
-Contributors: tripleatechnology
+Contributors: tripleatechnology, BrianHenryIE
 Donate link: https://triple-a.io/
 Tags: bitcoin woocommerce,bitcoin payments,bitcoin,crypto payment gateway,bitcoin wordpress plugin
 Requires at least: 3.8
@@ -13,7 +13,7 @@ Start accepting Bitcoins now on your website and diversify your revenue right aw
 
 == Description ==
 
-Accept bitcoins now on your website and diversify your revenue right away. Powered by TripleA.
+Accept Bitcoin now on your website and diversify your revenue right away. Powered by TripleA.
 
 Get up and running in under a minute with our easy and simple-to-use plugin. Enjoy an easy setup, minimal or no learning curve and all the benefits bitcoin payments bring you and your customers.
 
