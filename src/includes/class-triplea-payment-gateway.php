@@ -90,7 +90,7 @@ class TripleA_Payment_Gateway_For_Woocommerce extends WPPB_Object {
 		$this->set_locale();
 
 		// The guts of the plugin.
-		$this->api = new API();
+		$this->api = API::get_instance();
 
 		$this->define_admin_hooks();
 		$this->define_woocommerce_hooks();
@@ -120,7 +120,6 @@ class TripleA_Payment_Gateway_For_Woocommerce extends WPPB_Object {
 		$this->loader->add_action( 'admin_notices', $admin, 'settings_update_notice', 99 );
 
 		$plugins_page = new Plugins_Page();
-
 		$plugin_basename = $this->get_plugin_name() . '/' . $this->get_plugin_name() . '.php';
 		$this->loader->add_filter( 'plugin_action_links_' . $plugin_basename, $plugins_page, 'display_plugin_action_links' );
 	}
@@ -130,7 +129,7 @@ class TripleA_Payment_Gateway_For_Woocommerce extends WPPB_Object {
 	 */
 	protected function define_rest_hooks() {
 
-		$rest = new REST( $api );
+		$rest = new REST( $this->api );
 
 		$this->loader->add_action( 'rest_api_init', $rest, 'rest_api_init' );
 	}
