@@ -31,7 +31,7 @@ class Gateway_Test extends \Codeception\TestCase\WPTestCase {
 			define( 'TRIPLEA_PAYMENT_GATEWAY_FOR_WOOCOMMERCE_VERSION', 'tests' );
 		}
 
-		$gateway = new TripleA_Bitcoin_Ecommerce_for_WooCommerce_Payment();
+		$gateway = new TripleA_Payment_Gateway();
 
 		$this->assertNotNull( $gateway->id );
 

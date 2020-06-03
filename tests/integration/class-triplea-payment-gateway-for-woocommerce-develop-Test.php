@@ -8,8 +8,7 @@
 
 namespace TripleA_Payment_Gateway_For_WooCommerce;
 
-// use TripleA_Payment_Gateway_For_WooCommerce\Includes\TripleA_Payment_Gateway_For_WooCommerce;
-use TripleA_Payment_Gateway_For_Woocommerce;
+use TripleA_Payment_Gateway_For_WooCommerce\Includes\TripleA_Payment_Gateway_For_WooCommerce;
 
 /**
  * Verifies the plugin has been instantiated and added to PHP's $GLOBALS variable.

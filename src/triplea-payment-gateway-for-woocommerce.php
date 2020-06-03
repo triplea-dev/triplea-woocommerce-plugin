@@ -24,7 +24,11 @@
  * Path: /languages
  */
 
+namespace TripleA_Payment_Gateway_For_WooCommerce;
+
 use TripleA_Payment_Gateway_For_WooCommerce\WPPB\WPPB_Loader;
+use TripleA_Payment_Gateway_For_WooCommerce\Includes\TripleA_Payment_Gateway_For_WooCommerce;
+
 
 // If this file is called directly, abort.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -82,7 +86,7 @@ register_deactivation_hook( __FILE__, 'deactivate_triplea_payment_gateway_for_wo
 function instantiate_triplea_payment_gateway_for_woocommerce() {
 
 	$loader = new WPPB_Loader();
-	$plugin = new Triplea_Payment_Gateway_For_Woocommerce( $loader );
+	$plugin = new TripleA_Payment_Gateway_For_WooCommerce( $loader );
 
 	return $plugin;
 }

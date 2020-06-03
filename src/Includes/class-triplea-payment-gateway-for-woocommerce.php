@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The file that defines the core plugin class
  *
@@ -9,17 +8,19 @@
  * @link       https://triple-a.io
  * @since      1.0.0
  *
- * @package    TripleA_Payment_Gateway_For_Woocommerce
- * @subpackage TripleA_Payment_Gateway_For_Woocommerce/includes
+ * @package    TripleA_Payment_Gateway_For_WooCommerce
+ * @subpackage TripleA_Payment_Gateway_For_WooCommerce/includes
  */
+
+namespace TripleA_Payment_Gateway_For_WooCommerce\Includes;
 
 use TripleA_Payment_Gateway_For_WooCommerce\Admin\Admin;
 use TripleA_Payment_Gateway_For_WooCommerce\Admin\Plugins_Page;
 use TripleA_Payment_Gateway_For_WooCommerce\API\API;
 use TripleA_Payment_Gateway_For_WooCommerce\API\REST;
-use TripleA_Payment_Gateway_For_WooCommerce\Includes\I18n;
 use TripleA_Payment_Gateway_For_WooCommerce\WooCommerce\Payment_Gateways;
 use TripleA_Payment_Gateway_For_WooCommerce\WooCommerce\Thank_You;
+use TripleA_Payment_Gateway_For_WooCommerce\WooCommerce\TripleA_Payment_Gateway;
 use TripleA_Payment_Gateway_For_WooCommerce\WPPB\WPPB_Loader_Interface;
 use TripleA_Payment_Gateway_For_WooCommerce\WPPB\WPPB_Object;
 
@@ -33,11 +34,11 @@ use TripleA_Payment_Gateway_For_WooCommerce\WPPB\WPPB_Object;
  * version of the plugin.
  *
  * @since      1.0.0
- * @package    TripleA_Payment_Gateway_For_Woocommerce
- * @subpackage TripleA_Payment_Gateway_For_Woocommerce/includes
+ * @package    TripleA_Payment_Gateway_For_WooCommerce
+ * @subpackage TripleA_Payment_Gateway_For_WooCommerce/includes
  * @author     TripleA <andy@triple-a.io>
  */
-class TripleA_Payment_Gateway_For_Woocommerce extends WPPB_Object {
+class TripleA_Payment_Gateway_For_WooCommerce extends WPPB_Object {
 
 	/**
 	 * The array of actions registered with WordPress.
@@ -99,7 +100,7 @@ class TripleA_Payment_Gateway_For_Woocommerce extends WPPB_Object {
 	/**
 	 * Define the locale for this plugin for internationalization.
 	 *
-	 * Uses the TripleA_Payment_Gateway_For_Woocommerce_i18n class in order to set the domain and to register the hook
+	 * Uses the TripleA_Payment_Gateway_For_WooCommerce\I18n class in order to set the domain and to register the hook
 	 * with WordPress.
 	 *
 	 * @since    1.0.0
@@ -108,7 +109,6 @@ class TripleA_Payment_Gateway_For_Woocommerce extends WPPB_Object {
 	protected function set_locale() {
 
 		$plugin_i18n = new I18n();
-
 		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
 	}
 
@@ -119,7 +119,7 @@ class TripleA_Payment_Gateway_For_Woocommerce extends WPPB_Object {
 		$this->loader->add_action( 'plugins_loaded', $admin, 'woocommerce_check', 99 );
 		$this->loader->add_action( 'admin_notices', $admin, 'settings_update_notice', 99 );
 
-		$plugins_page = new Plugins_Page();
+		$plugins_page    = new Plugins_Page();
 		$plugin_basename = $this->get_plugin_name() . '/' . $this->get_plugin_name() . '.php';
 		$this->loader->add_filter( 'plugin_action_links_' . $plugin_basename, $plugins_page, 'display_plugin_action_links' );
 	}
@@ -130,20 +130,12 @@ class TripleA_Payment_Gateway_For_Woocommerce extends WPPB_Object {
 	protected function define_rest_hooks() {
 
 		$rest = new REST( $this->api );
-
 		$this->loader->add_action( 'rest_api_init', $rest, 'rest_api_init' );
 	}
 
 	protected function define_woocommerce_hooks() {
 
-		$payment_gateways = new Payment_Gateways();
-
-		$this->loader->add_filter( 'woocommerce_payment_gateways', $payment_gateways, 'triplea_payment_gateway_for_woocommerce_add_gateway' );
-
-		$this->loader->add_action( 'wc_ajax_wc_triplea_start_checkout', TripleA_Bitcoin_Ecommerce_for_WooCommerce_Payment::class, 'wc_ajax_start_checkout' );
-
 		$thank_you = new Thank_You();
-
 		$this->loader->add_filter( 'woocommerce_thankyou_order_received_text', $thank_you, 'triplea_change_order_received_text', 10, 2 );
 
 	}
