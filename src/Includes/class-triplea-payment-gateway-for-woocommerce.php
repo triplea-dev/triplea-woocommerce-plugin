@@ -135,6 +135,11 @@ class TripleA_Payment_Gateway_For_WooCommerce extends WPPB_Object {
 
 	protected function define_woocommerce_hooks() {
 
+		$payment_gateways = new Payment_Gateways();
+		$this->loader->add_filter( 'woocommerce_payment_gateways', $payment_gateways, 'add_triplea_payment_gateway_to_woocommerce' );
+
+		$this->loader->add_action( 'wc_ajax_wc_triplea_start_checkout', TripleA_Payment_Gateway::class, 'wc_ajax_start_checkout' );
+
 		$thank_you = new Thank_You();
 		$this->loader->add_filter( 'woocommerce_thankyou_order_received_text', $thank_you, 'triplea_change_order_received_text', 10, 2 );
 
