@@ -23,16 +23,16 @@ class API {
 	}
 
 	/**
-	 * @param  string                   $order_status
-	 * @param array                    $notes
-	 * @param       $wc_order
-	 * @param       $addr
-	 * @param       $tx_status
-	 * @param       $crypto_amount_paid_total
-	 * @param       $crypto_amount
-	 * @param       $local_currency
-	 * @param       $order_amount
-	 * @param       $exchange_rate
+	 * @param string    $order_status               One of paid_expired|paid|paid_too_much|failed_paid_too_little
+	 * @param string[]  $notes                      Array of notes to later be added to the order (passsed by reference).
+	 * @param \WC_Order $wc_order                   The relevant order whose status will be updated.
+	 * @param string    $addr                       The Bitcoin address
+	 * @param string    $tx_status                  String enum whose only value we care about is "confirmed".
+	 * @param float     $crypto_amount_paid_total   The Bitcoin value paid
+	 * @param float     $crypto_amount              The order total expressed in Bitcoin
+	 * @param string    $local_currency
+	 * @param float     $order_amount               The order total in local currency.
+	 * @param string    $exchange_rate
 	 */
 	public function triplea_update_bitcoin_payment_order_status( $order_status, array &$notes, $wc_order, $addr, $tx_status, $crypto_amount_paid_total, $crypto_amount, $local_currency, $order_amount, $exchange_rate ) {
 
