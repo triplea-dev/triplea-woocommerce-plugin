@@ -191,7 +191,7 @@ ob_start();
 								  onchange="updatePreviewOnChange()"
 								  value="desc-default"
 							  <?php
-								if ( empty( $plugin_settings['triplea_bitcoin_descriptiontext_option'] ) || $plugin_settings['triplea_bitcoin_descriptiontext_option'] === 'desc-default' ) {
+								if ( empty( $plugin_settings['triplea_bitcoin_descriptiontext_option'] ) || 'desc-default' === $plugin_settings['triplea_bitcoin_descriptiontext_option'] ) {
 									echo 'checked';
 								}
 								?>

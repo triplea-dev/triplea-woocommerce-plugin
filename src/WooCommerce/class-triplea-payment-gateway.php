@@ -1,4 +1,7 @@
 <?php
+/**
+ * Implements a WC_Payment_Gateway.
+ */
 
 namespace TripleA_Payment_Gateway_For_WooCommerce\WooCommerce;
 
@@ -11,7 +14,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-
+/**
+ * Class TripleA_Payment_Gateway
+ *
+ * @package TripleA_Payment_Gateway_For_WooCommerce\WooCommerce
+ */
 class TripleA_Payment_Gateway extends WC_Payment_Gateway {
 
 	/**
@@ -23,18 +30,22 @@ class TripleA_Payment_Gateway extends WC_Payment_Gateway {
 	 * @var string
 	 */
 	protected $triplea_mode;
+
 	/**
 	 * @var string
 	 */
 	protected $triplea_notifications_email;
+
 	/**
 	 * @var string
 	 */
 	protected $triplea_client_secret_key;
+
 	/**
 	 * @var string
 	 */
 	protected $triplea_client_public_key;
+
 	/**
 	 * @var string
 	 */
@@ -43,14 +54,17 @@ class TripleA_Payment_Gateway extends WC_Payment_Gateway {
 	 * @var string
 	 */
 	protected $triplea_pubkey_id_for_conversion;
+
 	/**
 	 * @var string
 	 */
 	protected $triplea_active_pubkey_id;
+
 	/**
 	 * @var string
 	 */
 	protected $triplea_pubkey;
+
 	/**
 	 * @var string
 	 */
@@ -197,7 +211,7 @@ class TripleA_Payment_Gateway extends WC_Payment_Gateway {
 				} else {
 					// triplea_write_log('Active API ID was already set to this API ID. No change required.', $debug_log_enabled);
 				}
-			} elseif ( $this->triplea_payment_mode === 'bitcoin-to-cash' ) {
+			} elseif ( 'bitcoin-to-cash' === $this->triplea_payment_mode ) {
 				if ( ! isset( $this->triplea_active_pubkey_id ) || $this->triplea_active_pubkey_id !== $this->triplea_pubkey_id_for_conversion ) {
 					$api_pubkey_id                  = $this->triplea_pubkey_id_for_conversion;
 					$this->triplea_active_pubkey_id = $api_pubkey_id;

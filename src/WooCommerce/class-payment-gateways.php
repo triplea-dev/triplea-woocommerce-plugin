@@ -1,9 +1,21 @@
 <?php
+/**
+ * This class handles any hooks fired by the WC_Payment_Gateways class.
+ *
+ * @see WC_Payment_Gateways
+ */
 
 namespace TripleA_Payment_Gateway_For_WooCommerce\WooCommerce;
 
 use WC_Payment_Gateway;
 
+/**
+ * Register our payment gateway with WooCommerce when it fires the WC_Payment_Gateways init hook.
+ *
+ * Class Payment_Gateways
+ *
+ * @package TripleA_Payment_Gateway_For_WooCommerce\WooCommerce
+ */
 class Payment_Gateways {
 
 	/**

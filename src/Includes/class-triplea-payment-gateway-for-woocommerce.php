@@ -41,23 +41,8 @@ use TripleA_Payment_Gateway_For_WooCommerce\WPPB\WPPB_Object;
 class TripleA_Payment_Gateway_For_WooCommerce extends WPPB_Object {
 
 	/**
-	 * The array of actions registered with WordPress.
-	 *
-	 * @since    1.0.0
-	 * @access   protected
-	 * @var      array    $actions    The actions registered with WordPress to fire when the plugin loads.
+	 * @var WPPB_Loader_Interface
 	 */
-	protected $actions;
-
-	/**
-	 * The array of filters registered with WordPress.
-	 *
-	 * @since    1.0.0
-	 * @access   protected
-	 * @var      array    $filters    The filters registered with WordPress to fire when the plugin loads.
-	 */
-	protected $filters;
-
 	protected $loader;
 
 	/**
@@ -95,6 +80,7 @@ class TripleA_Payment_Gateway_For_WooCommerce extends WPPB_Object {
 
 		$this->define_admin_hooks();
 		$this->define_woocommerce_hooks();
+		$this->define_rest_hooks();
 	}
 
 	/**
@@ -112,7 +98,9 @@ class TripleA_Payment_Gateway_For_WooCommerce extends WPPB_Object {
 		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
 	}
 
-
+	/**
+	 * Adds the actions for admin UI functions: admin notices and plugin page links.
+	 */
 	protected function define_admin_hooks() {
 
 		$admin = new Admin();
@@ -133,6 +121,9 @@ class TripleA_Payment_Gateway_For_WooCommerce extends WPPB_Object {
 		$this->loader->add_action( 'rest_api_init', $rest, 'rest_api_init' );
 	}
 
+	/**
+	 * Add actions for WooCommerce gateway registration, checkout ajax and thank you page.
+	 */
 	protected function define_woocommerce_hooks() {
 
 		$payment_gateways = new Payment_Gateways();
@@ -142,7 +133,6 @@ class TripleA_Payment_Gateway_For_WooCommerce extends WPPB_Object {
 
 		$thank_you = new Thank_You();
 		$this->loader->add_filter( 'woocommerce_thankyou_order_received_text', $thank_you, 'triplea_change_order_received_text', 10, 2 );
-
 	}
 
 	/**
