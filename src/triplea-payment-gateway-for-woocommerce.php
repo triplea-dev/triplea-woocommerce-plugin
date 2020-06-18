@@ -71,8 +71,8 @@ function deactivate_triplea_payment_gateway_for_woocommerce() {
 
 }
 
-register_activation_hook( __FILE__, 'activate_triplea_payment_gateway_for_woocommerce' );
-register_deactivation_hook( __FILE__, 'deactivate_triplea_payment_gateway_for_woocommerce' );
+register_activation_hook( __FILE__, 'TripleA_Payment_Gateway_For_WooCommerce\activate_triplea_payment_gateway_for_woocommerce' );
+register_deactivation_hook( __FILE__, 'TripleA_Payment_Gateway_For_WooCommerce\deactivate_triplea_payment_gateway_for_woocommerce' );
 
 /**
  * Begins execution of the plugin.
