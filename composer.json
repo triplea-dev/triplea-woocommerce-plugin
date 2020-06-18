@@ -53,7 +53,7 @@
         "10up/wp_mock": "0.4.2",
         "brianhenryie/composer-phpstorm": "dev-master",
         "phpcompatibility/phpcompatibility-wp": "*",
-        "lucatume/wp-browser": "2.5.5",
+        "lucatume/wp-browser": "*",
         "codeception/module-asserts": "*",
         "voku/portable-ascii": "dev-master",
         "codeception/module-db": "*",
@@ -99,6 +99,8 @@
         "post-install-cmd": [
             "\"vendor/bin/mozart\" compose",
             "cd vendor/wordpress/wordpress; rm build/wp-content || true; npm install; npm run build; cd ../../..",
+            "export $(grep -v '^#' .env.testing | xargs); vendor/bin/wp config create --dbname=$TEST_SITE_DB_NAME --dbuser=$TEST_SITE_DB_USER --dbpass=$TEST_SITE_DB_PASSWORD --path=vendor/wordpress/wordpress/build || true",
+            "cd src; composer install; cd ..",
             "Kporras07\\ComposerSymlinks\\ScriptHandler::createSymlinks",
             "mkdir -p wordpress/wp-content/uploads",
             "BrianHenryIE\\ComposerPhpStorm\\ExcludeFolders::update",
@@ -107,6 +109,8 @@
         "post-update-cmd": [
             "\"vendor/bin/mozart\" compose",
             "cd vendor/wordpress/wordpress; rm build/wp-content || true; npm install; npm run build; cd ../../..",
+            "export $(grep -v '^#' .env.testing | xargs); vendor/bin/wp config create --dbname=$TEST_SITE_DB_NAME --dbuser=$TEST_SITE_DB_USER --dbpass=$TEST_SITE_DB_PASSWORD --path=vendor/wordpress/wordpress/build || true",
+            "cd src; composer update; cd ..",
             "Kporras07\\ComposerSymlinks\\ScriptHandler::createSymlinks",
             "mkdir -p wordpress/wp-content/uploads",
             "BrianHenryIE\\ComposerPhpStorm\\ExcludeFolders::update",
