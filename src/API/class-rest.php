@@ -139,7 +139,7 @@ class REST {
 
 		$client_secret_enc_key = $plugin_settings['triplea_client_secret_key'];
 
-		$payload_status_data = $api->triplea_payment_gateway_for_woocommerce_decrypt_payload( $payload, $client_secret_enc_key, $triplea_public_enc_key );
+		$payload_status_data = $this->api->triplea_payment_gateway_for_woocommerce_decrypt_payload( $payload, $client_secret_enc_key, $triplea_public_enc_key );
 		if ( 'failed' === $payload_status_data['status'] || false === $payload_status_data['payload'] ) {
 			// Cannot decrypt payload, meaning we don't have the client_txid to find and update the order.
 			// This wouldn't happen but if it does, orders would remain in "on hold" status.
@@ -233,7 +233,7 @@ class REST {
 
 		// Compares order_status and tx_status, and decides what to do with the current order.
 		// Updates the notes[] array with relevant information for the WooCommerce backend users.
-		$api->triplea_update_bitcoin_payment_order_status( $order_status, $notes, $wc_order, $addr, $tx_status, $crypto_amount_paid_total, $crypto_amount, $local_currency, $order_amount, $exchange_rate );
+		$this->api->triplea_update_bitcoin_payment_order_status( $order_status, $notes, $wc_order, $addr, $tx_status, $crypto_amount_paid_total, $crypto_amount, $local_currency, $order_amount, $exchange_rate );
 
 		foreach ( $notes as $note ) {
 			$wc_order->add_order_note( $note, 'woocommerce' );
