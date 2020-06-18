@@ -16,9 +16,9 @@ class PaymentsPageCest {
 	 */
 	public function testSettingsPageForName( AcceptanceTester $I ) {
 
-		// This has been enabled in the SQL dump.
-		// $I->amOnPluginsPage();
-		// $I->activatePlugin('bh-wc-set-gateway-by-url');
+		$I->amOnPluginsPage();
+		$I->activatePlugin('woocommerce');
+		$I->activatePlugin('triplea-cryptocurrency-payment-gateway-for-woocommerce');
 
 		$I->amOnPage( '/wp-admin/admin.php?page=wc-settings&tab=checkout' );
 
