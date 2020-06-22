@@ -1,6 +1,120 @@
 {
+    "name": "triplea/triplea-payment-gateway-for-woocommerce",
+    "description": "This is a short description of what plugin_title does.",
+    "type": "wordpress-plugin",
+    "license": "GPL-2.0+-or-later",
+    "authors": [
+        {
+            "name": "TripleA",
+            "email": "andy.hoebeke@triple-a.io"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "config": {
+        "process-timeout": 0
+    },
+    "repositories": [
+        {
+            "url": "https://github.com/WordPress/wordpress-develop",
+            "type": "git"
+        },
+        {
+            "url": "https://github.com/pablo-sg-pacheco/wp-namespace-autoloader",
+            "type": "git"
+        },
+        {
+            "url": "https://github.com/BrianHenryIE/WPPB-lib",
+            "type": "git"
+        },
+        {
+            "url": "https://github.com/BrianHenryIE/composer-phpstorm",
+            "type": "git"
+        },
+        {
+            "type":"composer",
+            "url":"https://wpackagist.org"
+        }
+    ],
     "require": {
-        "paragonie/sodium_compat": "^1.10",
-        "paragonie/random_compat": ">=2 <9.99"
+        "brianhenryie/wppb-lib": "dev-master",
+        "pablo-sg-pacheco/wp-namespace-autoloader": "dev-master",
+        "php": ">=7.2"
+    },
+    "require-dev": {
+        "cweagans/composer-patches": "~1.0",
+        "coenjacobs/mozart": "0.6.0-beta-3",
+        "dealerdirect/phpcodesniffer-composer-installer": "*",
+        "wp-coding-standards/wpcs": "*",
+        "wordpress/wordpress": "^5.4",
+        "kporras07/composer-symlinks": "dev-master",
+        "phpunit/phpunit": ">=7.0",
+        "phpunit/phpcov": "^5.0",
+        "10up/wp_mock": "0.4.2",
+        "brianhenryie/composer-phpstorm": "dev-master",
+        "phpcompatibility/phpcompatibility-wp": "*",
+        "lucatume/wp-browser": "*",
+        "codeception/module-asserts": "*",
+        "voku/portable-ascii": "dev-master",
+        "codeception/module-db": "*",
+        "codeception/module-phpbrowser": "*",
+        "codeception/module-webdriver": "*",
+        "codeception/module-filesystem": "*",
+        "codeception/module-cli": "*",
+        "codeception/util-universalframework": "*",
+        "wpackagist-plugin/woocommerce": "^4.1",
+        "wpackagist-theme/storefront": "*",
+        "wpackagist-plugin/bh-wc-set-gateway-by-url": "1.0.5"
+    },
+    "extra": {
+        "mozart": {
+            "dep_namespace": "TripleA_Payment_Gateway_For_WooCommerce\\",
+            "dep_directory": "/src/vendor/",
+            "classmap_prefix": "TripleA_Payment_Gateway_For_WooCommerce_",
+            "classmap_directory": "/src/dependencies/",
+            "delete_vendor_directories": false
+        },
+        "symlinks": {
+            "wp-content": "vendor/wordpress/wordpress/build/wp-content",
+            "wp-content/plugins": "vendor/wordpress/wordpress/src/wp-content/plugins",
+            "src": "wp-content/plugins/triplea-payment-gateway-for-woocommerce",
+            "vendor/wordpress/wordpress/src": "wordpress"
+        },
+        "phpstorm": {
+            "exclude_folders": {
+                "folders": [
+                    "vendor/wordpress/wordpress/src",
+                    "vendor/wordpress/wordpress/build",
+                    "wp-content/plugins/triplea-payment-gateway-for-woocommerce",
+                    "wordpress/wp-content/plugins"
+                ],
+                "include_folders": [
+                    "vendor/wordpress/wordpress/"
+                ],
+                "composer-symlinks": false
+            }
+        }
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "\"vendor/bin/mozart\" compose",
+            "cd vendor/wordpress/wordpress; rm build/wp-content || true; npm install; npm run build; cd ../../..",
+            "export $(grep -v '^#' .env.testing | xargs); vendor/bin/wp config create --dbname=$TEST_SITE_DB_NAME --dbuser=$TEST_SITE_DB_USER --dbpass=$TEST_SITE_DB_PASSWORD --path=vendor/wordpress/wordpress/build || true",
+            "cd src; composer install; cd ..",
+            "Kporras07\\ComposerSymlinks\\ScriptHandler::createSymlinks",
+            "mkdir -p wordpress/wp-content/uploads",
+            "BrianHenryIE\\ComposerPhpStorm\\ExcludeFolders::update",
+            "BrianHenryIE\\ComposerPhpStorm\\PHPUnitRunConfigurations::update"
+        ],
+        "post-update-cmd": [
+            "\"vendor/bin/mozart\" compose",
+            "cd vendor/wordpress/wordpress; rm build/wp-content || true; npm install; npm run build; cd ../../..",
+            "export $(grep -v '^#' .env.testing | xargs); vendor/bin/wp config create --dbname=$TEST_SITE_DB_NAME --dbuser=$TEST_SITE_DB_USER --dbpass=$TEST_SITE_DB_PASSWORD --path=vendor/wordpress/wordpress/build || true",
+            "cd src; composer update; cd ..",
+            "Kporras07\\ComposerSymlinks\\ScriptHandler::createSymlinks",
+            "mkdir -p wordpress/wp-content/uploads",
+            "BrianHenryIE\\ComposerPhpStorm\\ExcludeFolders::update",
+            "BrianHenryIE\\ComposerPhpStorm\\PHPUnitRunConfigurations::update"
+        ]
     }
 }
