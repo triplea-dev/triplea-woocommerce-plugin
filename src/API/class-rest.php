@@ -236,7 +236,7 @@ class REST {
 		$this->api->triplea_update_bitcoin_payment_order_status( $order_status, $notes, $wc_order, $addr, $tx_status, $crypto_amount_paid_total, $crypto_amount, $local_currency, $order_amount, $exchange_rate );
 
 		foreach ( $notes as $note ) {
-			$wc_order->add_order_note( $note, 'woocommerce' );
+			$wc_order->add_order_note( $note );
 		}
 
 		return array( 'status' => 'ok' );
