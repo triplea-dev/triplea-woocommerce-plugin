@@ -42,7 +42,7 @@ cache
 
 
 wordpress
-src/vendor/
+#src/vendor/
 src/dependencies/
 wp-content/
 
