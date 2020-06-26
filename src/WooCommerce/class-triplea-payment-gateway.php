@@ -622,7 +622,7 @@ You can receive your transaction payments in bitcoins or in your local currency.
 			$data_currency = esc_attr( strtoupper( get_woocommerce_currency() ) );
 		}
 
-		$source_script = plugin_dir_url( __DIR__ ) . '/frontend/js/triplea-payment-gateway-app.js';
+		$source_script = plugin_dir_url( __DIR__ ) . '/Frontend/js/triplea-payment-gateway-app.js';
 
 		$nonce_action             = '_wc_triplea_start_checkout_nonce';
 		$start_checkout_url       = WC_AJAX::get_endpoint( 'wc_triplea_start_checkout' );
@@ -642,7 +642,7 @@ You can receive your transaction payments in bitcoins or in your local currency.
 		$output .= "<script src='$source_script' id='triplea-payment-gateway-script' data-tx-id='$data_tx_id_token' data-amount='$data_amount' data-currency='$data_currency' data-payment-addr='$session_btc_addr' data-xrate='$session_exchange_rate' data-payload='$triplea_payment_payload' data-pubkey-shared='$public_key_shared' data-api-id='$this->triplea_active_pubkey_id'></script>";
 
 		ob_start();
-		include realpath( __DIR__ . '/..' ) . '/frontend/triplea-payment-gateway-template.php';
+		include realpath( __DIR__ . '/..' ) . '/Frontend/triplea-payment-gateway-template.php';
 		$source_template_contents = ob_get_contents();
 		ob_end_clean();
 		 $output .= "\n" . $source_template_contents . "\n";
@@ -907,8 +907,12 @@ You can receive your transaction payments in bitcoins or in your local currency.
 			default:
 				return;
 		}
-
-		$icon = '<img src="' . WC_HTTPS::force_https_url( TRIPLEA_PAYMENT_GATEWAY_FOR_WOOCOMMERCE_MAIN_URL_PATH . 'assets/img/' . $iconfile ) . '" alt="Bitcoin logo" ' . $style . ' />';
+      
+      $icon_url = TRIPLEA_PAYMENT_GATEWAY_FOR_WOOCOMMERCE_MAIN_URL_PATH . 'assets/img/';
+      if (is_ssl()) {
+         $icon_url = WC_HTTPS::force_https_url( $icon_url );
+      }
+      $icon = '<img src="' . $icon_url . $iconfile  . '" alt="Bitcoin logo" ' . $style . ' />';
 
 		return apply_filters( 'woocommerce_gateway_icon', $icon, $this->id );
 	}

@@ -31,9 +31,15 @@ $wcStatuses = wc_get_order_statuses();
 
 compact( 'tripleaStatuses', 'statuses', 'wcStatuses' );
 
+$icon_url = TRIPLEA_PAYMENT_GATEWAY_FOR_WOOCOMMERCE_MAIN_URL_PATH . 'assets/img/' ;
+if (is_ssl()) {
+   $icon_url = WC_HTTPS::force_https_url( $icon_url );
+}
+
 $logo_style = 'style="max-width: 100px !important;max-height: 30px !important;"';
-$icon_large = '<img id="triplea_preview_logo_large" src="' . WC_HTTPS::force_https_url( TRIPLEA_PAYMENT_GATEWAY_FOR_WOOCOMMERCE_MAIN_URL_PATH . 'assets/img/bitcoin-full.png' ) . '" alt="Bitcoin logo" ' . $logo_style . ' />';
-$icon_short = '<img id="triplea_preview_logo_short" src="' . WC_HTTPS::force_https_url( TRIPLEA_PAYMENT_GATEWAY_FOR_WOOCOMMERCE_MAIN_URL_PATH . 'assets/img/bitcoin.png' ) . '" alt="Bitcoin logo" ' . $logo_style . ' />';
+$icon_large = '<img id="triplea_preview_logo_large" src="' . $icon_url . 'bitcoin-full.png' . '" alt="Bitcoin logo" ' . $logo_style . ' />';
+$icon_short = '<img id="triplea_preview_logo_short" src="' . $icon_url . 'bitcoin.png' . '" alt="Bitcoin logo" ' . $logo_style . ' />';
+
 
 ob_start();
 ?>
