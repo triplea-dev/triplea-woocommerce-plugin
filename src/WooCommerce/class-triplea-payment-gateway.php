@@ -8,6 +8,8 @@ namespace TripleA_Payment_Gateway_For_WooCommerce\WooCommerce;
 use Exception;
 use SodiumException;
 use TripleA_Payment_Gateway_For_WooCommerce\API\API;
+use WC_AJAX;
+use WC_HTTPS;
 use WC_Payment_Gateway;
 
 if ( ! defined( 'ABSPATH' ) ) {
