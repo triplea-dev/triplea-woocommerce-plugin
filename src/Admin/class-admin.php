@@ -33,7 +33,7 @@ class Admin {
 	 */
 	public function woocommerce_check() {
 		require_once ABSPATH . 'wp-admin/includes/plugin.php';
-		if ( ! in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ), true ) ) {
+		if ( !is_plugin_active( 'woocommerce/woocommerce.php' ) || function_exists( 'woocommerce_cart_totals' ) || function_exists( 'woocommerce_content' ) ) {
 			add_action( 'admin_notices', array( $this, 'print_wc_needed' ), 1 );
 			add_action( 'admin_notices', array( $this, 'wc_admin_notices' ), 1 );
 			deactivate_plugins( TRIPLEA_PAYMENT_GATEWAY_FOR_WOOCOMMERCE_MAIN_FILE );
