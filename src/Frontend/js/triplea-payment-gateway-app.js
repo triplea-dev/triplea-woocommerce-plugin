@@ -641,7 +641,7 @@
       tripleaPaymentButtons[i].style.display = 'none';
     }
 
-    triplea_displayPaymentHtml();
+    // triplea_displayPaymentHtml();
 
     const fiatCurrencyDisplay     = document.getElementById('triplea_fiat_currency_display');
     fiatCurrencyDisplay.innerText = fiatCurrency.toUpperCase();
@@ -935,6 +935,8 @@
       triplea_insertionLocation.setAttribute('data-amount-btc', triplea_formatCryptoPrice(btcAmount));
 
       triplea_createHiddenInputData('triplea_amount_btc_input', triplea_formatCryptoPrice(btcAmount));
+
+      triplea_displayPaymentHtml();
     };
 
     triplea_ajax_action(url, setExchangeRate, method, {});
