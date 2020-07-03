@@ -1044,7 +1044,7 @@ You can receive your transaction payments in bitcoins or in your local currency.
 				$notes[] = 'Payment form expired before receiving any extra transaction to make up for the difference.';
 			}
 			foreach ( $notes as $note ) {
-				$wc_order->add_order_note( __( $note, 'triplea-payment-gateway-for-woocommerce' ), 'woocommerce' );
+				$wc_order->add_order_note( __( $note, 'triplea-payment-gateway-for-woocommerce' ) );
 			}
 
 			WC()->cart->empty_cart();
@@ -1158,7 +1158,7 @@ You can receive your transaction payments in bitcoins or in your local currency.
 			$this->api->triplea_update_bitcoin_payment_order_status( $order_status, $notes, $wc_order, $addr, $tx_status, $crypto_amount_paid_total, $crypto_amount, $local_currency, $order_amount, $exchange_rate );
 
 			foreach ( $notes as $note ) {
-				$wc_order->add_order_note( __( $note, 'triplea-payment-gateway-for-woocommerce' ), 'woocommerce' );
+				$wc_order->add_order_note( __( $note, 'triplea-payment-gateway-for-woocommerce' ) );
 			}
 
 			WC()->cart->empty_cart();
