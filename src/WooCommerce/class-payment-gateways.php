@@ -24,9 +24,9 @@ class Payment_Gateways {
 	 * @hooked woocommerce_payment_gateways
 	 * @see WC_Payment_Gateways::init()
 	 *
-	 * @param WC_Payment_Gateway[] $methods
+	 * @param string[] $methods
 	 *
-	 * @return WC_Payment_Gateway[]
+	 * @return string[]
 	 */
 	public function add_triplea_payment_gateway_to_woocommerce( $methods ) {
 		$methods[] = TripleA_Payment_Gateway::class;

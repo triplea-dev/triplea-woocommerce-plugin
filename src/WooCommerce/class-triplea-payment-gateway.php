@@ -8,6 +8,8 @@ namespace TripleA_Payment_Gateway_For_WooCommerce\WooCommerce;
 use Exception;
 use SodiumException;
 use TripleA_Payment_Gateway_For_WooCommerce\API\API;
+use WC_AJAX;
+use WC_HTTPS;
 use WC_Payment_Gateway;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -69,6 +71,15 @@ class TripleA_Payment_Gateway extends WC_Payment_Gateway {
 	 * @var string
 	 */
 	protected $triplea_payment_mode;
+	
+	/**
+	 * @var string
+	 */
+	protected $triplea_server_public_enc_key_btc;
+	/**
+	 * @var string
+	 */
+	protected $triplea_server_public_enc_key_conversion;
 
 	/**
 	 * TripleA_Bitcoin_Ecommerce_for_WooCommerce_Payment constructor.
