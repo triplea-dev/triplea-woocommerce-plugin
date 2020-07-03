@@ -1,5 +1,6 @@
 <?php
 
+// TODO: Namespace.
 
 if ( ! function_exists( 'triplea_write_log' ) ) {
 
