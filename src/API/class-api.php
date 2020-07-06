@@ -160,7 +160,7 @@ class API {
 						. "<small>1 BTC = $exchange_rate $local_currency</small><br>"
 						. 'BTC ' . number_format( $crypto_amount, 8 ) . '<br>'
 						. '<br>'
-						. "<strong>Amount awaiting validation:</strong> <br>BTC $crypto_amount_paid_total <br>"
+						. "<strong>Amount awaiting validation:</strong> <br>BTC ". number_format($crypto_amount_paid_total, 8) ." <br>"
 						. ' <br>'
 						. 'Payment to bitcoin address: ' . $addr . '<br>';
 
