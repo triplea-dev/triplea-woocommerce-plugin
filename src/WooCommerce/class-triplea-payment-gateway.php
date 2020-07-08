@@ -667,11 +667,11 @@ You can receive your transaction payments in bitcoins or in your local currency.
 	  (function ($, window, document) {
 		'use strict';
 
-		console.debug('action1');
+		//console.debug('action1');
 		
 		let isTripleaPaymentGateway = $(this).is('#payment_method_triplea_payment_gateway');
 
-		  console.debug('action2');
+		  //console.debug('btn check');
 		  
 		  if (isTripleaPaymentGateway) {
 			// Check if customer/billing/shipping form is correctly filled in, before proceeding with letting user pay.
@@ -687,25 +687,29 @@ You can receive your transaction payments in bitcoins or in your local currency.
 			$('#triplea-payment-gateway-checkout-wrapper').toggle(false);
 		  }
 		
-		$('form.checkout, form#order_review').on('click', 'input[name="payment_method"]', function () {
-		  let isTripleaPaymentGateway = $(this).is('#payment_method_triplea_payment_gateway');
+		  let triplea_updatePlaceOrderBtn = function () {
+          let isTripleaPaymentGateway = $(this).is('#payment_method_triplea_payment_gateway');
 
-		  console.debug('action2');
+          //console.debug('btn re-check');
+
+          if (isTripleaPaymentGateway) {
+            // Check if customer/billing/shipping form is correctly filled in, before proceeding with letting user pay.
+            $( '#place_order' ).parent().children('button').hide();
+            $( '#place_order' ).parent().children('[type="button"]').hide();
+            $( '#place_order' ).parent().children('[type="submit"]').hide();
+            $('#triplea-payment-gateway-checkout-wrapper').toggle(true);
+          }
+          else {
+            $( '#place_order' ).parent().children('button').show();
+            $( '#place_order' ).parent().children('[type="button"]').show();
+            $( '#place_order' ).parent().children('[type="submit"]').show();
+            $('#triplea-payment-gateway-checkout-wrapper').toggle(false);
+          }
+        };
 		  
-		  if (isTripleaPaymentGateway) {
-			// Check if customer/billing/shipping form is correctly filled in, before proceeding with letting user pay.
-			$( '#place_order' ).parent().children('button').hide();
-			$( '#place_order' ).parent().children('[type="button"]').hide();
-			$( '#place_order' ).parent().children('[type="submit"]').hide();
-			$('#triplea-payment-gateway-checkout-wrapper').toggle(true);
-		  }
-		  else {
-			$( '#place_order' ).parent().children('button').show();
-			$( '#place_order' ).parent().children('[type="button"]').show();
-			$( '#place_order' ).parent().children('[type="submit"]').show();
-			$('#triplea-payment-gateway-checkout-wrapper').toggle(false);
-		  }
-		});
+		$('form.checkout, form#order_review').on('click', 'input[name="payment_method"]', triplea_updatePlaceOrderBtn);
+		$('form.checkout, form#order_review').on('change', 'input[name="payment_method"]', triplea_updatePlaceOrderBtn);
+		$(document).ready(triplea_updatePlaceOrderBtn);
 
 		<?php if ( ! $is_ajax ) : ?>
 		$.get('https://moneyoverip.io/api/ping_pageloaded?plugin_v=<?php echo $plugin_version; ?>&usage=woocommerce', function( data ) {});

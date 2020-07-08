@@ -4,7 +4,7 @@ Donate link: https://triple-a.io/
 Tags: bitcoin woocommerce,bitcoin payments,bitcoin,crypto payment gateway,bitcoin wordpress plugin
 Requires at least: 3.8
 Tested up to: 5.4.2
-Stable tag: 1.4.0
+Stable tag: 1.4.1
 Requires PHP: 5.4.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -136,6 +136,9 @@ Of course, our support team is always here to help. <a href="mailto:support@trip
 
 == Changelog ==
 
+= 1.4.1 =
+Fix for rare bug on checkout page.
+
 = 1.4.0 =
 Payment form expiry now at 25 minutes instead of 15.
 Minor QR code related bug fix.
@@ -161,6 +164,9 @@ Minor improvement added for sites with custom checkout submit buttons.
 
 
 == Upgrade Notice ==
+
+= 1.4.1 =
+No need to update unless the "place order/pay with bitcoin" button on your checkout page is misbehaving.
 
 = 1.4.0 =
 Please update this plugin, to ensure the best experience for yourself and your customers.
