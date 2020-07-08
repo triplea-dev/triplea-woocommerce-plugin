@@ -21,7 +21,7 @@
  * @link       https://triple-a.io
  * @since      1.0.0
  *
- * @package    TripleA_Payment_Gateway_For_WooCommerce
+ * @package    TripleA_Cryptocurrency_Payment_Gateway_for_WooCommerce
  */
 
 // If uninstall not called from WordPress, then exit.

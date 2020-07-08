@@ -1,6 +1,6 @@
 <?php
 
-namespace TripleA_Payment_Gateway_For_WooCommerce\WPPB;
+namespace TripleA_Cryptocurrency_Payment_Gateway_for_WooCommerce\WPPB;
 
 interface WPPB_Loader_Interface {
 

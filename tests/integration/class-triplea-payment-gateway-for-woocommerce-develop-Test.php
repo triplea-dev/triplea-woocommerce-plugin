@@ -2,13 +2,13 @@
 /**
  * Class Plugin_Test. Tests the root plugin setup.
  *
- * @package TripleA_Payment_Gateway_For_WooCommerce
+ * @package TripleA_Cryptocurrency_Payment_Gateway_for_WooCommerce
  * @author     TripleA <andy.hoebeke@triple-a.io>
  */
 
-namespace TripleA_Payment_Gateway_For_WooCommerce;
+namespace TripleA_Cryptocurrency_Payment_Gateway_for_WooCommerce;
 
-use TripleA_Payment_Gateway_For_WooCommerce\Includes\TripleA_Payment_Gateway_For_WooCommerce;
+use TripleA_Cryptocurrency_Payment_Gateway_for_WooCommerce\Includes\TripleA_Cryptocurrency_Payment_Gateway_for_WooCommerce;
 
 /**
  * Verifies the plugin has been instantiated and added to PHP's $GLOBALS variable.
@@ -20,9 +20,9 @@ class Plugin_Develop_Test extends \Codeception\TestCase\WPTestCase {
 	 */
 	public function test_plugin_instantiated() {
 
-		$this->assertArrayHasKey( 'triplea_payment_gateway_for_woocommerce', $GLOBALS );
+		$this->assertArrayHasKey( 'triplea_cryptocurrency_payment_gateway_for_woocommerce', $GLOBALS );
 
-		$this->assertInstanceOf( TripleA_Payment_Gateway_For_WooCommerce::class, $GLOBALS['triplea_payment_gateway_for_woocommerce'] );
+		$this->assertInstanceOf( TripleA_Cryptocurrency_Payment_Gateway_for_WooCommerce::class, $GLOBALS['triplea_cryptocurrency_payment_gateway_for_woocommerce'] );
 	}
 
 }

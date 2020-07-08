@@ -5,7 +5,7 @@
  * @see templates/checkout/thankyou.php
  */
 
-namespace TripleA_Payment_Gateway_For_WooCommerce\WooCommerce;
+namespace TripleA_Cryptocurrency_Payment_Gateway_for_WooCommerce\WooCommerce;
 
 use WC_Order;
 
@@ -14,7 +14,7 @@ use WC_Order;
  *
  * Class Thank_You
  *
- * @package TripleA_Payment_Gateway_For_WooCommerce\WooCommerce
+ * @package TripleA_Cryptocurrency_Payment_Gateway_for_WooCommerce\WooCommerce
  */
 class Thank_You {
 

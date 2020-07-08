@@ -59,7 +59,7 @@ $info_data         = array(
 	'admin'     => substr( get_bloginfo( 'admin_email' ), 0, 60 ),
 	'wp_v'      => substr( get_bloginfo( 'version' ), 0, 15 ),
 	'lang'      => substr( get_bloginfo( 'language' ), 0, 8 ),
-	'plugin_v'  => TRIPLEA_PAYMENT_GATEWAY_FOR_WOOCOMMERCE_VERSION,
+	'plugin_v'  => TRIPLEA_CRYPTOCURRENCY_PAYMENT_GATEWAY_FOR_WOOCOMMERCE_VERSION,
 	'debug_log' => $debug_log_enabled ? 1 : 0,
 );
 

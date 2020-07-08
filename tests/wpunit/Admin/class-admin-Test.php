@@ -2,13 +2,13 @@
 /**
  * Tests for Admin.
  *
- * @package TripleA_Payment_Gateway_For_WooCommerce
+ * @package TripleA_Cryptocurrency_Payment_Gateway_for_WooCommerce
  * @author  TripleA <andy.hoebeke@triple-a.io>
  */
 
-namespace TripleA_Payment_Gateway_For_WooCommerce\Admin;
+namespace TripleA_Cryptocurrency_Payment_Gateway_for_WooCommerce\Admin;
 
-use TripleA_Payment_Gateway_For_WooCommerce\Admin\Admin;
+use TripleA_Cryptocurrency_Payment_Gateway_for_WooCommerce\Admin\Admin;
 
 /**
  * Class Admin_Test
@@ -24,8 +24,8 @@ class Admin_Test extends \Codeception\TestCase\WPTestCase {
 	public function test_admin_notice_when_woocommerce_inactive() {
 
 		$plugin_basename = 'tripea-payment-gateway-for-woocommerce/tripea-payment-gateway-for-woocommerce.php';
-		if ( ! defined( 'TRIPLEA_PAYMENT_GATEWAY_FOR_WOOCOMMERCE_MAIN_FILE' ) ) {
-			define( 'TRIPLEA_PAYMENT_GATEWAY_FOR_WOOCOMMERCE_MAIN_FILE', $plugin_basename );
+		if ( ! defined( 'TRIPLEA_CRYPTOCURRENCY_PAYMENT_GATEWAY_FOR_WOOCOMMERCE_MAIN_FILE' ) ) {
+			define( 'TRIPLEA_CRYPTOCURRENCY_PAYMENT_GATEWAY_FOR_WOOCOMMERCE_MAIN_FILE', $plugin_basename );
 		}
 
 		$expected_action = 'admin_notices';
@@ -89,8 +89,8 @@ class Admin_Test extends \Codeception\TestCase\WPTestCase {
 	public function test_deactivate_plugin_when_woocommerce_inactive() {
 
 		$plugin_basename = 'tripea-payment-gateway-for-woocommerce/tripea-payment-gateway-for-woocommerce.php';
-		if ( ! defined( 'TRIPLEA_PAYMENT_GATEWAY_FOR_WOOCOMMERCE_MAIN_FILE' ) ) {
-			define( 'TRIPLEA_PAYMENT_GATEWAY_FOR_WOOCOMMERCE_MAIN_FILE', $plugin_basename );
+		if ( ! defined( 'TRIPLEA_CRYPTOCURRENCY_PAYMENT_GATEWAY_FOR_WOOCOMMERCE_MAIN_FILE' ) ) {
+			define( 'TRIPLEA_CRYPTOCURRENCY_PAYMENT_GATEWAY_FOR_WOOCOMMERCE_MAIN_FILE', $plugin_basename );
 		}
 
 		// The plugin isn't active during unit tests. Add it to the option and the filter.

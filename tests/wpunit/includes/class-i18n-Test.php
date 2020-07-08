@@ -2,11 +2,11 @@
 /**
  * Tests for I18n. Tests load_plugin_textdomain.
  *
- * @package TripleA_Payment_Gateway_For_WooCommerce
+ * @package TripleA_Cryptocurrency_Payment_Gateway_for_WooCommerce
  * @author  TripleA <andy.hoebeke@triple-a.io>
  */
 
-namespace TripleA_Payment_Gateway_For_WooCommerce\Includes;
+namespace TripleA_Cryptocurrency_Payment_Gateway_for_WooCommerce\Includes;
 
 /**
  * Class I18n_Test
@@ -40,7 +40,7 @@ class I18n_Test extends \Codeception\TestCase\WPTestCase {
 		$i18n->load_plugin_textdomain();
 
 		$this->assertTrue( $called, 'plugin_locale filter not called within load_plugin_textdomain() suggesting it has not been set by the plugin.' );
-		$this->assertEquals( 'triplea-payment-gateway-for-woocommerce', $actual_domain );
+		$this->assertEquals( 'triplea-cryptocurrency-payment-gateway-for-woocommerce', $actual_domain );
 
 	}
 }

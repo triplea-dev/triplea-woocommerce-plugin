@@ -1,6 +1,6 @@
 <?php
 
-namespace TripleA_Payment_Gateway_For_WooCommerce\API;
+namespace TripleA_Cryptocurrency_Payment_Gateway_for_WooCommerce\API;
 
 class API {
 
@@ -184,7 +184,7 @@ class API {
 	 *
 	 * phpcs:disable WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_decode
 	 */
-	public function triplea_payment_gateway_for_woocommerce_decrypt_payload( $balance_payload_full, $client_secret_enc_key, $triplea_public_enc_key ) {
+	public function triplea_cryptocurrency_payment_gateway_for_woocommerce_decrypt_payload( $balance_payload_full, $client_secret_enc_key, $triplea_public_enc_key ) {
 
 		$status                    = 'ok';
 		$status_msg                = '';

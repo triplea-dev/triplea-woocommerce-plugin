@@ -1,4 +1,4 @@
-# TripleA Payment Gateway for WooCommerce
+# TripleA Cryptocurrency Payment Gateway for WooCommerce
 
 ## Contributing
 
@@ -10,7 +10,7 @@ open -a PhpStorm ./;
 composer install;
 ```
 
-For integration and acceptance tests, a local webserver must be running with `localhost/triplea-payment-gateway-for-woocommerce/` pointing at the root of the repo. MySQL must also be running locally – with two databases set up with:
+For integration and acceptance tests, a local webserver must be running with `localhost/triplea-cryptocurrency-payment-gateway-for-woocommerce/` pointing at the root of the repo. MySQL must also be running locally – with two databases set up with:
 
 ```
 # export PATH=${PATH}:/usr/local/mysql/bin

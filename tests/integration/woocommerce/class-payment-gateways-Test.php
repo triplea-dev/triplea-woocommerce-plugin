@@ -1,6 +1,6 @@
 <?php
 
-namespace TripleA_Payment_Gateway_For_WooCommerce\WooCommerce;
+namespace TripleA_Cryptocurrency_Payment_Gateway_for_WooCommerce\WooCommerce;
 
 class Payment_Gateways_Test extends \Codeception\TestCase\WPTestCase {
 

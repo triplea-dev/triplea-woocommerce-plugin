@@ -5,10 +5,10 @@
  * @author  Pablo dos S G Pacheco
  */
 
-namespace TripleA_Payment_Gateway_For_WooCommerce\Pablo_Pacheco\WP_Namespace_Autoloader;
+namespace TripleA_Cryptocurrency_Payment_Gateway_for_WooCommerce\Pablo_Pacheco\WP_Namespace_Autoloader;
 
 
-if ( ! class_exists( '\TripleA_Payment_Gateway_For_WooCommerce\Pablo_Pacheco\WP_Namespace_Autoloader\WP_Namespace_Autoloader' ) ) {
+if ( ! class_exists( '\TripleA_Cryptocurrency_Payment_Gateway_for_WooCommerce\Pablo_Pacheco\WP_Namespace_Autoloader\WP_Namespace_Autoloader' ) ) {
 	class WP_Namespace_Autoloader {
 
 		private $args;

@@ -1,4 +1,4 @@
 RewriteEngine on
-RewriteCond %{HTTP_HOST} ^.*triplea-payment-gateway-for-woocommerce$ [NC,OR]
+RewriteCond %{HTTP_HOST} ^.*triplea-cryptocurrency-payment-gateway-for-woocommerce$ [NC,OR]
 RewriteCond %{REQUEST_URI} !vendor/wordpress/wordpress/build/
 RewriteRule (.*) vendor/wordpress/wordpress/build/$1 [L]

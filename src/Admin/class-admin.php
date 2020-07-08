@@ -5,19 +5,19 @@
  * @link       http://example.com
  * @since      1.0.0
  *
- * @package    TripleA_Payment_Gateway_For_WooCommerce
- * @subpackage TripleA_Payment_Gateway_For_WooCommerce/admin
+ * @package    TripleA_Cryptocurrency_Payment_Gateway_for_WooCommerce
+ * @subpackage TripleA_Cryptocurrency_Payment_Gateway_for_WooCommerce/admin
  */
 
-namespace TripleA_Payment_Gateway_For_WooCommerce\Admin;
+namespace TripleA_Cryptocurrency_Payment_Gateway_for_WooCommerce\Admin;
 
 /**
  * The admin functionality of the plugin.
  *
  * Checks for WooCommerce and adds admin_notices.
  *
- * @package    TripleA_Payment_Gateway_For_WooCommerce
- * @subpackage TripleA_Payment_Gateway_For_WooCommerce/admin
+ * @package    TripleA_Cryptocurrency_Payment_Gateway_for_WooCommerce
+ * @subpackage TripleA_Cryptocurrency_Payment_Gateway_for_WooCommerce/admin
  * @author     TripleA <andy.hoebeke@triple-a.io>
  */
 class Admin {
@@ -36,7 +36,7 @@ class Admin {
 		if ( !is_plugin_active( 'woocommerce/woocommerce.php' ) || function_exists( 'woocommerce_cart_totals' ) || function_exists( 'woocommerce_content' ) ) {
 			add_action( 'admin_notices', array( $this, 'print_wc_needed' ), 1 );
 			add_action( 'admin_notices', array( $this, 'wc_admin_notices' ), 1 );
-			deactivate_plugins( TRIPLEA_PAYMENT_GATEWAY_FOR_WOOCOMMERCE_MAIN_FILE );
+			deactivate_plugins( TRIPLEA_CRYPTOCURRENCY_PAYMENT_GATEWAY_FOR_WOOCOMMERCE_MAIN_FILE );
 		}
 	}
 
@@ -51,7 +51,7 @@ class Admin {
 	public function print_wc_needed() {
 
 		/* translators: 1. URL link. */
-		echo '<div class="error"><p><strong>' . sprintf( esc_html__( 'TripleA Bitcoin Payment Gateway plugin requires WooCommerce to be installed and active. You can download %s here.', 'triplea-payment-gateway-for-woocommerce' ), '<a href="https://woocommerce.com/" target="_blank">WooCommerce</a>' ) . '</strong></p></div>';
+		echo '<div class="error"><p><strong>' . sprintf( esc_html__( 'TripleA Bitcoin Payment Gateway plugin requires WooCommerce to be installed and active. You can download %s here.', 'triplea-cryptocurrency-payment-gateway-for-woocommerce' ), '<a href="https://woocommerce.com/" target="_blank">WooCommerce</a>' ) . '</strong></p></div>';
 	}
 
 	/**
@@ -101,7 +101,7 @@ class Admin {
 		// Display the notice.
 		$class        = 'notice notice-warning';
 		$setting_link = admin_url( 'admin.php?page=wc-settings&tab=checkout&section=triplea_payment_gateway' );
-		$setting_text = __( 'Settings', 'triplea-payment-gateway-for-woocommerce' );
+		$setting_text = __( 'Settings', 'triplea-cryptocurrency-payment-gateway-for-woocommerce' );
 
 		$message      = 'Bitcoin Payment Gateway requires wallet updates. Please update your <a href="' . $setting_link . '" target="_self">' . $setting_text . '</a> to benefit from recent security improvements.';
 		$allowed_html = array(

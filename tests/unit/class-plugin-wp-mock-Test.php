@@ -2,13 +2,13 @@
 /**
  * Tests for the root plugin file.
  *
- * @package TripleA_Payment_Gateway_For_WooCommerce
+ * @package TripleA_Cryptocurrency_Payment_Gateway_for_WooCommerce
  * @author  TripleA <andy.hoebeke@triple-a.io>
  */
 
-namespace TripleA_Payment_Gateway_For_WooCommerce;
+namespace TripleA_Cryptocurrency_Payment_Gateway_for_WooCommerce;
 
-use TripleA_Payment_Gateway_For_WooCommerce\Includes\TripleA_Payment_Gateway_For_WooCommerce;
+use TripleA_Cryptocurrency_Payment_Gateway_for_WooCommerce\Includes\TripleA_Cryptocurrency_Payment_Gateway_for_WooCommerce;
 
 /**
  * Class Plugin_WP_Mock_Test
@@ -46,11 +46,11 @@ class Plugin_WP_Mock_Test extends \Codeception\Test\Unit {
 			'register_deactivation_hook'
 		);
 
-		require_once $plugin_root_dir . '/triplea-payment-gateway-for-woocommerce.php';
+		require_once $plugin_root_dir . '/triplea-cryptocurrency-payment-gateway-for-woocommerce.php';
 
-		$this->assertArrayHasKey( 'triplea_payment_gateway_for_woocommerce', $GLOBALS );
+		$this->assertArrayHasKey( 'triplea_cryptocurrency_payment_gateway_for_woocommerce', $GLOBALS );
 
-		$this->assertInstanceOf( TripleA_Payment_Gateway_For_Woocommerce::class, $GLOBALS['triplea_payment_gateway_for_woocommerce'] );
+		$this->assertInstanceOf( TripleA_Cryptocurrency_Payment_Gateway_for_WooCommerce::class, $GLOBALS['triplea_cryptocurrency_payment_gateway_for_woocommerce'] );
 
 	}
 
@@ -80,7 +80,7 @@ class Plugin_WP_Mock_Test extends \Codeception\Test\Unit {
 
 		ob_start();
 
-		require_once $plugin_root_dir . '/triplea-payment-gateway-for-woocommerce.php';
+		require_once $plugin_root_dir . '/triplea-cryptocurrency-payment-gateway-for-woocommerce.php';
 
 		$printed_output = ob_get_contents();
 

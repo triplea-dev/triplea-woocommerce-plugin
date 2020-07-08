@@ -2,16 +2,16 @@
 /**
  * Tests for I18n. Tests load_plugin_textdomain.
  *
- * @package TripleA_Payment_Gateway_For_WooCommerce
+ * @package TripleA_Cryptocurrency_Payment_Gateway_for_WooCommerce
  * @author  TripleA <andy.hoebeke@triple-a.io>
  */
 
-namespace TripleA_Payment_Gateway_For_WooCommerce\Includes;
+namespace TripleA_Cryptocurrency_Payment_Gateway_for_WooCommerce\Includes;
 
-use TripleA_Payment_Gateway_For_WooCommerce\Includes\I18n;
+use TripleA_Cryptocurrency_Payment_Gateway_for_WooCommerce\Includes\I18n;
 
 /**
- * Class TripleA_Payment_Gateway_For_WooCommerce_Test
+ * Class TripleA_Cryptocurrency_Payment_Gateway_for_WooCommerce_Test
  *
  * @see I18n
  */
@@ -66,7 +66,7 @@ class I18n_Test extends \Codeception\TestCase\WPTestCase {
 		$this->assertTrue( file_exists( $plugin_root_dir . '/languages/' ), '/languages/ folder does not exist.' );
 
 		// Seems to fail because there are no translations to load.
-		$this->assertTrue( is_textdomain_loaded( 'triplea-payment-gateway-for-woocommerce' ), 'i18n text domain not loaded.' );
+		$this->assertTrue( is_textdomain_loaded( 'triplea-cryptocurrency-payment-gateway-for-woocommerce' ), 'i18n text domain not loaded.' );
 
 	}
 

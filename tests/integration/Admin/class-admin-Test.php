@@ -1,6 +1,6 @@
 <?php
 
-use TripleA_Payment_Gateway_For_WooCommerce\Admin\Admin;
+use TripleA_Cryptocurrency_Payment_Gateway_for_WooCommerce\Admin\Admin;
 
 class Admin_Test extends \Codeception\TestCase\WPTestCase {
 

@@ -2,16 +2,16 @@
 /**
  * Tests for I18n. Tests load_plugin_textdomain.
  *
- * @package TripleA_Payment_Gateway_For_WooCommerce
+ * @package TripleA_Cryptocurrency_Payment_Gateway_for_WooCommerce
  * @author  TripleA <andy.hoebeke@triple-a.io>
  */
 
-namespace TripleA_Payment_Gateway_For_WooCommerce\woocommerce;
+namespace TripleA_Cryptocurrency_Payment_Gateway_for_WooCommerce\woocommerce;
 
 use TripleA_Bitcoin_Ecommerce_for_WooCommerce_Payment;
 
 /**
- * Class TripleA_Payment_Gateway_For_WooCommerce_Test
+ * Class TripleA_Cryptocurrency_Payment_Gateway_for_WooCommerce_Test
  *
  * @see TripleA_Bitcoin_Ecommerce_for_WooCommerce_Payment
  */
@@ -27,8 +27,8 @@ class Gateway_Test extends \Codeception\TestCase\WPTestCase {
 	 */
 	public function test_get_form_fields_data_initialized() {
 
-		if ( ! defined( 'TRIPLEA_PAYMENT_GATEWAY_FOR_WOOCOMMERCE_VERSION' ) ) {
-			define( 'TRIPLEA_PAYMENT_GATEWAY_FOR_WOOCOMMERCE_VERSION', 'tests' );
+		if ( ! defined( 'TRIPLEA_CRYPTOCURRENCY_PAYMENT_GATEWAY_FOR_WOOCOMMERCE_VERSION' ) ) {
+			define( 'TRIPLEA_CRYPTOCURRENCY_PAYMENT_GATEWAY_FOR_WOOCOMMERCE_VERSION', 'tests' );
 		}
 
 		$gateway = new TripleA_Payment_Gateway();

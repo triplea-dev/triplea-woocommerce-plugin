@@ -24,8 +24,8 @@
     <exclude-pattern>/wp-content/</exclude-pattern>
 
     <rule ref="Squiz.PHP.DisallowMultipleAssignments.Found">
-        <exclude-pattern>triplea-payment-gateway-for-woocommerce.php</exclude-pattern>
-        <exclude-pattern>class-triplea-payment-gateway-for-woocommerce.php</exclude-pattern>
+        <exclude-pattern>triplea-cryptocurrency-payment-gateway-for-woocommerce.php</exclude-pattern>
+        <exclude-pattern>class-triplea-cryptocurrency-payment-gateway-for-woocommerce.php</exclude-pattern>
     </rule>
 
 </ruleset>

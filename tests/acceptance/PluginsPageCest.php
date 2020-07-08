@@ -22,7 +22,7 @@ class PluginsPageCest {
 
 		$I->activatePlugin('triplea-cryptocurrency-payment-gateway-for-woocommerce');
 
-		$url = 'http://localhost/triplea-payment-gateway-for-woocommerce/wp-admin/admin.php?page=wc-settings&tab=checkout&section=triplea_payment_gateway';
+		$url = 'http://localhost/triplea-cryptocurrency-payment-gateway-for-woocommerce/wp-admin/admin.php?page=wc-settings&tab=checkout&section=triplea_payment_gateway';
 
 		$I->seeLink( 'Settings', $url );
 

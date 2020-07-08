@@ -6,14 +6,14 @@
  *
  * @link              http://example.com
  * @since             1.0.0
- * @package           TripleA_Payment_Gateway_For_WooCommerce
+ * @package           TripleA_Cryptocurrency_Payment_Gateway_for_WooCommerce
  *
  * @see https://github.com/pablo-sg-pacheco/wp-namespace-autoloader/
  */
 
-namespace TripleA_Payment_Gateway_For_WooCommerce;
+namespace TripleA_Cryptocurrency_Payment_Gateway_for_WooCommerce;
 
-use TripleA_Payment_Gateway_For_WooCommerce\Pablo_Pacheco\WP_Namespace_Autoloader\WP_Namespace_Autoloader;
+use TripleA_Cryptocurrency_Payment_Gateway_for_WooCommerce\Pablo_Pacheco\WP_Namespace_Autoloader\WP_Namespace_Autoloader;
 
 
 $class_map_file = __DIR__ . '/autoload_classmap.php';
@@ -34,7 +34,7 @@ if ( file_exists( $class_map_file ) ) {
 }
 
 // The plugin-scoped namespace for composer required libraries, as specified in composer.json Mozart config.
-$dep_namespace = 'TripleA_Payment_Gateway_For_WooCommerce';
+$dep_namespace = 'TripleA_Cryptocurrency_Payment_Gateway_for_WooCommerce';
 // The Mozart config `dep_directory` adjusted for relative path.
 $dep_directory = '/vendor/';
 

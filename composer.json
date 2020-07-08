@@ -1,5 +1,5 @@
 {
-    "name": "triplea/triplea-payment-gateway-for-woocommerce",
+    "name": "triplea/triplea-cryptocurrency-payment-gateway-for-woocommerce",
     "description": "This is a short description of what plugin_title does.",
     "type": "wordpress-plugin",
     "license": "GPL-2.0+-or-later",
@@ -68,16 +68,16 @@
     },
     "extra": {
         "mozart": {
-            "dep_namespace": "TripleA_Payment_Gateway_For_WooCommerce\\",
+            "dep_namespace": "TripleA_Cryptocurrency_Payment_Gateway_for_WooCommerce\\",
             "dep_directory": "/src/vendor/",
-            "classmap_prefix": "TripleA_Payment_Gateway_For_WooCommerce_",
+            "classmap_prefix": "TripleA_Cryptocurrency_Payment_Gateway_for_WooCommerce_",
             "classmap_directory": "/src/dependencies/",
             "delete_vendor_directories": false
         },
         "symlinks": {
             "wp-content": "vendor/wordpress/wordpress/build/wp-content",
             "wp-content/plugins": "vendor/wordpress/wordpress/src/wp-content/plugins",
-            "src": "wp-content/plugins/triplea-payment-gateway-for-woocommerce",
+            "src": "wp-content/plugins/triplea-cryptocurrency-payment-gateway-for-woocommerce",
             "vendor/wordpress/wordpress/src": "wordpress"
         },
         "phpstorm": {
@@ -85,7 +85,7 @@
                 "folders": [
                     "vendor/wordpress/wordpress/src",
                     "vendor/wordpress/wordpress/build",
-                    "wp-content/plugins/triplea-payment-gateway-for-woocommerce",
+                    "wp-content/plugins/triplea-cryptocurrency-payment-gateway-for-woocommerce",
                     "wordpress/wp-content/plugins"
                 ],
                 "include_folders": [

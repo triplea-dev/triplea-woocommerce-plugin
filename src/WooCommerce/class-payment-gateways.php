@@ -5,7 +5,7 @@
  * @see WC_Payment_Gateways
  */
 
-namespace TripleA_Payment_Gateway_For_WooCommerce\WooCommerce;
+namespace TripleA_Cryptocurrency_Payment_Gateway_for_WooCommerce\WooCommerce;
 
 use WC_Payment_Gateway;
 
@@ -14,7 +14,7 @@ use WC_Payment_Gateway;
  *
  * Class Payment_Gateways
  *
- * @package TripleA_Payment_Gateway_For_WooCommerce\WooCommerce
+ * @package TripleA_Cryptocurrency_Payment_Gateway_for_WooCommerce\WooCommerce
  */
 class Payment_Gateways {
 

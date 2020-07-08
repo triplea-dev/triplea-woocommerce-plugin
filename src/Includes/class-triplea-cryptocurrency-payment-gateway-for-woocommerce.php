@@ -8,21 +8,21 @@
  * @link       https://triple-a.io
  * @since      1.0.0
  *
- * @package    TripleA_Payment_Gateway_For_WooCommerce
- * @subpackage TripleA_Payment_Gateway_For_WooCommerce/includes
+ * @package    TripleA_Cryptocurrency_Payment_Gateway_for_WooCommerce
+ * @subpackage TripleA_Cryptocurrency_Payment_Gateway_for_WooCommerce/includes
  */
 
-namespace TripleA_Payment_Gateway_For_WooCommerce\Includes;
+namespace TripleA_Cryptocurrency_Payment_Gateway_for_WooCommerce\Includes;
 
-use TripleA_Payment_Gateway_For_WooCommerce\Admin\Admin;
-use TripleA_Payment_Gateway_For_WooCommerce\Admin\Plugins_Page;
-use TripleA_Payment_Gateway_For_WooCommerce\API\API;
-use TripleA_Payment_Gateway_For_WooCommerce\API\REST;
-use TripleA_Payment_Gateway_For_WooCommerce\WooCommerce\Payment_Gateways;
-use TripleA_Payment_Gateway_For_WooCommerce\WooCommerce\Thank_You;
-use TripleA_Payment_Gateway_For_WooCommerce\WooCommerce\TripleA_Payment_Gateway;
-use TripleA_Payment_Gateway_For_WooCommerce\WPPB\WPPB_Loader_Interface;
-use TripleA_Payment_Gateway_For_WooCommerce\WPPB\WPPB_Object;
+use TripleA_Cryptocurrency_Payment_Gateway_for_WooCommerce\Admin\Admin;
+use TripleA_Cryptocurrency_Payment_Gateway_for_WooCommerce\Admin\Plugins_Page;
+use TripleA_Cryptocurrency_Payment_Gateway_for_WooCommerce\API\API;
+use TripleA_Cryptocurrency_Payment_Gateway_for_WooCommerce\API\REST;
+use TripleA_Cryptocurrency_Payment_Gateway_for_WooCommerce\WooCommerce\Payment_Gateways;
+use TripleA_Cryptocurrency_Payment_Gateway_for_WooCommerce\WooCommerce\Thank_You;
+use TripleA_Cryptocurrency_Payment_Gateway_for_WooCommerce\WooCommerce\TripleA_Payment_Gateway;
+use TripleA_Cryptocurrency_Payment_Gateway_for_WooCommerce\WPPB\WPPB_Loader_Interface;
+use TripleA_Cryptocurrency_Payment_Gateway_for_WooCommerce\WPPB\WPPB_Object;
 
 /**
  * The core plugin class.
@@ -34,11 +34,11 @@ use TripleA_Payment_Gateway_For_WooCommerce\WPPB\WPPB_Object;
  * version of the plugin.
  *
  * @since      1.0.0
- * @package    TripleA_Payment_Gateway_For_WooCommerce
- * @subpackage TripleA_Payment_Gateway_For_WooCommerce/includes
+ * @package    TripleA_Cryptocurrency_Payment_Gateway_for_WooCommerce
+ * @subpackage TripleA_Cryptocurrency_Payment_Gateway_for_WooCommerce/includes
  * @author     TripleA <andy@triple-a.io>
  */
-class TripleA_Payment_Gateway_For_WooCommerce extends WPPB_Object {
+class TripleA_Cryptocurrency_Payment_Gateway_for_WooCommerce extends WPPB_Object {
 
 	/**
 	 * @var WPPB_Loader_Interface
@@ -62,12 +62,12 @@ class TripleA_Payment_Gateway_For_WooCommerce extends WPPB_Object {
 	 * @param WPPB_Loader_Interface $loader
 	 */
 	public function __construct( $loader ) {
-		if ( defined( 'TRIPLEA_PAYMENT_GATEWAY_FOR_WOOCOMMERCE_VERSION' ) ) {
-			$version = TRIPLEA_PAYMENT_GATEWAY_FOR_WOOCOMMERCE_VERSION;
+		if ( defined( 'TRIPLEA_CRYPTOCURRENCY_PAYMENT_GATEWAY_FOR_WOOCOMMERCE_VERSION' ) ) {
+			$version = TRIPLEA_CRYPTOCURRENCY_PAYMENT_GATEWAY_FOR_WOOCOMMERCE_VERSION;
 		} else {
 			$version = '1.0.0-missing';
 		}
-		$plugin_name = 'triplea-payment-gateway-for-woocommerce';
+		$plugin_name = 'triplea-cryptocurrency-payment-gateway-for-woocommerce';
 
 		parent::__construct( $plugin_name, $version );
 
@@ -86,7 +86,7 @@ class TripleA_Payment_Gateway_For_WooCommerce extends WPPB_Object {
 	/**
 	 * Define the locale for this plugin for internationalization.
 	 *
-	 * Uses the TripleA_Payment_Gateway_For_WooCommerce\I18n class in order to set the domain and to register the hook
+	 * Uses the TripleA_Cryptocurrency_Payment_Gateway_for_WooCommerce\I18n class in order to set the domain and to register the hook
 	 * with WordPress.
 	 *
 	 * @since    1.0.0

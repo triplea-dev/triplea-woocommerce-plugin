@@ -1,6 +1,6 @@
 <?php
 /**
- * @package           TripleA_Payment_Gateway_For_WooCommerce
+ * @package           TripleA_Cryptocurrency_Payment_Gateway_for_WooCommerce
  */
 
 $GLOBALS['project_root_dir']   = $project_root_dir  = dirname( __FILE__, 2 );

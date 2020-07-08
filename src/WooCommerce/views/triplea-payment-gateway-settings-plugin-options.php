@@ -31,7 +31,7 @@ $wcStatuses = wc_get_order_statuses();
 
 compact( 'tripleaStatuses', 'statuses', 'wcStatuses' );
 
-$icon_url = TRIPLEA_PAYMENT_GATEWAY_FOR_WOOCOMMERCE_MAIN_URL_PATH . 'assets/img/' ;
+$icon_url = TRIPLEA_CRYPTOCURRENCY_PAYMENT_GATEWAY_FOR_WOOCOMMERCE_MAIN_URL_PATH . 'assets/img/' ;
 if (is_ssl()) {
    $icon_url = WC_HTTPS::force_https_url( $icon_url );
 }
@@ -155,7 +155,7 @@ ob_start();
 								}
 								?>
 								  value="default-text">
-						   "<?php echo __( 'Bitcoin', 'triplea-payment-gateway-for-woocommerce' ); ?>"
+						   "<?php echo __( 'Bitcoin', 'triplea-cryptocurrency-payment-gateway-for-woocommerce' ); ?>"
 						</label>
 						<br>
 						<label for="">
@@ -202,7 +202,7 @@ ob_start();
 								}
 								?>
 								  name="triplea_bitcoin_descriptiontext_option">
-						   "<?php echo __( 'Secure and easy payment with Bitcoin', 'triplea-payment-gateway-for-woocommerce' ); ?>"
+						   "<?php echo __( 'Secure and easy payment with Bitcoin', 'triplea-cryptocurrency-payment-gateway-for-woocommerce' ); ?>"
 						</label>
 						<br>
 						<label for="">
@@ -331,7 +331,7 @@ ob_start();
 	   if (document.getElementById('desc_default').checked)
 	   {
 		 descNode.innerText = "Secure and easy payment with Bitcoin";
-		 descNode.innerText = "<?php echo __( 'Secure and easy payment with Bitcoin', 'triplea-payment-gateway-for-woocommerce' ); ?>";
+		 descNode.innerText = "<?php echo __( 'Secure and easy payment with Bitcoin', 'triplea-cryptocurrency-payment-gateway-for-woocommerce' ); ?>";
 	   }
 	   else
 	   {
@@ -341,7 +341,7 @@ ob_start();
 	   // Update text (payment option title)
 	   if (document.getElementById('text_default').checked)
 	   {
-		 textNode.innerText = "<?php echo __( 'Bitcoin', 'triplea-payment-gateway-for-woocommerce' ); ?>";
+		 textNode.innerText = "<?php echo __( 'Bitcoin', 'triplea-cryptocurrency-payment-gateway-for-woocommerce' ); ?>";
 	   }
 	   else
 	   {

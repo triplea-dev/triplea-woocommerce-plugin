@@ -3,7 +3,7 @@
  * Register all actions and filters for the plugin.
  */
 
-namespace TripleA_Payment_Gateway_For_WooCommerce\WPPB;
+namespace TripleA_Cryptocurrency_Payment_Gateway_for_WooCommerce\WPPB;
 
 
 /**

@@ -5,19 +5,19 @@
  * @link       http://example.com
  * @since      1.0.0
  *
- * @package    TripleA_Payment_Gateway_For_WooCommerce
- * @subpackage TripleA_Payment_Gateway_For_WooCommerce/admin
+ * @package    TripleA_Cryptocurrency_Payment_Gateway_for_WooCommerce
+ * @subpackage TripleA_Cryptocurrency_Payment_Gateway_for_WooCommerce/admin
  */
 
-namespace TripleA_Payment_Gateway_For_WooCommerce\Admin;
+namespace TripleA_Cryptocurrency_Payment_Gateway_for_WooCommerce\Admin;
 
 /**
  * The plugins page functionality of the plugin.
  *
  * Adds Settings link on the plugins page.
  *
- * @package    TripleA_Payment_Gateway_For_WooCommerce
- * @subpackage TripleA_Payment_Gateway_For_WooCommerce/admin
+ * @package    TripleA_Cryptocurrency_Payment_Gateway_for_WooCommerce
+ * @subpackage TripleA_Cryptocurrency_Payment_Gateway_for_WooCommerce/admin
  * @author     TripleA <andy.hoebeke@triple-a.io>
  */
 class Plugins_Page {
@@ -38,7 +38,7 @@ class Plugins_Page {
 		$setting_link    = admin_url( 'admin.php?page=wc-settings&tab=checkout&section=triplea_payment_gateway' );
 		$conversion_link = admin_url( 'admin.php?page=wc-settings&tab=checkout&section=triplea_payment_gateway#conversion' );
 		$plugin_links    = array(
-			'<a href="' . $setting_link . '">' . __( 'Settings', 'triplea-payment-gateway-for-woocommerce' ) . '</a>',
+			'<a href="' . $setting_link . '">' . __( 'Settings', 'triplea-cryptocurrency-payment-gateway-for-woocommerce' ) . '</a>',
 		);
 		return array_merge( $plugin_links, $links );
 	}

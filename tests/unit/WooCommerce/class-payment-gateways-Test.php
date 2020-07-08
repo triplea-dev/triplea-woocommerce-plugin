@@ -2,11 +2,11 @@
 /**
  * Tests for I18n. Tests load_plugin_textdomain.
  *
- * @package TripleA_Payment_Gateway_For_WooCommerce
+ * @package TripleA_Cryptocurrency_Payment_Gateway_for_WooCommerce
  * @author  TripleA <andy.hoebeke@triple-a.io>
  */
 
-namespace TripleA_Payment_Gateway_For_WooCommerce\WooCommerce;
+namespace TripleA_Cryptocurrency_Payment_Gateway_for_WooCommerce\WooCommerce;
 
 /**
  * Class Payment_Gateways_Test
@@ -24,7 +24,7 @@ class Payment_Gateways_Test extends \Codeception\Test\Unit {
 
 		$registered_payment_gateways = $payment_gateways_class->add_triplea_payment_gateway_to_woocommerce( array() );
 
-		$this->assertContains( 'TripleA_Payment_Gateway_For_WooCommerce\WooCommerce\TripleA_Payment_Gateway', $registered_payment_gateways );
+		$this->assertContains( 'TripleA_Cryptocurrency_Payment_Gateway_for_WooCommerce\WooCommerce\TripleA_Payment_Gateway', $registered_payment_gateways );
 
 	}
 }

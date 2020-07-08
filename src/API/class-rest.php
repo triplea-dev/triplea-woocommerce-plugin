@@ -1,7 +1,7 @@
 <?php
 
 
-namespace TripleA_Payment_Gateway_For_WooCommerce\API;
+namespace TripleA_Cryptocurrency_Payment_Gateway_for_WooCommerce\API;
 
 use WC_Order_Query;
 use WP_Error;
@@ -139,7 +139,7 @@ class REST {
 
 		$client_secret_enc_key = $plugin_settings['triplea_client_secret_key'];
 
-		$payload_status_data = $this->api->triplea_payment_gateway_for_woocommerce_decrypt_payload( $payload, $client_secret_enc_key, $triplea_public_enc_key );
+		$payload_status_data = $this->api->triplea_cryptocurrency_payment_gateway_for_woocommerce_decrypt_payload( $payload, $client_secret_enc_key, $triplea_public_enc_key );
 		if ( 'failed' === $payload_status_data['status'] || false === $payload_status_data['payload'] ) {
 			// Cannot decrypt payload, meaning we don't have the client_txid to find and update the order.
 			// This wouldn't happen but if it does, orders would remain in "on hold" status.

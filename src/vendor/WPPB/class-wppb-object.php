@@ -4,7 +4,7 @@
 // and private helper functions.
 
 // api, settings
-namespace TripleA_Payment_Gateway_For_WooCommerce\WPPB;
+namespace TripleA_Cryptocurrency_Payment_Gateway_for_WooCommerce\WPPB;
 
 abstract class WPPB_Object {
 
