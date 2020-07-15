@@ -68,20 +68,20 @@ class REST {
 		triplea_write_log( 'tx_update : Received payment update notification. Status = ' . $request->get_param( 'status' ), $debug_log_enabled );
 		// triplea_write_log($request->get_param('payload'), $debug_log_enabled);
 
-		if ( isset( $plugin_settings['triplea_woocommerce_order_states'] ) && isset( $plugin_settings['triplea_woocommerce_order_states']['new'] ) ) {
-			$order_status_new       = $plugin_settings['triplea_woocommerce_order_states']['new'];
+		if ( isset( $plugin_settings['triplea_woocommerce_order_states'] ) && isset( $plugin_settings['triplea_woocommerce_order_states']['paid'] ) ) {
+//			$order_status_new       = $plugin_settings['triplea_woocommerce_order_states']['new'];
 			$order_status_paid      = $plugin_settings['triplea_woocommerce_order_states']['paid'];
 			$order_status_confirmed = $plugin_settings['triplea_woocommerce_order_states']['confirmed'];
-			$order_status_complete  = $plugin_settings['triplea_woocommerce_order_states']['complete'];
-			$order_status_refunded  = $plugin_settings['triplea_woocommerce_order_states']['refunded'];
+//			$order_status_complete  = $plugin_settings['triplea_woocommerce_order_states']['complete'];
+//			$order_status_refunded  = $plugin_settings['triplea_woocommerce_order_states']['refunded'];
 			$order_status_invalid   = $plugin_settings['triplea_woocommerce_order_states']['invalid'];
 		} else {
 			// default values returned by get_status()
-			$order_status_new       = 'wc-pending';
+//			$order_status_new       = 'wc-pending';
 			$order_status_paid      = 'wc-on-hold'; // paid but still unconfirmed
 			$order_status_confirmed = 'wc-processing';
-			$order_status_complete  = 'wc-processing';
-			$order_status_refunded  = 'wc-refunded';
+//			$order_status_complete  = 'wc-processing';
+//			$order_status_refunded  = 'wc-refunded';
 			$order_status_invalid   = 'wc-failed';
 		}
 
@@ -184,7 +184,7 @@ class REST {
 
 		// Get the WooCommerce order object.
 		$wc_order = wc_get_order( $order_id );
-		if ( $wc_order->get_status() === $order_status_complete ) {
+		if ( $wc_order->get_status() === $order_status_confirmed ) {
 			// Order might have been marked as completed by the TripleA API, or manually by a site admin.
 			triplea_write_log( 'tx_update : Order already marked as completed. Nothing to update.', $debug_log_enabled );
 			// Nothing to update.

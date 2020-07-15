@@ -19,7 +19,7 @@ $tripleaStatuses = array(
 // There is an additional state (on hold) which is set by WooCommerce on order creation.
 
 $statuses = array(
-	'new'       => 'wc-pending-payment',
+	//'new'       => 'wc-pending-payment',
 	'paid'      => 'wc-on-hold',
 	'confirmed' => 'wc-processing',
 	// 'complete'  => 'wc-processing',

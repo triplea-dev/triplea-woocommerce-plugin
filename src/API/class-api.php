@@ -42,21 +42,22 @@ class API {
 
 		triplea_write_log( 'update_order_status : checking...', $debug_log_enabled );
 
-		if ( isset( $plugin_settings['triplea_woocommerce_order_states'] ) && isset( $plugin_settings['triplea_woocommerce_order_states']['new'] ) ) {
-
-			$order_status_new       = $plugin_settings['triplea_woocommerce_order_states']['new'];
+		if ( isset( $plugin_settings['triplea_woocommerce_order_states'] ) && isset( $plugin_settings['triplea_woocommerce_order_states']['paid'] ) ) {
+         triplea_write_log( 'update_order_status : using custom order status values', $debug_log_enabled );
+//			$order_status_new       = $plugin_settings['triplea_woocommerce_order_states']['new'];
 			$order_status_paid      = $plugin_settings['triplea_woocommerce_order_states']['paid'];
 			$order_status_confirmed = $plugin_settings['triplea_woocommerce_order_states']['confirmed'];
-			$order_status_complete  = $plugin_settings['triplea_woocommerce_order_states']['complete'];
-			$order_status_refunded  = $plugin_settings['triplea_woocommerce_order_states']['refunded'];
+//			$order_status_complete  = $plugin_settings['triplea_woocommerce_order_states']['complete'];
+//			$order_status_refunded  = $plugin_settings['triplea_woocommerce_order_states']['refunded'];
 			$order_status_invalid   = $plugin_settings['triplea_woocommerce_order_states']['invalid'];
 		} else {
+         triplea_write_log( 'update_order_status : fallback to default order status values', $debug_log_enabled );
 			// default values returned by get_status()
-			$order_status_new       = 'wc-pending';
+//			$order_status_new       = 'wc-pending';
 			$order_status_paid      = 'wc-on-hold'; // paid but still unconfirmed
 			$order_status_confirmed = 'wc-processing';
-			$order_status_complete  = 'wc-processing';
-			$order_status_refunded  = 'wc-refunded';
+//			$order_status_complete  = 'wc-processing';
+//			$order_status_refunded  = 'wc-refunded';
 			$order_status_invalid   = 'wc-failed';
 		}
 		$order_status_on_hold = 'wc-on-hold';

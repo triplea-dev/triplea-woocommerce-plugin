@@ -10,7 +10,7 @@
    *
    */
 
-  const TRIPLEA_PAYMENT_GATEWAY_FOR_WOOCOMMERCE_VERSION = '1.4.2';
+  const TRIPLEA_PAYMENT_GATEWAY_FOR_WOOCOMMERCE_VERSION = '1.4.3';
 
   let triplea_QRCode;
   let tripleaBalanceInterval    = null;
@@ -20,7 +20,7 @@
   let selector                  = '#triplea-payment-gateway-checkout-wrapper';
 
   // ~ 15 minutes locktime for exchange rate, after which form expired, needs refresh.
-  let countDown = 25 * 60;
+  let countDown = 0.5 * 60;
 
   /**
    *

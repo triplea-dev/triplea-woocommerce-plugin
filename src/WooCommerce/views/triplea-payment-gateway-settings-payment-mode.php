@@ -468,7 +468,7 @@ ob_start();
 	 notifEmail = notifEmailNode.value;
 
 	 if (!notifEmail ||
-	   (notifEmail.indexOf('@') < 3 || notifEmail.lastIndexOf('.') < notifEmail.indexOf('@')))
+	   (notifEmail.indexOf('@') < 1 || notifEmail.lastIndexOf('.') < notifEmail.indexOf('@')))
 	 {
 	   console.warn('Incorrect notification email. Cannot proceed.');
 	   triplea_helper_displayNode('wrong-or-missing-email-format');
@@ -515,7 +515,7 @@ ob_start();
 	 {
 	   notifEmail = notifEmailNode.value;
 	 }
-	 if (!notifEmail || (notifEmail.indexOf('@') < 3 || notifEmail.lastIndexOf('.') < notifEmail.indexOf('@')))
+	 if (!notifEmail || (notifEmail.indexOf('@') < 1 || notifEmail.lastIndexOf('.') < notifEmail.indexOf('@')))
 	 {
 	   console.warn('Incorrect email provided. Cannot proceed.');
 	   triplea_helper_displayNode('wrong-cash-notif-email');
@@ -578,7 +578,7 @@ ob_start();
 	   notifEmail = notifEmailNode.value;
 
 	   if (!notifEmail ||
-		 (notifEmail.indexOf('@') < 3 || notifEmail.lastIndexOf('.') < notifEmail.indexOf('@')))
+		 (notifEmail.indexOf('@') < 1 || notifEmail.lastIndexOf('.') < notifEmail.indexOf('@')))
 	   {
 		 // already checked and handled before, no output or logging.. this is just fallback
 		 return;
@@ -699,7 +699,7 @@ ob_start();
 
 	   // Dashboard email validation.
 	   if (!dashboardEmail
-		 || dashboardEmail.indexOf('@') < 3
+		 || dashboardEmail.indexOf('@') < 1
 		 || dashboardEmail.lastIndexOf('.') < dashboardEmail.indexOf('@'))
 	   {
 		 console.debug('Incorrect TripleA wallet email. Cannot proceed.');
