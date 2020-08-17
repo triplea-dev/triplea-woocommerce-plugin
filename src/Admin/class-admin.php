@@ -133,8 +133,8 @@ class Admin {
 		}
 
 		// If the old setting never existed.
-		if ( ! isset( $plugin_settings['triplea_pubkey_id'] )
-		  && ! isset( $plugin_settings['triplea_pubkey_id_for_conversion'] ) ) {
+		if ( ! isset( $plugin_settings['triplea_btc2btc_api_id'] )
+		  && ! isset( $plugin_settings['triplea_btc2fiat_api_id'] ) ) {
 			return false;
 		}
 

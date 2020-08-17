@@ -38,16 +38,36 @@ class REST {
 				'callback' => array( $this, 'handle_api_tx_update' ),
 			)
 		);
+      
+      register_rest_route(
+         'triplea/v1',
+         '/webhook/(?P<token>[a-zA-Z0-9-_]+)',
+         array(
+            'methods'  => 'POST',
+            'callback' => array( $this, 'handle_api_webhook_update' ),
+         )
+      );
 	}
-
-	/**
-	 * Web hook (remotely called URL) to which transaction update notifications are
-	 * sent by the TripleA service.
-	 *
-	 * @param WP_REST_Request $request
-	 *
-	 * @return array|WP_Error
-	 */
+   
+   /**
+    * Web hook (remotely called URL) to which transaction update notifications
+    * are sent by the TripleA service.
+    *
+    * @param WP_REST_Request $request
+    */
+   public function handle_api_webhook_update( WP_REST_Request $request ) {
+	  
+   }
+	
+   /**
+    * Web hook (remotely called URL) to which transaction update notifications
+    * are sent by the TripleA service.
+    *
+    * @param WP_REST_Request $request
+    *
+    * @return array|WP_Error
+    * @throws \SodiumException
+    */
 	public function handle_api_tx_update( WP_REST_Request $request ) {
 
 		/**

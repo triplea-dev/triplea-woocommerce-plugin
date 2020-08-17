@@ -130,6 +130,8 @@ class TripleA_Cryptocurrency_Payment_Gateway_for_WooCommerce extends WPPB_Object
 		$this->loader->add_filter( 'woocommerce_payment_gateways', $payment_gateways, 'add_triplea_payment_gateway_to_woocommerce' );
 
 		$this->loader->add_action( 'wc_ajax_wc_triplea_start_checkout', TripleA_Payment_Gateway::class, 'wc_ajax_start_checkout' );
+		
+		$this->loader->add_action( 'wc_ajax_wc_triplea_get_payment_form_data', TripleA_Payment_Gateway::class, 'triplea_ajax_get_payment_form_data' );
 
 		$thank_you = new Thank_You();
 		$this->loader->add_filter( 'woocommerce_thankyou_order_received_text', $thank_you, 'triplea_change_order_received_text', 10, 2 );
