@@ -137,7 +137,8 @@ Of course, our support team is always here to help. <a href="mailto:support@trip
 == Changelog ==
 
 = 1.4.3 =
-Minor bug fixes and plugin file structure improvements.
+Plugin file structure improvements.
+Various small bug fixes, including one where the order status customization sometimes did not get taken into account.
 
 = 1.4.0 =
 Payment form expiry now at 25 minutes instead of 15.
@@ -166,7 +167,10 @@ Minor improvement added for sites with custom checkout submit buttons.
 == Upgrade Notice ==
 
 = 1.4.3 =
-No need to update unless the "place order/pay with bitcoin" button on your checkout page is misbehaving.
+Please update this plugin, to ensure the best experience for yourself and your customers.
+Plugin stability and performance improved. Minor bugfixes included.
+Simply let WordPress update the plugin for you, no further action required.
+
 
 = 1.4.0 =
 Please update this plugin, to ensure the best experience for yourself and your customers.
