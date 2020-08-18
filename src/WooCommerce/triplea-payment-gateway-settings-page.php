@@ -35,8 +35,8 @@ return array(
 
 	'enabled'                                  => array(
 		'title'   => __( 'Bitcoin Payments', 'triplea-cryptocurrency-payment-gateway-for-woocommerce' ),
-		'label'   => __( 'Accept bitcoin payments', 'triplea-cryptocurrency-payment-gateway-for-woocommerce' ),
-		'type'    => 'hidden',
+		'label'   => __( 'Enable this payment option for WooCommerce', 'triplea-cryptocurrency-payment-gateway-for-woocommerce' ),
+		'type'    => 'checkbox',
 		'default' => 'yes',
 	),
 

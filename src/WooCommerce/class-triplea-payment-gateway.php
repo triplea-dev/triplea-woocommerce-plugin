@@ -236,12 +236,10 @@ class TripleA_Payment_Gateway extends WC_Payment_Gateway {
 		}
 
 		$is_enabled = $this->get_option( 'enabled' );
-
 		if ( ! isset( $this->triplea_active_pubkey_id ) || empty( $this->triplea_active_pubkey_id ) ) {
 			$is_enabled = 'no';
 			triplea_write_log( 'Disabling Bitcoin Payments, there is no active API ID.', $debug_log_enabled );
 		}
-
 		$this->enabled = $is_enabled;
 		$this->update_option( 'enabled', $is_enabled );
 
@@ -318,7 +316,8 @@ You can receive your transaction payments in bitcoins or in your local currency.
       
        //wp_register_script( 'woocommerce_stripe', plugins_url( 'assets/js/pay_for_order.js', WC_STRIPE_MAIN_FILE ), array( 'jquery-payment', 'stripe' ), WC_STRIPE_VERSION, true );
       
-      wp_enqueue_script('triplea_payment_gateway_checkout_js', plugins_url( '../Frontend/js/triplea_payment_gateway_checkout.js', __FILE__ ), array( 'jquery' ));
+      // A paused attempt to have more robust checkout page experience.
+      //wp_enqueue_script('triplea_payment_gateway_checkout_js', plugins_url( '../Frontend/js/triplea_payment_gateway_checkout.js', __FILE__ ), array( 'jquery' ));
 	 }
 	 
 
@@ -704,7 +703,7 @@ You can receive your transaction payments in bitcoins or in your local currency.
 		  let triplea_updatePlaceOrderBtn = function () {
           let isTripleaPaymentGateway = $(this).is('#payment_method_triplea_payment_gateway');
 
-          console.debug('btn re-check');
+          //console.debug('btn re-check');
 
           if (isTripleaPaymentGateway) {
             // Check if customer/billing/shipping form is correctly filled in, before proceeding with letting user pay.

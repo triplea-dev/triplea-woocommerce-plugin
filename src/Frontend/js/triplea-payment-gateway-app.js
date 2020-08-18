@@ -20,7 +20,7 @@
   let selector                  = '#triplea-payment-gateway-checkout-wrapper';
 
   // ~ 15 minutes locktime for exchange rate, after which form expired, needs refresh.
-  let countDown = 0.5 * 60;
+  let countDown = 25 * 60;
 
   /**
    *

@@ -1,6 +1,6 @@
 (function($) {
 
-  console.debug('triplea_payment_gateway_checkout start');
+  //console.debug('triplea_payment_gateway_checkout start');
 
 
   /**
@@ -30,6 +30,6 @@
   //   checkout_form.on( 'checkout_place_order', verifyPlaceOrder );
   // });
 
-  console.debug('triplea_payment_gateway_checkout finished');
+  //console.debug('triplea_payment_gateway_checkout finished');
 
 })(jQuery);
