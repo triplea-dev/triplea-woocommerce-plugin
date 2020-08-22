@@ -71,7 +71,7 @@ class TripleA_Payment_Gateway extends WC_Payment_Gateway {
 	 * @var string
 	 */
 	protected $triplea_payment_mode;
-	
+
 	/**
 	 * @var string
 	 */
@@ -90,10 +90,10 @@ class TripleA_Payment_Gateway extends WC_Payment_Gateway {
 
 		$this->api = API::get_instance();
 
-		$this->id           = 'triplea_payment_gateway';
-		$this->method_title = __( 'Bitcoin Payment Gateway (by TripleA)', 'triplea-cryptocurrency-payment-gateway-for-woocommerce' );
-		$this->has_fields   = true;
-		$this->supports     = array(
+		$this->id                = 'triplea_payment_gateway';
+		$this->method_title      = __( 'Bitcoin Payment Gateway (by TripleA)', 'triplea-cryptocurrency-payment-gateway-for-woocommerce' );
+		$this->has_fields        = true;
+		$this->supports          = array(
 			'products',
 		);
 		$this->order_button_text = 'Pay with Bitcoin';
@@ -292,34 +292,34 @@ You can receive your transaction payments in bitcoins or in your local currency.
 		// $this,
 		// 'pay_for_order'
 		// ) );
-      
-      // We need custom JavaScript to run in the front-end (checkout page)
-      add_action( 'wp_enqueue_scripts', array( $this, 'payment_scripts' ) );
+
+		// We need custom JavaScript to run in the front-end (checkout page)
+		add_action( 'wp_enqueue_scripts', array( $this, 'payment_scripts' ) );
 	}
-   
-   /*
-    * Custom CSS and JS, in most cases required only when you decided to go with a custom credit card form
-    */
-   public function payment_scripts() {
-       if ( 'no' === $this->enabled ) {
-          return;
-       }
-       
-      //       if ( ! is_product() && ! is_cart() && ! is_checkout() && ! isset( $_GET['pay_for_order'] ) && ! is_add_payment_method_page() && ! isset( $_GET['change_payment_method'] ) || ( is_order_received_page() ) ) { // wpcs: csrf ok.
-      //         return;
-      //       }
-      
-      // we need JavaScript to process payment form only on cart/checkout pages
-      if ( ! is_cart() && ! is_checkout() && ! isset( $_GET['pay_for_order'] ) ) {
-         return;
-      }
-      
-       //wp_register_script( 'woocommerce_stripe', plugins_url( 'assets/js/pay_for_order.js', WC_STRIPE_MAIN_FILE ), array( 'jquery-payment', 'stripe' ), WC_STRIPE_VERSION, true );
-      
-      // A paused attempt to have more robust checkout page experience.
-      //wp_enqueue_script('triplea_payment_gateway_checkout_js', plugins_url( '../Frontend/js/triplea_payment_gateway_checkout.js', __FILE__ ), array( 'jquery' ));
-	 }
-	 
+
+	/*
+	* Custom CSS and JS, in most cases required only when you decided to go with a custom credit card form
+	*/
+	public function payment_scripts() {
+		if ( 'no' === $this->enabled ) {
+			return;
+		}
+
+		// if ( ! is_product() && ! is_cart() && ! is_checkout() && ! isset( $_GET['pay_for_order'] ) && ! is_add_payment_method_page() && ! isset( $_GET['change_payment_method'] ) || ( is_order_received_page() ) ) { // wpcs: csrf ok.
+		// return;
+		// }
+
+		// we need JavaScript to process payment form only on cart/checkout pages
+		if ( ! is_cart() && ! is_checkout() && ! isset( $_GET['pay_for_order'] ) ) {
+			return;
+		}
+
+		// wp_register_script( 'woocommerce_stripe', plugins_url( 'assets/js/pay_for_order.js', WC_STRIPE_MAIN_FILE ), array( 'jquery-payment', 'stripe' ), WC_STRIPE_VERSION, true );
+
+		// A paused attempt to have more robust checkout page experience.
+		// wp_enqueue_script('triplea_payment_gateway_checkout_js', plugins_url( '../Frontend/js/triplea_payment_gateway_checkout.js', __FILE__ ), array( 'jquery' ));
+	}
+
 
 	/**
 	 * @see WC_Settings_API::init_form_fields()
@@ -377,11 +377,11 @@ You can receive your transaction payments in bitcoins or in your local currency.
 	 */
 	public function save_plugin_options() {
 		$triplea_statuses = array(
-			//'new'       => 'New Order',
+			// 'new'       => 'New Order',
 			'paid'      => 'Paid (awaiting confirmation)',
 			'confirmed' => 'Paid (confirmed)',
 			// 'complete' => 'Complete',
-			//'refunded'  => 'Refunded',
+			// 'refunded'  => 'Refunded',
 			'invalid'   => 'Invalid',
 		);
 
@@ -701,24 +701,24 @@ You can receive your transaction payments in bitcoins or in your local currency.
 		  }
 		
 		  let triplea_updatePlaceOrderBtn = function () {
-          let isTripleaPaymentGateway = $(this).is('#payment_method_triplea_payment_gateway');
+		  let isTripleaPaymentGateway = $(this).is('#payment_method_triplea_payment_gateway');
 
-          //console.debug('btn re-check');
+		  //console.debug('btn re-check');
 
-          if (isTripleaPaymentGateway) {
-            // Check if customer/billing/shipping form is correctly filled in, before proceeding with letting user pay.
-            $( '#place_order' ).parent().children('button').hide();
-            $( '#place_order' ).parent().children('[type="button"]').hide();
-            $( '#place_order' ).parent().children('[type="submit"]').hide();
-            $('#triplea-payment-gateway-checkout-wrapper').toggle(true);
-          }
-          else {
-            $( '#place_order' ).parent().children('button').show();
-            $( '#place_order' ).parent().children('[type="button"]').show();
-            $( '#place_order' ).parent().children('[type="submit"]').show();
-            $('#triplea-payment-gateway-checkout-wrapper').toggle(false);
-          }
-        };
+		  if (isTripleaPaymentGateway) {
+			// Check if customer/billing/shipping form is correctly filled in, before proceeding with letting user pay.
+			$( '#place_order' ).parent().children('button').hide();
+			$( '#place_order' ).parent().children('[type="button"]').hide();
+			$( '#place_order' ).parent().children('[type="submit"]').hide();
+			$('#triplea-payment-gateway-checkout-wrapper').toggle(true);
+		  }
+		  else {
+			$( '#place_order' ).parent().children('button').show();
+			$( '#place_order' ).parent().children('[type="button"]').show();
+			$( '#place_order' ).parent().children('[type="submit"]').show();
+			$('#triplea-payment-gateway-checkout-wrapper').toggle(false);
+		  }
+		};
 		  
 		$('form.checkout, form#order_review').on('click', 'input[name="payment_method"]', triplea_updatePlaceOrderBtn);
 		$('form.checkout, form#order_review').on('change', 'input[name="payment_method"]', triplea_updatePlaceOrderBtn);
@@ -727,13 +727,13 @@ You can receive your transaction payments in bitcoins or in your local currency.
 		// let counter = 0;
 		// let btnIntervalCheck = setInterval(function() {
 		//   console.log('interval ping');
-      //   triplea_updatePlaceOrderBtn();
+	  //   triplea_updatePlaceOrderBtn();
 		//   counter += 1;
 		//   if (counter > 10) {
-      //     clearInterval(btnIntervalCheck);
-      //   }
-      // }, 300);
-       // $('form.checkout, form#order_review').on('change', 'input[name="payment_method"]', triplea_updatePlaceOrderBtn);
+	  //     clearInterval(btnIntervalCheck);
+	  //   }
+	  // }, 300);
+	   // $('form.checkout, form#order_review').on('change', 'input[name="payment_method"]', triplea_updatePlaceOrderBtn);
 		
 		<?php if ( ! $is_ajax ) : ?>
 		$.get('https://moneyoverip.io/api/ping_pageloaded?plugin_v=<?php echo $plugin_version; ?>&usage=woocommerce', function( data ) {});
@@ -946,12 +946,12 @@ You can receive your transaction payments in bitcoins or in your local currency.
 			default:
 				return;
 		}
-      
-      $icon_url = TRIPLEA_CRYPTOCURRENCY_PAYMENT_GATEWAY_FOR_WOOCOMMERCE_MAIN_URL_PATH . 'assets/img/';
-      if (is_ssl()) {
-         $icon_url = WC_HTTPS::force_https_url( $icon_url );
-      }
-      $icon = '<img src="' . $icon_url . $iconfile  . '" alt="Bitcoin logo" ' . $style . ' />';
+
+		$icon_url = TRIPLEA_CRYPTOCURRENCY_PAYMENT_GATEWAY_FOR_WOOCOMMERCE_MAIN_URL_PATH . 'assets/img/';
+		if ( is_ssl() ) {
+			$icon_url = WC_HTTPS::force_https_url( $icon_url );
+		}
+		$icon = '<img src="' . $icon_url . $iconfile . '" alt="Bitcoin logo" ' . $style . ' />';
 
 		return apply_filters( 'woocommerce_gateway_icon', $icon, $this->id );
 	}
@@ -984,10 +984,10 @@ You can receive your transaction payments in bitcoins or in your local currency.
 	 * @return bool
 	 */
 	function validate_fields() {
-      //      if ( ! isset( $_POST['triplea_balance_payload'] ) ) {
-      //         wc_add_notice(  'Missing balance payload. Are you sure you made your bitcoin payment?', 'error' );
-      //         return false;
-      //      }
+		// if ( ! isset( $_POST['triplea_balance_payload'] ) ) {
+		// wc_add_notice(  'Missing balance payload. Are you sure you made your bitcoin payment?', 'error' );
+		// return false;
+		// }
 		return true;
 	}
 
@@ -1012,7 +1012,7 @@ You can receive your transaction payments in bitcoins or in your local currency.
 
 		$debug_log_enabled = $this->get_option( 'debug_log_enabled' ) === 'yes' ? true : false;
 
-		//triplea_write_log( 'process_payment() : Order ' . $order_id . ' placed. Updating payment information.', TRUE );
+		// triplea_write_log( 'process_payment() : Order ' . $order_id . ' placed. Updating payment information.', TRUE );
 		triplea_write_log( 'process_payment() : Order ' . $order_id . ' placed. Updating payment information.', $debug_log_enabled );
 
 		$wc_order = wc_get_order( $order_id );
@@ -1038,20 +1038,20 @@ You can receive your transaction payments in bitcoins or in your local currency.
 		}
 
 		if ( isset( $this->settings['triplea_woocommerce_order_states'] ) && isset( $this->settings['triplea_woocommerce_order_states']['paid'] ) ) {
-//			$order_status_new       = $this->settings['triplea_woocommerce_order_states']['new'];
+			// $order_status_new       = $this->settings['triplea_woocommerce_order_states']['new'];
 			$order_status_paid      = $this->settings['triplea_woocommerce_order_states']['paid'];
 			$order_status_confirmed = $this->settings['triplea_woocommerce_order_states']['confirmed'];
-//			$order_status_complete  = $this->settings['triplea_woocommerce_order_states']['complete'];
-//			$order_status_refunded  = $this->settings['triplea_woocommerce_order_states']['refunded'];
-			$order_status_invalid   = $this->settings['triplea_woocommerce_order_states']['invalid'];
+			// $order_status_complete  = $this->settings['triplea_woocommerce_order_states']['complete'];
+			// $order_status_refunded  = $this->settings['triplea_woocommerce_order_states']['refunded'];
+			$order_status_invalid = $this->settings['triplea_woocommerce_order_states']['invalid'];
 		} else {
 			// default values returned by get_status()
-//			$order_status_new       = 'wc-pending';
+			// $order_status_new       = 'wc-pending';
 			$order_status_paid      = 'wc-on-hold'; // paid but still unconfirmed
 			$order_status_confirmed = 'wc-processing';
-//			$order_status_complete  = 'wc-processing';
-//			$order_status_refunded  = 'wc-refunded';
-			$order_status_invalid   = 'wc-failed';
+			// $order_status_complete  = 'wc-processing';
+			// $order_status_refunded  = 'wc-refunded';
+			$order_status_invalid = 'wc-failed';
 		}
 
 		// Before decrypting server payload, make sure there is a payload!
@@ -1070,7 +1070,7 @@ You can receive your transaction payments in bitcoins or in your local currency.
 
 				$notes[] = 'Paid: <strong>BTC ' . $amount_btc_paid . '</strong><br>Paid to bitcoin address:<br>' . $btc_addr . "<br><a href='https://www.blockchain.com/search?search=" . $btc_addr . "'>(View details)</a>";
 
-				$notes[] = "Customer <strong>paid insufficient amount</strong>.<br>Payment form expired before receiving any extra transaction to make up for the difference. If you are unclear about what happened, contact us and provide us with the bitcoin address you paid to.";
+				$notes[] = 'Customer <strong>paid insufficient amount</strong>.<br>Payment form expired before receiving any extra transaction to make up for the difference. If you are unclear about what happened, contact us and provide us with the bitcoin address you paid to.';
 
 				$notes[] = 'Waiting for confirmation (in case user made another payment to the same bitcoin address to make up for the difference).';
 			} elseif ( $_POST['triplea_balance_payload'] === 'failed_expired_no_payment_detected' ) {
