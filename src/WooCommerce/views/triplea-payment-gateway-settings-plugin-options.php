@@ -19,7 +19,7 @@ $tripleaStatuses = array(
 // There is an additional state (on hold) which is set by WooCommerce on order creation.
 
 $statuses = array(
-	//'new'       => 'wc-pending-payment',
+	// 'new'       => 'wc-pending-payment',
 	'paid'      => 'wc-on-hold',
 	'confirmed' => 'wc-processing',
 	// 'complete'  => 'wc-processing',
@@ -31,9 +31,9 @@ $wcStatuses = wc_get_order_statuses();
 
 compact( 'tripleaStatuses', 'statuses', 'wcStatuses' );
 
-$icon_url = TRIPLEA_CRYPTOCURRENCY_PAYMENT_GATEWAY_FOR_WOOCOMMERCE_MAIN_URL_PATH . 'assets/img/' ;
-if (is_ssl()) {
-   $icon_url = WC_HTTPS::force_https_url( $icon_url );
+$icon_url = TRIPLEA_CRYPTOCURRENCY_PAYMENT_GATEWAY_FOR_WOOCOMMERCE_MAIN_URL_PATH . 'assets/img/';
+if ( is_ssl() ) {
+	$icon_url = WC_HTTPS::force_https_url( $icon_url );
 }
 
 $logo_style = 'style="max-width: 100px !important;max-height: 30px !important;"';
