@@ -388,7 +388,10 @@ You can receive your transaction payments in bitcoins or in your local currency.
 
 		if ( isset( $_POST['triplea_woocommerce_order_states'] ) ) {
 
-			$orderStates = $this->settings['triplea_woocommerce_order_states'];
+		   if (isset($this->settings['triplea_woocommerce_order_states']))
+   			$orderStates = $this->settings['triplea_woocommerce_order_states'];
+		   else
+            $orderStates = [];
 
 			foreach ( $triplea_statuses as $triplea_state => $triplea_name ) {
 				if ( false === isset( $_POST['triplea_woocommerce_order_states'][ $triplea_state ] ) ) {
