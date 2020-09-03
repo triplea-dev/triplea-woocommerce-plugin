@@ -36,6 +36,7 @@ class REST {
 			array(
 				'methods'  => 'POST',
 				'callback' => array( $this, 'handle_api_tx_update' ),
+            'permission_callback' => '__return_true',
 			)
 		);
 	}
