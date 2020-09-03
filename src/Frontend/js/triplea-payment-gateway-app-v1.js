@@ -10,7 +10,7 @@
    *
    */
 
-  const TRIPLEA_PAYMENT_GATEWAY_FOR_WOOCOMMERCE_VERSION = '1.4.3';
+  const TRIPLEA_PAYMENT_GATEWAY_FOR_WOOCOMMERCE_VERSION = '1.5.0';
 
   // GET  -> triplea_ajax_action(url, callback, "GET", null)
   // POST -> triplea_ajax_action(url, callback, "POST", data)

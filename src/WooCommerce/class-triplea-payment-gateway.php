@@ -8,6 +8,7 @@ namespace TripleA_Cryptocurrency_Payment_Gateway_for_WooCommerce\WooCommerce;
 use Exception;
 use SodiumException;
 use TripleA_Cryptocurrency_Payment_Gateway_for_WooCommerce\API\API;
+use TripleA_Cryptocurrency_Payment_Gateway_for_WooCommerce\API\REST;
 use WC_AJAX;
 use WC_HTTPS;
 use WC_Payment_Gateway;
@@ -35,188 +36,318 @@ class TripleA_Payment_Gateway extends WC_Payment_Gateway {
     * can view the payment option at checkout.
     *
     * @var string
+    * @since 1.0.0
     */
    protected $triplea_mode;
    
    /**
+    * used-by v1.4.3 and earlier
+    * @deprecated
     * @var string
     */
    protected $triplea_notifications_email;
-   
    /**
+    * used-by v1.4.3 and earlier
     * @deprecated
     * @var string
     */
    protected $triplea_client_secret_key;
-   
    /**
+    * used-by v1.4.3
     * @deprecated
     * @var string
     */
    protected $triplea_client_public_key;
-   
    /**
-    * Merchant bitcoin settlement account's API access key.
+    * used-by v1.4.3
+    * @deprecated
+    * @var string
+    */
+   protected $triplea_server_public_enc_key_btc;
+   /**
+    * used-by v1.4.3
+    * @deprecated
+    * @var string
+    */
+   protected $triplea_server_public_enc_key_conversion;
+   
+   
+   /************
     *
-    * @var string
-    */
-   protected $triplea_btc_merchant_key;
-   
-   /**
-    * Merchant bitcoin settlement account's API client id.
+    *   v1.5.0+ properties
     *
-    * @var string
-    */
-   protected $triplea_btc_client_id;
-   
-   /**
-    * Merchant bitcoin settlement account's API client secret.
-    *
-    * @var string
-    */
-   protected $triplea_btc_client_secret;
-   
-   /**
-    * Merchant bitcoin settlement account's name.
-    *
-    * @var string
-    */
-   protected $triplea_btc_merchant_name;
-   
-   /**
-    * Merchant bitcoin settlement account's email.
-    *
-    * @var string
-    */
-   protected $triplea_btc_merchant_email;
-   
-   /**
-    * Merchant bitcoin settlement account's phone number.
-    *
-    * @var string
-    */
-   protected $triplea_btc_merchant_phone;
+    ************/
    
    
    /**
-    * Merchant local currency settlement account's API access key.
-    *
+    * @since v1.5.0
     * @var string
     */
-   protected $triplea_fiat_merchant_key;
-   
+   protected $triplea_payment_mode;
    /**
-    * Merchant local currency settlement account's API client id.
-    *
+    * @since v1.5.0
     * @var string
     */
-   protected $triplea_fiat_client_id;
-   
+   protected $triplea_sandbox_payment_mode;
    /**
-    * Merchant local currency settlement account's API client secret.
-    *
-    * @var string
-    */
-   protected $triplea_fiat_client_secret;
-   
-   /**
-    * TripleA OAuth token (for local currency settlement account).
-    *
-    * @var string
-    */
-   protected $triplea_fiat_oauth_token;
-   
-   /**
-    * Expiry date for the TripleA Oauth token (for local currency settlement
-    * account).
-    *
-    * @var string
-    */
-   protected $triplea_fiat_oauth_token_expiry;
-   
-   /**
-    * Merchant local currency settlement account's name.
-    *
-    * @var string
-    */
-   protected $triplea_fiat_merchant_name;
-   
-   /**
-    * Merchant local currency settlement account's email.
-    *
-    * @var string
-    */
-   protected $triplea_fiat_merchant_email;
-   
-   /**
-    * Merchant local currency settlement account's phone number.
-    *
-    * @var string
-    */
-   protected $triplea_fiat_merchant_phone;
-   
-   /**
-    * Merchant local currency settlement account's preferred local currency.
-    *
-    * @var string
-    */
-   protected $triplea_fiat_merchant_local_currency;
-   
-   
-   /**
-    * @var string
-    */
-   protected $triplea_btc2btc_api_id;
-   
-   /**
-    * @var string
-    */
-   protected $triplea_btc2btc_sandbox_api_id;
-   
-   /**
-    * @var string
-    */
-   protected $triplea_btc2fiat_api_id;
-   
-   /**
-    * @var string
-    */
-   protected $triplea_btc2fiat_sandbox_api_id;
-   
-   /**
+    * @since v1.5.0
     * @var string
     */
    protected $triplea_active_api_id;
    
-   /**
-    * @var string
-    */
-   protected $triplea_btc_pubkey;
    
    /**
+    * Merchant local currency settlement account's API access key
+    * (for local currency settlement account)
+    *
+    * @since v1.5.0
     * @var string
     */
-   protected $triplea_btc_sandbox_pubkey;
+   protected $triplea_btc2fiat_merchant_key;
+   /**
+    * Merchant local currency settlement account's API client id
+    * (for local currency settlement account)
+    *
+    * @since v1.5.0
+    * @var string
+    */
+   protected $triplea_btc2fiat_client_id;
+   /**
+    * Merchant local currency settlement account's API client secret
+    * (for local currency settlement account)
+    *
+    * @since v1.5.0
+    * @var string
+    */
+   protected $triplea_btc2fiat_client_secret;
+   /**
+    * TripleA OAuth token
+    * (for local currency settlement account)
+    *
+    * @since v1.5.0
+    * @var string
+    */
+   protected $triplea_btc2fiat_oauth_token;
+   /**
+    * Expiry date for the TripleA Oauth token
+    * (for local currency settlement account)
+    *
+    * @since v1.5.0
+    * @var string
+    */
+   protected $triplea_btc2fiat_oauth_token_expiry;
+   /**
+    * Merchant local currency settlement account's name
+    * (for local currency settlement account)
+    *
+    * @since v1.5.0
+    * @var string
+    */
+   protected $triplea_btc2fiat_merchant_name;
+   /**
+    * Merchant local currency settlement account's email
+    * (for local currency settlement account)
+    *
+    * @since v1.5.0
+    * @var string
+    */
+   protected $triplea_btc2fiat_merchant_email;
+   /**
+    * Merchant local currency settlement account's phone number
+    * (for local currency settlement account)
+    *
+    * @since v1.5.0
+    * @var string
+    */
+   protected $triplea_btc2fiat_merchant_phone;
+   /**
+    * Merchant local currency settlement account's preferred local currency
+    * (for local currency settlement account)
+    *
+    * @since v1.5.0
+    * @var string
+    */
+   protected $triplea_btc2fiat_merchant_local_currency;
+   /**
+    * TripleA API ID for this account
+    * (for local currency settlement account)
+    *
+    * @since v1.5.0
+    * @var string
+    */
+   protected $triplea_btc2fiat_api_id;
+   /**
+    * TripleA API ID for this sandbox account
+    * (for local currency settlement account)
+    *
+    * @since v1.5.0
+    * @var string
+    */
+   protected $triplea_btc2fiat_sandbox_api_id;
+   
    
    /**
+    * Merchant bitcoin settlement account's API access key
+    * (for bitcoin settlement account)
+    *
+    * @since v1.5.0
     * @var string
     */
-   protected $triplea_payment_mode;
+   protected $triplea_btc2btc_merchant_key;
+   /**
+    * Merchant bitcoin settlement account's API client id
+    * (for bitcoin settlement account)
+    *
+    * @since v1.5.0
+    * @var string
+    */
+   protected $triplea_btc2btc_client_id;
+   /**
+    * Merchant bitcoin settlement account's API client secret
+    * (for bitcoin settlement account)
+    *
+    * @since v1.5.0
+    * @var string
+    */
+   protected $triplea_btc2btc_client_secret;
+   /**
+    * TripleA OAuth token
+    * (for bitcoin settlement account)
+    *
+    * @since v1.5.0
+    * @var string
+    */
+   protected $triplea_btc2btc_oauth_token;
+   /**
+    * Expiry date for the TripleA Oauth token
+    * (for bitcoin settlement account)
+    *
+    * @since v1.5.0
+    * @var string
+    */
+   protected $triplea_btc2btc_oauth_token_expiry;
+   /**
+    * Merchant bitcoin settlement account's name
+    * (for bitcoin settlement account)
+    *
+    * @since v1.5.0
+    * @var string
+    */
+   protected $triplea_btc2btc_merchant_name;
+   /**
+    * Merchant bitcoin settlement account's email
+    * (for bitcoin settlement account)
+    *
+    * @since v1.5.0
+    * @var string
+    */
+   protected $triplea_btc2btc_merchant_email;
+   /**
+    * Merchant bitcoin settlement account's phone number
+    * (for bitcoin settlement account)
+    *
+    * @since v1.5.0
+    * @var string
+    */
+   protected $triplea_btc2btc_merchant_phone;
+   /**
+    * TripleA API ID for this account
+    * (for bitcoin settlement account)
+    *
+    * @since v1.5.0
+    * @var string
+    */
+   protected $triplea_btc2btc_api_id;
+   /**
+    * (Partial) master public key to help the user identify his wallet if needed
+    * (for bitcoin settlement account)
+    *
+    * @since v1.5.0
+    * @var string
+    */
+   protected $triplea_btc2btc_pubkey;
+   
    
    /**
+    * Merchant bitcoin settlement account's API access key
+    * (for testnet bitcoin settlement account)
+    *
     * @var string
     */
-   protected $triplea_sandbox_payment_mode;
-   
+   protected $triplea_btc2btc_sandbox_merchant_key;
    /**
+    * Merchant bitcoin settlement account's API client id
+    * (for testnet bitcoin settlement account)
+    *
+    * @since v1.5.0
     * @var string
     */
-   protected $triplea_server_public_enc_key_btc;
-   
+   protected $triplea_btc2btc_sandbox_client_id;
    /**
+    * Merchant bitcoin settlement account's API client secret
+    * (for testnet bitcoin settlement account)
+    *
+    * @since v1.5.0
     * @var string
     */
-   protected $triplea_server_public_enc_key_conversion;
+   protected $triplea_btc2btc_sandbox_client_secret;
+   /**
+    * TripleA OAuth token
+    * (for testnet bitcoin settlement account)
+    *
+    * @since v1.5.0
+    * @var string
+    */
+   protected $triplea_btc2btc_sandbox_oauth_token;
+   /**
+    * Expiry date for the TripleA Oauth token
+    * (for testnet bitcoin settlement account)
+    *
+    * @since v1.5.0
+    * @var string
+    */
+   protected $triplea_btc2btc_sandbox_oauth_token_expiry;
+   /**
+    * Merchant bitcoin settlement account's name
+    * (for testnet bitcoin settlement account)
+    *
+    * @since v1.5.0
+    * @var string
+    */
+   protected $triplea_btc2btc_sandbox_merchant_name;
+   /**
+    * Merchant bitcoin settlement account's email
+    * (for testnet bitcoin settlement account)
+    *
+    * @since v1.5.0
+    * @var string
+    */
+   protected $triplea_btc2btc_sandbox_merchant_email;
+   /**
+    * Merchant bitcoin settlement account's phone number
+    * (for testnet bitcoin settlement account)
+    *
+    * @since v1.5.0
+    * @var string
+    */
+   protected $triplea_btc2btc_sandbox_merchant_phone;
+   /**
+    * TripleA API ID for this account
+    * (for testnet bitcoin settlement account)
+    *
+    * @since v1.5.0
+    * @var string
+    */
+   protected $triplea_btc2btc_sandbox_api_id;
+   /**
+    * (Partial) master public key to help user identify the wallet used
+    * (for testnet bitcoin settlement account)
+    *
+    * @since v1.5.0
+    * @var string
+    */
+   protected $triplea_btc2btc_sandbox_pubkey;
+   
    
    /**
     * TripleA_Bitcoin_Ecommerce_for_WooCommerce_Payment constructor.
@@ -227,13 +358,16 @@ class TripleA_Payment_Gateway extends WC_Payment_Gateway {
       
       $this->api = API::get_instance();
       
-      $this->id                = 'triplea_payment_gateway';
-      $this->method_title      = __('Bitcoin Payment Gateway (by TripleA)', 'triplea-cryptocurrency-payment-gateway-for-woocommerce');
-      $this->has_fields        = TRUE;
-      $this->supports          = [
+      $this->id           = 'triplea_payment_gateway';
+      $this->method_title = __('Bitcoin Payment Gateway (by TripleA)', 'triplea-cryptocurrency-payment-gateway-for-woocommerce');
+      $this->has_fields   = TRUE;
+      $this->supports     = [
          'products',
       ];
-      $this->order_button_text = 'Pay with Bitcoin';
+      
+      //$this->order_button_text = 'Pay with Bitcoin';
+      $this->order_button_text = 'Waiting for payment';
+      
       /**
        * Display text customisation options
        */
@@ -260,39 +394,39 @@ class TripleA_Payment_Gateway extends WC_Payment_Gateway {
       $this->triplea_mode                = $this->get_option('triplea_mode');
       $this->triplea_notifications_email = $this->get_option('triplea_notifications_email');
       
-      $this->triplea_fiat_merchant_key            = $this->get_option('triplea_fiat_merchant_key');
-      $this->triplea_fiat_client_id               = $this->get_option('triplea_fiat_client_id');
-      $this->triplea_fiat_client_secret           = $this->get_option('triplea_fiat_client_secret');
-      $this->triplea_fiat_oauth_token             = $this->get_option('triplea_fiat_oauth_token');
-      $this->triplea_fiat_oauth_token_expiry      = $this->get_option('triplea_fiat_oauth_token_expiry');
-      $this->triplea_fiat_merchant_name           = $this->get_option('triplea_fiat_merchant_name');
-      $this->triplea_fiat_merchant_email          = $this->get_option('triplea_fiat_merchant_email');
-      $this->triplea_fiat_merchant_phone          = $this->get_option('triplea_fiat_merchant_phone');
-      $this->triplea_fiat_merchant_local_currency = $this->get_option('triplea_fiat_merchant_local_currency');
+      $this->triplea_btc2fiat_merchant_key = $this->get_option('triplea_fiat_merchant_key');
+      $this->triplea_btc2fiat_client_id    = $this->get_option('triplea_fiat_client_id');
+      $this->triplea_btc2fiat_client_secret = $this->get_option('triplea_fiat_client_secret');
+      $this->triplea_btc2fiat_oauth_token             = $this->get_option('triplea_fiat_oauth_token');
+      $this->triplea_btc2fiat_oauth_token_expiry      = $this->get_option('triplea_fiat_oauth_token_expiry');
+      $this->triplea_btc2fiat_merchant_name           = $this->get_option('triplea_fiat_merchant_name');
+      $this->triplea_btc2fiat_merchant_email          = $this->get_option('triplea_fiat_merchant_email');
+      $this->triplea_btc2fiat_merchant_phone          = $this->get_option('triplea_fiat_merchant_phone');
+      $this->triplea_btc2fiat_merchant_local_currency = $this->get_option('triplea_fiat_merchant_local_currency');
       
-      $this->triplea_btc_merchant_key   = $this->get_option('triplea_btc_merchant_key');
-      $this->triplea_btc_client_id      = $this->get_option('triplea_btc_client_id');
-      $this->triplea_btc_client_secret  = $this->get_option('triplea_btc_client_secret');
-      $this->triplea_btc_merchant_name  = $this->get_option('triplea_btc_merchant_name');
-      $this->triplea_btc_merchant_email = $this->get_option('triplea_btc_merchant_email');
-      $this->triplea_btc_merchant_phone = $this->get_option('triplea_btc_merchant_phone');
+      $this->triplea_btc2btc_merchant_key = $this->get_option('triplea_btc_merchant_key');
+      $this->triplea_btc2btc_client_id    = $this->get_option('triplea_btc_client_id');
+      $this->triplea_btc2btc_client_secret    = $this->get_option('triplea_btc_client_secret');
+      $this->triplea_btc2btc_merchant_name  = $this->get_option('triplea_btc_merchant_name');
+      $this->triplea_btc2btc_merchant_email = $this->get_option('triplea_btc_merchant_email');
+      $this->triplea_btc2btc_merchant_phone = $this->get_option('triplea_btc_merchant_phone');
       
       // Refresh oauth tokens
       $this->refreshOauthTokens();
       
       // If a pubkey was given, we only store the first bit.
-      $this->triplea_btc_pubkey = $this->get_option('triplea_btc_pubkey');
-      if (strlen($this->triplea_btc_pubkey) > 12) {
-         $short_pubkey             = substr($this->triplea_btc_pubkey, 0, 8) . '...';
-         $this->triplea_btc_pubkey = $short_pubkey;
-         $this->update_option('triplea_btc_pubkey', $this->triplea_btc_pubkey);
+      $this->triplea_btc2btc_pubkey = $this->get_option('triplea_btc_pubkey');
+      if (strlen($this->triplea_btc2btc_pubkey) > 12) {
+         $short_pubkey                 = substr($this->triplea_btc2btc_pubkey, 0, 8) . '...';
+         $this->triplea_btc2btc_pubkey = $short_pubkey;
+         $this->update_option('triplea_btc_pubkey', $this->triplea_btc2btc_pubkey);
       }
       // If a sandbox pubkey was given, we only store the first bit.
-      $this->triplea_btc_sandbox_pubkey = $this->get_option('triplea_btc_sandbox_pubkey');
-      if (strlen($this->triplea_btc_sandbox_pubkey) > 12) {
-         $short_pubkey                     = substr($this->triplea_btc_sandbox_pubkey, 0, 8) . '...';
-         $this->triplea_btc_sandbox_pubkey = $short_pubkey;
-         $this->update_option('triplea_btc_sandbox_pubkey', $this->triplea_btc_sandbox_pubkey);
+      $this->triplea_btc2btc_sandbox_pubkey = $this->get_option('triplea_btc_sandbox_pubkey');
+      if (strlen($this->triplea_btc2btc_sandbox_pubkey) > 12) {
+         $short_pubkey                         = substr($this->triplea_btc2btc_sandbox_pubkey, 0, 8) . '...';
+         $this->triplea_btc2btc_sandbox_pubkey = $short_pubkey;
+         $this->update_option('triplea_btc_sandbox_pubkey', $this->triplea_btc2btc_sandbox_pubkey);
       }
       
       // Bitcoin settlement
@@ -477,33 +611,291 @@ You can receive your transaction payments in bitcoins or in your local currency.
       ]);
    }
    
-   public function triplea_checkout_update_order_review($posted_data) {
+   public function customize_thank_you_title($old_title, $order) {
+   
+   }
+   
+   public function customize_thank_you_text($old_text, $order) {
+   
+   }
+   
+   /**
+    * @param array|object     $payment_data
+    * @param \WC_Order|null $wc_order
+    * @param bool      $placing_new_order
+    *
+    * @return array|void
+    */
+   public static function update_order_status($payment_data, $wc_order, $placing_new_order = false) {
+      $triplea = new TripleA_Payment_Gateway();
       
-      // TODO remove this, doesn't seem to ever get called
+      $debug_log_enabled = $triplea->get_option('debug_log_enabled') === 'yes';
+   
+      triplea_write_log( 'update_order_status():', $debug_log_enabled );
       
-      $debug_log_enabled = $this->get_option('debug_log_enabled') === 'yes';
+      $notes = [];
+      $return_error = false;
+      $return_payment_tier = '';
+      $return_order_status = '';
       
-      // Parsing posted data on checkout
-      $post = [];
-      $vars = explode('&', $posted_data);
-      foreach ($vars as $k => $value) {
-         $v           = explode('=', urldecode($value));
-         $post[$v[0]] = $v[1];
+      if (!isset($wc_order) || empty($wc_order)) {
+         // No order provided. If the payment data contains an order_txid,
+         // we can use it to find the matching order.
+         if (isset($payment_data->webhook_data)
+             && isset($payment_data->webhook_data->order_txid)
+             && !empty($payment_data->webhook_data->order_txid)) {
+   
+            // Get the WooCommerce order ID with the matching client tx ID.
+            $rest = new REST( $triplea->api );
+            $order_id = $rest->triplea_get_orderid_from_txid( $payment_data->webhook_data->order_txid, $debug_log_enabled );
+            if ( $order_id < 0 ) {
+               triplea_write_log( 'update_order_status() : ERROR. No matching order found for tx id ' . $payment_data->webhook_data->order_txid . '.', $debug_log_enabled );
+            }
+            else {
+               $wc_order = wc_get_order( $order_id );
+               triplea_write_log( 'update_order_status() : Found matching order ' . $order_id . ' found for tx id ' . $payment_data->webhook_data->order_txid . '.', $debug_log_enabled );
+            }
+         }
       }
+      // Else given an existing (newly placed) order
       
-      // Here we collect payment method
-      $payment_method = $post['payment_method'];
       
-      triplea_write_log('Payment method debug : ' . $payment_method, $debug_log_enabled);
+      if (!isset($wc_order) || empty($wc_order)) {
+         triplea_write_log('process_payment() : ERROR! Missing WooCommerce order, cannot continue.', $debug_log_enabled);
+         $return_error = true;
+   
+         if ($placing_new_order) {
+            $return_values = [
+               'result'       => 'failure',
+               'payment_tier' => $return_payment_tier,
+               'order_status' => $return_order_status,
+               'error'        => $return_error,
+            ];
+            triplea_write_log('update_order_status() : Return values: ' . $return_values, $debug_log_enabled);
+            return $return_values;
+         } else return;
+      }
+      $order_id = $wc_order->get_id();
+      $tx_id = get_post_meta($order_id, '_triplea_tx_id');
       
-      // Run code custom code for each specific payment option selected
-      if ($payment_method == $this->id) {
-         // Your code goes here
-         triplea_write_log('TripleA Bitcoin payment selected !!', $debug_log_enabled);
+      if (isset($triplea->settings['triplea_woocommerce_order_states']) && isset($triplea->settings['triplea_woocommerce_order_states']['paid'])) {
+         $order_status_paid      = $triplea->settings['triplea_woocommerce_order_states']['paid'];
+         $order_status_confirmed = $triplea->settings['triplea_woocommerce_order_states']['confirmed'];
+         //			$order_status_refunded  = $this->settings['triplea_woocommerce_order_states']['refunded'];
+         $order_status_invalid = $triplea->settings['triplea_woocommerce_order_states']['invalid'];
       }
       else {
-         triplea_write_log('A non-TripleA payment method selected...', $debug_log_enabled);
+         // default values returned by get_status()
+         $order_status_paid      = 'wc-on-hold'; // paid but still unconfirmed
+         $order_status_confirmed = 'wc-processing';
+         //			$order_status_refunded  = 'wc-refunded';
+         $order_status_invalid = 'wc-failed';
       }
+      
+      if (isset($payment_data->error)) {
+         triplea_write_log("update_order_status() : payment status check returned an ERROR : \n" . print_r($payment_data, TRUE), $debug_log_enabled);
+         
+         $return_order_status = $order_status_paid;
+         $return_error = true;
+   
+         $notes[] = 'Could not verify the payment status, server returned an error. If the bitcoin payments debug log is enabled, the error will be in the log. Please <a href="mailto:support@triple-a.io">share that with us at support@triple-a.io</a>';
+   
+         if ($placing_new_order) {
+            // We tried to verify the payment status (anything paid or not? how much?).
+            // However something went wrong. That does not mean the user did not pay...
+            // We save the order, mark it as ON HOLD.
+            // but!!! we add a note to indicate to the merchant that there might be a problem with this order, not sure if a payment was made or not.
+            $wc_order->update_status($order_status_paid); // on hold, might be paid (but not confirmed)
+   
+            $notes[] = 'There was a problem when connecting to the TripleA server. The user may or may not have paid.' . '<br>'
+                       . 'If a payment was made, this order should automatically update within 10 minutes to 1 hour.';
+   
+            $notes[] = 'If the order does not get updated or if you have any question, please contact us at <a href="mailto:support@triple-a.io">support@triple-a.io</a> and share with us the order transaction id = \'' . $tx_id . '\'.';
+         }
+         
+      }
+      else {
+         $bitcoin_address = $payment_data->crypto_address;
+   
+         $unconf_crypto_amount = floatval( $payment_data->unconfirmed_crypto_amt ) ? floatval( $payment_data->unconfirmed_crypto_amt ) : 0.0;
+         $conf_crypto_amount = floatval( $payment_data->confirmed_crypto_amt ) ? floatval( $payment_data->confirmed_crypto_amt ) : 0.0;
+         $crypto_amount_paid = $unconf_crypto_amount + $conf_crypto_amount;
+   
+         $unconf_order_amount = floatval( $payment_data->unconfirmed_order_amt ) ? floatval( $payment_data->unconfirmed_order_amt ) : 0.0;
+         $conf_order_amount = floatval( $payment_data->confirmed_order_amt ) ? floatval( $payment_data->confirmed_order_amt ) : 0.0;
+         $order_amount_paid = $unconf_order_amount + $conf_order_amount;
+         
+         if ($placing_new_order) {
+            $notes[] = 'Amount due: <strong>BTC ' . number_format($payment_data->crypto_amount, 8) . '</strong>'.'<br>'
+                       .'Value: '.$payment_data->order_currency.' '.$payment_data->order_amount.'<br>'
+                       .' <br> '
+                       .'To be paid to '.$payment_data->order_currency.' address:' . '<br>'
+                       . $bitcoin_address . "<br>"
+                       . "<a href='https://www.blockchain.com/search?search=" . $bitcoin_address . "' target='_blank'>(View details on the blockchain)</a>";
+         }
+         
+         // Depending on the results, update the order state.
+         switch ($payment_data->payment_tier) {
+            case 'none':
+               // No payment received yet.
+               // Order was placed by front-end but we don't know if there will be a payment or not.
+               $wc_order->update_status($order_status_paid); // on hold, might be paid (but not confirmed)
+   
+               $return_payment_tier = $payment_data->payment_tier;
+               $return_order_status = $order_status_paid;
+               
+               if ($placing_new_order) {
+                  triplea_write_log('update_order_status() : No payment received (yet). Order was placed by front-end despite no payment having been detected.', $debug_log_enabled);
+   
+                  $notes[] = 'No payment detected yet for bitcoin address ' . $bitcoin_address . '.' . '<br>' . 'The user may have paid, payment form could have expired before the transaction was detected. (This can happen with some exchanges that delay transactions.)'
+                             . '<br>' . 'It may also be that the user <strong>did not pay</strong> and just placed the order.';
+                  $notes[] = 'If a payment was made, this order will be updated automatically. If you have any doubt, <a href="mailto:support@triple-a.io">feel free to contact us</a>.';
+               }
+               else {
+                  triplea_write_log('update_order_status() : No payment received (yet).', $debug_log_enabled);
+               }
+               
+               break;
+            
+            case 'hold':
+               
+               $wc_order->update_status($order_status_paid); // on hold, might be paid (but not confirmed)
+   
+               $return_payment_tier = $payment_data->payment_tier;
+               $return_order_status = $order_status_paid;
+            
+               if ($placing_new_order) {
+                  triplea_write_log('update_order_status() : Confirmed that a payment was made, order payment still waiting for validation.', $debug_log_enabled);
+                  triplea_write_log('update_order_status() : Current payment status: ' . $payment_data->status, $debug_log_enabled);
+   
+                  $notes[] = 'Payment detected, awaiting validation.';
+               }
+               else {
+                  triplea_write_log('update_order_status() : Order payment still waiting for validation.', $debug_log_enabled);
+               }
+               
+               // TODO add a message specifying details about how much was paid (enough or not? how much paid or missing?)
+               
+               break;
+            
+            case 'short':
+               
+               $wc_order->update_status($order_status_invalid);
+   
+               $return_payment_tier = $payment_data->payment_tier;
+               $return_order_status = $order_status_invalid;
+               
+               $notes[] = 'Paid: <strong>'.$payment_data->crypto_currency.'</strong>'
+                          .' <strong>'. $crypto_amount_paid . '</strong>'.'<br>'
+                          .'Value: '.$payment_data->order_currency.' '.$order_amount_paid.'<br>'
+                          .'<br>'
+                          .'Paid to bitcoin address:' . '<br>'
+                          . $bitcoin_address . "<br>"
+                          . "<a href='https://www.blockchain.com/search?search=" . $bitcoin_address . "' target='_blank'>(View details on the blockchain)</a>";
+               
+               $notes[] = '<strong>BTC amount paid is insufficient!</strong>'.'<br>'
+                  .'Missing '.(number_format($payment_data->crypto_amount, 8) - $crypto_amount_paid).' '.$payment_data->crypto_currency;
+               
+               triplea_write_log('update_order_status() : Confirmed that a payment was made, for an insufficient amount.', $debug_log_enabled);
+               
+               // TODO come up with a process to help merchants handle this scenario (request extra payment or refund or ..?)
+               
+               break;
+            
+            case 'good':
+               
+               $wc_order->update_status($order_status_confirmed); // on hold, might be paid (but not confirmed)
+   
+               $return_payment_tier = $payment_data->payment_tier;
+               $return_order_status = $order_status_confirmed;
+   
+               $notes[] = 'Paid: <strong>BTC ' . number_format($crypto_amount_paid, 8) . '</strong>'.'<br>'
+                          .'Value: '.$payment_data->order_currency.' '.$order_amount_paid.'<br>'
+                          .'<br>'
+                          .'Paid to bitcoin address:' . '<br>'
+                          . $bitcoin_address . "<br>"
+                          . "<a href='https://www.blockchain.com/search?search=" . $bitcoin_address . "' target='_blank'>(View details on the blockchain)</a>";
+               
+               if ($crypto_amount_paid > $payment_data->crypto_amount) {
+                  $notes[] = 'User paid too much.'.'<br>'
+                     .'The user may contact you to ask for a refund.'.'<br>'
+                     .'If you need assistance, <a href="mailto:support@triple-a.io">simply email us at support@triple-a.io</a>.';
+               }
+               else {
+                  $notes[] = 'Correct amount paid.';
+               }
+               $notes[] = 'Order completed.';
+               
+               triplea_write_log('update_order_status() : Confirmed that a sufficient payment was made.', $debug_log_enabled);
+               
+               break;
+            
+            case 'invalid':
+               
+               $wc_order->update_status($order_status_invalid);
+   
+               $return_payment_tier = $payment_data->payment_tier;
+               $return_order_status = $order_status_invalid;
+               
+               $notes[] = 'Payment failed or is invalid.' . '<br>';
+               //. 'Payment might have expired due to a very low transaction fee paid by the user or a double-spend attempt might have occurred.';
+            
+               triplea_write_log('update_order_status() : Payment failed or invalid. Payment might have expired due to super low transaction fee or a double-spend attempt might have occurred.', $debug_log_enabled);
+               
+               break;
+            
+            default:
+               triplea_write_log('update_order_status() : Unknown payment_tier received. Value:"' . $payment_data->payment_tier . '".', $debug_log_enabled);
+   
+               $return_payment_tier = $payment_data->payment_tier;
+               $return_error = true;
+         }
+   
+         if (0 === count(get_post_meta($order_id, '_triplea_order_status'))) {
+            add_post_meta($order_id, '_triplea_order_status', $return_order_status);
+         }
+         if (0 === count(get_post_meta($order_id, '_triplea_payment_tier'))) {
+            add_post_meta($order_id, '_triplea_payment_tier', $return_payment_tier);
+         }
+         if (0 === count(get_post_meta($order_id, '_triplea_payment_status'))) {
+            add_post_meta($order_id, '_triplea_payment_status', $payment_data->status);
+         }
+         if (0 === count(get_post_meta($order_id, '_triplea_order_amount'))) {
+            add_post_meta($order_id, '_triplea_order_amount', $payment_data->order_amount);
+         }
+         if (0 === count(get_post_meta($order_id, '_triplea_order_crypto_amount'))) {
+            add_post_meta($order_id, '_triplea_order_crypto_amount', $payment_data->crypto_amount);
+         }
+         if (0 === count(get_post_meta($order_id, '_triplea_amount_paid'))) {
+            add_post_meta($order_id, '_triplea_amount_paid', $order_amount_paid);
+         }
+         if (0 === count(get_post_meta($order_id, '_triplea_crypto_amount_paid'))) {
+            add_post_meta($order_id, '_triplea_crypto_amount_paid', $crypto_amount_paid);
+         }
+         if (0 === count(get_post_meta($order_id, '_triplea_crypto_currency'))) {
+            add_post_meta($order_id, '_triplea_crypto_currency', $payment_data->crypto_currency);
+         }
+         if (0 === count(get_post_meta($order_id, '_triplea_order_currency'))) {
+            add_post_meta($order_id, '_triplea_order_currency', $payment_data->order_currency);
+         }
+         
+      }
+   
+      // Save the order notes, empty the cart, inform the Checkout page the order has been saved.
+      foreach ($notes as $note) {
+         $wc_order->add_order_note(__($note, 'triplea-cryptocurrency-payment-gateway-for-woocommerce'));
+      }
+      
+      if ($placing_new_order) {
+         $return_values = [
+            'result'       => 'success',
+            'payment_tier' => $return_payment_tier,
+            'order_status' => $return_order_status,
+            'error'        => $return_error,
+         ];
+         triplea_write_log('update_order_status() : Return values: ' . print_r($return_values, true), $debug_log_enabled);
+         return $return_values;
+      } else return;
    }
    
    /*
@@ -519,7 +911,7 @@ You can receive your transaction payments in bitcoins or in your local currency.
          return;
       }
       
-      wp_enqueue_script('triplea_payment_gateway_checkout_js', plugins_url('../Frontend/js/triplea_payment_gateway_checkout.js', __FILE__), ['jquery']);
+      wp_enqueue_script('triplea_payment_gateway_embedded_payment_form_js', plugins_url('../Frontend/js/triplea_payment_gateway_embedded_payment_form.js', __FILE__), ['jquery']);
    }
    
    
@@ -1251,7 +1643,6 @@ You can receive your transaction payments in bitcoins or in your local currency.
       
       $debug_log_enabled = $this->get_option('debug_log_enabled') === 'yes' ? TRUE : FALSE;
       
-      //triplea_write_log( 'process_payment() : Order ' . $order_id . ' placed. Updating payment information.', TRUE );
       triplea_write_log('process_payment() : Order ' . $order_id . ' placed. Updating payment information.', $debug_log_enabled);
       
       $wc_order = wc_get_order($order_id);
@@ -1266,205 +1657,173 @@ You can receive your transaction payments in bitcoins or in your local currency.
          ];
       }
       
-      if (!isset($_POST['triplea_balance_payload'])) {
-         triplea_write_log('process_payment() : No balance payload provided.', $debug_log_enabled);
-         return [
-            'reload'   => FALSE,
-            'refresh'  => FALSE,
-            'result'   => 'failure',
-            'messages' => 'No balance payload provided.',
-         ];
-      }
-      
       if (isset($this->settings['triplea_woocommerce_order_states']) && isset($this->settings['triplea_woocommerce_order_states']['paid'])) {
-         //			$order_status_new       = $this->settings['triplea_woocommerce_order_states']['new'];
          $order_status_paid      = $this->settings['triplea_woocommerce_order_states']['paid'];
          $order_status_confirmed = $this->settings['triplea_woocommerce_order_states']['confirmed'];
-         //			$order_status_complete  = $this->settings['triplea_woocommerce_order_states']['complete'];
          //			$order_status_refunded  = $this->settings['triplea_woocommerce_order_states']['refunded'];
          $order_status_invalid = $this->settings['triplea_woocommerce_order_states']['invalid'];
       }
       else {
          // default values returned by get_status()
-         //			$order_status_new       = 'wc-pending';
          $order_status_paid      = 'wc-on-hold'; // paid but still unconfirmed
          $order_status_confirmed = 'wc-processing';
-         //			$order_status_complete  = 'wc-processing';
          //			$order_status_refunded  = 'wc-refunded';
          $order_status_invalid = 'wc-failed';
       }
       
-      // Before decrypting server payload, make sure there is a payload!
-      if ($_POST['triplea_balance_payload'] === 'failed_expired_paid_too_little'
-          || $_POST['triplea_balance_payload'] === 'failed_expired_no_payment_detected') {
-         // User paid too little, then the payment form expired.
-         // Placing the order and marking it as "failed", to keep a trace of this in case user wants refund.
-         // Should the user make a second payment in time (just not detected before form expiry) to top up,
-         // a Payment Update Notification can correct the payment status still.
-         
-         $wc_order->update_status($order_status_invalid);
-         $notes = [];
-         if ($_POST['triplea_balance_payload'] === 'failed_expired_paid_too_little') {
-            $btc_addr        = $_POST['triplea_addr'];
-            $amount_btc_paid = $_POST['triplea_amount_btc_paid'];
-            
-            $notes[] = 'Paid: <strong>BTC ' . $amount_btc_paid . '</strong><br>Paid to bitcoin address:<br>' . $btc_addr . "<br><a href='https://www.blockchain.com/search?search=" . $btc_addr . "'>(View details)</a>";
-            
-            $notes[] = "Customer <strong>paid insufficient amount</strong>.<br>Payment form expired before receiving any extra transaction to make up for the difference. If you are unclear about what happened, contact us and provide us with the bitcoin address you paid to.";
-            
-            $notes[] = 'Waiting for confirmation (in case user made another payment to the same bitcoin address to make up for the difference).';
-         }
-         elseif ($_POST['triplea_balance_payload'] === 'failed_expired_no_payment_detected') {
-            $notes[] = 'Payment form expired before receiving any extra transaction to make up for the difference.';
-         }
-         foreach ($notes as $note) {
-            $wc_order->add_order_note(__($note, 'triplea-cryptocurrency-payment-gateway-for-woocommerce'));
-         }
-         
-         WC()->cart->empty_cart();
-         
-         return [
-            'result'   => 'success',
-            'redirect' => $this->get_return_url($wc_order),
-         ];
-         // Result=success : to force the checkout page to conclude order was placed (even to order status is failed)
-      }
-      
-      // Payload received, let's try to decode it
-      // and proceed with server provided, trustworthy metadata.
-      try {
-         $balance_payload_full = sanitize_text_field($_POST['triplea_balance_payload']);
-         // triplea_write_log('Encrypted balance payload : '.$balance_payload_full, $debug_log_enabled);
-         
-         /**
-          *  Decrypt payload received from /balance API call in front-end.
-          */
-         $payload_status_data = $this->decrypt_payload($balance_payload_full, $wc_order);
-         if ($payload_status_data['status'] === 'failed' || $payload_status_data['payload'] === FALSE) {
-            triplea_write_log('process_payment() : ERROR! Payload decrypt error or status failed. ' . $payload_status_data['status'], $debug_log_enabled);
-            
-            $wc_order->update_status($order_status_invalid);
-            
-            return [
-               'reload'   => FALSE,
-               'refresh'  => FALSE,
-               'result'   => 'failure',
-               'messages' => 'Payload decrypt error or invalid order.',
-            ];
-         }
-         $balance_payload_decrypted = $payload_status_data['payload'];
-         
-         if (empty($balance_payload_decrypted)) {
-            triplea_write_log('process_payment() : ERROR! Decrypted balance payload.', $debug_log_enabled);
-            return [
-               'reload'   => FALSE,
-               'refresh'  => FALSE,
-               'result'   => 'failure',
-               'messages' => 'Empty decrypted balance payload.',
-            ];
-         }
-         // triplea_write_log('process_payment() : Decrypted balance payload : ', $debug_log_enabled);
-         // triplea_write_log($balance_payload_decrypted, $debug_log_enabled);
-         
-         $balance_payload_data = json_decode($balance_payload_decrypted);
-         if ($balance_payload_data === NULL) {
-            triplea_write_log('process_payment() : ERROR! Problem decoding json from balance payload.', $debug_log_enabled);
-            // Not emptying cart
-            return [
-               'reload'   => FALSE,
-               'refresh'  => FALSE,
-               'result'   => 'failure',
-               'messages' => 'Problem decoding balance payload metadata.',
-            ];
-         }
-         
-         /**
-          * Check balance of address.
-          * It has to be at equal or higher to the order's required amount.
-          */
-         
-         $addr           = $balance_payload_data->addr;
-         $tx_id          = $balance_payload_data->client_txid;
-         $tx_status      = $balance_payload_data->tx_status;
-         $exchange_rate  = $balance_payload_data->exchange_rate;
-         $local_currency = $balance_payload_data->local_currency;
-         $order_amount   = $balance_payload_data->order_amount;
-         
-         /**
-          *  We set a client_txid token, securely randomly generated.
-          *  This helps when receiving payment update notifications from the API,
-          *  to match the notification with the related order.
-          *  (When creating the set_addr call and payload, no order ID is available yet. Hence this method.)
-          */
-         if (0 === count(get_post_meta($order_id, '_triplea_tx_id'))) {
-            add_post_meta($order_id, '_triplea_tx_id', $tx_id);
-         }
-         else {
-            update_post_meta($order_id, '_triplea_tx_id', $tx_id);
-         }
-         
-         $crypto_amount             = floatval($balance_payload_data->crypto_amount) ? floatval($balance_payload_data->crypto_amount) : 0.0;
-         $crypto_amount_paid_unconf = floatval($balance_payload_data->crypto_amount_paid_unconf) ? floatval($balance_payload_data->crypto_amount_paid_unconf) : 0.0;
-         $crypto_amount_paid_conf   = floatval($balance_payload_data->crypto_amount_paid_conf) ? floatval($balance_payload_data->crypto_amount_paid_conf) : 0.0;
-         $crypto_amount_paid_total  = $crypto_amount_paid_conf + $crypto_amount_paid_unconf;
-         
-         /*
-          ---------------------------------- */
-         // Optional : Send data back to API regarding orders paid using TripleA
-         // Create our own payment info object, to store as meta data for the order.
-         /* ---------------------------------- */
-         
-         $notes = [];
-         if ($this->triplea_mode === 'test') {
-            $notes[] = 'Order was made in <strong>TEST mode</strong>!';
-         }
-         
-         // Indicate that payment was made.
-         // Payment was made. Do this to take into account for stock management or other such actions.
-         
-         // $wc_order->payment_complete('BTC' . ' address: ' . $addr);
-         
-         triplea_write_log('process_payment() : Order placed, paid with Bitcoin. ', $debug_log_enabled);
-         
-         // Set the expected value for the order status update function.
-         // This value is different from $order_status_paid because this function is
-         // used to parse encrypted payloads from TripleA Payment Update Notifications.
-         $order_status = 'paid';
-         $this->api->triplea_update_bitcoin_payment_order_status($order_status, $notes, $wc_order, $addr, $tx_status, $crypto_amount_paid_total, $crypto_amount, $local_currency, $order_amount, $exchange_rate);
-         
-         foreach ($notes as $note) {
-            $wc_order->add_order_note(__($note, 'triplea-cryptocurrency-payment-gateway-for-woocommerce'));
-         }
-         
-         WC()->cart->empty_cart();
-         
-         return [
-            'result'   => 'success',
-            'redirect' => $this->get_return_url($wc_order),
-         ];
-      }
-      catch (Exception $error) {
-         if (method_exists($error, 'getJsonBody')) {
-            $oops          = $error->getJsonBody();
-            $error_message = $oops['error']['message'];
-         }
-         else {
-            $error_message = $error->getMessage();
-         }
-         
-         if (!function_exists('wc_add_notice')) {
-            require_once ABSPATH . '/wp-content/plugins/woocommerce/includes/wc-notice-functions.php';
-         }
-         
-         wc_add_notice(__('Payment Failed ', 'triplea-cryptocurrency-payment-gateway-for-woocommerce') . '( ' . $error_message . ' ).', $notice_type = 'error');
-         
+      /*
+       *  We set a transaction id token, securely randomly generated.
+       *  This helps when receiving payment update notifications from the API,
+       *  to match the notification with the related order.
+       *  (No order ID is available for matching until after payment and order creation, which explains the need for this.)
+       */
+      $tx_id = WC()->session->get('generate_order_txid'); // $_POST['triplea_order_txid']; // dont trust frontend !
+      if (empty($tx_id)) {
          return [
             'reload'   => FALSE,
             'refresh'  => FALSE,
             'result'   => 'failure',
-            'messages' => 'Exception occured. Message: ' . $error_message,
+            'messages' => 'Session is missing order tx id.',
          ];
       }
+      if (0 === count(get_post_meta($order_id, '_triplea_tx_id'))) {
+         add_post_meta($order_id, '_triplea_tx_id', $tx_id);
+         triplea_write_log('process_payment() : Adding order_txid to new order metadata', $debug_log_enabled);
+      }
+      else {
+         update_post_meta($order_id, '_triplea_tx_id', $tx_id);
+         triplea_write_log('process_payment() : Updating order_txid in new order metadata', $debug_log_enabled);
+      }
+      
+      // Get payment reference from session (don't trust front-end form data).
+      $payment_reference = WC()->session->get('triplea_payment_reference');
+      if (empty($payment_reference)) {
+         return [
+            'reload'   => FALSE,
+            'refresh'  => FALSE,
+            'result'   => 'failure',
+            'messages' => 'Session is missing payment reference.',
+         ];
+      }
+      if (0 === count(get_post_meta($order_id, '_triplea_payment_reference'))) {
+         add_post_meta($order_id, '_triplea_payment_reference', $payment_reference);
+         triplea_write_log('process_payment() : Adding payment_reference to new order metadata', $debug_log_enabled);
+      }
+      else {
+         update_post_meta($order_id, '_triplea_payment_reference', $payment_reference);
+         triplea_write_log('process_payment() : Updating payment_reference in new order metadata', $debug_log_enabled);
+      }
+      
+      // Get access token from session (don't trust front-end form data).
+      $access_token = WC()->session->get('triplea_payment_access_token');
+      if (empty($access_token)) {
+         return [
+            'reload'   => FALSE,
+            'refresh'  => FALSE,
+            'result'   => 'failure',
+            'messages' => 'Session is missing access token.',
+         ];
+      }
+      if (0 === count(get_post_meta($order_id, '_triplea_access_token'))) {
+         add_post_meta($order_id, '_triplea_access_token', $access_token);
+         triplea_write_log('process_payment() : Adding access_token to new order metadata', $debug_log_enabled);
+      }
+      else {
+         update_post_meta($order_id, '_triplea_access_token', $access_token);
+         triplea_write_log('process_payment() : Updating access_token in new order metadata', $debug_log_enabled);
+      }
+      
+      // Get notify_secret from session (don't trust front-end form data).
+      $notify_secret = WC()->session->get('triplea_payment_notify_secret');
+      if (empty($notify_secret)) {
+         return [
+            'reload'   => FALSE,
+            'refresh'  => FALSE,
+            'result'   => 'failure',
+            'messages' => 'Session is missing a notify secret.',
+         ];
+      }
+      if (0 === count(get_post_meta($order_id, '_triplea_notify_secret'))) {
+         add_post_meta($order_id, '_triplea_notify_secret', $notify_secret);
+         triplea_write_log('process_payment() : Adding notify_secret to new order metadata', $debug_log_enabled);
+      }
+      else {
+         update_post_meta($order_id, '_triplea_notify_secret', $notify_secret);
+         triplea_write_log('process_payment() : Updating notify_secret in new order metadata', $debug_log_enabled);
+      }
+      
+      // Get crypto address from session (don't trust front-end form data).
+      $crypto_address = WC()->session->get('triplea_payment_crypto_address');
+      if (empty($crypto_address)) {
+         return [
+            'reload'   => FALSE,
+            'refresh'  => FALSE,
+            'result'   => 'failure',
+            'messages' => 'Session is missing a crypto address.',
+         ];
+      }
+      if (0 === count(get_post_meta($order_id, '_triplea_crypto_address'))) {
+         add_post_meta($order_id, '_triplea_crypto_address', $crypto_address);
+         triplea_write_log('process_payment() : Adding crypto_address to new order metadata', $debug_log_enabled);
+      }
+      else {
+         update_post_meta($order_id, '_triplea_crypto_address', $crypto_address);
+         triplea_write_log('process_payment() : Updating crypto_address in new order metadata', $debug_log_enabled);
+      }
+      
+      // Could repeat the above, if needed, for order currency, order amount, exchange rate, and more.
+      
+      
+      // Call TripleA API to get payment details (paid or not? enough or too little?).
+      $payment_data = $this->get_payment_form_status_update($payment_reference);
+      triplea_write_log("process_payment() : payment status check, received data : \n" . print_r($payment_data, TRUE), $debug_log_enabled);
+   
+      $status_info = null;
+      if ( !isset($payment_data->error) ) {
+         $status_info = self::update_order_status($payment_data, $wc_order, TRUE);
+      }
+      
+      if (isset($payment_data->error) || $status_info['error']) {
+         wc_add_notice(__('Payment Failed', 'triplea-cryptocurrency-payment-gateway-for-woocommerce'), $notice_type = 'error');
+   
+         return [
+            'reload'   => FALSE,
+            'refresh'  => FALSE,
+            'result'   => 'failure',
+            'messages' => 'Exception occured. Message: failed API status payment status check',
+         ];
+      }
+   
+      WC()->cart->empty_cart();
+      
+      // Clearing session data for payment, so that a new payment could be made.
+      WC()->session->set('triplea_payment_hosted_url', null);
+      WC()->session->set('triplea_payment_reference', null);
+      WC()->session->set('triplea_payment_access_token', null);
+      WC()->session->set('triplea_payment_access_token_expiry', null);
+      WC()->session->set('triplea_payment_notify_secret', null);
+      WC()->session->set('triplea_payment_crypto_currency', null);
+      WC()->session->set('triplea_payment_crypto_address', null);
+      WC()->session->set('triplea_payment_crypto_amount', null);
+      WC()->session->set('triplea_payment_order_currency', null);
+      WC()->session->set('triplea_payment_order_amount', null);
+      WC()->session->set('triplea_payment_exchange_rate', null);
+      
+      return [
+         'result'   => 'success',
+         'redirect' => $this->get_return_url($wc_order),
+      ];
+      
+      
+      //      wc_add_notice(__('Payment Failed ', 'triplea-cryptocurrency-payment-gateway-for-woocommerce') . '( ' . $error_message . ' ).', $notice_type = 'error');
+      //
+      //      return [
+      //         'reload'   => FALSE,
+      //         'refresh'  => FALSE,
+      //         'result'   => 'failure',
+      //         'messages' => 'Exception occured. Message: ' . $error_message,
+      //      ];
+   
    }
    
    /**
@@ -1473,7 +1832,10 @@ You can receive your transaction payments in bitcoins or in your local currency.
     *
     * @return array
     */
-   protected function decrypt_payload($balance_payload_full, $wc_order) {
+   protected
+   function decrypt_payload(
+      $balance_payload_full, $wc_order
+   ) {
       
       $debug_log_enabled = $this->get_option('debug_log_enabled') === 'yes' ? TRUE : FALSE;
       
@@ -1509,7 +1871,8 @@ You can receive your transaction payments in bitcoins or in your local currency.
     *
     * @return array
     */
-   public function get_clients_details() {
+   public
+   function get_clients_details() {
       return [
          'IP'      => $_SERVER['REMOTE_ADDR'],
          'Agent'   => $_SERVER['HTTP_USER_AGENT'],
@@ -1529,7 +1892,10 @@ You can receive your transaction payments in bitcoins or in your local currency.
     *
     * @return boolean True or false based on success, or a WP_Error object.
     */
-   public function process_refund($order_id, $amount = NULL, $reason = '') {
+   public
+   function process_refund(
+      $order_id, $amount = NULL, $reason = ''
+   ) {
       return FALSE;
    }
    
@@ -1694,7 +2060,10 @@ public function generate_triplea_pubkeyid_script_html($key, $data) {
     * TripleA APIv1 new code
     */
    
-   public function display_embedded_payment_form_button($button_html) {
+   public
+   function display_embedded_payment_form_button(
+      $button_html
+   ) {
       global $wp;
       $debug_log_enabled = $this->get_option('debug_log_enabled') === 'yes';
       triplea_write_log("display_embedded_payment_form_button() starting", $debug_log_enabled);
@@ -1702,69 +2071,20 @@ public function generate_triplea_pubkeyid_script_html($key, $data) {
       $nonce_action               = '_wc_triplea_get_payment_form_data';
       $paymentform_ajax_url       = WC_AJAX::get_endpoint('wc_triplea_get_payment_form_data');
       $paymentform_ajax_nonce_url = wp_nonce_url($paymentform_ajax_url, $nonce_action);
+      $output_paymentform_url     = '<div id="triplea-payment-gateway-payment-form-request-ajax-url" data-value="' . $paymentform_ajax_nonce_url . '" style="display:none;"></div>';
       
-      $output_paymentform_url = '<div id="triplea-payment-gateway-payment-form-request-ajax-url" data-value="' . $paymentform_ajax_nonce_url . '" style="display:none;"></div>';
+      $order_button_text = 'Pay with bitcoin';
+      $output            = '<button type="button"
+      style="margin: 0 auto; display: block;"
+      class="button alt"
+      onclick="triplea_getPaymentFormData()"
+      name="triplea_embedded_payment_form_btn"
+      id="triplea_embedded_payment_form_btn"
+      value="' . esc_attr($order_button_text) . '"
+      data-value="' . esc_attr($order_button_text) . '">' . esc_html($order_button_text) . '</button>';
       
-      
-      if (!WC()->session->has_session()) {
-         // No session exists. We generate the needed data.
-         triplea_write_log("display_embedded_payment_form_button() : no session data yet", $debug_log_enabled);
-         
-         $data_tx_id_token = $this->generate_order_txid();
-         WC()->session->set('generate_order_txid', $data_tx_id_token);
-         
-         // TODO call TripleA API, make payment form request
-         // TODO receive payment reference and access token and store them
-         
-         // TODO useful only if we make the payment form request here and now..
-         if (is_checkout_pay_page()) {
-            $data_order_id = get_query_var('order-pay');
-            $order         = wc_get_order($data_order_id);
-            
-            $data_amount   = esc_attr(((WC()->version < '2.7.0') ? $order->order_total : $order->get_total()));
-            $data_currency = esc_attr(((WC()->version < '2.7.0') ? $order->order_currency : $order->get_currency()));
-         }
-         else {
-            $data_amount   = esc_attr(WC()->cart->total);
-            $data_currency = esc_attr(strtoupper(get_woocommerce_currency()));
-         }
-         
-         $triplea_payment_reference = NULL;
-         WC()->session->set('triplea_payment_reference', $triplea_payment_reference);
-         
-         $triplea_payment_access_token = NULL;
-         WC()->session->set('triplea_payment_access_token', $triplea_payment_access_token);
-         
-      }
-      else {
-         // A session exists. We re-use the available data.
-         
-         triplea_write_log("display_embedded_payment_form_button() : session exists", $debug_log_enabled);
-         
-         //$data_tx_id_token = WC()->session->get('triplea_payment_client_txid');
-         $data_tx_id_token = WC()->session->get('generate_order_txid');
-         if (empty($data_tx_id_token)) {
-            triplea_write_log("display_embedded_payment_form_button() : no generate_order_txid yet, generating new one", $debug_log_enabled);
-            
-            $data_tx_id_token = $this->generate_order_txid();
-            WC()->session->set('generate_order_txid', $data_tx_id_token);
-            
-            triplea_write_log("display_embedded_payment_form_button() : new generate_order_txid = " . $data_tx_id_token, $debug_log_enabled);
-         }
-         
-         $triplea_payment_reference    = WC()->session->get('triplea_payment_reference');
-         $triplea_payment_access_token = WC()->session->get('triplea_payment_access_token');
-         
-         // TODO should empty these values during order processing, if successful?
-      }
-      
-      $nonce_action             = '_wc_triplea_get_payment_form_data';
-      $start_checkout_url       = WC_AJAX::get_endpoint('wc_triplea_get_payment_form_data');
-      $start_checkout_nonce_url = wp_nonce_url($start_checkout_url, $nonce_action);
-      
-      $order_button_text = 'make payment';
-      $output            = '<button type="button" class="button alt" name="triplea_embedded_payment_form" id="triplea_embedded_payment_form" value="' . esc_attr($order_button_text) . '" data-value="' . esc_attr($order_button_text) . '">' . esc_html($order_button_text) . '</button>';
-      $output            .= '<pre>' . $start_checkout_nonce_url . '</pre>';
+      // TODO Remove this debug code
+      $output .= '<!--small><pre>' . $paymentform_ajax_nonce_url . '</pre></small-->';
       
       return $button_html . $output . $output_paymentform_url;
    }
@@ -1775,65 +2095,138 @@ public function generate_triplea_pubkeyid_script_html($key, $data) {
     *
     * @since 1.6.0
     */
-   public static function triplea_ajax_get_payment_form_data() {
+   public
+   static function triplea_ajax_get_payment_form_data() {
       
       if (!wp_verify_nonce($_GET['_wpnonce'], '_wc_triplea_get_payment_form_data')) {
          wp_die(__('Bad attempt', 'triplea-cryptocurrency-payment-gateway-for-woocommerce'));
       }
       
-      if (!WC()->session->has_session()) {
-         $session_exists           = FALSE;
-         $payment_form_data_exists = FALSE;
-         
-         $triplea_payment_reference    = 'pay_ref_123_default';
-         $triplea_payment_access_token = 'accesstoken_123_default';
-      }
-      else {
-         $session_exists = TRUE;
-         
-         $triplea_payment_reference    = WC()->session->get('triplea_payment_reference');
-         $triplea_payment_access_token = WC()->session->get('triplea_payment_access_token');
-         
-         if (empty($triplea_payment_access_token) || empty($triplea_payment_reference)) {
-            $payment_form_data_exists     = FALSE;
-            $triplea_payment_reference    = 'pay_ref_123_default_2';
-            $triplea_payment_access_token = 'accesstoken_123_default_2';
-         }
-         else {
-            $payment_form_data_exists = TRUE;
-         }
-      }
+      $payment_reference        = $access_token = $hosted_url = $data_order_txid = NULL;
+      $need_data                = TRUE;
+      $payment_form_data_exists = FALSE;
       
       $triplea           = new TripleA_Payment_Gateway();
       $debug_log_enabled = $triplea->get_option('debug_log_enabled') === 'yes';
-      $payment_form_data = $triplea->get_payment_form_request();
       
-      if (isset($payment_form_data->error) || !isset($payment_form_data->payment_reference)) {
-         triplea_write_log('Error. Ajax payment form request failed', $debug_log_enabled);
-         echo json_encode(
-            [
-               'status'  => 'notok',
-               'code'    => isset($payment_form_data->code) ? $payment_form_data->code : 'Unknown error code.',
-               'message' => isset($payment_form_data->message) ? $payment_form_data->message : 'Unknown error message.',
-               'error'   => isset($payment_form_data->error) ? $payment_form_data->error : 'Unknown error.',
-            ]
-         );
-         return;
-      }
-      
-      triplea_write_log('Ajax payment form request succeeded', $debug_log_enabled);
-      
-      WC()->session->set('triplea_payment_reference', $payment_form_data->payment_reference);
-      WC()->session->set('triplea_payment_access_token', $payment_form_data->access_token);
-      WC()->session->set('triplea_payment_hosted_url', $payment_form_data->hosted_url);
+      $loop_count = 2;
+      do {
+         
+         if (!WC()->session->has_session()) {
+            $session_exists           = FALSE;
+            $payment_form_data_exists = FALSE;
+            
+            $data_order_txid = $triplea->generate_order_txid();
+            triplea_write_log('triplea_ajax_get_payment_form_data() : Generated new order_txid as there was no session yet : ' . $data_order_txid, $debug_log_enabled);
+            
+         }
+         else {
+            $session_exists = TRUE;
+            
+            $payment_reference   = WC()->session->get('triplea_payment_reference');
+            $access_token        = WC()->session->get('triplea_payment_access_token');
+            $hosted_url          = WC()->session->get('triplea_payment_hosted_url');
+            $access_token_expiry = WC()->session->get('triplea_payment_access_token_expiry');
+            
+            if (!empty($payment_reference)
+                && !empty($access_token)
+                && !empty($hosted_url)
+                && !empty($access_token_expiry)) {
+               $date_now = (new DateTime())->getTimestamp();
+               // Just to avoid loading a second before expiry of token.
+               $five_minutes = 5 * 60;
+               //if ($access_token_expiry > $date_now + $five_minutes) {
+               if ($access_token_expiry < $date_now + $five_minutes) {
+                  triplea_write_log('triplea_ajax_get_payment_form_data() : access token expired, ' . $access_token_expiry . ' < ' . ($date_now + $five_minutes), $debug_log_enabled);
+                  $need_data = TRUE;
+               }
+               else {
+                  $need_data = FALSE;
+               }
+               $payment_form_data_exists = TRUE;
+            }
+            
+            $data_order_txid = WC()->session->get('generate_order_txid');
+            if (empty($data_order_txid)) {
+               $data_order_txid = $triplea->generate_order_txid();
+               WC()->session->set('generate_order_txid', $data_order_txid);
+               triplea_write_log('triplea_ajax_get_payment_form_data() : Generated new order_txid because there was none yet in the existing session : ' . $data_order_txid, $debug_log_enabled);
+            }
+            
+         }
+         
+         $is_data_expired = FALSE;
+         if ($need_data) {
+            triplea_write_log('Preparing to make payment form request using order_txd "' . $data_order_txid . '".', $debug_log_enabled);
+            
+            $payment_form_data = $triplea->get_payment_form_request($data_order_txid);
+            
+            if (isset($payment_form_data->error) || !isset($payment_form_data->payment_reference)) {
+               triplea_write_log('Error. Ajax payment form request failed', $debug_log_enabled);
+               echo json_encode(
+                  [
+                     'status'  => 'notok',
+                     'code'    => isset($payment_form_data->code) ? $payment_form_data->code : 'Unknown error code.',
+                     'message' => isset($payment_form_data->message) ? $payment_form_data->message : 'Unknown error message.',
+                     'error'   => isset($payment_form_data->error) ? $payment_form_data->error : 'Unknown error.',
+                  ]
+               );
+               return;
+            }
+            
+            triplea_write_log('Ajax payment form request succeeded', $debug_log_enabled);
+            
+            // Needed in the checkout front-end page
+            WC()->session->set('triplea_payment_hosted_url', $payment_form_data->hosted_url);
+            // TODO ! Get this from session during process_payment order placing call.
+            WC()->session->set('triplea_payment_reference', $payment_form_data->payment_reference);
+            WC()->session->set('triplea_payment_access_token', $payment_form_data->access_token);
+            WC()->session->set('triplea_payment_access_token_expiry', (new DateTime())->getTimestamp() + $payment_form_data->expires_in);
+            WC()->session->set('triplea_payment_notify_secret', $payment_form_data->notify_secret);
+            WC()->session->set('triplea_payment_crypto_currency', $payment_form_data->crypto_currency);
+            WC()->session->set('triplea_payment_crypto_address', $payment_form_data->crypto_address);
+            WC()->session->set('triplea_payment_crypto_amount', $payment_form_data->crypto_amount);
+            WC()->session->set('triplea_payment_order_currency', $payment_form_data->order_currency);
+            WC()->session->set('triplea_payment_order_amount', $payment_form_data->order_amount);
+            WC()->session->set('triplea_payment_exchange_rate', $payment_form_data->exchange_rate);
+            
+            $payment_reference             = $payment_form_data->payment_reference;
+            $access_token                  = $payment_form_data->access_token;
+            $hosted_url                    = $payment_form_data->hosted_url;
+            $access_token_expiry_time_left = $payment_form_data->expires_in;
+            if ($access_token_expiry_time_left < (5 * 60)) {
+               $is_data_expired = TRUE;
+            }
+         }
+         
+         
+         // TODO verify payment status, make sure the session's data hasn't expired yet..
+         triplea_write_log('Checking payment status to make sure we dont use expired cached form data', $debug_log_enabled);
+         
+         // Access token expiry is what we're interested in, so the below check can be avoided?
+         //$is_data_expired = $triplea->get_payment_form_status_update();
+         
+         if ($is_data_expired) {
+            triplea_write_log('Cached payment status has expired. Resetting form data to force refresh.', $debug_log_enabled);
+            WC()->session->set('triplea_payment_reference', NULL);
+            WC()->session->set('triplea_payment_access_token', NULL);
+            WC()->session->set('triplea_payment_hosted_url', NULL);
+         }
+         else {
+            triplea_write_log('Payment status data is up-to-date, ready to use for the checkout page.', $debug_log_enabled);
+         }
+         
+         $loop_count -= 1;
+      } while ($is_data_expired && $loop_count >= 0);
       
       echo json_encode(
          [
             'status'            => 'ok',
             'message'           => 'Payment form data ready.',
-            'payment_reference' => $payment_form_data->payment_reference,
-            'access_token'      => $payment_form_data->access_token,
-            'url'               => $payment_form_data->hosted_url,
+            'payment_reference' => $payment_reference,
+            'access_token'      => $access_token,
+            'url'               => $hosted_url,
+            'order_txid'        => $data_order_txid,
             'meta'              => [
                'session_exists'           => $session_exists,
                'payment_form_data_exists' => $payment_form_data_exists,
@@ -1842,7 +2235,8 @@ public function generate_triplea_pubkeyid_script_html($key, $data) {
       );
    }
    
-   private function refreshOauthTokens() {
+   private
+   function refreshOauthTokens() {
       $debug_log_enabled = $this->get_option('debug_log_enabled') === 'yes';
       
       triplea_write_log('refreshOauthToken() starting', $debug_log_enabled);
@@ -1850,47 +2244,50 @@ public function generate_triplea_pubkeyid_script_html($key, $data) {
       //      $this->triplea_fiat_client_secret = $this->get_option('triplea_fiat_client_secret');
       
       $date_now          = (new DateTime())->getTimestamp();
-      $date_expiry_limit = $date_now - 864000; // 10 days before the 10 year limit is over
+      $date_expiry_limit = $date_now - 864000;   // 10 days before the 10 year limit is over
       
-      if (isset($this->triplea_fiat_client_id) && !empty($this->triplea_fiat_client_id)
-          && isset($this->triplea_fiat_client_secret) && !empty($this->triplea_fiat_client_secret)
-          && (!isset($this->triplea_fiat_oauth_token)
-              || empty($this->triplea_fiat_oauth_token)
-              || $this->triplea_fiat_oauth_token_expiry <= $date_expiry_limit)) {
-         if ($this->triplea_fiat_oauth_token_expiry <= $date_expiry_limit) {
-            triplea_write_log('OAuth token (for local currency settlement) expires in less than 10 days. Requesting a new oauth token.', $debug_log_enabled);
+      if (isset($this->triplea_btc2fiat_client_id) && !empty($this->triplea_btc2fiat_client_id)
+          && isset($this->triplea_btc2fiat_client_secret) && !empty($this->triplea_btc2fiat_client_secret)
+          && (!isset($this->triplea_btc2fiat_oauth_token)
+              || empty($this->triplea_btc2fiat_oauth_token)
+              || $this->triplea_btc2fiat_oauth_token_expiry <= $date_expiry_limit)) {
+         if ($this->triplea_btc2fiat_oauth_token_expiry <= $date_expiry_limit) {
+            triplea_write_log('refreshOauthToken() OAuth token (for local currency settlement) expires in less than 10 days. Requesting a new oauth token.', $debug_log_enabled);
          }
          else {
-            triplea_write_log('OAuth token (for local currency settlement) is missing. Requesting a new oauth token.', $debug_log_enabled);
+            triplea_write_log('refreshOauthToken() OAuth token (for local currency settlement) is missing. Requesting a new oauth token.', $debug_log_enabled);
          }
-         $new_token_data = $this->getOauthToken($this->triplea_fiat_client_id, $this->triplea_fiat_client_secret);
+         $new_token_data = $this->getOauthToken($this->triplea_btc2fiat_client_id, $this->triplea_btc2fiat_client_secret);
          
-         triplea_write_log('OAuth token data received : ' . print_r($new_token_data, TRUE), $debug_log_enabled);
+         triplea_write_log('refreshOauthToken() OAuth token data received : ' . print_r($new_token_data, TRUE), $debug_log_enabled);
          
          if ($new_token_data !== FALSE
              && isset($new_token_data->access_token)
              && !empty($new_token_data->access_token)
              && isset($new_token_data->expires_in)
              && !empty($new_token_data->expires_in)) {
-            $this->triplea_fiat_oauth_token        = $new_token_data->access_token;
-            $this->triplea_fiat_oauth_token_expiry = $date_now + $new_token_data->expires_in;
-            $this->update_option('triplea_fiat_oauth_token', $this->triplea_fiat_oauth_token);
-            $this->update_option('triplea_fiat_oauth_token_expiry', $this->triplea_fiat_oauth_token_expiry);
-            triplea_write_log('Obtained and saved a new oauth token.', $debug_log_enabled);
+            $this->triplea_btc2fiat_oauth_token        = $new_token_data->access_token;
+            $this->triplea_btc2fiat_oauth_token_expiry = $date_now + $new_token_data->expires_in;
+            $this->update_option('triplea_fiat_oauth_token', $this->triplea_btc2fiat_oauth_token);
+            $this->update_option('triplea_fiat_oauth_token_expiry', $this->triplea_btc2fiat_oauth_token_expiry);
+            triplea_write_log('refreshOauthToken() Obtained and saved a new oauth token.', $debug_log_enabled);
          }
          else {
-            triplea_write_log("A problem happened, could not get a new oauth token. \n" . print_r($new_token_data, TRUE), $debug_log_enabled);
-            $this->triplea_fiat_oauth_token        = NULL;
-            $this->triplea_fiat_oauth_token_expiry = NULL;
-            $this->update_option('triplea_fiat_oauth_token', $this->triplea_fiat_oauth_token);
-            $this->update_option('triplea_fiat_oauth_token_expiry', $this->triplea_fiat_oauth_token_expiry);
+            triplea_write_log("refreshOauthToken() A problem happened, could not get a new oauth token. \n" . print_r($new_token_data, TRUE), $debug_log_enabled);
+            $this->triplea_btc2fiat_oauth_token        = NULL;
+            $this->triplea_btc2fiat_oauth_token_expiry = NULL;
+            $this->update_option('triplea_fiat_oauth_token', $this->triplea_btc2fiat_oauth_token);
+            $this->update_option('triplea_fiat_oauth_token_expiry', $this->triplea_btc2fiat_oauth_token_expiry);
          }
       }
       
-      // TODO Important: Add code to get BTC and testBTC oauth tokens too
+      // TODO Important: Add code to get BTC and testBTC oauth tokens too for bitcoin settlement
    }
    
-   private function getOauthToken($client_id, $client_secret) {
+   private
+   function getOauthToken(
+      $client_id, $client_secret
+   ) {
       $debug_log_enabled = $this->get_option('debug_log_enabled') === 'yes';
       
       $post_url = 'https://api.triple-a.io/api/v1/oauth/token';
@@ -1927,7 +2324,10 @@ public function generate_triplea_pubkeyid_script_html($key, $data) {
     *
     * @return mixed|string[]|object
     */
-   private function get_payment_form_request() {
+   private
+   function get_payment_form_request(
+      $order_txid
+   ) {
       $debug_log_enabled = $this->get_option('debug_log_enabled') === 'yes';
       
       $this->activePaymentAccountNeeded();
@@ -1938,7 +2338,7 @@ public function generate_triplea_pubkeyid_script_html($key, $data) {
       }
       
       $post_url = 'https://api.triple-a.io/api/v1/payment/request';
-      $body     = $this->preparePaymentFormRequestBody();
+      $body     = $this->preparePaymentFormRequestBody($order_txid);
       
       triplea_write_log("Making a payment form API request with body: \n" . print_r($body, TRUE), $debug_log_enabled);
       
@@ -1979,12 +2379,126 @@ public function generate_triplea_pubkeyid_script_html($key, $data) {
    }
    
    /**
+    * Get the payment details. Allows instant checking of the up-to-date payment
+    * status. API doc: https://doc.triple-a.io/#operation/PaymentDetails
+    *
+    * Sample response:
+    * {
+    * "payment_reference": "SDF-453672-PMT",
+    * "crypto_currency": "testBTC",
+    * "crypto_address": "1NcAyv8YVCnQGCrDb4kiUm1jj6GLyowxER",
+    * "crypto_amount": 0.001067203,
+    * "order_currency": "USD",
+    * "order_amount": 10,
+    * "exchange_rate": 9370.28,
+    * "expiry_date": "2020-01-26T03:57:22Z",
+    * "unconfirmed_crypto_amt": 0,
+    * "unconfirmed_order_amt": 0,
+    * "confirmed_crypto_amt": 0.00023,
+    * "confirmed_order_amt": 2.3,
+    * "status": "confirmed",
+    * "status_date": "2020-01-26T03:57:22Z",
+    * "payment_tier": "good",
+    * "payment_tier_date": "2020-01-26T03:57:22Z",
+    * "payment_amount": 2.3,
+    * "cart": {
+    * "items": [
+    * {
+    * "sku": "ABC8279289",
+    * "label": "A tale of 2 cities",
+    * "quantity": 10,
+    * "amount": 7
+    * }
+    * ],
+    * "shipping_cost": 2,
+    * "shipping_discount": 1,
+    * "tax_cost": 2
+    * },
+    * "expires_in": 3599,
+    * "site_name": "TripleA Gift Cards Pte Ltd",
+    * "success_url": "https://www.success.io/success.html",
+    * "cancel_url": "https://www.failure.io/cancel.html",
+    * "hosted_page": {
+    * "version": 1,
+    * "name": "Gift Cards Galore",
+    * "logo_url": "https://triple-a.io/logo.png",
+    * "tagline": "Tons of gift cards as long as they are Amazon",
+    * "btn_primary_background_color": "#46d5ba",
+    * "btn_primary_color": "#ffffff",
+    * "page_background_color": "#2da2fb"
+    * },
+    * "payer_id": "TRE1787238200",
+    * "payer_name": "Alice Tan",
+    * "payer_email": "alice.tan@triple-a.io",
+    * "payer_phone": "+6591234567",
+    * "payer_address": "1 Parliament Place, Singapore 178880",
+    * "payer_poi":
+    * "https://icatcare.org/app/uploads/2018/07/Thinking-of-getting-a-cat.png",
+    * "payer_required_data": {
+    * "payer_email_or_phone": true,
+    * "payer_name": false,
+    * "payer_address": false,
+    * "payer_poi": false
+    * }
+    * }
+    *
+    * @param $payment_reference
+    *
+    * @return array|mixed|string[]
+    */
+   private function get_payment_form_status_update($payment_reference) {
+      $debug_log_enabled = $this->get_option('debug_log_enabled') === 'yes';
+      
+      $this->activePaymentAccountNeeded();
+   
+      $oauth_token = $this->get_option('triplea_fiat_oauth_token');
+      if (empty($oauth_token)) {
+         wp_die('Missing oauth token.');
+      }
+      
+      $post_url = "https://api.triple-a.io/api/v1/payment/$payment_reference";
+      
+      $result = wp_remote_get($post_url, [
+         'headers'     => [
+            'Authorization' => 'Bearer ' . $oauth_token,
+         ],
+         //'sslverify' => false,
+         //'body'        => json_encode($body),
+         'data_format' => 'body',
+      ]);
+      
+      if (is_wp_error($result)) {
+         wp_die('Could not complete the payment status API request.');
+      }
+      
+      if ($result['response']['code'] > 299) {
+         return (object) [
+            'error'   => 'Error happened, could not complete the payment form request.',
+            'code'    => $result['response']['code'],
+            'message' => $result['response']['message'],
+         ];
+      }
+      
+      $json_result = json_decode($result['body']);
+      if (!isset($json_result->payment_reference)) {
+         return [
+            'error' => 'Error happened, wrong payment form request data format received.',
+         ];
+      }
+      
+      return $json_result;
+   }
+   
+   /**
     * Returns an array containing all required data (request body) about the
     * order for which a payment form request will be sent.
     *
     * @return array
     */
-   private function preparePaymentFormRequestBody() {
+   private
+   function preparePaymentFormRequestBody(
+      $order_txid
+   ) {
       $debug_log_enabled = $this->get_option('debug_log_enabled') === 'yes';
       
       // Need to know whether it's btc or fiat settlement, sandbox or live payments
@@ -2025,15 +2539,17 @@ public function generate_triplea_pubkeyid_script_html($key, $data) {
          $order_amount   = esc_attr(WC()->cart->total);
          $order_currency = esc_attr(strtoupper(get_woocommerce_currency()));
       }
+      
       $tax_cost          = NULL; //WC()->cart->get_tax_totals();
       $shipping_cost     = empty(WC()->cart->get_cart_shipping_total()) ? NULL : WC()->cart->get_cart_shipping_total();
       $shipping_discount = NULL;
       
       $extra_metadata = [
-         'order_txid' => WC()->session->get('generate_order_txid'),
+         //'order_txid' => WC()->session->get('generate_order_txid'),
+         'order_txid' => $order_txid,
       ];
       
-      $notify_url = get_rest_url(NULL, 'triplea/v1/tx_update/' . get_option('triplea_api_endpoint_token'));
+      $notify_url = get_rest_url(NULL, 'triplea/v1/triplea_webhook/' . get_option('triplea_api_endpoint_token'));
       
       if (isset(WC()->customer) && WC()->customer->get_id()) {
          $payer_id    = WC()->customer->get_id() . '__' . WC()->customer->get_username();
@@ -2201,14 +2717,18 @@ public function generate_triplea_pubkeyid_script_html($key, $data) {
       return $body;
    }
    
-   private function activePaymentAccountNeeded() {
+   private
+   function activePaymentAccountNeeded() {
       $triplea_active_api_id = $this->get_option('triplea_active_api_id');
       if (!isset($triplea_active_api_id) || empty($triplea_active_api_id)) {
          wp_die('Error. No active payment account found.');
       }
    }
    
-   private function randomString($length = 24) {
+   private
+   function randomString(
+      $length = 24
+   ) {
       if (PHP_VERSION >= 7) {
          $bytes = random_bytes($length);
       }

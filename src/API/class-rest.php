@@ -3,6 +3,7 @@
 
 namespace TripleA_Cryptocurrency_Payment_Gateway_for_WooCommerce\API;
 
+use TripleA_Cryptocurrency_Payment_Gateway_for_WooCommerce\WooCommerce\TripleA_Payment_Gateway;
 use WC_Order_Query;
 use WP_Error;
 use WP_REST_Request;
@@ -41,7 +42,7 @@ class REST {
       
       register_rest_route(
          'triplea/v1',
-         '/webhook/(?P<token>[a-zA-Z0-9-_]+)',
+         '/triplea_webhook/(?P<token>[a-zA-Z0-9-_]+)',
          array(
             'methods'  => 'POST',
             'callback' => array( $this, 'handle_api_webhook_update' ),
@@ -56,7 +57,41 @@ class REST {
     * @param WP_REST_Request $request
     */
    public function handle_api_webhook_update( WP_REST_Request $request ) {
-	  
+      /**
+       * Get plugin configuration settings.
+       */
+      $triplea = new TripleA_Payment_Gateway();
+   
+      $debug_log_enabled = $triplea->get_option('debug_log_enabled') === 'yes';
+      
+      // Load necessary plugin settings
+      triplea_write_log( 'webhook_update : Received payment update notification. Status = ' . $request->get_param( 'status' ), $debug_log_enabled );
+      triplea_write_log( 'webhook_update : - Params = ' . print_r($request->get_headers(), true), $debug_log_enabled );
+      triplea_write_log( 'webhook_update : - Params = ' . print_r($request->get_params(), true), $debug_log_enabled );
+      triplea_write_log( 'webhook_update : - Body = ' . print_r($request->get_body(), true), $debug_log_enabled );
+      
+      $is_endpoint_token_valid = $this->verify_endpoint_token( $request->get_param( 'token' ) );
+      if (!$is_endpoint_token_valid) {
+         triplea_write_log( 'webhook_update(): endpoint token invalid, cannot proceed', $debug_log_enabled );
+         return new WP_Error(
+            'bad_token',
+            'Bad token',
+            array(
+               'status'   => 403,
+               //'settings' => $plugin_settings,
+            )
+         );
+      }
+   
+      triplea_write_log( 'webhook_update(): valid endpoint token, processing received webhook data...', $debug_log_enabled );
+      
+      $payment_data = json_decode($request->get_body());
+      $triplea::update_order_status($payment_data, NULL, false);
+   
+      return array(
+         'status' => 'ok',
+         'msg'    => 'Payment update notification well received and processed.',
+      );
    }
 	
    /**
@@ -86,9 +121,11 @@ class REST {
 		// Load necessary plugin settings
 		$debug_log_enabled = $plugin_settings['debug_log_enabled'];
 		triplea_write_log( 'tx_update : Received payment update notification. Status = ' . $request->get_param( 'status' ), $debug_log_enabled );
-		// triplea_write_log($request->get_param('payload'), $debug_log_enabled);
-
-		if ( isset( $plugin_settings['triplea_woocommerce_order_states'] ) && isset( $plugin_settings['triplea_woocommerce_order_states']['paid'] ) ) {
+      triplea_write_log( 'tx_update : - Params = ' . print_r($request->get_headers(), true), $debug_log_enabled );
+      triplea_write_log( 'tx_update : - Params = ' . print_r($request->get_params(), true), $debug_log_enabled );
+      triplea_write_log( 'tx_update : - Body = ' . print_r($request->get_body(), true), $debug_log_enabled );
+      
+      if ( isset( $plugin_settings['triplea_woocommerce_order_states'] ) && isset( $plugin_settings['triplea_woocommerce_order_states']['paid'] ) ) {
 //			$order_status_new       = $plugin_settings['triplea_woocommerce_order_states']['new'];
 			$order_status_paid      = $plugin_settings['triplea_woocommerce_order_states']['paid'];
 			$order_status_confirmed = $plugin_settings['triplea_woocommerce_order_states']['confirmed'];
@@ -262,6 +299,23 @@ class REST {
 		return array( 'status' => 'ok' );
 	}
 
+	public function verify_endpoint_token($token) {
+      // To compare and validate.
+      $api_endpoint_token = get_option( 'triplea_api_endpoint_token' );
+      
+      /**
+       * Validate security token (provided to TripleA API during TripleA PubKey ID retrieval).
+       * If token is not part of the return_url invoked, this request is unauthorised.
+       */
+      if ( $api_endpoint_token === $token ) {
+         return true;
+      } else {
+         // triplea_write_log('tx_update : Client endpoint token given by TripleA API did not match. ', $debug_log_enabled);
+         // triplea_write_log('tx_update :   Local value: ' . $api_endpoint_token, $debug_log_enabled);
+         // triplea_write_log('tx_update :   Given value: ' . $token, $debug_log_enabled);
+         return false;
+      }
+   }
 
 	/**
 	 * Search for an order with the meta key `_triplea_tx_id` equal to the given $order_tx_id.
