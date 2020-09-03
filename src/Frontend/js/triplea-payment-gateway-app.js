@@ -10,7 +10,7 @@
    *
    */
 
-  const TRIPLEA_PAYMENT_GATEWAY_FOR_WOOCOMMERCE_VERSION = '1.4.3';
+  const TRIPLEA_PAYMENT_GATEWAY_FOR_WOOCOMMERCE_VERSION = '1.4.4';
 
   let triplea_QRCode;
   let tripleaBalanceInterval    = null;

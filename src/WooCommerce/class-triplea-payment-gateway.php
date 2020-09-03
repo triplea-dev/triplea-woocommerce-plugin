@@ -326,8 +326,7 @@ You can receive your transaction payments in bitcoins or in your local currency.
 	 */
 	public function init_form_fields() {
 		$this->form_fields = include 'triplea-payment-gateway-settings-page.php';
-		wp_enqueue_media();
-
+		//wp_enqueue_media();  // causes conflicts with plugins like Tera Wallet, prevents product image updates!
 		$this->init_extra_form_fields();
 	}
 
