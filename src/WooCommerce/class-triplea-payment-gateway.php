@@ -920,8 +920,7 @@ You can receive your transaction payments in bitcoins or in your local currency.
     */
    public function init_form_fields() {
       $this->form_fields = include 'triplea-payment-gateway-settings-page.php';
-      wp_enqueue_media();
-      
+      //wp_enqueue_media();
       $this->init_extra_form_fields();
    }
    
@@ -985,7 +984,10 @@ You can receive your transaction payments in bitcoins or in your local currency.
       
       if (isset($_POST['triplea_woocommerce_order_states'])) {
          
-         $orderStates = $_POST['triplea_woocommerce_order_states']; // $this->settings['triplea_woocommerce_order_states'];
+         if (isset($this->settings['triplea_woocommerce_order_states']))
+            $orderStates = $this->settings['triplea_woocommerce_order_states'];
+         else
+            $orderStates = [];
          
          foreach ($triplea_statuses as $triplea_state => $triplea_name) {
             if (FALSE === isset($_POST['triplea_woocommerce_order_states'][$triplea_state])) {
