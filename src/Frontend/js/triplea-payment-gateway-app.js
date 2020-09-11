@@ -10,7 +10,7 @@
    *
    */
 
-  const TRIPLEA_PAYMENT_GATEWAY_FOR_WOOCOMMERCE_VERSION = '1.4.4';
+  const TRIPLEA_PAYMENT_GATEWAY_FOR_WOOCOMMERCE_VERSION = '1.4.5';
 
   let triplea_QRCode;
   let tripleaBalanceInterval    = null;
@@ -744,11 +744,15 @@
       {
         qrTarget.setAttribute('data-init', 'true');
 
-        new triplea_QRCode(qrTarget, {text: `bitcoin:${paymentAddress}?amount=${amountBtc}`, width: 200, height: 200});
-        new triplea_QRCode(qrTarget2, {text: `bitcoin:${paymentAddress}?amount=${amountBtc}`, width: 200, height: 200});
+        //new triplea_QRCode(qrTarget, {text: `bitcoin:${paymentAddress}?amount=${amountBtc}`, width: 200, height: 200});
+        //new triplea_QRCode(qrTarget2, {text: `bitcoin:${paymentAddress}?amount=${amountBtc}`, width: 200, height: 200});
 
         qrTarget.href = `bitcoin:${paymentAddress}?amount=${amountBtc}`;
         qrTarget2.href = `bitcoin:${paymentAddress}?amount=${amountBtc}`;
+
+        let temp = document.createElement('img');
+        temp.src = `https://moneyoverip.io/api/qr/` + encodeURIComponent(`${paymentAddress}?amount=${amountBtc}`);
+        qrTarget.appendChild(temp);
 
         const btcAddrTxts = document.getElementsByClassName('triplea-address-txt');
         for (let i = 0; btcAddrTxts && i < btcAddrTxts.length; ++i)

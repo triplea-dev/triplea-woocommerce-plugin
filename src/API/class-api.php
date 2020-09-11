@@ -149,7 +149,7 @@ class API {
 				// ..we need to wait for the confirmed transaction(s).
 
 				if ( substr( $addr, 0, 1 ) === 'n' || substr( $addr, 0, 1 ) === 'm' ) {
-					$blockchain_epxlorer_url = "https://www.blockchain.com/btctest/address/$addr";
+					$blockchain_epxlorer_url = "https://www.blockchain.com/btc-testnet/address/$addr";
 				} else {
 					$blockchain_epxlorer_url = "https://www.blockchain.com/btc/address/$addr";
 				}

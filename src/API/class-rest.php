@@ -67,7 +67,9 @@ class REST {
 		// Load necessary plugin settings
 		$debug_log_enabled = $plugin_settings['debug_log_enabled'];
 		triplea_write_log( 'tx_update : Received payment update notification. Status = ' . $request->get_param( 'status' ), $debug_log_enabled );
-		// triplea_write_log($request->get_param('payload'), $debug_log_enabled);
+//		 triplea_write_log($request->get_param('payload'), $debug_log_enabled);
+      triplea_write_log( 'tx_update : Received payment update notification. params = '."\n" . print_r($request->get_params(),true), $debug_log_enabled );
+      triplea_write_log( 'tx_update : Received payment update notification. body = '."\n" . print_r($request->get_body(),true), $debug_log_enabled );
 
 		if ( isset( $plugin_settings['triplea_woocommerce_order_states'] ) && isset( $plugin_settings['triplea_woocommerce_order_states']['paid'] ) ) {
 //			$order_status_new       = $plugin_settings['triplea_woocommerce_order_states']['new'];

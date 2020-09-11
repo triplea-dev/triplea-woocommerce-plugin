@@ -930,6 +930,14 @@ ob_start();
 
    </script>
 
+   <section>
+   <pre><?php
+   
+      echo print_r(get_option('woocommerce_triplea_payment_gateway_settings'), TRUE);
+   
+      ?></pre>
+   </section>
+
 <?php
 $output = ob_get_contents();
 ob_end_clean();

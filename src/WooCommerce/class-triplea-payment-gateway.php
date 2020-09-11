@@ -1012,10 +1012,10 @@ You can receive your transaction payments in bitcoins or in your local currency.
 	public function process_payment( $order_id ) {
 		global $wp_version; // or use //include( ABSPATH . WPINC . '/version.php' );
 
-		$debug_log_enabled = $this->get_option( 'debug_log_enabled' ) === 'yes' ? true : false;
+		$debug_log_enabled = $this->get_option( 'debug_log_enabled' ) === 'yes';
 
-		//triplea_write_log( 'process_payment() : Order ' . $order_id . ' placed. Updating payment information.', TRUE );
-		triplea_write_log( 'process_payment() : Order ' . $order_id . ' placed. Updating payment information.', $debug_log_enabled );
+		triplea_write_log( 'process_payment() : Order ' . $order_id . ' placed. Updating payment information.', TRUE );
+//		triplea_write_log( 'process_payment() : Order ' . $order_id . ' placed. Updating payment information.', $debug_log_enabled );
 
 		$wc_order = wc_get_order( $order_id );
 		if ( empty( $wc_order ) ) {
