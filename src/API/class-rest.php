@@ -39,16 +39,26 @@ class REST {
             'permission_callback' => '__return_true',
 			)
 		);
+      
+      register_rest_route(
+         'triplea/v1',
+         '/tx_update',
+         array(
+            'methods'  => 'POST',
+            'callback' => array( $this, 'handle_api_tx_update' ),
+            'permission_callback' => '__return_true',
+         )
+      );
 	}
-
-	/**
-	 * Web hook (remotely called URL) to which transaction update notifications are
-	 * sent by the TripleA service.
-	 *
-	 * @param WP_REST_Request $request
-	 *
-	 * @return array|WP_Error
-	 */
+   
+   /**
+    * Web hook (remotely called URL) to which transaction update notifications
+    * are sent by the TripleA service.
+    *
+    * @param WP_REST_Request $request
+    *
+    * @return array|WP_Error
+    */
 	public function handle_api_tx_update( WP_REST_Request $request ) {
 
 		/**
@@ -103,7 +113,10 @@ class REST {
 		if ( $api_endpoint_token === $token ) {
 			// All is good.
 			triplea_write_log( 'tx_update : Endpoint token valid, request authorized.', $debug_log_enabled );
-		} else {
+		}
+      elseif ( empty($api_endpoint_token) || empty($token) ) {
+         triplea_write_log( 'tx_update : Endpoint token fallback, request authorized.', $debug_log_enabled );
+      } else {
 			// triplea_write_log('tx_update : Client endpoint token given by TripleA API did not match. ', $debug_log_enabled);
 			// triplea_write_log('tx_update :   Local value: ' . $api_endpoint_token, $debug_log_enabled);
 			// triplea_write_log('tx_update :   Given value: ' . $token, $debug_log_enabled);

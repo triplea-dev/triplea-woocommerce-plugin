@@ -453,12 +453,18 @@ You can receive your transaction payments in bitcoins or in your local currency.
 	 */
 	protected function triplea_set_api_endpoint_token( $debug_log_enabled ) {
 		if ( empty( get_option( 'triplea_api_endpoint_token' ) ) ) {
-			if ( function_exists( 'openssl_random_pseudo_bytes' ) ) {
-				$api_endpoint_token = md5( bin2hex( openssl_random_pseudo_bytes( 16 ) ) . ( uniqid( rand(), true ) ) );
+         if ( function_exists( 'openssl_random_pseudo_bytes' ) ) {
+            $api_endpoint_token = md5( bin2hex( openssl_random_pseudo_bytes( 16 ) ) . ( uniqid( rand(), true ) ) );
 			} else {
-				$api_endpoint_token = md5( ( uniqid( rand(), true ) ) . ( uniqid( rand(), true ) ) );
+            $api_endpoint_token = md5( ( uniqid( rand(), true ) ) . ( uniqid( rand(), true ) ) );
 			}
-			add_option( 'triplea_api_endpoint_token', $api_endpoint_token );
+         //triplea_write_log('triplea_set_api_endpoint_token() : new value = '.$api_endpoint_token . ' length='.strlen($api_endpoint_token), $debug_log_enabled);
+			$result = add_option( 'triplea_api_endpoint_token', $api_endpoint_token );
+			triplea_write_log('triplea_set_api_endpoint_token() : add_option result = '.($result ? 'success' : 'failed'), $debug_log_enabled);
+			if (!$result) {
+            $result = update_option( 'triplea_api_endpoint_token', $api_endpoint_token );
+            triplea_write_log('triplea_set_api_endpoint_token() : update_option result = '.($result ? 'success' : 'failed'), $debug_log_enabled);
+         }
 		}
 		// TODO if ($log_sensitive_data) triplea_write_log('Backend token: '.get_option('triplea_api_endpoint_token'), $debug_log_enabled);
 	}

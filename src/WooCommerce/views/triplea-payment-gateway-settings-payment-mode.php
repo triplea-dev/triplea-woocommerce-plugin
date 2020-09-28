@@ -3,6 +3,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+$debug_log_enabled = 'yes' === $this->get_option( 'debug_log_enabled' );
+
 $triplea_notifications_email = $this->get_option( 'triplea_notifications_email' );
 if ( empty( $triplea_notifications_email ) ) {
 	$triplea_notifications_email = '';
@@ -51,7 +53,6 @@ $site_info      = get_bloginfo( 'name' );
 
 // xpub6BnuMHhi8VMaHsm7PFhSDSDPPiA8gKgdJLX3nwHZ2hrEtJAPfXWVCn61R3aBJKZV7AtcuUowDh8hgUUTTssKpB1hgX7XK35v4HxzKUpKsHC
 
-$debug_log_enabled = 'yes' === $this->get_option( 'debug_log_enabled' );
 $info_data         = array(
 	'type'      => 'woocommerce',
 	'name'      => substr( get_bloginfo( 'name' ), 0, 100 ),
