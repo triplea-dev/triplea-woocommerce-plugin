@@ -752,6 +752,8 @@
 
         let temp = document.createElement('img');
         temp.src = `https://moneyoverip.io/api/qr/` + encodeURIComponent(`${paymentAddress}?amount=${amountBtc}`);
+        temp.style.width = '200px';
+        temp.style.height = '200px';
         qrTarget.appendChild(temp);
 
         const btcAddrTxts = document.getElementsByClassName('triplea-address-txt');
