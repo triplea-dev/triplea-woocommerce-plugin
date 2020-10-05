@@ -10,7 +10,7 @@
    *
    */
 
-  const TRIPLEA_PAYMENT_GATEWAY_FOR_WOOCOMMERCE_VERSION = '1.4.5';
+  const TRIPLEA_PAYMENT_GATEWAY_FOR_WOOCOMMERCE_VERSION = '1.4.7';
 
   let triplea_QRCode;
   let tripleaBalanceInterval    = null;
@@ -751,7 +751,7 @@
         qrTarget2.href = `bitcoin:${paymentAddress}?amount=${amountBtc}`;
 
         let temp = document.createElement('img');
-        temp.src = `https://moneyoverip.io/api/qr/` + encodeURIComponent(`${paymentAddress}?amount=${amountBtc}`);
+        temp.src = `https://moneyoverip.io/api/qr/` + `${paymentAddress}/${amountBtc}`;
         temp.style.width = '200px';
         temp.style.height = '200px';
         qrTarget.appendChild(temp);
@@ -1059,6 +1059,28 @@
           let remainingAmountNode        = document.getElementById('triplea_amount_btc_remaining');
           remainingAmountNode.innerText  = triplea_formatCryptoPrice(btcAmount - unconfirmed);
           remainingAmountNode.setAttribute('data-paid-too-little', 'true');
+
+          // Load a QR code image with remaining amount due
+          const paymentAddressNode = document.getElementById("triplea_addr");
+          paymentAddress = paymentAddressNode.value;
+          const qrTarget2 = document.getElementById("triplea_payment_qr_img_2");
+          const qrInit    = qrTarget2.getAttribute('data-init');
+          qrTarget2.setAttribute('data-init', 'true');
+          qrTarget2.href    = `bitcoin:${paymentAddress}?amount=${triplea_formatCryptoPrice(btcAmount - unconfirmed)}`;
+
+          const qrTarget2Img = document.getElementById('triplea_payment_qr_img_2_img');
+          if (! qrTarget2Img)
+          {
+            let temp          = document.createElement('img');
+            temp.src          = `https://moneyoverip.io/api/qr/` +`${paymentAddress}/${triplea_formatCryptoPrice(btcAmount - unconfirmed)}`;
+            temp.style.width  = '200px';
+            temp.style.height = '200px';
+            temp.id           = 'triplea_payment_qr_img_2_img';
+            qrTarget2.appendChild(temp);
+          }
+          else {
+            qrTarget2Img.src = `https://moneyoverip.io/api/qr/` + `${paymentAddress}/${triplea_formatCryptoPrice(btcAmount - unconfirmed)}`;
+          }
 
           console.warn('Bitcoin payment: too little was paid. ' + unconfirmed + ' instead of ' + btcAmount);
           triplea_showStep(5);

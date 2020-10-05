@@ -4,7 +4,7 @@ Donate link: https://triple-a.io/
 Tags: bitcoin woocommerce,bitcoin payments,bitcoin,crypto payment gateway,bitcoin wordpress plugin
 Requires at least: 3.8
 Tested up to: 5.5
-Stable tag: 1.4.5
+Stable tag: 1.4.7
 Requires PHP: 5.4.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -136,6 +136,13 @@ Of course, our support team is always here to help. <a href="mailto:support@trip
 
 == Changelog ==
 
+
+= 1.4.7 =
+Qr code not updated when user paid too little.
+
+= 1.4.6 =
+CSS styling improvement to avoid interference with qr code size on some sites.
+
 = 1.4.5 =
 Bug fix for users experiencing problems updating product images while other plugins (such as Tera Wallet) are also enabled.
 
@@ -168,6 +175,11 @@ Minor improvement added for sites with custom checkout submit buttons.
 
 
 == Upgrade Notice ==
+
+= 1.4.6 =
+Please update this plugin, to ensure the best experience for yourself and your customers.
+Simply let WordPress update the plugin for you, no further action required.
+
 
 = 1.4.5 =
 Please update this plugin, to ensure the best experience for yourself and your customers.
