@@ -371,21 +371,6 @@ ob_start();
 	  <br>
 	  <br>
    </div>
-<!---->
-<!--   <div>-->
-<!--      <hr>-->
-<!--      <br>-->
-<!--      <p>-->
-<!--         <small>-->
-<!--            If you have feedback or questions, reach out to us at-->
-<!--            <a href="mailto:support@triple-a.io">support@triple-a.io</a>.-->
-<!--            <br>-->
-<!--            We will respond within 24 hours.-->
-<!--         </small>-->
-<!--      </p>-->
-<!--      <br>-->
-<!--      <br>-->
-<!--   </div>-->
 
 <script>
    
@@ -932,11 +917,11 @@ ob_start();
    </script>
 
    <section>
-   <pre><?php
+   <!--pre><?php
    
       echo print_r(get_option('woocommerce_triplea_payment_gateway_settings'), TRUE);
    
-      ?></pre>
+      ?></pre-->
    </section>
 
 <?php
