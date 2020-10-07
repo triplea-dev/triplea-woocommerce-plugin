@@ -6,14 +6,6 @@
 return [
    
    // deprecated
-   'triplea_btc2btc_api_id'                        => [
-      'type' => 'hidden',
-   ],
-   // deprecated
-   'triplea_btc2fiat_api_id'         => [
-      'type' => 'hidden',
-   ],
-   // deprecated
    'triplea_active_pubkey_id'                 => [
       'type' => 'hidden',
    ],
@@ -81,23 +73,60 @@ return [
    'triplea_fiat_merchant_local_currency'     => [
       'type' => 'hidden',
    ],
-   // Bitcoin settlement data
-   'triplea_btc_merchant_key'                 => [
+   // Bitcoin (mainnet) settlement data
+   'triplea_btc2btc_merchant_key'                 => [
       'type' => 'hidden',
    ],
-   'triplea_btc_client_id'                    => [
+   'triplea_btc2btc_client_id'                    => [
       'type' => 'hidden',
    ],
-   'triplea_btc_client_secret'                    => [
+   'triplea_btc2btc_client_secret'                => [
       'type' => 'hidden',
    ],
-   'triplea_btc_merchant_name'                => [
+   'triplea_btc2btc_oauth_token'                  => [
       'type' => 'hidden',
    ],
-   'triplea_btc_merchant_email'               => [
+   'triplea_btc2btc_oauth_token_expiry'           => [
       'type' => 'hidden',
    ],
-   'triplea_btc_merchant_phone'               => [
+   'triplea_btc2btc_merchant_name'                => [
+      'type' => 'hidden',
+   ],
+   'triplea_btc2btc_merchant_email'               => [
+      'type' => 'hidden',
+   ],
+   'triplea_btc2btc_merchant_phone'               => [
+      'type' => 'hidden',
+   ],
+   'triplea_btc2btc_pubkey'               => [
+      'type' => 'hidden',
+   ],
+   // Bitcoin Testnet(sandbox) settlement data
+   'triplea_btc2btc_sandbox_merchant_key'                 => [
+      'type' => 'hidden',
+   ],
+   'triplea_btc2btc_sandbox_client_id'                    => [
+      'type' => 'hidden',
+   ],
+   'triplea_btc2btc_sandbox_client_secret'                => [
+      'type' => 'hidden',
+   ],
+   'triplea_btc2btc_sandbox_oauth_token'                  => [
+      'type' => 'hidden',
+   ],
+   'triplea_btc2btc_sandbox_oauth_token_expiry'           => [
+      'type' => 'hidden',
+   ],
+   'triplea_btc2btc_sandbox_merchant_name'                => [
+      'type' => 'hidden',
+   ],
+   'triplea_btc2btc_sandbox_merchant_email'               => [
+      'type' => 'hidden',
+   ],
+   'triplea_btc2btc_sandbox_merchant_phone'               => [
+      'type' => 'hidden',
+   ],
+   'triplea_btc2btc_sandbox_pubkey'               => [
       'type' => 'hidden',
    ],
    
