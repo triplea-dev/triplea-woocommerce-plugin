@@ -52,25 +52,25 @@ return [
       'type' => 'hidden',
    ],
    // Local currency settlement data
-   'triplea_fiat_merchant_key'                => [
+   'triplea_btc2fiat_merchant_key'                => [
       'type' => 'hidden',
    ],
-   'triplea_fiat_client_id'                   => [
+   'triplea_btc2fiat_client_id'                   => [
       'type' => 'hidden',
    ],
-   'triplea_fiat_client_secret'                   => [
+   'triplea_btc2fiat_client_secret'                   => [
       'type' => 'hidden',
    ],
-   'triplea_fiat_merchant_name'               => [
+   'triplea_btc2fiat_merchant_name'               => [
       'type' => 'hidden',
    ],
-   'triplea_fiat_merchant_email'              => [
+   'triplea_btc2fiat_merchant_email'              => [
       'type' => 'hidden',
    ],
-   'triplea_fiat_merchant_phone'              => [
+   'triplea_btc2fiat_merchant_phone'              => [
       'type' => 'hidden',
    ],
-   'triplea_fiat_merchant_local_currency'     => [
+   'triplea_btc2fiat_merchant_local_currency'     => [
       'type' => 'hidden',
    ],
    // Bitcoin (mainnet) settlement data

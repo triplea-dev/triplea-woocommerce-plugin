@@ -394,40 +394,48 @@ class TripleA_Payment_Gateway extends WC_Payment_Gateway {
       $this->triplea_mode                = $this->get_option('triplea_mode');
       $this->triplea_notifications_email = $this->get_option('triplea_notifications_email');
       
-      $this->triplea_btc2fiat_merchant_key = $this->get_option('triplea_fiat_merchant_key');
-      $this->triplea_btc2fiat_client_id    = $this->get_option('triplea_fiat_client_id');
-      $this->triplea_btc2fiat_client_secret = $this->get_option('triplea_fiat_client_secret');
-      $this->triplea_btc2fiat_oauth_token             = $this->get_option('triplea_fiat_oauth_token');
-      $this->triplea_btc2fiat_oauth_token_expiry      = $this->get_option('triplea_fiat_oauth_token_expiry');
-      $this->triplea_btc2fiat_merchant_name           = $this->get_option('triplea_fiat_merchant_name');
-      $this->triplea_btc2fiat_merchant_email          = $this->get_option('triplea_fiat_merchant_email');
-      $this->triplea_btc2fiat_merchant_phone          = $this->get_option('triplea_fiat_merchant_phone');
-      $this->triplea_btc2fiat_merchant_local_currency = $this->get_option('triplea_fiat_merchant_local_currency');
+      $this->triplea_btc2fiat_merchant_key = $this->get_option('triplea_btc2fiat_merchant_key');
+      $this->triplea_btc2fiat_client_id    = $this->get_option('triplea_btc2fiat_client_id');
+      $this->triplea_btc2fiat_client_secret = $this->get_option('triplea_btc2fiat_client_secret');
+      $this->triplea_btc2fiat_oauth_token             = $this->get_option('triplea_btc2fiat_oauth_token');
+      $this->triplea_btc2fiat_oauth_token_expiry      = $this->get_option('triplea_btc2fiat_oauth_token_expiry');
+      $this->triplea_btc2fiat_merchant_name           = $this->get_option('triplea_btc2fiat_merchant_name');
+      $this->triplea_btc2fiat_merchant_email          = $this->get_option('triplea_btc2fiat_merchant_email');
+      $this->triplea_btc2fiat_merchant_phone          = $this->get_option('triplea_btc2fiat_merchant_phone');
+      $this->triplea_btc2fiat_merchant_local_currency = $this->get_option('triplea_btc2fiat_merchant_local_currency');
       
-      $this->triplea_btc2btc_merchant_key = $this->get_option('triplea_btc_merchant_key');
-      $this->triplea_btc2btc_client_id    = $this->get_option('triplea_btc_client_id');
-      $this->triplea_btc2btc_client_secret    = $this->get_option('triplea_btc_client_secret');
-      $this->triplea_btc2btc_merchant_name  = $this->get_option('triplea_btc_merchant_name');
-      $this->triplea_btc2btc_merchant_email = $this->get_option('triplea_btc_merchant_email');
-      $this->triplea_btc2btc_merchant_phone = $this->get_option('triplea_btc_merchant_phone');
+      $this->triplea_btc2btc_merchant_key = $this->get_option('triplea_btc2btc_merchant_key');
+      $this->triplea_btc2btc_client_id    = $this->get_option('triplea_btc2btc_client_id');
+      $this->triplea_btc2btc_client_secret    = $this->get_option('triplea_btc2btc_client_secret');
+      $this->triplea_btc2btc_merchant_name  = $this->get_option('triplea_btc2btc_merchant_name');
+      $this->triplea_btc2btc_merchant_email = $this->get_option('triplea_btc2btc_merchant_email');
+      $this->triplea_btc2btc_merchant_phone = $this->get_option('triplea_btc2btc_merchant_phone');
+      $this->triplea_btc2btc_pubkey = $this->get_option('triplea_btc2btc_merchant_phone');
+   
+      $this->triplea_btc2btc_sandbox_merchant_key = $this->get_option('triplea_btc2btc_sandbox_merchant_key');
+      $this->triplea_btc2btc_sandbox_client_id    = $this->get_option('triplea_btc2btc_sandbox_client_id');
+      $this->triplea_btc2btc_sandbox_client_secret    = $this->get_option('triplea_btc2btc_sandbox_client_secret');
+      $this->triplea_btc2btc_sandbox_merchant_name  = $this->get_option('triplea_btc2btc_sandbox_merchant_name');
+      $this->triplea_btc2btc_sandbox_merchant_email = $this->get_option('triplea_btc2btc_sandbox_merchant_email');
+      $this->triplea_btc2btc_sandbox_merchant_phone = $this->get_option('triplea_btc2btc_sandbox_merchant_phone');
       
       // Refresh oauth tokens
       $this->refreshOauthTokens();
       
       // If a pubkey was given, we only store the first bit.
-      $this->triplea_btc2btc_pubkey = $this->get_option('triplea_btc_pubkey');
-      if (strlen($this->triplea_btc2btc_pubkey) > 12) {
+      $this->triplea_btc2btc_pubkey = $this->get_option('triplea_btc2btc_pubkey');
+      /*if (strlen($this->triplea_btc2btc_pubkey) > 12) {
          $short_pubkey                 = substr($this->triplea_btc2btc_pubkey, 0, 8) . '...';
          $this->triplea_btc2btc_pubkey = $short_pubkey;
          $this->update_option('triplea_btc_pubkey', $this->triplea_btc2btc_pubkey);
-      }
+      }*/
       // If a sandbox pubkey was given, we only store the first bit.
-      $this->triplea_btc2btc_sandbox_pubkey = $this->get_option('triplea_btc_sandbox_pubkey');
-      if (strlen($this->triplea_btc2btc_sandbox_pubkey) > 12) {
+      $this->triplea_btc2btc_sandbox_pubkey = $this->get_option('triplea_btc2btc_sandbox_pubkey');
+      /*if (strlen($this->triplea_btc2btc_sandbox_pubkey) > 12) {
          $short_pubkey                         = substr($this->triplea_btc2btc_sandbox_pubkey, 0, 8) . '...';
          $this->triplea_btc2btc_sandbox_pubkey = $short_pubkey;
          $this->update_option('triplea_btc_sandbox_pubkey', $this->triplea_btc2btc_sandbox_pubkey);
-      }
+      }*/
       
       // Bitcoin settlement
       $this->triplea_btc2btc_api_id         = $this->get_option('triplea_btc2btc_api_id');
@@ -443,6 +451,7 @@ class TripleA_Payment_Gateway extends WC_Payment_Gateway {
       if (empty($this->triplea_btc2btc_sandbox_api_id) && empty($this->triplea_btc2fiat_sandbox_api_id)) {
          $this->triplea_sandbox_payment_mode = FALSE;
       }
+      $this->update_option('triplea_sandbox_payment_mode', $this->triplea_sandbox_payment_mode);
       
       // TODO consider logging whenever a btc/fiat or sandbox toggle is made
       if (!isset($this->triplea_active_api_id) || empty($this->triplea_active_api_id)) {
@@ -2237,13 +2246,12 @@ public function generate_triplea_pubkeyid_script_html($key, $data) {
       );
    }
    
-   private
-   function refreshOauthTokens() {
+   private function refreshOauthTokens() {
       $debug_log_enabled = $this->get_option('debug_log_enabled') === 'yes';
       
       triplea_write_log('refreshOauthToken() starting', $debug_log_enabled);
-      //      $this->triplea_fiat_client_id = $this->get_option('triplea_fiat_client_id');
-      //      $this->triplea_fiat_client_secret = $this->get_option('triplea_fiat_client_secret');
+      //      $this->triplea_btc2fiat_client_id = $this->get_option('triplea_btc2fiat_client_id');
+      //      $this->triplea_btc2fiat_client_secret = $this->get_option('triplea_btc2fiat_client_secret');
       
       $date_now          = (new DateTime())->getTimestamp();
       $date_expiry_limit = $date_now - 864000;   // 10 days before the 10 year limit is over
@@ -2270,20 +2278,95 @@ public function generate_triplea_pubkeyid_script_html($key, $data) {
              && !empty($new_token_data->expires_in)) {
             $this->triplea_btc2fiat_oauth_token        = $new_token_data->access_token;
             $this->triplea_btc2fiat_oauth_token_expiry = $date_now + $new_token_data->expires_in;
-            $this->update_option('triplea_fiat_oauth_token', $this->triplea_btc2fiat_oauth_token);
-            $this->update_option('triplea_fiat_oauth_token_expiry', $this->triplea_btc2fiat_oauth_token_expiry);
+            $this->update_option('triplea_btc2fiat_oauth_token', $this->triplea_btc2fiat_oauth_token);
+            $this->update_option('triplea_btc2fiat_oauth_token_expiry', $this->triplea_btc2fiat_oauth_token_expiry);
             triplea_write_log('refreshOauthToken() Obtained and saved a new oauth token.', $debug_log_enabled);
          }
          else {
             triplea_write_log("refreshOauthToken() A problem happened, could not get a new oauth token. \n" . print_r($new_token_data, TRUE), $debug_log_enabled);
             $this->triplea_btc2fiat_oauth_token        = NULL;
             $this->triplea_btc2fiat_oauth_token_expiry = NULL;
-            $this->update_option('triplea_fiat_oauth_token', $this->triplea_btc2fiat_oauth_token);
-            $this->update_option('triplea_fiat_oauth_token_expiry', $this->triplea_btc2fiat_oauth_token_expiry);
+            $this->update_option('triplea_btc2fiat_oauth_token', $this->triplea_btc2fiat_oauth_token);
+            $this->update_option('triplea_btc2fiat_oauth_token_expiry', $this->triplea_btc2fiat_oauth_token_expiry);
+         }
+      }
+   
+      if (isset($this->triplea_btc2btc_client_id) && !empty($this->triplea_btc2btc_client_id)
+          && isset($this->triplea_btc2btc_client_secret) && !empty($this->triplea_btc2btc_client_secret)
+          && (!isset($this->triplea_btc2btc_oauth_token)
+              || empty($this->triplea_btc2btc_oauth_token)
+              || $this->triplea_btc2btc_oauth_token_expiry <= $date_expiry_limit)) {
+         if ($this->triplea_btc2btc_oauth_token_expiry <= $date_expiry_limit) {
+            triplea_write_log('refreshOauthToken() OAuth token (for live btc settlement) expires in less than 10 days. Requesting a new oauth token.', $debug_log_enabled);
+         }
+         else {
+            triplea_write_log('refreshOauthToken() OAuth token (for live btc settlement) is missing. Requesting a new oauth token.', $debug_log_enabled);
+         }
+         $new_token_data = $this->getOauthToken($this->triplea_btc2btc_client_id, $this->triplea_btc2btc_client_secret);
+      
+         triplea_write_log('refreshOauthToken() OAuth token data received : ' . print_r($new_token_data, TRUE), $debug_log_enabled);
+      
+         if ($new_token_data !== FALSE
+             && isset($new_token_data->access_token)
+             && !empty($new_token_data->access_token)
+             && isset($new_token_data->expires_in)
+             && !empty($new_token_data->expires_in)) {
+            $this->triplea_btc2btc_oauth_token        = $new_token_data->access_token;
+            $this->triplea_btc2btc_oauth_token_expiry = $date_now + $new_token_data->expires_in;
+            $this->update_option('triplea_btc2btc_oauth_token', $this->triplea_btc2btc_oauth_token);
+            $this->update_option('triplea_btc2btc_oauth_token_expiry', $this->triplea_btc2btc_oauth_token_expiry);
+            triplea_write_log('refreshOauthToken() Obtained and saved a new oauth token.', $debug_log_enabled);
+         }
+         else {
+            triplea_write_log("refreshOauthToken() A problem happened, could not get a new oauth token. \n" . print_r($new_token_data, TRUE), $debug_log_enabled);
+            $this->triplea_btc2btc_oauth_token        = NULL;
+            $this->triplea_btc2btc_oauth_token_expiry = NULL;
+            $this->update_option('triplea_btc2btc_oauth_token', $this->triplea_btc2btc_oauth_token);
+            $this->update_option('triplea_btc2btc_oauth_token_expiry', $this->triplea_btc2btc_oauth_token_expiry);
+         }
+      }
+   
+      if ($this->triplea_btc2btc_sandbox_client_id === $this->triplea_btc2btc_client_id && $this->triplea_btc2btc_sandbox_client_secret === $this->triplea_btc2btc_client_secret) {
+         triplea_write_log('refreshOauthToken() Sandbox BTC account using same client credentials as Live BTC settlement account. Skipping oauth renewal.', $debug_log_enabled);
+         if ($this->triplea_btc2btc_sandbox_oauth_token !== $this->triplea_btc2btc_oauth_token || $this->triplea_btc2btc_sandbox_oauth_token_expiry !== $this->triplea_btc2btc_oauth_token_expiry) {
+            triplea_write_log('refreshOauthToken() Different values detected. Syncing oauth token/expiry for Sandbox BTC account with those from Live BTC settlement account.', $debug_log_enabled);
+         }
+      }
+      else if (isset($this->triplea_btc2btc_sandbox_client_id) && !empty($this->triplea_btc2btc_sandbox_client_id)
+          && isset($this->triplea_btc2btc_sandbox_client_secret) && !empty($this->triplea_btc2btc_sandbox_client_secret)
+          && (!isset($this->triplea_btc2btc_sandbox_oauth_token)
+              || empty($this->triplea_btc2btc_sandbox_oauth_token)
+              || $this->triplea_btc2btc_sandbox_oauth_token_expiry <= $date_expiry_limit)) {
+         if ($this->triplea_btc2btc_sandbox_oauth_token_expiry <= $date_expiry_limit) {
+            triplea_write_log('refreshOauthToken() OAuth token (for sandbox btc settlement) expires in less than 10 days. Requesting a new oauth token.', $debug_log_enabled);
+         }
+         else {
+            triplea_write_log('refreshOauthToken() OAuth token (for sandbox btc settlement) is missing. Requesting a new oauth token.', $debug_log_enabled);
+         }
+         $new_token_data = $this->getOauthToken($this->triplea_btc2btc_sandbox_client_id, $this->triplea_btc2btc_sandbox_client_secret);
+      
+         triplea_write_log('refreshOauthToken() OAuth token data received : ' . print_r($new_token_data, TRUE), $debug_log_enabled);
+      
+         if ($new_token_data !== FALSE
+             && isset($new_token_data->access_token)
+             && !empty($new_token_data->access_token)
+             && isset($new_token_data->expires_in)
+             && !empty($new_token_data->expires_in)) {
+            $this->triplea_btc2btc_sandbox_oauth_token        = $new_token_data->access_token;
+            $this->triplea_btc2btc_sandbox_oauth_token_expiry = $date_now + $new_token_data->expires_in;
+            $this->update_option('triplea_btc2btc_sandbox_oauth_token', $this->triplea_btc2btc_sandbox_oauth_token);
+            $this->update_option('triplea_btc2btc_sandbox_oauth_token_expiry', $this->triplea_btc2btc_sandbox_oauth_token_expiry);
+            triplea_write_log('refreshOauthToken() Obtained and saved a new oauth token.', $debug_log_enabled);
+         }
+         else {
+            triplea_write_log("refreshOauthToken() A problem happened, could not get a new oauth token. \n" . print_r($new_token_data, TRUE), $debug_log_enabled);
+            $this->triplea_btc2btc_sandbox_oauth_token        = NULL;
+            $this->triplea_btc2btc_sandbox_oauth_token_expiry = NULL;
+            $this->update_option('triplea_btc2btc_sandbox_oauth_token', $this->triplea_btc2btc_sandbox_oauth_token);
+            $this->update_option('triplea_btc2btc_sandbox_oauth_token_expiry', $this->triplea_btc2btc_sandbox_oauth_token_expiry);
          }
       }
       
-      // TODO Important: Add code to get BTC and testBTC oauth tokens too for bitcoin settlement
    }
    
    private
@@ -2334,7 +2417,7 @@ public function generate_triplea_pubkeyid_script_html($key, $data) {
       
       $this->activePaymentAccountNeeded();
       
-      $oauth_token = $this->get_option('triplea_fiat_oauth_token');
+      $oauth_token = $this->get_option('triplea_btc2fiat_oauth_token');
       if (empty($oauth_token)) {
          wp_die('Missing oauth token.');
       }
@@ -2453,7 +2536,7 @@ public function generate_triplea_pubkeyid_script_html($key, $data) {
       
       $this->activePaymentAccountNeeded();
    
-      $oauth_token = $this->get_option('triplea_fiat_oauth_token');
+      $oauth_token = $this->get_option('triplea_btc2fiat_oauth_token');
       if (empty($oauth_token)) {
          wp_die('Missing oauth token.');
       }

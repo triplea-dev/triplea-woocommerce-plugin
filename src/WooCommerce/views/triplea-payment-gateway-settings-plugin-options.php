@@ -222,7 +222,7 @@ ob_start();
 								  onkeyup="updatePreviewOnChange()"
 							  <?php
 								if ( isset( $plugin_settings['triplea_bitcoin_descriptiontext_value'] ) ) {
-									echo 'value="' . $plugin_settings['triplea_bitcoin_descriptiontext_value'] . '"';
+									echo 'value="' . stripcslashes(htmlentities($plugin_settings['triplea_bitcoin_descriptiontext_value'])) . '"';
 								} else {
 									echo 'value="Pay with your Bitcoin wallet!"';
 								}
