@@ -178,7 +178,7 @@ ob_start();
 								  name="triplea_bitcoin_text_custom_value"
 							  <?php
 								if ( isset( $plugin_settings['triplea_bitcoin_text_custom_value'] ) ) {
-									echo 'value="' . $plugin_settings['triplea_bitcoin_text_custom_value'] . '"';
+									echo 'value="' . stripcslashes(htmlentities($plugin_settings['triplea_bitcoin_text_custom_value'])) . '"';
 								} else {
 									echo 'value="Pay with Bitcoin"';
 								}
