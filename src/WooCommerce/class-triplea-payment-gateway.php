@@ -898,7 +898,7 @@ You can receive your transaction payments in bitcoins or in your local currency.
 
 	public function get_title() {
 		if ( 'custom-text' === $this->get_option( 'triplea_bitcoin_text_option' ) ) {
-			$title_text = $this->get_option( 'triplea_bitcoin_text_custom_value' );
+			$title_text = stripcslashes($this->get_option( 'triplea_bitcoin_text_custom_value' ));
 			$title      = __( $title_text, 'triplea-cryptocurrency-payment-gateway-for-woocommerce' );
 
 		} else {
@@ -913,7 +913,7 @@ You can receive your transaction payments in bitcoins or in your local currency.
 			$description = __( 'Secure and easy payment with Bitcoin', 'triplea-cryptocurrency-payment-gateway-for-woocommerce' );
 		} elseif ( 'desc-custom' === $this->get_option( 'triplea_bitcoin_descriptiontext_option' )
 		&& ! empty( $this->get_option( 'triplea_bitcoin_descriptiontext_value' ) ) ) {
-			$title_text  = $this->get_option( 'triplea_bitcoin_descriptiontext_value' );
+			$title_text  = stripcslashes($this->get_option( 'triplea_bitcoin_descriptiontext_value' ));
 			$description = __( $title_text, 'triplea-cryptocurrency-payment-gateway-for-woocommerce' );
 
 		} else {
