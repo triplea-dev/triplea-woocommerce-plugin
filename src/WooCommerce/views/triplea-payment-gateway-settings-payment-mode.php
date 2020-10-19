@@ -28,27 +28,14 @@ $btc_sandbox_merchant_email   = $this->get_option('triplea_btc2btc_sandbox_merch
 $btc_sandbox_merchant_phone   = $this->get_option('triplea_btc2btc_sandbox_merchant_phone');
 $btc_sandbox_pubkey           = $this->get_option('triplea_btc2btc_sandbox_pubkey');
 
-//$triplea_notifications_email = $this->get_option('triplea_notifications_email');
-//if (empty($triplea_notifications_email)) {
-//   $triplea_notifications_email = '';
-//}
-
-//$triplea_dashboard_email = $this->get_option('triplea_dashboard_email');
-//if (empty($triplea_dashboard_email)) {
-//   $triplea_dashboard_email = '';
-//}
-
 // BTC-2-BTC mode
-
 $triplea_btc2btc_sandbox_api_id = $this->get_option('triplea_btc2btc_sandbox_api_id');
 $triplea_btc2btc_api_id         = $this->get_option('triplea_btc2btc_api_id');
 $output_btc2btc_api_id          = '';
 if (!empty($triplea_btc2btc_api_id)) {
    $output_btc2btc_api_id = '<p>Your bitcoin-to-bitcoin API ID is <strong><u>' . $triplea_btc2btc_api_id . '</u></strong> .</p><br>';
 }
-
 // BTC-2-Cash conversion mode
-
 $triplea_btc2fiat_sandbox_api_id = $this->get_option('triplea_btc2fiat_sandbox_api_id');
 $triplea_btc2fiat_api_id         = $this->get_option('triplea_btc2fiat_api_id');
 $output_btc2fiat_api_id          = '';
@@ -74,7 +61,20 @@ $return_url     = get_rest_url(NULL, 'triplea/v1/tx_update/' . get_option('tripl
 $local_currency = strtoupper(get_woocommerce_currency());
 $site_info      = get_bloginfo('name');
 
-// xpub6BnuMHhi8VMaHsm7PFhSDSDPPiA8gKgdJLX3nwHZ2hrEtJAPfXWVCn61R3aBJKZV7AtcuUowDh8hgUUTTssKpB1hgX7XK35v4HxzKUpKsHC
+
+//$triplea_notifications_email = $this->get_option('triplea_notifications_email');
+//if (empty($triplea_notifications_email)) {
+//   $triplea_notifications_email = '';
+//}
+//$triplea_dashboard_email = $this->get_option('triplea_dashboard_email');
+//if (empty($triplea_dashboard_email)) {
+//   $triplea_dashboard_email = '';
+//}
+$old_btc2btc_api_id = 'something1';
+$old_btc2btc_sandbox_api_id = 'something2';
+$old_btc2fiat_api_id = 'something3';
+$old_active_api_id = 'something2';
+
 
 $debug_log_enabled = 'yes' === $this->get_option('debug_log_enabled');
 $info_data         = [
@@ -524,6 +524,98 @@ ob_start();
       <div class="receive-choice-wrapper"
            style="margin-left: 40px;display:<?php echo($btc2btc_is_active && $sandbox_payment_mode ? "block" : 'none') ?>;"
            id="testnetbitcoin-form-wrapper">
+         <div style="display:<?php echo(!empty($old_btc2btc_sandbox_api_id) && empty($btc_sandbox_merchant_key) ? "block" : "none") ?>;" id="testnetbitcoin-version-upgrade-form-wrapper">
+            <hr>
+            <div class="triplea_step" id="upgrade-testnetbitcoin-form">
+               <h3>
+                  <small>
+                     Upgrade your testnet bitcoin account
+                  </small>
+               </h3>
+               <p>
+                  Due to technical improvements and added features, your account needs to be upgraded to be compatible.
+                  <br>
+                  After upgrading, your account will be linked to your TripleA dashboard.
+                  <br>
+                  Login credentials will be shared by e-mail.
+               </p>
+               <p>
+                  Existing API ID: <?php echo $old_btc2btc_sandbox_api_id; ?>
+                  <span class="woocommerce-help-tip" data-tip="This is your TripleA account identifier"></span>
+               </p>
+
+               <input type="button"
+                      class="button-primary"
+                      value="Upgrade"
+                      onclick="triplea_testnetbitcoin_upgrade_emailvalidationstep()">
+               <br>
+               <br>
+            </div>
+            <div class="triplea_step"
+                 id="upgrade-testnetbitcoin-validate-email"
+                 style="opacity: 0.5;">
+               <hr>
+               <h3>
+                  <small>
+                     Validate email
+                  </small>
+               </h3>
+               <p>
+                  Sending OTP (one-time password) to your email address...
+                  <strong id="testnetbitcoin-upgrade-email-sent" style="display:none;">
+                     Email sent!
+                  </strong>
+               </p>
+               <small style="color:darkred;display:none;"
+                      class="triplea-error-msg error-otp-request"
+                      id="testnetbitcoin-upgrade-error-otp-request">
+                  Something went wrong while requesting OTP code. Try again, or
+                  contact
+                  us at support@triple-a.io so that we can assist you.
+               </small>
+               <p id="testnetbitcoin-upgrade-enter-otp" style="opacity: 0.5;">
+                  Enter the One-Time Password code:
+                  <input type="text"
+                         id="testnetbitcoin-upgrade-otp-value"
+                         name="testnetbitcoin-upgrade-otp-value"
+                         value=""
+                         placeholder="One-Time Password"
+                         style="width:150px">
+                  <small style="color:darkred;display:none;"
+                         class="triplea-error-msg error-provide-otp"
+                         id="testnetbitcoin-upgrade-error-provide-otp">
+                     Please provide the OTP code that was sent to you by email.
+                  </small>
+                  <small style="color:darkred;display:none;"
+                         class="triplea-error-msg error-otp-wrong"
+                         id="testnetbitcoin-upgrade-error-otp-wrong">
+                     Wrong OTP provided.
+                  </small>
+                  <br>
+                  <br>
+                  <input type="button"
+                         id="testnetbitcoin-upgrade-otp-submit"
+                         class="button-primary"
+                         value="Activate testnet bitcoin account"
+                         onclick="triplea_testnetbitcoin_upgrade_validateEmailOtp()"
+                         style="opacity: 0.5;">
+                  <small id="testnetbitcoin-upgrade-otp-check-loading"
+                         class="triplea-error-msg otp-check-loading"
+                         style="display:none;">
+                     Loading...
+                  </small>
+                  <small style="color:darkred;display:none;"
+                         class="triplea-error-msg account-creation-error"
+                         id="testnetbitcoin-upgrade-account-creation-error">
+                     The provided OTP was correct. However, something went wrong
+                     during
+                     the creation of your Testnet bitcoin account. Please inform us
+                     at
+                     support@triple-a.io so that we may assist you promptly.
+                  </small>
+               </p>
+            </div>
+         </div>
          <div class="receive-choice-update-wrapper"
               style="display:<?php echo(!empty($triplea_btc2btc_sandbox_api_id) ? "block" : 'none') ?>;"
               id="testnetbitcoin-update-form-wrapper">
