@@ -2420,9 +2420,28 @@ public function generate_triplea_pubkeyid_script_html($key, $data) {
       
       $this->activePaymentAccountNeeded();
       
-      $oauth_token = $this->get_option('triplea_btc2fiat_oauth_token');
-      if (empty($oauth_token)) {
-         wp_die('Missing oauth token.');
+      $payment_mode         = $this->get_option('triplea_payment_mode');
+      $sandbox_payment_mode = $this->get_option('triplea_sandbox_payment_mode');
+      
+      if ($payment_mode === 'bitcoin-to-bitcoin' && !$sandbox_payment_mode) {
+         // btc2btc live payments
+         $oauth_token = $this->get_option('triplea_btc2btc_oauth_token');
+         if (empty($oauth_token)) {
+            wp_die('Missing oauth token for live bitcoin payments to bitcoin wallet.');
+         }
+      }
+      elseif ($payment_mode === 'bitcoin-to-bitcoin' && $sandbox_payment_mode) {
+         // btc2btc live payments
+         $oauth_token = $this->get_option('triplea_btc2btc_sandbox_oauth_token');
+         if (empty($oauth_token)) {
+            wp_die('Missing oauth token for sandbox bitcoin payments to bitcoin wallet.');
+         }
+      }
+      else {
+         $oauth_token = $this->get_option('triplea_btc2fiat_oauth_token');
+         if (empty($oauth_token)) {
+            wp_die('Missing oauth token for bitcoin payments with local currency settlement.');
+         }
       }
       
       $post_url = 'https://api.triple-a.io/api/v1/payment/request';
@@ -2539,9 +2558,28 @@ public function generate_triplea_pubkeyid_script_html($key, $data) {
       
       $this->activePaymentAccountNeeded();
    
-      $oauth_token = $this->get_option('triplea_btc2fiat_oauth_token');
-      if (empty($oauth_token)) {
-         wp_die('Missing oauth token.');
+      $payment_mode         = $this->get_option('triplea_payment_mode');
+      $sandbox_payment_mode = $this->get_option('triplea_sandbox_payment_mode');
+   
+      if ($payment_mode === 'bitcoin-to-bitcoin' && !$sandbox_payment_mode) {
+         // btc2btc live payments
+         $oauth_token = $this->get_option('triplea_btc2btc_oauth_token');
+         if (empty($oauth_token)) {
+            wp_die('Missing oauth token for live bitcoin payments to bitcoin wallet.');
+         }
+      }
+      elseif ($payment_mode === 'bitcoin-to-bitcoin' && $sandbox_payment_mode) {
+         // btc2btc live payments
+         $oauth_token = $this->get_option('triplea_btc2btc_sandbox_oauth_token');
+         if (empty($oauth_token)) {
+            wp_die('Missing oauth token for sandbox bitcoin payments to bitcoin wallet.');
+         }
+      }
+      else {
+         $oauth_token = $this->get_option('triplea_btc2fiat_oauth_token');
+         if (empty($oauth_token)) {
+            wp_die('Missing oauth token for bitcoin payments with local currency settlement.');
+         }
       }
       
       $post_url = "https://api.triple-a.io/api/v1/payment/$payment_reference";
@@ -2602,7 +2640,7 @@ public function generate_triplea_pubkeyid_script_html($key, $data) {
          $crypto_currency = 'BTC';
       }
       elseif ($payment_mode === 'bitcoin-to-bitcoin' && $sandbox_payment_mode) {
-         $api_id          = $this->get_option('triplea_btc2fiat_sandbox_api_id');
+         $api_id          = $this->get_option('triplea_btc2btc_sandbox_api_id');
          $crypto_currency = 'testBTC';
       }
       elseif ($payment_mode === 'bitcoin-to-bitcoin' && !$sandbox_payment_mode) {
