@@ -263,6 +263,11 @@ ob_start();
 							?>
 						</select>
 					 </td>
+                 <?php if(strpos($tripleaName, 'awaiting') !== FALSE): ?>
+                    <td>
+                       <p>Payment not guaranteed yet at this stage!<br>Do not yet provide the product or service.</p>
+                    </td>
+                 <?php endif; ?>
 				  </tr>
 			   <?php endforeach; ?>
 			</table>

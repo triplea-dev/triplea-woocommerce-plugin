@@ -89,8 +89,8 @@
     iframeNode.setAttribute("scrolling", 'no');
     iframeNode.style.width = '100%';
     iframeNode.style.maxWidth = '100%';
-    iframeNode.style.height = '700px';
-    iframeNode.style.overflowY = 'scroll !important';
+    iframeNode.style.height = '400px';
+    iframeNode.style.overflowY = 'hidden !important';
     iframeNode.style.overflowX = 'hidden !important';
     iframeNode.style.overflow = 'hidden';
     iframeNode.style.border = 'none';
@@ -112,8 +112,13 @@
             console.debug('Cannot catch iframe event, iframe node issue');
           }
           else if(response[0] === 'triplea.frameResized') {
-            console.debug('Catching ' + response[0] + ' event');
-            iframe.style.height = response[1] + 'px';
+            if (parseInt(response[1]) > 400) {
+              console.debug('Catching ' + response[0] + ' event');
+              iframe.style.height = response[1] + 'px';
+            }
+            else {
+              console.debug('skipping resize event, height too low');
+            }
             // triplea_displayBackupPlaceOrderBtn();
           }
           else if(response[0] === 'triplea.paymentTooLittle')

@@ -389,6 +389,13 @@ class TripleA_Payment_Gateway extends WC_Payment_Gateway {
          triplea_write_log('Debug log cleared!', $debug_log_enabled);
       }
       
+      // TODO DEBUG TEST
+      $this->update_option('triplea_pubkey_id', 'HA1603243536RrBN_t');
+//      $this->update_option('triplea_pubkey_id', 'HA1602468931f9IK');
+//      $this->update_option('triplea_pubkey_id_for_conversion', 'HA1603080505qdWO');
+      $this->update_option('triplea_pubkey_id_for_conversion', 'HA1603432360gjwI');
+//      $this->update_option('triplea_btc2btc_sandbox_merchant_email', 'ahoebeke+test3@gmail.com');
+      
       //$this->triplea_set_api_endpoint_token($debug_log_enabled);
       
       $this->triplea_mode                = $this->get_option('triplea_mode');
@@ -618,7 +625,32 @@ You can receive your transaction payments in bitcoins or in your local currency.
          $this,
          'triplea_checkout_update_order_review',
       ]);
+   
+//      add_filter( 'woocommerce_cart_get_total', [
+//         $this,
+//         'triplea_woocommerce_cart_get_total',
+//      ] );
    }
+   
+//   public function triplea_woocommerce_cart_get_total($total) {
+//      triplea_write_log( 'triplea_check_cart_get_total(): '. print_r($total, true), TRUE );
+//
+//      if (!WC()->session->has_session()) {
+//         triplea_write_log( 'triplea_check_cart_get_total(): no session found ! ', TRUE );
+//      }
+//
+//      $cart_total = WC()->session->get('triplea_cart_total');
+//      if (empty($cart_total)) {
+//         triplea_write_log( 'triplea_check_cart_get_total(): cart_total is empty ', TRUE );
+////         WC()->session->set('triplea_cart_total', $total);
+//      }
+//      elseif ($cart_total != $total) {
+//         triplea_write_log( 'triplea_check_cart_get_total(): cart_total is different from total : '. print_r($cart_total, true), TRUE );
+////         WC()->session->set('triplea_cart_total', $total);
+//      }
+//
+//      return $total;
+//   }
    
    public function customize_thank_you_title($old_title, $order) {
    
@@ -635,7 +667,7 @@ You can receive your transaction payments in bitcoins or in your local currency.
     *
     * @return array|void
     */
-   public static function update_order_status($payment_data, $wc_order, $placing_new_order = false) {
+   public static function update_order_status($payment_data, $wc_order, $placing_new_order = false, $unix_timestamp = null, $hex_signature = null) {
       $triplea = new TripleA_Payment_Gateway();
       
       $debug_log_enabled = $triplea->get_option('debug_log_enabled') === 'yes';
@@ -686,6 +718,7 @@ You can receive your transaction payments in bitcoins or in your local currency.
       }
       $order_id = $wc_order->get_id();
       $tx_id = get_post_meta($order_id, '_triplea_tx_id');
+      
       
       if (isset($triplea->settings['triplea_woocommerce_order_states']) && isset($triplea->settings['triplea_woocommerce_order_states']['paid'])) {
          $order_status_paid      = $triplea->settings['triplea_woocommerce_order_states']['paid'];
@@ -1077,8 +1110,11 @@ You can receive your transaction payments in bitcoins or in your local currency.
             $api_endpoint_token = md5((uniqid(rand(), TRUE)) . (uniqid(rand(), TRUE)));
          }
          add_option('triplea_api_endpoint_token', $api_endpoint_token);
+         triplea_write_log('SET ENDPOINT TOKEN: '.get_option('triplea_api_endpoint_token'), TRUE);
       }
-      // TODO if ($log_sensitive_data) triplea_write_log('Backend token: '.get_option('triplea_api_endpoint_token'), $debug_log_enabled);
+      else {
+         triplea_write_log('EXISTING ENDPOINT TOKEN: '.get_option('triplea_api_endpoint_token'), TRUE);
+      }
    }
    
    /**
@@ -1272,7 +1308,14 @@ You can receive your transaction payments in bitcoins or in your local currency.
          $data_amount   = esc_attr(WC()->cart->total);
          $data_currency = esc_attr(strtoupper(get_woocommerce_currency()));
       }
-      
+   
+      triplea_write_log('Order WC()->cart->total: '.WC()->cart->total, TRUE);
+      triplea_write_log('Order WC()->cart->get_cart_total(): '.WC()->cart->get_cart_total(), TRUE);
+      triplea_write_log('Order WC()->cart->get_cart_contents_total(): '.WC()->cart->get_cart_contents_total(), TRUE);
+      triplea_write_log('Order WC()->cart->get_cart_discount_total(): '.WC()->cart->get_cart_discount_total(), TRUE);
+      triplea_write_log('Order WC()->cart->get_cart_shipping_total(): '.WC()->cart->get_cart_shipping_total(), TRUE);
+   
+   
       $source_script = plugin_dir_url(__DIR__) . '/Frontend/js/triplea-payment-gateway-app.js';
       
       $nonce_action             = '_wc_triplea_start_checkout_nonce';
@@ -1822,6 +1865,9 @@ You can receive your transaction payments in bitcoins or in your local currency.
       WC()->session->set('triplea_payment_order_currency', null);
       WC()->session->set('triplea_payment_order_amount', null);
       WC()->session->set('triplea_payment_exchange_rate', null);
+      WC()->session->set('triplea_cart_total', null);
+      WC()->session->set('generate_order_txid', null);
+   
       
       return [
          'result'   => 'success',
@@ -2141,7 +2187,9 @@ public function generate_triplea_pubkeyid_script_html($key, $data) {
             $access_token        = WC()->session->get('triplea_payment_access_token');
             $hosted_url          = WC()->session->get('triplea_payment_hosted_url');
             $access_token_expiry = WC()->session->get('triplea_payment_access_token_expiry');
-            
+            $cart_total = WC()->session->get('triplea_cart_total');
+   
+   
             if (!empty($payment_reference)
                 && !empty($access_token)
                 && !empty($hosted_url)
@@ -2153,6 +2201,11 @@ public function generate_triplea_pubkeyid_script_html($key, $data) {
                if ($access_token_expiry < $date_now + $five_minutes) {
                   triplea_write_log('triplea_ajax_get_payment_form_data() : access token expired, ' . $access_token_expiry . ' < ' . ($date_now + $five_minutes), $debug_log_enabled);
                   $need_data = TRUE;
+               }
+               elseif ($cart_total != WC()->cart->total) {
+                  triplea_write_log('triplea_ajax_get_payment_form_data(): updating cart total! ' . WC()->cart->total . ' != ' . $cart_total, TRUE);
+                  $need_data = TRUE;
+                  WC()->session->set('triplea_cart_total', WC()->cart->total);
                }
                else {
                   $need_data = FALSE;
@@ -2665,6 +2718,12 @@ public function generate_triplea_pubkeyid_script_html($key, $data) {
          $order_amount   = esc_attr(WC()->cart->total);
          $order_currency = esc_attr(strtoupper(get_woocommerce_currency()));
       }
+   
+      triplea_write_log('Order WC()->cart->total: '.WC()->cart->total, TRUE);
+      triplea_write_log('Order WC()->cart->get_cart_total(): '.WC()->cart->get_cart_total(), TRUE);
+      triplea_write_log('Order WC()->cart->get_cart_contents_total(): '.WC()->cart->get_cart_contents_total(), TRUE);
+      triplea_write_log('Order WC()->cart->get_cart_discount_total(): '.WC()->cart->get_cart_discount_total(), TRUE);
+      triplea_write_log('Order WC()->cart->get_cart_shipping_total(): '.WC()->cart->get_cart_shipping_total(), TRUE);
       
       $tax_cost          = NULL; //WC()->cart->get_tax_totals();
       $shipping_cost     = empty(WC()->cart->get_cart_shipping_total()) ? NULL : WC()->cart->get_cart_shipping_total();

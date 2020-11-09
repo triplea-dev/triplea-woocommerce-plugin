@@ -63,10 +63,12 @@ class REST {
       $triplea = new TripleA_Payment_Gateway();
    
       $debug_log_enabled = $triplea->get_option('debug_log_enabled') === 'yes';
+      // TODO REMOVE this DEBUGGING FOR DEV
+      $debug_log_enabled = TRUE;
       
       // Load necessary plugin settings
       triplea_write_log( 'webhook_update : Received payment update notification. Status = ' . $request->get_param( 'status' ), $debug_log_enabled );
-      triplea_write_log( 'webhook_update : - Params = ' . print_r($request->get_headers(), true), $debug_log_enabled );
+      triplea_write_log( 'webhook_update : - Headers = ' . print_r($request->get_headers(), true), $debug_log_enabled );
       triplea_write_log( 'webhook_update : - Params = ' . print_r($request->get_params(), true), $debug_log_enabled );
       triplea_write_log( 'webhook_update : - Body = ' . print_r($request->get_body(), true), $debug_log_enabled );
       
@@ -82,11 +84,110 @@ class REST {
             )
          );
       }
-   
       triplea_write_log( 'webhook_update(): valid endpoint token, processing received webhook data...', $debug_log_enabled );
+   
+      /**
+       * Authentication of the incoming request
+       */
+      $order_id = null;
+      $unix_timestamp = null;
+      $hex_signature = null;
+      $triplea_signature = $request->get_header('triplea_signature');
+      triplea_write_log( 'webhook_update(): sig header => ' . print_r($triplea_signature, true), true );
+      
+      if (isset($triplea_signature)) {
+         $parts = preg_split("/[,]+/", $triplea_signature); // "t=<unix-timestamp>,v1=<hex-encoded-signature>"
+         if (count($parts) === 2) {
+            $unix_timestamp = preg_split("/[=]+/", $parts[0])[1];
+            $hex_signature = preg_split("/[=]+/", $parts[1])[1];
+            triplea_write_log( 'webhook_update(): sig timestamp ' . print_r($unix_timestamp, true), true );
+            triplea_write_log( 'webhook_update(): sig hex sign. ' . print_r($hex_signature, true), true );
+
+            $webhook_data  = $request->get_param( 'webhook_data' );
+            triplea_write_log( 'webhook_update(): header  ' . print_r($webhook_data, true), true );
+            if (!isset($webhook_data['order_txid']) || empty($webhook_data['order_txid'])) {
+               triplea_write_log( 'webhook_update(): problem: missing txid in received notification webhook data.', $debug_log_enabled );
+               return new WP_Error(
+                  'missing_txid',
+                  'Missing txid',
+                  array(
+                     'status'   => 400,
+                  )
+               );
+            }
+            triplea_write_log( 'webhook_update(): order txid : ' . print_r($webhook_data['order_txid'], true), true );
+            $order_id = $this->triplea_get_orderid_from_txid( $webhook_data['order_txid'], $debug_log_enabled );
+            if ( $order_id < 0 ) {
+               triplea_write_log( 'update_order_status() : ERROR. No matching order found for tx id ' . $webhook_data['order_txid'] . '.', $debug_log_enabled );
+            }
+         }
+         else {
+            triplea_write_log( 'webhook_update(): problem with signature.', $debug_log_enabled );
+            return new WP_Error(
+               'bad_signature',
+               'Bad signature',
+               array(
+                  'status'   => 403,
+               )
+            );
+         }
+      }
+      else {
+         triplea_write_log( 'webhook_update(): problem with signature..', $debug_log_enabled );
+         return new WP_Error(
+            'bad_signature',
+            'Bad signature',
+            array(
+               'status'   => 403,
+            )
+         );
+      }
+   
+      //$wc_order = wc_get_order( $order_id );
+      $notify_secret = get_post_meta($order_id, '_triplea_notify_secret');
+      if (is_array($notify_secret)) $notify_secret = $notify_secret[0];
+      triplea_write_log( 'webhook_update(): notify_secret = '. ($notify_secret? 'true' : 'false'), $debug_log_enabled );
+      $verify_signature = hash_hmac("SHA256", $unix_timestamp.'.'.$request->get_body(), $notify_secret);
+      triplea_write_log( 'webhook_update(): input signature = '. $hex_signature, $debug_log_enabled );
+      triplea_write_log( 'webhook_update(): local signature = '. $verify_signature, $debug_log_enabled );
+      if (!$verify_signature) {
+         triplea_write_log( 'webhook_update(): signature mismatch!', $debug_log_enabled );
+         return new WP_Error(
+            'signature_mismatch',
+            'Signature mismatch',
+            array(
+               'status'   => 400,
+            )
+         );
+      }
+   
+      $time_valid = abs(time() - $unix_timestamp) < 300;
+      triplea_write_log( 'webhook_update(): time valid? = '. ($time_valid? 'true' : 'false'), $debug_log_enabled );
+      if (!$time_valid) {
+         triplea_write_log( 'webhook_update(): signature timestamp mismatch!', $debug_log_enabled );
+         return new WP_Error(
+            'signature_timestamp_mismatch',
+            'Signature timestamp mismatch',
+            array(
+               'status'   => 400,
+            )
+         );
+      }
+   
+//      
+//
+//      // TODO REMoVE DEBUGGING STOP
+//      triplea_write_log( 'webhook_update(): debug stop 503', $debug_log_enabled );
+//      return new WP_Error(
+//         'debugging_stop',
+//         'debugging stop',
+//         array(
+//            'status'   => 503,
+//         )
+//      );
       
       $payment_data = json_decode($request->get_body());
-      $triplea::update_order_status($payment_data, NULL, false);
+      $triplea::update_order_status($payment_data, NULL, false, $unix_timestamp, $hex_signature);
    
       return array(
          'status' => 'ok',
@@ -352,6 +453,7 @@ class REST {
 
 		return $order_id;
 	}
+	
 
 }
 

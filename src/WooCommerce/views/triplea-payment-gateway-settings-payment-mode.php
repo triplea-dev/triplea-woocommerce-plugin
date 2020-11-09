@@ -70,10 +70,25 @@ $site_info      = get_bloginfo('name');
 //if (empty($triplea_dashboard_email)) {
 //   $triplea_dashboard_email = '';
 //}
-$old_btc2btc_api_id = 'something1';
-$old_btc2btc_sandbox_api_id = 'something2';
-$old_btc2fiat_api_id = 'something3';
-$old_active_api_id = 'something2';
+$tmp_old_btc_id = $this->get_option('triplea_pubkey_id');
+$old_btc2btc_sandbox_api_id = '';
+$old_btc2btc_api_id = '';
+if (!empty($tmp_old_btc_id)) {
+   if (substr_compare($tmp_old_btc_id, "_t", -2, 2) === 0 ) {
+      $old_btc2btc_sandbox_api_id = $tmp_old_btc_id;
+      $old_btc2btc_api_id = '';
+   }
+   else {
+      $old_btc2btc_sandbox_api_id = '';
+      $old_btc2btc_api_id = $tmp_old_btc_id;
+   }
+}
+$old_btc2fiat_api_id = $this->get_option('triplea_pubkey_id_for_conversion');
+$old_active_api_id = $this->get_option('triplea_active_pubkey_id');
+$old_btc2fiat_is_active = isset($old_active_api_id) && !empty($old_active_api_id) && $old_active_api_id === $old_btc2fiat_api_id;
+$old_btc2btc_is_active = isset($old_active_api_id) && !empty($old_active_api_id) && ($old_active_api_id === $old_btc2btc_api_id || $old_active_api_id === $old_btc2btc_sandbox_api_id);
+$old_payment_mode = $old_btc2fiat_is_active ? 'bitcoin-to-cash' : 'bitcoin-to-bitcoin';
+$old_sandbox_payment_mode = !empty($old_btc2btc_sandbox_api_id);
 
 
 $debug_log_enabled = 'yes' === $this->get_option('debug_log_enabled');
@@ -177,36 +192,36 @@ ob_start();
    </style>
 
 
-   <!--small>
-      <pre>$payment_mode = <?php echo print_r($payment_mode, TRUE); ?></pre>
-      <pre>$sandbox_payment_mode = <?php echo($sandbox_payment_mode ? 'true' : 'false'); ?></pre>
+<!--   <small>
+      <pre>$payment_mode = <?php /*echo print_r($payment_mode, TRUE); */?></pre>
+      <pre>$sandbox_payment_mode = <?php /*echo($sandbox_payment_mode ? 'true' : 'false'); */?></pre>
       <br>
-      <pre>$fiat_merchant_key = <?php echo print_r($fiat_merchant_key, TRUE); ?></pre>
-      <pre>$fiat_client_id = <?php echo print_r($fiat_client_id, TRUE); ?></pre>
-      <pre>$fiat_client_secret = <?php echo print_r($fiat_client_secret, TRUE); ?></pre>
-      <pre>$fiat_merchant_name = <?php echo print_r($fiat_merchant_name, TRUE); ?></pre>
-      <pre>$fiat_merchant_email = <?php echo print_r($fiat_merchant_email, TRUE); ?></pre>
-      <pre>$fiat_merchant_phone = <?php echo print_r($fiat_merchant_phone, TRUE); ?></pre>
-      <pre>$fiat_merchant_local_currency = <?php echo print_r($fiat_merchant_local_currency, TRUE); ?></pre>
-      <pre>$triplea_btc2fiat_api_id = <?php echo print_r($triplea_btc2fiat_api_id, TRUE); ?></pre>
-      <pre>$triplea_btc2fiat_sandbox_api_id = <?php echo print_r($triplea_btc2fiat_sandbox_api_id, TRUE); ?></pre>
+      <pre>$fiat_merchant_key = <?php /*echo print_r($fiat_merchant_key, TRUE); */?></pre>
+      <pre>$fiat_client_id = <?php /*echo print_r($fiat_client_id, TRUE); */?></pre>
+      <pre>$fiat_client_secret = <?php /*echo print_r($fiat_client_secret, TRUE); */?></pre>
+      <pre>$fiat_merchant_name = <?php /*echo print_r($fiat_merchant_name, TRUE); */?></pre>
+      <pre>$fiat_merchant_email = <?php /*echo print_r($fiat_merchant_email, TRUE); */?></pre>
+      <pre>$fiat_merchant_phone = <?php /*echo print_r($fiat_merchant_phone, TRUE); */?></pre>
+      <pre>$fiat_merchant_local_currency = <?php /*echo print_r($fiat_merchant_local_currency, TRUE); */?></pre>
+      <pre>$triplea_btc2fiat_api_id = <?php /*echo print_r($triplea_btc2fiat_api_id, TRUE); */?></pre>
+      <pre>$triplea_btc2fiat_sandbox_api_id = <?php /*echo print_r($triplea_btc2fiat_sandbox_api_id, TRUE); */?></pre>
       <br>
-      <pre>$btc_merchant_key = <?php echo print_r($btc_merchant_key, TRUE); ?></pre>
-      <pre>$btc_client_id = <?php echo print_r($btc_client_id, TRUE); ?></pre>
-      <pre>$btc_client_secret = <?php echo print_r($btc_client_secret, TRUE); ?></pre>
-      <pre>$btc_merchant_name = <?php echo print_r($btc_merchant_name, TRUE); ?></pre>
-      <pre>$btc_merchant_email = <?php echo print_r($btc_merchant_email, TRUE); ?></pre>
-      <pre>$btc_merchant_phone = <?php echo print_r($btc_merchant_phone, TRUE); ?></pre>
-      <pre>$btc_pubkey = <?php echo print_r($btc_pubkey, TRUE); ?></pre>
-      <pre>$btc_sandbox_pubkey = <?php echo print_r($btc_sandbox_pubkey, TRUE); ?></pre>
-      <pre>$triplea_btc2btc_api_id = <?php echo print_r($triplea_btc2btc_api_id, TRUE); ?></pre>
-      <pre>$triplea_btc2btc_sandbox_api_id = <?php echo print_r($triplea_btc2btc_sandbox_api_id, TRUE); ?></pre>
+      <pre>$btc_merchant_key = <?php /*echo print_r($btc_merchant_key, TRUE); */?></pre>
+      <pre>$btc_client_id = <?php /*echo print_r($btc_client_id, TRUE); */?></pre>
+      <pre>$btc_client_secret = <?php /*echo print_r($btc_client_secret, TRUE); */?></pre>
+      <pre>$btc_merchant_name = <?php /*echo print_r($btc_merchant_name, TRUE); */?></pre>
+      <pre>$btc_merchant_email = <?php /*echo print_r($btc_merchant_email, TRUE); */?></pre>
+      <pre>$btc_merchant_phone = <?php /*echo print_r($btc_merchant_phone, TRUE); */?></pre>
+      <pre>$btc_pubkey = <?php /*echo print_r($btc_pubkey, TRUE); */?></pre>
+      <pre>$btc_sandbox_pubkey = <?php /*echo print_r($btc_sandbox_pubkey, TRUE); */?></pre>
+      <pre>$triplea_btc2btc_api_id = <?php /*echo print_r($triplea_btc2btc_api_id, TRUE); */?></pre>
+      <pre>$triplea_btc2btc_sandbox_api_id = <?php /*echo print_r($triplea_btc2btc_sandbox_api_id, TRUE); */?></pre>
       <br>
-      <pre>$triplea_active_api_id = <?php echo print_r($triplea_active_api_id, TRUE); ?></pre>
-      <pre>$btc2fiat_is_active = <?php echo($btc2fiat_is_active === TRUE ? 'true' : 'false'); ?></pre>
-      <pre>$btc2btc_is_active = <?php echo($btc2btc_is_active === TRUE ? 'true' : 'false'); ?></pre>
+      <pre>$triplea_active_api_id = <?php /*echo print_r($triplea_active_api_id, TRUE); */?></pre>
+      <pre>$btc2fiat_is_active = <?php /*echo($btc2fiat_is_active === TRUE ? 'true' : 'false'); */?></pre>
+      <pre>$btc2btc_is_active = <?php /*echo($btc2btc_is_active === TRUE ? 'true' : 'false'); */?></pre>
       <br>
-   </small-->
+   </small>-->
 
    <!--payments enabled with either btc or fiat settlement-->
    <div class="triplea_step" id="step-enabled"
@@ -378,11 +393,103 @@ ob_start();
       <input type="radio"
              name="receive-choice"
              value="localcurrency"
-         <?php echo($btc2fiat_is_active ? "checked" : '') ?>
+         <?php echo($btc2fiat_is_active || $old_btc2fiat_is_active ? "checked" : '') ?>
              style="margin:10px;">receive local currency<br>
       <div class="receive-choice-wrapper"
            style="margin-left: 40px;display:<?php echo($btc2fiat_is_active ? "block" : 'none') ?>;"
            id="localcurrency-form-wrapper">
+         <div style="display:<?php echo(!empty($old_btc2fiat_api_id) && empty($fiat_merchant_key) ? "block" : "none") ?>;" id="fiat-version-upgrade-form-wrapper">
+            <hr>
+            <div class="triplea_step" id="upgrade-fiat-form">
+               <h3>
+                  <small>
+                     Upgrade your local currency settlement account
+                  </small>
+               </h3>
+               <p>
+                  Due to technical improvements and added features, your account needs to be upgraded to be compatible.
+                  <br>
+                  After upgrading, your account will be linked to your TripleA dashboard.
+                  <br>
+                  Login credentials will be shared by e-mail.
+               </p>
+               <p>
+                  Existing API ID: <?php echo $old_btc2fiat_api_id; ?>
+                  <span class="woocommerce-help-tip" data-tip="This is your TripleA account identifier"></span>
+               </p>
+
+               <input type="button"
+                      class="button-primary"
+                      value="Upgrade"
+                      onclick="triplea_fiat_upgrade_emailvalidationstep()">
+               <br>
+               <br>
+            </div>
+            <div class="triplea_step"
+                 id="upgrade-fiat-validate-email"
+                 style="opacity: 0.5;">
+               <hr>
+               <h3>
+                  <small>
+                     Validate email
+                  </small>
+               </h3>
+               <p>
+                  Sending OTP (one-time password) to your email address...
+                  <strong id="fiat-upgrade-email-sent" style="display:none;">
+                     Email sent!
+                  </strong>
+               </p>
+               <small style="color:darkred;display:none;"
+                      class="triplea-error-msg error-otp-request"
+                      id="fiat-upgrade-error-otp-request">
+                  Something went wrong while requesting OTP code. Try again, or
+                  contact
+                  us at support@triple-a.io so that we can assist you.
+               </small>
+               <p id="fiat-upgrade-enter-otp" style="opacity: 0.5;">
+                  Enter the One-Time Password code:
+                  <input type="text"
+                         id="fiat-upgrade-otp-value"
+                         name="fiat-upgrade-otp-value"
+                         value=""
+                         placeholder="One-Time Password"
+                         style="width:150px">
+                  <small style="color:darkred;display:none;"
+                         class="triplea-error-msg error-provide-otp"
+                         id="bitcoin-upgrade-error-provide-otp">
+                     Please provide the OTP code that was sent to you by email.
+                  </small>
+                  <small style="color:darkred;display:none;"
+                         class="triplea-error-msg error-otp-wrong"
+                         id="fiat-upgrade-error-otp-wrong">
+                     Wrong OTP provided.
+                  </small>
+                  <br>
+                  <br>
+                  <input type="button"
+                         id="fiat-upgrade-otp-submit"
+                         class="button-primary"
+                         value="Activate local currency account"
+                         onclick="triplea_fiat_upgrade_validateEmailOtp()"
+                         style="opacity: 0.5;">
+                  <small id="fiat-upgrade-otp-check-loading"
+                         class="triplea-error-msg otp-check-loading"
+                         style="display:none;">
+                     Loading...
+                  </small>
+                  <small style="color:darkred;display:none;"
+                         class="triplea-error-msg account-creation-error"
+                         id="fiat-upgrade-account-creation-error">
+                     The provided OTP was correct. However, something went wrong
+                     during
+                     the creation of your local currency settlement account. Please inform us
+                     at
+                     support@triple-a.io so that we may assist you promptly.
+                  </small>
+               </p>
+            </div>
+         </div>
          <div class="receive-choice-update-wrapper"
               style="display:<?php echo(!empty($triplea_btc2fiat_sandbox_api_id) || !empty($triplea_btc2fiat_api_id) ? "block" : 'none') ?>;"
               id="localcurrency-update-form-wrapper">
@@ -394,7 +501,7 @@ ob_start();
             <input type="button" class="button-primary" value="Activate Live bitcoin payments to my own wallet" onclick="triplea_setActiveAccount('btc2fiat', false)" style="display:<?php echo($btc2fiat_is_active && !$sandbox_payment_mode ? "none" : "block") ?>;margin-bottom:8px;">
             <!--<input type="button" class="button-secondary" value="Update my testnet bitcoin wallet" onclick="jQuery('#testnetbitcoin-signup-form-wrapper').show()">-->
          </div>
-         <div style="display:<?php echo(empty($triplea_btc2fiat_sandbox_api_id) ? "block" : "none") ?>;" id="localcurrency-signup-form-wrapper">
+         <div style="display:<?php echo(empty($triplea_btc2fiat_sandbox_api_id) && empty($old_btc2fiat_api_id) ? "block" : "none") ?>;" id="localcurrency-signup-form-wrapper">
             <hr>
             <div class="triplea_step" id="receive-localcurrency-form">
                <h3>
@@ -519,7 +626,7 @@ ob_start();
       <input type="radio"
              name="receive-choice"
              value="testnetbitcoin"
-         <?php echo($btc2btc_is_active && $sandbox_payment_mode ? "checked" : '') ?>
+         <?php echo(($btc2btc_is_active && $sandbox_payment_mode) || ($old_btc2btc_is_active && $old_sandbox_payment_mode) ? "checked" : '') ?>
              style="margin:10px;">receive Testnet bitcoin<br>
       <div class="receive-choice-wrapper"
            style="margin-left: 40px;display:<?php echo($btc2btc_is_active && $sandbox_payment_mode ? "block" : 'none') ?>;"
@@ -549,6 +656,12 @@ ob_start();
                       value="Upgrade"
                       onclick="triplea_testnetbitcoin_upgrade_emailvalidationstep()">
                <br>
+               <span style="color:darkred;display:none;"
+                     class="triplea-error-msg upgrade-something-wrong"
+                     id="testnetbitcoin-upgrade-error-something-wrong">
+                     Something went wrong while requesting the account upgrade. <a href="mailto:support@triple-a.io">Contact us at support@triple-a.io</a> if you need assistance.
+                  </span>
+               <br>
                <br>
             </div>
             <div class="triplea_step"
@@ -570,8 +683,8 @@ ob_start();
                       class="triplea-error-msg error-otp-request"
                       id="testnetbitcoin-upgrade-error-otp-request">
                   Something went wrong while requesting OTP code. Try again, or
-                  contact
-                  us at support@triple-a.io so that we can assist you.
+                  <a
+                        href="mailto:support@triple-a.io">inform us at support@triple-a.io</a> so that we can assist you.
                </small>
                <p id="testnetbitcoin-upgrade-enter-otp" style="opacity: 0.5;">
                   Enter the One-Time Password code:
@@ -609,9 +722,8 @@ ob_start();
                          id="testnetbitcoin-upgrade-account-creation-error">
                      The provided OTP was correct. However, something went wrong
                      during
-                     the creation of your Testnet bitcoin account. Please inform us
-                     at
-                     support@triple-a.io so that we may assist you promptly.
+                     the creation of your Testnet bitcoin account. Please <a
+                           href="mailto:support@triple-a.io">inform us at support@triple-a.io</a> so that we may assist you promptly.
                   </small>
                </p>
             </div>
@@ -620,14 +732,17 @@ ob_start();
               style="display:<?php echo(!empty($triplea_btc2btc_sandbox_api_id) ? "block" : 'none') ?>;"
               id="testnetbitcoin-update-form-wrapper">
             <input type="button" class="button-primary" value="Already active" onclick="" disabled="disabled" style="display:<?php echo($btc2btc_is_active && $sandbox_payment_mode ? "block" : 'none') ?>;margin-bottom:8px;">
-            <span style="display:<?php echo($btc2btc_is_active && $sandbox_payment_mode ? "block" : 'none') ?>;"><strong>Email:</strong> <?php echo $btc_sandbox_merchant_email; ?>.
-               <br><strong>Public key:</strong> <?php echo substr($btc_sandbox_pubkey, 0, 8); ?>...</span>
+            <span style="display:<?php echo($btc2btc_is_active && $sandbox_payment_mode ? "block" : 'none') ?>;"><strong>Email:</strong> <?php echo $btc_sandbox_merchant_email; ?>
+               <?php if(!empty($btc_sandbox_pubkey)): ?>
+               <br><strong>Public key:</strong> <?php echo substr($btc_sandbox_pubkey, 0, 8); ?>...
+               <?php endif; ?>
+            </span>
             <br>
             <input type="button" class="button-primary" value="Activate testnet bitcoin payments to my own wallet" onclick="triplea_setActiveAccount('btc2btc', true)" style="display:<?php echo($btc2btc_is_active && $sandbox_payment_mode ? "none" : "block") ?>;margin-bottom:8px;">
             <input type="button" class="button-secondary" value="Update my testnet bitcoin wallet" onclick="jQuery('#testnetbitcoin-signup-form-wrapper').show()">
             <br>
          </div>
-         <div style="display:<?php echo(empty($triplea_btc2btc_sandbox_api_id) ? "block" : "none") ?>;" id="testnetbitcoin-signup-form-wrapper">
+         <div style="display:<?php echo(empty($triplea_btc2btc_sandbox_api_id) && empty($old_btc2btc_sandbox_api_id) ? "block" : "none") ?>;" id="testnetbitcoin-signup-form-wrapper">
             <hr>
             <div class="triplea_step" id="receive-testnetbitcoin-form">
                <h3>
@@ -665,6 +780,11 @@ ob_start();
                          class="triplea-error-msg pubkey-wrong-email"
                          id="testnetbitcoin-error-pubkey-wrong-email">
                      This master public key has been associated with another email address. <a href="mailto:support@triple-a.io">Contact us at support@triple-a.io</a> if you need assistance.
+                  </span>
+                  <span style="color:darkred;display:none;"
+                        class="triplea-error-msg pubkey-wrong-email"
+                        id="testnetbitcoin-error-pubkey-exists">
+                     This master public key has already been used on another website. Please create a new bitcoin wallet for this website. <a href="mailto:support@triple-a.io">Contact us at support@triple-a.io</a> if you need assistance.
                   </span>
                   <br>
                   <small style="color: darkred;display:none;"
@@ -758,18 +878,113 @@ ob_start();
       <div class="receive-choice-wrapper"
            style="margin-left: 40px;display:<?php echo($btc2btc_is_active && !$sandbox_payment_mode ? "block" : 'none') ?>;"
            id="bitcoin-form-wrapper">
+         <div style="display:<?php echo(!empty($old_btc2btc_api_id) && empty($btc_merchant_key) ? "block" : "none") ?>;" id="bitcoin-version-upgrade-form-wrapper">
+            <hr>
+            <div class="triplea_step" id="upgrade-bitcoin-form">
+               <h3>
+                  <small>
+                     Upgrade your bitcoin account
+                  </small>
+               </h3>
+               <p>
+                  Due to technical improvements and added features, your account needs to be upgraded to be compatible.
+                  <br>
+                  After upgrading, your account will be linked to your TripleA dashboard.
+                  <br>
+                  Login credentials will be shared by e-mail.
+               </p>
+               <p>
+                  Existing API ID: <?php echo $old_btc2btc_api_id; ?>
+                  <span class="woocommerce-help-tip" data-tip="This is your TripleA account identifier"></span>
+               </p>
+
+               <input type="button"
+                      class="button-primary"
+                      value="Upgrade"
+                      onclick="triplea_bitcoin_upgrade_emailvalidationstep()">
+               <br>
+               <br>
+            </div>
+            <div class="triplea_step"
+                 id="upgrade-bitcoin-validate-email"
+                 style="opacity: 0.5;">
+               <hr>
+               <h3>
+                  <small>
+                     Validate email
+                  </small>
+               </h3>
+               <p>
+                  Sending OTP (one-time password) to your email address...
+                  <strong id="bitcoin-upgrade-email-sent" style="display:none;">
+                     Email sent!
+                  </strong>
+               </p>
+               <small style="color:darkred;display:none;"
+                      class="triplea-error-msg error-otp-request"
+                      id="bitcoin-upgrade-error-otp-request">
+                  Something went wrong while requesting OTP code. Try again, or
+                  contact
+                  us at support@triple-a.io so that we can assist you.
+               </small>
+               <p id="bitcoin-upgrade-enter-otp" style="opacity: 0.5;">
+                  Enter the One-Time Password code:
+                  <input type="text"
+                         id="bitcoin-upgrade-otp-value"
+                         name="bitcoin-upgrade-otp-value"
+                         value=""
+                         placeholder="One-Time Password"
+                         style="width:150px">
+                  <small style="color:darkred;display:none;"
+                         class="triplea-error-msg error-provide-otp"
+                         id="bitcoin-upgrade-error-provide-otp">
+                     Please provide the OTP code that was sent to you by email.
+                  </small>
+                  <small style="color:darkred;display:none;"
+                         class="triplea-error-msg error-otp-wrong"
+                         id="bitcoin-upgrade-error-otp-wrong">
+                     Wrong OTP provided.
+                  </small>
+                  <br>
+                  <br>
+                  <input type="button"
+                         id="bitcoin-upgrade-otp-submit"
+                         class="button-primary"
+                         value="Activate bitcoin account"
+                         onclick="triplea_bitcoin_upgrade_validateEmailOtp()"
+                         style="opacity: 0.5;">
+                  <small id="bitcoin-upgrade-otp-check-loading"
+                         class="triplea-error-msg otp-check-loading"
+                         style="display:none;">
+                     Loading...
+                  </small>
+                  <small style="color:darkred;display:none;"
+                         class="triplea-error-msg account-creation-error"
+                         id="bitcoin-upgrade-account-creation-error">
+                     The provided OTP was correct. However, something went wrong
+                     during
+                     the creation of your live bitcoin account. Please inform us
+                     at
+                     support@triple-a.io so that we may assist you promptly.
+                  </small>
+               </p>
+            </div>
+         </div>
          <div class="receive-choice-update-wrapper"
               style="display:<?php echo(!empty($triplea_btc2btc_api_id) ? "block" : 'none') ?>;"
               id="bitcoin-update-form-wrapper">
             <input type="button" class="button-primary" value="Already active" onclick="" disabled="disabled" style="display:<?php echo($btc2btc_is_active && !$sandbox_payment_mode ? "block" : 'none') ?>;margin-bottom:8px;">
             <span style="display:<?php echo($btc2btc_is_active && $sandbox_payment_mode ? "block" : 'none') ?>;"><strong>Email:</strong> <?php echo $btc_merchant_email; ?>.
-               <br><strong>Public key:</strong> <?php echo substr($btc_pubkey, 0, 8); ?>...</span>
+               <?php if(!empty($btc_pubkey)): ?>
+               <br><strong>Public key:</strong> <?php echo substr($btc_pubkey, 0, 8); ?>...
+               <?php endif; ?>
+            </span>
             <br>
             <input type="button" class="button-primary" value="Activate live bitcoin payments to my own wallet" onclick="triplea_setActiveAccount('btc2btc', false)" style="display:<?php echo($btc2btc_is_active && !$sandbox_payment_mode ? "none" : "block") ?>;margin-bottom:15px;">
             <input type="button" class="button-secondary" value="Update my bitcoin wallet" onclick="jQuery('#bitcoin-signup-form-wrapper').show()">
             <br>
          </div>
-         <div style="display:<?php echo(empty($triplea_btc2btc_api_id) ? "block" : "none") ?>;" id="bitcoin-signup-form-wrapper">
+         <div style="display:<?php echo(empty($triplea_btc2btc_api_id) && empty($old_btc2btc_api_id) ? "block" : "none") ?>;" id="bitcoin-signup-form-wrapper">
             <hr>
             <div class="triplea_step" id="receive-bitcoin-form">
                <h3>
@@ -808,6 +1023,11 @@ ob_start();
                         class="triplea-error-msg pubkey-wrong-email"
                         id="bitcoin-error-pubkey-wrong-email">
                      This master public key has been associated with another email address. <a href="mailto:support@triple-a.io">Contact us at support@triple-a.io</a> if you need assistance.
+                  </span>
+                  <span style="color:darkred;display:none;"
+                        class="triplea-error-msg pubkey-wrong-email"
+                        id="bitcoin-error-pubkey-exists">
+                     This master public key has already been used on another website. Please create a new bitcoin wallet for this website. <a href="mailto:support@triple-a.io">Contact us at support@triple-a.io</a> if you need assistance.
                   </span>
                   <br>
                   <small style="color: darkred;display:none;"
@@ -1005,7 +1225,7 @@ ob_start();
                 class="triplea-error-msg"
                 id="cash-account-creation-error">
             The provided OTP was correct. However, something went wrong during
-            the creation of your local currency wallet. Please inform us at
+            the creation of your account. Please inform us at
             support@triple-a.io so that we may assist you promptly.
          </small>
       </p>
@@ -1168,8 +1388,7 @@ ob_start();
    <script>
      (function ($) {
        $(document).ready(function () {
-         // detect "receive .." choice, set the correct radiobutton selection
-         $('[name="receive-choice"]').change(function () {
+         function updateReceiveChoiceOptions() {
            let selectedValue = $('input[name="receive-choice"]:checked').val();
            $('.receive-choice-wrapper').hide();
            if (selectedValue === 'localcurrency')
@@ -1184,6 +1403,13 @@ ob_start();
            {
              $('#bitcoin-form-wrapper').show();
            }
+         }
+
+         updateReceiveChoiceOptions();
+         
+         // detect "receive .." choice, set the correct radiobutton selection
+         $('[name="receive-choice"]').change(function () {
+           updateReceiveChoiceOptions();
          });
 
          let sandboxPaymentModeNode   = document.getElementById(settingsPrefix + '_' + 'triplea_sandbox_payment_mode');
@@ -1410,9 +1636,6 @@ ob_start();
        triplea_helper_displayNode('cash-account-ready');
      }
    </script>
-
-   <br>
-
    <script>
      const return_url     = '<?php echo $return_url; ?>';
      const local_currency = '<?php echo $local_currency; ?>';
@@ -1420,9 +1643,17 @@ ob_start();
      const site_info      = <?php echo json_encode($info_data); ?>;
      const settingsPrefix = 'woocommerce_triplea_payment_gateway';
      let otpRequestEmail, otpRequestNotifEmail;
-
      let merchantAccountRequestResult;
-
+     
+     // Optional, available if upgrade needed from pre-v1.5.0:
+     const old_btc2bt2_api_id = <?php echo (!empty($old_btc2btc_api_id) ? "'$old_btc2btc_api_id'" : 'null'); ?>;
+     const old_btc2bt2_sandbox_api_id = <?php echo (!empty($old_btc2btc_sandbox_api_id) ? "'$old_btc2btc_sandbox_api_id'" : 'null'); ?>;
+     const old_btc2fiat_api_id = <?php echo (!empty($old_btc2fiat_api_id) ? "'$old_btc2fiat_api_id'" : 'null'); ?>;
+     const old_active_api_id = <?php echo (!empty($old_active_api_id) ? "'$old_active_api_id'" : 'null'); ?>;
+     const old_btc2fiat_is_active = <?php echo (!empty($old_btc2fiat_is_active) ? "'$old_btc2fiat_is_active'" : 'null'); ?>;
+     const old_btc2btc_is_active = <?php echo (!empty($old_btc2btc_is_active) ? "'$old_btc2btc_is_active'" : 'null'); ?>;
+     
+     
      /**
       *
       *  OLD BTC-to-BTC External wallet code
@@ -1826,13 +2057,13 @@ ob_start();
        {
          const acc = merchantAccountRequestResult.accounts[i];
 
-         if (acc.crypto_currency === 'BTC' && !acc.sandbox)
+         if (acc.crypto_currency === 'BTC' && !acc.sandbox && acc.type === 'triplea')
          {
            // TODO rename this new variable where needed everywhere in the code
            let apiIdNode   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2fiat_api_id');
            apiIdNode.value = acc.api_id;
          }
-         else if (acc.crypto_currency === 'testBTC' && acc.sandbox)
+         else if (acc.crypto_currency === 'testBTC' && acc.sandbox  && acc.type === 'triplea')
          {
            // TODO create this new variable where needed all throughout the code
            let apiIdNode   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2fiat_sandbox_api_id');
@@ -1967,8 +2198,15 @@ ob_start();
      function triplea_testnetbitcoin_createMerchantAccountCallbackError(err)
      {
        jQuery('#receive-testnetbitcoin-validate-email').fadeTo(0, 0.5);
-       console.error('Error with merchant account creation.', err);
-       jQuery('#testnetbitcoin-error-pubkey-wrong-email').show();
+       console.error('Error with merchant account creation.', err.response);
+       jsonErr = JSON.parse(err.response);
+       if (jsonErr && jsonErr.message === 'pubkey_exists') {
+         jQuery('#testnetbitcoin-error-pubkey-exists').show();
+       }
+       else
+       {
+         jQuery('#testnetbitcoin-error-pubkey-wrong-email').show();
+       }
      }
 
      /**
@@ -2072,7 +2310,7 @@ ob_start();
          //   let apiIdNode   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2fiat_api_id');
          //   apiIdNode.value = acc.api_id;
          // }
-         if (acc.crypto_currency === 'testBTC' && acc.sandbox)
+         if (acc.crypto_currency === 'testBTC' && acc.sandbox  && acc.type === 'self')
          {
            // TODO create this new variable where needed all throughout the code
            let apiIdNode   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_sandbox_api_id');
@@ -2204,8 +2442,15 @@ ob_start();
      function triplea_bitcoin_createMerchantAccountCallbackError(err)
      {
        jQuery('#receive-bitcoin-validate-email').fadeTo(0, 0.5);
-       console.error('Error with merchant account creation.', err);
-       jQuery('#bitcoin-error-pubkey-wrong-email').show();
+       console.error('Error with merchant account creation.', err.response);
+       let jsonErr = JSON.parse(err.response);
+       if (jsonErr && jsonErr.message === 'pubkey_exists') {
+         jQuery('#bitcoin-error-pubkey-exists').show();
+       }
+       else
+       {
+         jQuery('#bitcoin-error-pubkey-wrong-email').show();
+       }
      }
 
      /**
@@ -2303,7 +2548,7 @@ ob_start();
        {
          const acc = merchantAccountRequestResult.accounts[i];
 
-         if (acc.crypto_currency === 'BTC' && !acc.sandbox)
+         if (acc.crypto_currency === 'BTC' && !acc.sandbox  && acc.type === 'self')
          {
            let apiIdNode   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_api_id');
            apiIdNode.value = acc.api_id;
@@ -2518,12 +2763,12 @@ ob_start();
        {
          const acc = merchantAccountRequestResult.accounts[i];
 
-         if (acc.crypto_currency === 'BTC' && !acc.sandbox)
+         if (acc.crypto_currency === 'BTC' && !acc.sandbox && acc.type === 'triplea')
          {
            let apiIdNode   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2fiat_api_id');
            apiIdNode.value = acc.api_id;
          }
-         if (acc.crypto_currency === 'testBTC' && acc.sandbox)
+         if (acc.crypto_currency === 'testBTC' && acc.sandbox && acc.type === 'triplea')
          {
            let apiIdNode   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2fiat_sandbox_api_id');
            apiIdNode.value = acc.api_id;
@@ -2536,6 +2781,630 @@ ob_start();
      }
 
    </script>
+
+   <script>
+     /**
+      *
+      *  BTC2BTC Testnet UPGRADE path
+      *
+      */
+
+     /**
+      *  Request upgrade of the API ID.
+      *  This triggers an OTP email for email validation.
+      *  Display the OTP validation step.
+      */
+     function triplea_testnetbitcoin_upgrade_emailvalidationstep()
+     {
+       // Reset errors, before validation
+       jQuery('.triplea-error-msg').hide();
+       
+       // Optional validation of fields before proceeding
+       
+       triplea_testnetbitcoin_upgradeMerchantAccount();
+     }
+
+     /**
+      *  Request merchant account upgrade from API v0 to v1.
+      *  Receive a merchant key in response,
+      *  to be used when validating the email via OTP.
+      */
+     function triplea_testnetbitcoin_upgradeMerchantAccount()
+     {
+       triplea_hideAllErrors();
+       
+       const apiId = old_btc2bt2_sandbox_api_id;
+
+       // Ask for upgrade and OTP to be sent to the API ID's associated email.
+       const url      = `https://moneyoverip.io/api/v1/merchant/upgrade`;
+       const callback = triplea_testnetbitcoin_upgradeMerchantAccountCallback;
+       const errorCallback = triplea_testnetbitcoin_upgradeMerchantAccountCallbackError;
+       const method   = "POST";
+       const data     = {
+         api_id: apiId,
+         source: 'woocommerce',
+         plugin: {
+           domain: window.location.hostname,
+           plugin_ver: site_info.plugin_v,
+           platform_ver: site_info.wp_v,
+           platform: site_info.type,
+           //// extra
+           php_ver: site_info.php_v,
+           url: site_info.url,
+           debug_log: site_info.debug_log,
+           lang: site_info.lang,
+           admin_email: site_info.admin
+         }
+       };
+
+       triplea_ajax_action(url, callback, method, JSON.stringify(data), null, errorCallback);
+
+       jQuery('#upgrade-testnetbitcoin-validate-email').fadeTo(0, 1);
+     }
+
+     /**
+      *  Something went wrong when upgrading the merchant account.
+      */
+     function triplea_testnetbitcoin_upgradeMerchantAccountCallbackError(err)
+     {
+       jQuery('#upgrade-testnetbitcoin-validate-email').fadeTo(0, 0.5);
+       console.error('Error with merchant account upgrade.', err);
+       jQuery('#testnetbitcoin-upgrade-error-something-wrong').show();
+     }
+
+     /**
+      *  Upgrade request succeeded. Received some account data to display to the user.
+      *  OTP email sent confirmation. Enable OTP input and submit button.
+      */
+     function triplea_testnetbitcoin_upgradeMerchantAccountCallback(result)
+     {
+       jQuery('#upgrade-testnetbitcoin-validate-email').fadeTo(0, 1);
+       triplea_hideAllErrors();
+       console.log('Prepared account upgrade. OTP code sent to ' + result.email + '. Pending OTP validation..');
+       
+       jQuery('#testnetbitcoin-upgrade-email-sent').html('Email sent to <em>'+ result.email +'</em>!');
+       jQuery('#testnetbitcoin-upgrade-email-sent').fadeTo(0, 1);
+       jQuery('#testnetbitcoin-upgrade-enter-otp').fadeTo(1, 1);
+       jQuery('#testnetbitcoin-upgrade-otp-submit').fadeTo(1, 1);
+       merchantAccountRequestResult = result;
+     }
+
+     /**
+      *  Submit OTP and merchant key for validation for account upgrade request.
+      */
+     function triplea_testnetbitcoin_upgrade_validateEmailOtp()
+     {
+       let otpNode = document.getElementById('testnetbitcoin-upgrade-otp-value');
+       let otp     = otpNode.value;
+       if (!otp)
+       {
+         triplea_helper_displayNode('testnetbitcoin-upgrade-error-provide-otp');
+         return;
+       }
+       triplea_hideAllErrors();
+       triplea_helper_displayNode('testnetbitcoin-upgrade-otp-check-loading');
+
+       const url      = `https://api.triple-a.io/api/v1/merchant/` + merchantAccountRequestResult.merchant_key + `/upgrade/verify`;
+       const callback = triplea_testnetbitcoin_upgrade_validateEmailOtpCallback;
+       const method   = "PUT";
+       const data     = {
+         merchant_pin: otp
+       };
+
+       triplea_ajax_action(url, callback, method, JSON.stringify(data), null, triplea_testnetbitcoin_upgrade_validateEmailOtpCallbackError);
+     }
+
+     /**
+      *  OTP validation failed.
+      */
+     function triplea_testnetbitcoin_upgrade_validateEmailOtpCallbackError(err)
+     {
+       triplea_hideAllErrors();
+       triplea_helper_displayNode('testnetbitcoin-upgrade-error-otp-wrong');
+     }
+
+     /**
+      *  OTP has been validated.
+      *  Account has been upgraded.
+      *  Proceed with saving the received additional account information
+      *  and make this account the active one for bitcoin payments.
+      */
+     function triplea_testnetbitcoin_upgrade_validateEmailOtpCallback(result)
+     {
+       triplea_hideAllErrors();
+
+       console.debug('triplea_testnetbitcoin_upgrade_validateEmailOtpCallback() : result = ', result);
+       console.debug('triplea_testnetbitcoin_upgrade_validateEmailOtpCallback() : merchantAccountRequestResult = ', merchantAccountRequestResult);
+
+       if (!merchantAccountRequestResult
+         || !merchantAccountRequestResult.name
+         || !merchantAccountRequestResult.email
+         || !merchantAccountRequestResult.merchant_key)
+       {
+         console.warn('TripleA Warning: missing merchant account data from initial upgrade call.');
+         triplea_helper_displayNode("testnetbitcoin-upgrade-account-creation-error");
+         return;
+       }
+
+       if (!result
+         || !result.client_id
+         || !result.client_secret
+         || !result.merchant_key
+         || !result.accounts
+         || result.accounts.length === 0)
+       {
+         console.warn('TripleA Warning: missing merchant account data after otp verification.');
+         triplea_helper_displayNode("testnetbitcoin-upgrade-account-creation-error");
+         return;
+       }
+       
+       // We already had some info, now add/update with what we received.
+       Object.assign(merchantAccountRequestResult, result);
+
+       let hiddenNodeMerchantKey   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_sandbox_merchant_key');
+       hiddenNodeMerchantKey.value = merchantAccountRequestResult.merchant_key;
+
+       let hiddenNodeClientId   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_sandbox_client_id');
+       hiddenNodeClientId.value = merchantAccountRequestResult.client_id;
+
+       let hiddenNodeClientSecret   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_sandbox_client_secret');
+       hiddenNodeClientSecret.value = merchantAccountRequestResult.client_secret;
+
+       let hiddenNodeMerchantName   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_sandbox_merchant_name');
+       hiddenNodeMerchantName.value = merchantAccountRequestResult.name || '-missing name-';
+
+       let hiddenNodeMerchantEmail   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_sandbox_merchant_email');
+       hiddenNodeMerchantEmail.value = merchantAccountRequestResult.email || '';
+
+       let hiddenNodeMerchantPhone   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_sandbox_merchant_phone');
+       hiddenNodeMerchantPhone.value = merchantAccountRequestResult.phone || '';
+
+       let hiddenNodePubkey   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_sandbox_pubkey');
+       hiddenNodePubkey.value = window.testbitcoin_pubkey || '';
+
+       for (let i = 0; i < merchantAccountRequestResult.accounts.length; ++i)
+       {
+         const acc = merchantAccountRequestResult.accounts[i];
+         console.debug(' - existing account found: ', acc);
+
+         // if (acc.crypto_currency === 'BTC' && !acc.sandbox)
+         // {
+         //   // TODO rename this new variable where needed everywhere in the code
+         //   let apiIdNode   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2fiat_api_id');
+         //   apiIdNode.value = acc.api_id;
+         // }
+         if (acc.crypto_currency === 'testBTC' && acc.sandbox && acc.type === 'self')
+         {
+           console.debug(' + account match for testnet btc2btc: ');
+
+           // TODO create this new variable where needed all throughout the code
+           let apiIdNode   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_sandbox_api_id');
+           apiIdNode.value = acc.api_id;
+         }
+       }
+
+       // Sets active account then submits form
+       let sandbox = true;
+       triplea_setActiveAccount('btc2btc', sandbox);
+     }
+     
+   </script>
+
+   <script>
+     /**
+      *
+      *  BTC2BTC Live UPGRADE path
+      *
+      */
+
+     /**
+      *  Request upgrade of the API ID.
+      *  This triggers an OTP email for email validation.
+      *  Display the OTP validation step.
+      */
+     function triplea_bitcoin_upgrade_emailvalidationstep()
+     {
+       // Reset errors, before validation
+       jQuery('.triplea-error-msg').hide();
+
+       // Optional validation of fields before proceeding
+
+       triplea_bitcoin_upgradeMerchantAccount();
+     }
+
+     /**
+      *  Request merchant account upgrade from API v0 to v1.
+      *  Receive a merchant key in response,
+      *  to be used when validating the email via OTP.
+      */
+     function triplea_bitcoin_upgradeMerchantAccount()
+     {
+       triplea_hideAllErrors();
+
+       const apiId = old_btc2bt2_api_id;
+
+       // Ask for upgrade and OTP to be sent to the API ID's associated email.
+       const url      = `https://moneyoverip.io/api/v1/merchant/upgrade`;
+       const callback = triplea_bitcoin_upgradeMerchantAccountCallback;
+       const errorCallback = triplea_bitcoin_upgradeMerchantAccountCallbackError;
+       const method   = "POST";
+       const data     = {
+         api_id: apiId,
+         source: 'woocommerce',
+         plugin: {
+           domain: window.location.hostname,
+           plugin_ver: site_info.plugin_v,
+           platform_ver: site_info.wp_v,
+           platform: site_info.type,
+           //// extra
+           php_ver: site_info.php_v,
+           url: site_info.url,
+           debug_log: site_info.debug_log,
+           lang: site_info.lang,
+           admin_email: site_info.admin
+         }
+       };
+
+       triplea_ajax_action(url, callback, method, JSON.stringify(data), null, errorCallback);
+
+       jQuery('#upgrade-bitcoin-validate-email').fadeTo(0, 1);
+     }
+
+     /**
+      *  Something went wrong when upgrading the merchant account.
+      */
+     function triplea_bitcoin_upgradeMerchantAccountCallbackError(err)
+     {
+       jQuery('#upgrade-bitcoin-validate-email').fadeTo(0, 0.5);
+       console.error('Error with merchant account upgrade.', err);
+       jQuery('#bitcoin-upgrade-error-something-wrong').show();
+     }
+
+     /**
+      *  Upgrade request succeeded. Received some account data to display to the user.
+      *  OTP email sent confirmation. Enable OTP input and submit button.
+      */
+     function triplea_bitcoin_upgradeMerchantAccountCallback(result)
+     {
+       jQuery('#upgrade-bitcoin-validate-email').fadeTo(0, 1);
+       triplea_hideAllErrors();
+       console.log('Prepared account upgrade. OTP code sent to ' + result.email + '. Pending OTP validation..');
+
+       jQuery('#bitcoin-upgrade-email-sent').html('Email sent to <em>'+ result.email +'</em>!');
+       jQuery('#bitcoin-upgrade-email-sent').fadeTo(0, 1);
+       jQuery('#bitcoin-upgrade-enter-otp').fadeTo(1, 1);
+       jQuery('#bitcoin-upgrade-otp-submit').fadeTo(1, 1);
+       merchantAccountRequestResult = result;
+     }
+
+     /**
+      *  Submit OTP and merchant key for validation for account upgrade request.
+      */
+     function triplea_bitcoin_upgrade_validateEmailOtp()
+     {
+       let otpNode = document.getElementById('bitcoin-upgrade-otp-value');
+       let otp     = otpNode.value;
+       if (!otp)
+       {
+         triplea_helper_displayNode('bitcoin-upgrade-error-provide-otp');
+         return;
+       }
+       triplea_hideAllErrors();
+       triplea_helper_displayNode('bitcoin-upgrade-otp-check-loading');
+
+       const url      = `https://api.triple-a.io/api/v1/merchant/` + merchantAccountRequestResult.merchant_key + `/upgrade/verify`;
+       const callback = triplea_bitcoin_upgrade_validateEmailOtpCallback;
+       const method   = "PUT";
+       const data     = {
+         merchant_pin: otp
+       };
+
+       triplea_ajax_action(url, callback, method, JSON.stringify(data), null, triplea_bitcoin_upgrade_validateEmailOtpCallbackError);
+     }
+
+     /**
+      *  OTP validation failed.
+      */
+     function triplea_bitcoin_upgrade_validateEmailOtpCallbackError(err)
+     {
+       triplea_hideAllErrors();
+       triplea_helper_displayNode('bitcoin-upgrade-error-otp-wrong');
+     }
+
+     /**
+      *  OTP has been validated.
+      *  Account has been upgraded.
+      *  Proceed with saving the received additional account information
+      *  and make this account the active one for bitcoin payments.
+      */
+     function triplea_bitcoin_upgrade_validateEmailOtpCallback(result)
+     {
+       triplea_hideAllErrors();
+
+       console.debug('triplea_bitcoin_upgrade_validateEmailOtpCallback() : result = ', result);
+       console.debug('triplea_bitcoin_upgrade_validateEmailOtpCallback() : merchantAccountRequestResult = ', merchantAccountRequestResult);
+
+       if (!merchantAccountRequestResult
+         || !merchantAccountRequestResult.name
+         || !merchantAccountRequestResult.email
+         || !merchantAccountRequestResult.merchant_key)
+       {
+         console.warn('TripleA Warning: missing merchant account data from initial upgrade call.');
+         triplea_helper_displayNode("bitcoin-upgrade-account-creation-error");
+         return;
+       }
+
+       if (!result
+         || !result.client_id
+         || !result.client_secret
+         || !result.merchant_key
+         || !result.accounts
+         || result.accounts.length === 0)
+       {
+         console.warn('TripleA Warning: missing merchant account data after otp verification.');
+         triplea_helper_displayNode("bitcoin-upgrade-account-creation-error");
+         return;
+       }
+
+       // We already had some info, now add/update with what we received.
+       Object.assign(merchantAccountRequestResult, result);
+
+       let hiddenNodeMerchantKey   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_merchant_key');
+       hiddenNodeMerchantKey.value = merchantAccountRequestResult.merchant_key;
+
+       let hiddenNodeClientId   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_client_id');
+       hiddenNodeClientId.value = merchantAccountRequestResult.client_id;
+
+       let hiddenNodeClientSecret   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_client_secret');
+       hiddenNodeClientSecret.value = merchantAccountRequestResult.client_secret;
+
+       let hiddenNodeMerchantName   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_merchant_name');
+       hiddenNodeMerchantName.value = merchantAccountRequestResult.name || '-missing name-';
+
+       let hiddenNodeMerchantEmail   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_merchant_email');
+       hiddenNodeMerchantEmail.value = merchantAccountRequestResult.email || '';
+
+       let hiddenNodeMerchantPhone   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_merchant_phone');
+       hiddenNodeMerchantPhone.value = merchantAccountRequestResult.phone || '';
+
+       let hiddenNodePubkey   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_pubkey');
+       hiddenNodePubkey.value = window.bitcoin_pubkey || '';
+
+       for (let i = 0; i < merchantAccountRequestResult.accounts.length; ++i)
+       {
+         const acc = merchantAccountRequestResult.accounts[i];
+         console.debug(' - existing account found: ', acc);
+
+         if (acc.crypto_currency === 'BTC' && !acc.sandbox && acc.type === 'self')
+         {
+           // TODO rename this new variable where needed everywhere in the code
+           let apiIdNode   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_api_id');
+           apiIdNode.value = acc.api_id;
+         }
+         // if (acc.crypto_currency === 'testBTC' && acc.sandbox)
+         // {
+         //   console.debug(' + account match for testnet btc2btc: ');
+         //
+         //   // TODO create this new variable where needed all throughout the code
+         //   let apiIdNode   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_sandbox_api_id');
+         //   apiIdNode.value = acc.api_id;
+         // }
+       }
+
+       // Sets active account then submits form
+       let sandbox = false;
+       triplea_setActiveAccount('btc2btc', sandbox);
+     }
+
+   </script>
+
+   <script>
+     /**
+      *
+      *  BTC2FIAT Live UPGRADE path
+      *
+      */
+
+     /**
+      *  Request upgrade of the API ID.
+      *  This triggers an OTP email for email validation.
+      *  Display the OTP validation step.
+      */
+     function triplea_fiat_upgrade_emailvalidationstep()
+     {
+       // Reset errors, before validation
+       jQuery('.triplea-error-msg').hide();
+
+       // Optional validation of fields before proceeding
+
+       triplea_fiat_upgradeMerchantAccount();
+     }
+
+     /**
+      *  Request merchant account upgrade from API v0 to v1.
+      *  Receive a merchant key in response,
+      *  to be used when validating the email via OTP.
+      */
+     function triplea_fiat_upgradeMerchantAccount()
+     {
+       triplea_hideAllErrors();
+
+       const apiId = old_btc2fiat_api_id;
+
+       // Ask for upgrade and OTP to be sent to the API ID's associated email.
+       const url      = `https://moneyoverip.io/api/v1/merchant/upgrade`;
+       const callback = triplea_fiat_upgradeMerchantAccountCallback;
+       const errorCallback = triplea_fiat_upgradeMerchantAccountCallbackError;
+       const method   = "POST";
+       const data     = {
+         api_id: apiId,
+         source: 'woocommerce',
+         plugin: {
+           domain: window.location.hostname,
+           plugin_ver: site_info.plugin_v,
+           platform_ver: site_info.wp_v,
+           platform: site_info.type,
+           //// extra
+           php_ver: site_info.php_v,
+           url: site_info.url,
+           debug_log: site_info.debug_log,
+           lang: site_info.lang,
+           admin_email: site_info.admin
+         }
+       };
+
+       triplea_ajax_action(url, callback, method, JSON.stringify(data), null, errorCallback);
+
+       jQuery('#upgrade-fiat-validate-email').fadeTo(0, 1);
+     }
+
+     /**
+      *  Something went wrong when upgrading the merchant account.
+      */
+     function triplea_fiat_upgradeMerchantAccountCallbackError(err)
+     {
+       jQuery('#upgrade-fiat-validate-email').fadeTo(0, 0.5);
+       console.error('Error with merchant account upgrade.', err);
+       jQuery('#fiat-upgrade-error-something-wrong').show();
+     }
+
+     /**
+      *  Upgrade request succeeded. Received some account data to display to the user.
+      *  OTP email sent confirmation. Enable OTP input and submit button.
+      */
+     function triplea_fiat_upgradeMerchantAccountCallback(result)
+     {
+       jQuery('#upgrade-fiat-validate-email').fadeTo(0, 1);
+       triplea_hideAllErrors();
+       console.log('Prepared account upgrade. OTP code sent to ' + result.email + '. Pending OTP validation..');
+
+       jQuery('#fiat-upgrade-email-sent').html('Email sent to <em>'+ result.email +'</em>!');
+       jQuery('#fiat-upgrade-email-sent').fadeTo(0, 1);
+       jQuery('#fiat-upgrade-enter-otp').fadeTo(1, 1);
+       jQuery('#fiat-upgrade-otp-submit').fadeTo(1, 1);
+       merchantAccountRequestResult = result;
+     }
+
+     /**
+      *  Submit OTP and merchant key for validation for account upgrade request.
+      */
+     function triplea_fiat_upgrade_validateEmailOtp()
+     {
+       let otpNode = document.getElementById('fiat-upgrade-otp-value');
+       let otp     = otpNode.value;
+       if (!otp)
+       {
+         triplea_helper_displayNode('fiat-upgrade-error-provide-otp');
+         return;
+       }
+       triplea_hideAllErrors();
+       triplea_helper_displayNode('fiat-upgrade-otp-check-loading');
+
+       const url      = `https://api.triple-a.io/api/v1/merchant/` + merchantAccountRequestResult.merchant_key + `/upgrade/verify`;
+       const callback = triplea_fiat_upgrade_validateEmailOtpCallback;
+       const method   = "PUT";
+       const data     = {
+         merchant_pin: otp
+       };
+
+       triplea_ajax_action(url, callback, method, JSON.stringify(data), null, triplea_fiat_upgrade_validateEmailOtpCallbackError);
+     }
+
+     /**
+      *  OTP validation failed.
+      */
+     function triplea_fiat_upgrade_validateEmailOtpCallbackError(err)
+     {
+       triplea_hideAllErrors();
+       triplea_helper_displayNode('fiat-upgrade-error-otp-wrong');
+     }
+
+     /**
+      *  OTP has been validated.
+      *  Account has been upgraded.
+      *  Proceed with saving the received additional account information
+      *  and make this account the active one for bitcoin payments.
+      */
+     function triplea_fiat_upgrade_validateEmailOtpCallback(result)
+     {
+       triplea_hideAllErrors();
+
+       console.debug('triplea_fiat_upgrade_validateEmailOtpCallback() : result = ', result);
+       console.debug('triplea_fiat_upgrade_validateEmailOtpCallback() : merchantAccountRequestResult = ', merchantAccountRequestResult);
+
+       if (!merchantAccountRequestResult
+         || !merchantAccountRequestResult.name
+         || !merchantAccountRequestResult.email
+         || !merchantAccountRequestResult.merchant_key)
+       {
+         console.warn('TripleA Warning: missing merchant account data from initial upgrade call.');
+         triplea_helper_displayNode("fiat-upgrade-account-creation-error");
+         return;
+       }
+
+       if (!result
+         || !result.client_id
+         || !result.client_secret
+         || !result.merchant_key
+         || !result.accounts
+         || result.accounts.length === 0)
+       {
+         console.warn('TripleA Warning: missing merchant account data after otp verification.');
+         triplea_helper_displayNode("fiat-upgrade-account-creation-error");
+         return;
+       }
+
+       // We already had some info, now add/update with what we received.
+       Object.assign(merchantAccountRequestResult, result);
+
+       let hiddenNodeMerchantKey   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2fiat_merchant_key');
+       hiddenNodeMerchantKey.value = merchantAccountRequestResult.merchant_key;
+
+       let hiddenNodeClientId   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2fiat_client_id');
+       hiddenNodeClientId.value = merchantAccountRequestResult.client_id;
+
+       let hiddenNodeClientSecret   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2fiat_client_secret');
+       hiddenNodeClientSecret.value = merchantAccountRequestResult.client_secret;
+
+       let hiddenNodeMerchantName   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2fiat_merchant_name');
+       hiddenNodeMerchantName.value = merchantAccountRequestResult.name || '-missing name-';
+
+       let hiddenNodeMerchantEmail   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2fiat_merchant_email');
+       hiddenNodeMerchantEmail.value = merchantAccountRequestResult.email || '';
+
+       let hiddenNodeMerchantPhone   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2fiat_merchant_phone');
+       hiddenNodeMerchantPhone.value = merchantAccountRequestResult.phone || '';
+       
+       for (let i = 0; i < merchantAccountRequestResult.accounts.length; ++i)
+       {
+         const acc = merchantAccountRequestResult.accounts[i];
+         console.debug(' - existing account found: ', acc);
+
+         if (acc.crypto_currency === 'BTC' && acc.type === 'triplea' && !acc.sandbox)
+         {
+           // We know which API ID we're upgrading. If there are any other 'BTC' accounts, ignore them.
+           if (acc.api_id !== old_btc2fiat_api_id)
+             return;
+           
+           let apiIdNode   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2fiat_api_id');
+           apiIdNode.value = acc.api_id;
+         }
+         if (acc.crypto_currency === 'testBTC' && acc.sandbox && acc.type === 'triplea')
+         {
+           console.debug(' + account match for testnet btc2btc: ');
+
+           let apiIdNode   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2fiat_sandbox_api_id');
+           apiIdNode.value = acc.api_id;
+         }
+       }
+
+       // Sets active account then submits form
+       let sandbox = false;
+       triplea_setActiveAccount('btc2fiat', sandbox);
+     }
+
+   </script>
+
    <script>
 
      /**
@@ -2662,13 +3531,13 @@ ob_start();
 
    </script>
 
-   <section>
-   <pre><?php
-   
-      echo print_r(get_option('woocommerce_triplea_payment_gateway_settings'), TRUE);
-   
-      ?></pre>
-   </section>
+<!--   <section>-->
+<!--   <pre>--><?php
+//
+//      echo print_r(get_option('woocommerce_triplea_payment_gateway_settings'), TRUE);
+//
+//      ?><!--</pre>-->
+<!--   </section>-->
 
 <?php
 $output = ob_get_contents();
