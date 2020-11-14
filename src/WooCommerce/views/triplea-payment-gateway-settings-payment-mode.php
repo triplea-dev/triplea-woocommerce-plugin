@@ -191,38 +191,6 @@ ob_start();
      }
    </style>
 
-
-<!--   <small>
-      <pre>$payment_mode = <?php /*echo print_r($payment_mode, TRUE); */?></pre>
-      <pre>$sandbox_payment_mode = <?php /*echo($sandbox_payment_mode ? 'true' : 'false'); */?></pre>
-      <br>
-      <pre>$fiat_merchant_key = <?php /*echo print_r($fiat_merchant_key, TRUE); */?></pre>
-      <pre>$fiat_client_id = <?php /*echo print_r($fiat_client_id, TRUE); */?></pre>
-      <pre>$fiat_client_secret = <?php /*echo print_r($fiat_client_secret, TRUE); */?></pre>
-      <pre>$fiat_merchant_name = <?php /*echo print_r($fiat_merchant_name, TRUE); */?></pre>
-      <pre>$fiat_merchant_email = <?php /*echo print_r($fiat_merchant_email, TRUE); */?></pre>
-      <pre>$fiat_merchant_phone = <?php /*echo print_r($fiat_merchant_phone, TRUE); */?></pre>
-      <pre>$fiat_merchant_local_currency = <?php /*echo print_r($fiat_merchant_local_currency, TRUE); */?></pre>
-      <pre>$triplea_btc2fiat_api_id = <?php /*echo print_r($triplea_btc2fiat_api_id, TRUE); */?></pre>
-      <pre>$triplea_btc2fiat_sandbox_api_id = <?php /*echo print_r($triplea_btc2fiat_sandbox_api_id, TRUE); */?></pre>
-      <br>
-      <pre>$btc_merchant_key = <?php /*echo print_r($btc_merchant_key, TRUE); */?></pre>
-      <pre>$btc_client_id = <?php /*echo print_r($btc_client_id, TRUE); */?></pre>
-      <pre>$btc_client_secret = <?php /*echo print_r($btc_client_secret, TRUE); */?></pre>
-      <pre>$btc_merchant_name = <?php /*echo print_r($btc_merchant_name, TRUE); */?></pre>
-      <pre>$btc_merchant_email = <?php /*echo print_r($btc_merchant_email, TRUE); */?></pre>
-      <pre>$btc_merchant_phone = <?php /*echo print_r($btc_merchant_phone, TRUE); */?></pre>
-      <pre>$btc_pubkey = <?php /*echo print_r($btc_pubkey, TRUE); */?></pre>
-      <pre>$btc_sandbox_pubkey = <?php /*echo print_r($btc_sandbox_pubkey, TRUE); */?></pre>
-      <pre>$triplea_btc2btc_api_id = <?php /*echo print_r($triplea_btc2btc_api_id, TRUE); */?></pre>
-      <pre>$triplea_btc2btc_sandbox_api_id = <?php /*echo print_r($triplea_btc2btc_sandbox_api_id, TRUE); */?></pre>
-      <br>
-      <pre>$triplea_active_api_id = <?php /*echo print_r($triplea_active_api_id, TRUE); */?></pre>
-      <pre>$btc2fiat_is_active = <?php /*echo($btc2fiat_is_active === TRUE ? 'true' : 'false'); */?></pre>
-      <pre>$btc2btc_is_active = <?php /*echo($btc2btc_is_active === TRUE ? 'true' : 'false'); */?></pre>
-      <br>
-   </small>-->
-
    <!--payments enabled with either btc or fiat settlement-->
    <div class="triplea_step" id="step-enabled"
         style="display: <?php echo($btc2fiat_is_active || $btc2btc_is_active ? 'block' : 'none'); ?>;">
@@ -236,10 +204,6 @@ ob_start();
          <h3><span style="text-decoration: underline;">Sandbox</span> Bitcoin payments are enabled.</h3>
 
          <h3>You will receive bitcoin payments straight to your testnet Bitcoin wallet.</h3>
-<!--         <h4>-->
-<!--            <em>Live</em> payments <em>enabled</em>-->
-<!--            <small>(sandbox mode disabled)</small>-->
-<!--         </h4>-->
 
          <p>
             You have chosen to receive testnet bitcoin payments straight in your own <strong>testnet bitcoin wallet</strong>.
@@ -259,13 +223,7 @@ ob_start();
             - The checkout page will detect the payment and place the order accordingly.
          </p>
          <br>
-         <input type="button" class="button-primary" value="Show payment settlement and sandbox options" onclick="gotoStep1()">
-         <p>You can instantly switch back and forth between
-            settling payments in local currency or to your bitcoin
-            wallet.
-            <br>
-            All payment account information is preserved.
-         </p>
+         <input type="button" class="button-primary" value="Show settlement options" onclick="gotoStep1()">
       </div>
 
       <div id="step-enabled--btc2btc"
@@ -284,91 +242,44 @@ ob_start();
             you may access <a href="https://dashboard.triple-a.io" target="_blank">your TripleA dashboard</a> with the credentials you have received by email.
          </p>
          <br>
-         <input type="button" class="button-primary" value="Show payment settlement and sandbox options" onclick="gotoStep1()">
-         <p>You can instantly switch back and forth between
-            settling payments in local currency or to your bitcoin
-            wallet.
-            <br>
-            All payment account information is preserved.
-         </p>
+         <input type="button" class="button-primary" value="Show settlement options" onclick="gotoStep1()">
       </div>
-
-      
+  
       <div id="step-enabled--btc2fiat"
            style="display:<?php echo($btc2fiat_is_active ? 'block' : 'none') ?>;">
 
          <h3 style="display:<?php echo($sandbox_payment_mode ? 'block' : 'none') ?>;"><span style="text-decoration: underline;">Sandbox</span> bitcoin payments are enabled.</h3>
-         <h3 style="display:<?php echo(!$sandbox_payment_mode ? 'block' : 'none') ?>;"><span style="text-decoration: underline;">Live</span> bitcoin payments are enabled.</h3>
-         <h3>
-            You will receive local currency.
-            <!--(--><?php //echo $fiat_merchant_local_currency; ?><!--)-->
-         </h3>
-         <!--TODO do not display "preferred currency" here, refer to dashboard-->
          
-         <h4 style="display:<?php echo(!$sandbox_payment_mode ? 'block' : 'none') ?>;">
-            <span style="text-decoration: underline;">Live</span> payments enabled.
-            <span>(sandbox mode disabled)</span>
-         </h4>
+         <h3 style="display:<?php echo(!$sandbox_payment_mode ? 'block' : 'none') ?>;"><span style="text-decoration: underline;">Live</span> bitcoin payments are enabled.</h3>
+         <h3 style="display:<?php echo(!$sandbox_payment_mode ? 'block' : 'none') ?>;">
+            You will receive local currency.
+         </h3>
 
          <p id="btc2fiat-message">
             You have chosen to receive bitcoin payments in the form of
-            <strong>local currency
-            <!--(--><?php //echo $fiat_merchant_local_currency; ?><!--)-->
-            </strong>
+            <strong>local currency</strong>
             settled to <strong>your bank account</strong>.
             <span style="display:<?php echo($sandbox_payment_mode ? 'block' : 'none') ?>;">
                (Doesn't apply to sandbox payments :)
             </span>
          </p>
          <p>
-            <strong>Important:</strong>
-            <br>
-            - Please login to <a href="https://dashboard.triple-a.io" target="_blank">your TripleA dashboard</a>.
-            <br>
-            - Your dashboard login and password have been sent by email.
-            <br>
-            - In your dashboard, you can select the local currency you prefer for bank settlements.
-            <br>
-            - Please also provide us with your <span style="text-decoration:underline;">bank account information</span> and KYC details, to start receiving your payments in your bank.<sup><strong>*</strong></sup>
-         </p>
-         <p>
-            <sup><strong>*</strong></sup>
-            Money is settled daily or weekly to your bank account if a minimum of USD 100 or equivalent has been reached.
-            <br>
-            At the end of the month, money is settled to your bank account (no minimum amount treshold). </p>
-         <p style="display:<?php echo($sandbox_payment_mode ? 'block' : 'none') ?>;">
-            <strong>Testing payments in sandbox mode:</strong>
-            <br>
-            - Testnet bitcoin is free and has no intrinsic value. It is used for testing payments using the same technology as bitcoin.
-            <br>
-            - To test bitcoin payments easily and without learning curve, online faucet websites can be used. Find some links here: <a href="https://duckduckgo.com/?q=bitcoin+testnet+faucets" target="_blank">find bitcoin testnet faucets</a>.
-            <br>
-            - When making a bitcoin payment, simply copy the bitcoin address and the bitcoin amount into the faucet website's form.
-            <br>
-            - The faucet website will make a bitcoin payment on your behalf.
-            <br>
-            - The checkout page will detect the payment and place the order accordingly.
+            Visit <a href="https://dashboard.triple-a.io" target="_blank">your TripleA dashboard</a> to manage bank account information, settlements, refunds, invoicing and more.
          </p>
          <br>
          <br>
          <input type="button"
                 style="display:<?php echo($sandbox_payment_mode ? 'block' : 'none') ?>;"
                 class="button-primary"
-                value="Turn sandbox payments OFF & Live payments ON"
+                value="Switch to Live payments"
                 onclick="triplea_setActiveAccount('btc2fiat', false)">
          <input type="button"
                 style="display:<?php echo(!$sandbox_payment_mode ? 'block' : 'none') ?>;"
                 class="button-primary"
-                value="Turn sandbox payments ON & Live payments OFF"
+                value="Switch to Sandbox payments"
                 onclick="triplea_setActiveAccount('btc2fiat', true)">
          <br>
-         <input type="button" class="button-secondary" value="Show payment settlement and sandbox options" onclick="gotoStep1()">
-         <p>You can instantly switch back and forth between
-            settling payments in local currency or to your bitcoin
-            wallet.
-            <br>
-            All payment account information is preserved.
-         </p>
+         <input type="button" class="button-secondary" value="Show settlement options" onclick="gotoStep1()">
       </div>
 
       <br>
@@ -1125,279 +1036,6 @@ ob_start();
       <br>
    </div>
 
-   <!--provide bitcoin wallet's master public key and notification email-->
-   <div class="triplea_step" id="btc-step-2" style="display:none;">
-      <hr>
-      <br>
-      <h3>
-         Receive bitcoin
-         <br>
-         <small style="line-height: 30px;">
-            Provide wallet information
-         </small>
-      </h3>
-      <p>
-         Master public key of your bitcoin wallet:
-         <span class="woocommerce-help-tip"
-               data-tip="Your master public key allows us only to generate payment addresses and view balances. We recommend creating a new, empty bitcoin wallet for use with this plugin."></span>
-         <br>
-         <input type="text"
-                id="master-public-key"
-                name="master-public-key"
-                value=""
-                placeholder="master public key"
-                style="width:330px">
-         
-         <span style="color: darkred;display:none;"
-               class="triplea-error-msg"
-               id="wrong-pubkey-format">
-            <br>
-            The provided master public key does not have the right format.
-            <br>
-		   </span>
-         <span>Please provide a valid master public key, one that starts with 'xpub', 'ypub' or 'zpub', or 'tpub' for testnet wallets.
-         <br>TripleA uses the standard BIP44 address derivation path (the same as the Electrum bitcoin wallet).
-         </span>
-      </p>
-      <p>
-         Provide an email to receive payment notifications:
-         <br>
-         <input type="text"
-                id="btc-notif-email"
-                name="btc-notif-email"
-                value=""
-                placeholder="email address"
-                style="width:330px">
-
-         <span style="color: darkred;display:none;"
-               class="triplea-error-msg"
-               id="wrong-or-missing-email-format">
-			<br>
-			Please provide a correct email address.
-		 </span>
-      </p>
-      <br>
-      <input type="button"
-             class="button-primary"
-             value="Activate"
-             onclick="gotoBtcStep3()">
-      <br>
-      <br>
-   </div>
-
-   <!--receive and enter otp to validate email (bitcoin settlement)-->
-   <div class="triplea_step" id="btc-step-3" style="display:none;">
-      <hr>
-      <br>
-      <h3>
-         Receive bitcoin into your own bitcoin wallet
-         <br>
-         <small style="line-height: 30px;">
-            Validate email
-         </small>
-      </h3>
-      <p>
-         Sending OTP (one-time password) to your email address...
-         <strong id="btc-email-sent" style="display:none;">Email sent!</strong>
-      </p>
-      <small style="color:darkred;display:none;"
-             class="triplea-error-msg"
-             id="btc-error-otp-request">
-         Something went wrong while requesting OTP code. Try again, or contact
-         us at support@triple-a.io so that we can assist you.
-      </small>
-      <p id="btc-enter-otp" style="display:none;">
-         Enter the OTP code:
-         <input type="text"
-                id="btc-otp-value"
-                name="btc-otp-value"
-                value=""
-                placeholder="One-Time Password"
-                style="width:150px">
-         <small style="color:darkred;display:none;"
-                class="triplea-error-msg"
-                id="btc-error-provide-otp">
-            Please provide the OTP code that was sent to you by email.
-         </small>
-         <small style="color:darkred;display:none;"
-                class="triplea-error-msg"
-                id="btc-error-otp-wrong">
-            Wrong OTP provided.
-         </small>
-         <br>
-         <br>
-         <input type="button"
-                class="button-primary"
-                value="Activate settlement to own bitcoin wallet"
-                onclick="triplea_btc_validateEmailOtp()">
-         <small id="btc-otp-check-loading"
-                class="triplea-error-msg"
-                style="display:none;">
-            Loading...
-         </small>
-         <small style="color:darkred;display:none;"
-                class="triplea-error-msg"
-                id="cash-account-creation-error">
-            The provided OTP was correct. However, something went wrong during
-            the creation of your account. Please inform us at
-            support@triple-a.io so that we may assist you promptly.
-         </small>
-      </p>
-      <br>
-      <br>
-   </div>
-
-   <!--activating bitc2btc wallet, then save form (which reloads page)-->
-   <div class="triplea_step" id="btc-step-4" style="display:none;">
-      <hr>
-      <br>
-      <h3>
-         Activating...
-      </h3>
-      <br>
-      <p>
-         Activating wallet... (this may take a few seconds)
-      </p>
-      <p id="btc-accountcreation-error"
-         class="triplea-error-msg"
-         style="display: none;">
-         Something went wrong. Please contact
-         <a href="mailto:support@triple-a.io">support@triple-a.io</a> and
-         provide the following output.
-         <br>
-         <code id="btc-accountcreation-error-details"></code>
-      </p>
-      <p id="btc-account-ready" style="display:none;">
-         Ready!
-         <br>
-         Saving and reloading page...
-         <!--Now please click
-         <input type="button" class="button-primary" value="Save" onclick="triplea_submitForm()">-->
-      </p>
-      <br>
-      <br>
-   </div>
-
-   <!--receive local currency, provide email address-->
-   <div class="triplea_step" id="cash-step-2" style="display:none;">
-      <hr>
-      <br>
-      <h3>
-         Receive local currency
-      </h3>
-      <p>
-         Provide an e-mail address:
-         <span class="woocommerce-help-tip"
-               data-tip="Valid email address needed! We will contact you on this email address, to set up payments to your bank account."></span>
-         <br>
-         <input type="text"
-                id="cash-notif-email"
-                name="cash-notif-email"
-                value=""
-                placeholder="email address"
-                style="width:330px">
-         <br>
-         <small style="color: darkred;display:none;"
-                class="triplea-error-msg"
-                id="wrong-cash-notif-email">
-            The provided email address seems wrong.
-         </small>
-      </p>
-      <p>
-         Provide a phone number (optional):
-         <span class="woocommerce-help-tip"
-               data-tip="We might reach out to you on this phone number should we have trouble contacting you by email."></span>
-         <br>
-         <input type="tel"
-                id="cash-notif-phone"
-                name="cash-notif-phone"
-                value=""
-                placeholder="phone number"
-                style="width:330px">
-         <br>
-         <small style="color: darkred;display:none;"
-                class="triplea-error-msg"
-                id="wrong-cash-notif-phone">
-            The provided phone number does not have the right format.
-         </small>
-      </p>
-      <p>
-         Note:
-         <br>
-         Bank transfer occurs daily once minimum withdrawal threshold of USD 100
-         is reached.
-      </p>
-      <br>
-      <input type="button"
-             class="button-primary"
-             value="Validate email"
-             onclick="gotoCashStep3()">
-      <br>
-      <br>
-   </div>
-
-   <!--receive and enter otp to validate email-->
-   <div class="triplea_step" id="cash-step-3" style="display:none;">
-      <hr>
-      <br>
-      <h3>
-         Receive local currency
-         <br>
-         <small style="line-height: 30px;">
-            Validate email
-         </small>
-      </h3>
-      <p>
-         Sending OTP (one-time password) to your email address...
-         <strong id="cash-email-sent" style="display:none;">Email sent!</strong>
-      </p>
-      <small style="color:darkred;display:none;"
-             class="triplea-error-msg"
-             id="cash-error-otp-request">
-         Something went wrong while requesting OTP code. Try again, or contact
-         us at support@triple-a.io so that we can assist you.
-      </small>
-      <p id="cash-enter-otp" style="display:none;">
-         Enter the OTP code:
-         <input type="text"
-                id="cash-otp-value"
-                name="cash-otp-value"
-                value=""
-                placeholder="One-Time Password"
-                style="width:150px">
-         <small style="color:darkred;display:none;"
-                class="triplea-error-msg"
-                id="cash-error-provide-otp">
-            Please provide the OTP code that was sent to you by email.
-         </small>
-         <small style="color:darkred;display:none;"
-                class="triplea-error-msg"
-                id="cash-error-otp-wrong">
-            Wrong OTP provided.
-         </small>
-         <br>
-         <br>
-         <input type="button"
-                class="button-primary"
-                value="Activate local currency wallet"
-                onclick="triplea_fiat_validateEmailOtp()">
-         <small id="cash-otp-check-loading"
-                class="triplea-error-msg"
-                style="display:none;">
-            Loading...
-         </small>
-         <small style="color:darkred;display:none;"
-                class="triplea-error-msg"
-                id="cash-account-creation-error">
-            The provided OTP was correct. However, something went wrong during
-            the creation of your local currency wallet. Please inform us at
-            support@triple-a.io so that we may assist you promptly.
-         </small>
-      </p>
-      <br>
-      <br>
-   </div>
-
    <script src="https://unpkg.com/libphonenumber-js@1.7.56/bundle/libphonenumber-max.js"></script>
    <script>
      (function ($) {
@@ -1450,206 +1088,13 @@ ob_start();
        callback();
      }
    </script>
-<!--   <script>-->
-<!---->
-<!--     function gotoStep1()-->
-<!--     {-->
-<!--       //triplea_hideAllSteps();-->
-<!--       triplea_helper_displayNode('step-1');-->
-<!--     }-->
-<!---->
-<!--     function gotoStep2(choice)-->
-<!--     {-->
-<!--       if (choice !== 'bitcoin' && choice !== 'localcurrency')-->
-<!--       {-->
-<!--         var selector = document.querySelector('input[name="receive-choice"]:checked');-->
-<!--         if (!selector)-->
-<!--         {-->
-<!--           // todo display message or just do nothing-->
-<!--           return;-->
-<!--         }-->
-<!--         choice = selector.value;-->
-<!--       }-->
-<!---->
-<!--       // else-->
-<!--       if (choice === 'bitcoin')-->
-<!--       {-->
-<!--         let apiIdNode = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_api_id');-->
-<!--         let apiId     = apiIdNode.value;-->
-<!---->
-<!--         if (apiId)-->
-<!--         {-->
-<!--           console.debug("Existing BTC wallet. Setting Active API ID (BTC) to " + apiId);-->
-<!--           triplea_setActiveAccount('btc2btc', true); // sandbox enabled by default-->
-<!--           // triplea_submitForm();-->
-<!--         }-->
-<!--         else-->
-<!--         {-->
-<!--           console.debug("No existing BTC wallet found. Showing step 2 for BTC.");-->
-<!--           gotoBtcStep2();-->
-<!--         }-->
-<!--       }-->
-<!--       if (choice === 'localcurrency')-->
-<!--       {-->
-<!--         let apiIdNode = document.getElementById(settingsPrefix + '_' + 'triplea_btc2fiat_api_id');-->
-<!--         let apiId     = apiIdNode.value;-->
-<!---->
-<!--         if (apiId)-->
-<!--         {-->
-<!--           console.debug("Setting Active API ID (TripleA Wallet) to " + apiId);-->
-<!--           triplea_setActiveAccount('btc2fiat', true); // sandbox enabled by default-->
-<!--           // triplea_submitForm();-->
-<!--         }-->
-<!--         else-->
-<!--         {-->
-<!--           console.debug("No existing TripleA wallet found. Showing step 2 for TripleA wallet.");-->
-<!--           gotoCashStep2();-->
-<!--         }-->
-<!--       }-->
-<!--     }-->
-<!---->
-<!--     function gotoBtcStep2()-->
-<!--     {-->
-<!--       triplea_hideAllSteps();-->
-<!--       triplea_helper_displayNode('btc-step-2');-->
-<!--     }-->
-<!---->
-<!--     function gotoBtcStep3()-->
-<!--     {-->
-<!--       // Verify form input first-->
-<!---->
-<!--       let pubkey, apiId, apiIdNode;-->
-<!--       // Update wallet, if API ID set.-->
-<!--       // Else request API ID for pubkey.-->
-<!--       let pubkeyNode = document.getElementById('master-public-key');-->
-<!--       pubkey         = pubkeyNode.value ? pubkeyNode.value : '';-->
-<!--       if (!pubkey)-->
-<!--       {-->
-<!--         console.warn('No public key provided. Cannot proceed.');-->
-<!--         triplea_helper_displayNode('wrong-pubkey-format');-->
-<!--         return;-->
-<!--       }-->
-<!--       if (pubkey.indexOf('pub') !== 1)-->
-<!--       {-->
-<!--         console.warn('Incorrect public key format. Cannot proceed.');-->
-<!--         triplea_helper_displayNode('wrong-pubkey-format');-->
-<!--         return;-->
-<!--       }-->
-<!--       console.debug("Received master public key : " + pubkey);-->
-<!---->
-<!---->
-<!--       let notifEmail;-->
-<!--       // Get notification email (optional)-->
-<!--       let notifEmailNode = document.getElementById('btc-notif-email');-->
-<!--       notifEmail         = notifEmailNode.value;-->
-<!---->
-<!--       if (!notifEmail ||-->
-<!--         (notifEmail.indexOf('@') < 1 || notifEmail.lastIndexOf('.') < notifEmail.indexOf('@')))-->
-<!--       {-->
-<!--         console.warn('Incorrect notification email. Cannot proceed.');-->
-<!--         triplea_helper_displayNode('wrong-or-missing-email-format');-->
-<!--         return;-->
-<!--       }-->
-<!--       let hiddenNotifEmailNode   = document.getElementById(settingsPrefix + '_' + 'triplea_notifications_email');-->
-<!--       hiddenNotifEmailNode.value = notifEmail;-->
-<!---->
-<!---->
-<!--       apiIdNode = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_api_id');-->
-<!--       if (apiIdNode && apiIdNode.value)-->
-<!--       {-->
-<!--         apiId = apiIdNode.value;-->
-<!--         console.debug("Found existing API ID : " + apiId);-->
-<!--       }-->
-<!--       else-->
-<!--       {-->
-<!--         console.debug("Found no pre-existing API ID");-->
-<!--       }-->
-<!---->
-<!--       triplea_hideAllErrors();-->
-<!---->
-<!--       // Take action-->
-<!--       triplea_hideAllSteps();-->
-<!--       triplea_helper_displayNode('btc-step-3');-->
-<!---->
-<!--       // triplea_btc_createMerchantAccount();-->
-<!--     }-->
-<!---->
-<!--     function updateBtcStep3()-->
-<!--     {-->
-<!--       //triplea_helper_displayNode('btc-account-ready');-->
-<!--     }-->
-<!---->
-<!--     function gotoCashStep2()-->
-<!--     {-->
-<!--       triplea_hideAllSteps();-->
-<!--       triplea_helper_displayNode('cash-step-2');-->
-<!--     }-->
-<!---->
-<!--     function gotoCashStep3()-->
-<!--     {-->
-<!--       let notifEmail;-->
-<!---->
-<!--       triplea_hideAllErrors();-->
-<!---->
-<!--       // validate email-->
-<!--       let notifEmailNode = document.getElementById('cash-notif-email');-->
-<!--       if (notifEmailNode)-->
-<!--       {-->
-<!--         notifEmail = notifEmailNode.value;-->
-<!--       }-->
-<!--       if (!notifEmail || (notifEmail.indexOf('@') < 1 || notifEmail.lastIndexOf('.') < notifEmail.indexOf('@')))-->
-<!--       {-->
-<!--         console.warn('Incorrect email provided. Cannot proceed.');-->
-<!--         triplea_helper_displayNode('wrong-cash-notif-email');-->
-<!--         return;-->
-<!--       }-->
-<!---->
-<!---->
-<!--       // validate phone number-->
-<!--       let notifPhone     = '', phoneNumber;-->
-<!--       let notifPhoneNode = document.getElementById('cash-notif-phone');-->
-<!--       if (notifPhoneNode && notifPhoneNode.value)-->
-<!--       {-->
-<!--         notifPhone = notifPhoneNode.value;-->
-<!--         window.console.debug('phone number validation: ...');-->
-<!--         phoneNumber = libphonenumber.parsePhoneNumberFromString(notifPhone);-->
-<!--         if (phoneNumber.isValid())-->
-<!--         {-->
-<!--           window.console.debug('phone number validation: is valid');-->
-<!--           notifPhone = phoneNumber.formatInternational();-->
-<!--         }-->
-<!--         else-->
-<!--         {-->
-<!--           window.console.debug('phone number validation: is not valid');-->
-<!--           notifPhone = '';-->
-<!--           console.warn('Incorrect phone number format. Cannot proceed.');-->
-<!--           triplea_helper_displayNode('wrong-cash-notif-phone');-->
-<!--           return;-->
-<!--         }-->
-<!--       }-->
-<!---->
-<!---->
-<!--       // TODO need different notification email for TripleA wallet and bitcoin wallet !-->
-<!--       //let hiddenNotifEmailNode   = document.getElementById(settingsPrefix + '_' + 'triplea_notifications_email');-->
-<!--       let hiddenNotifEmailNode   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2fiat_merchant_email');-->
-<!--       hiddenNotifEmailNode.value = notifEmail;-->
-<!--       let hiddenNotifPhoneNode   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2fiat_merchant_phone');-->
-<!--       hiddenNotifPhoneNode.value = notifPhone;-->
-<!---->
-<!--       triplea_hideAllSteps();-->
-<!--       triplea_helper_displayNode('cash-step-3');-->
-<!---->
-<!--       // send otp-->
-<!--       //  then check otp-->
-<!--       //   then create/update account-->
-<!--       triplea_fiat_createMerchantAccount();-->
-<!--     }-->
-<!---->
-<!--     function updateBtcStep4()-->
-<!--     {-->
-<!--       triplea_helper_displayNode('cash-account-ready');-->
-<!--     }-->
-<!--   </script>-->
+   <script>
+     function gotoStep1()
+     {
+       //triplea_hideAllSteps();
+       triplea_helper_displayNode('step-1');
+     }
+   </script>
    <script>
      const return_url     = '<?php echo $return_url; ?>';
      const local_currency = '<?php echo $local_currency; ?>';
@@ -1666,7 +1111,6 @@ ob_start();
      const old_active_api_id = <?php echo (!empty($old_active_api_id) ? "'$old_active_api_id'" : 'null'); ?>;
      const old_btc2fiat_is_active = <?php echo (!empty($old_btc2fiat_is_active) ? "'$old_btc2fiat_is_active'" : 'null'); ?>;
      const old_btc2btc_is_active = <?php echo (!empty($old_btc2btc_is_active) ? "'$old_btc2btc_is_active'" : 'null'); ?>;
-     
      
      /**
       *
@@ -1691,223 +1135,6 @@ ob_start();
        // {
        //   errors[i].style.display = 'none';
        // }
-     }
-
-     /**
-      * We validate form input first.
-      * Then make an API request for an OTP to be sent to the
-      * provided email address.
-      * A callback function will handle the display of the next step.
-      */
-     function _OLD_triplea_btc_createMerchantAccount()
-     {
-       let notifEmail;
-
-       // First verify if the provided inputs are correct.
-       // Check the master public key, first.
-       let pubkeyNode = document.getElementById('master-public-key');
-       let pubkey     = pubkeyNode.value ? pubkeyNode.value : '';
-       if (!pubkey)
-       {
-         // already checked and handled before, no output or logging.. this is just fallback
-         return;
-       }
-       if (pubkey.indexOf('pub') !== 1)
-       {
-         // already checked and handled before, no output or logging.. this is just fallback
-         return;
-       }
-
-       // Check the notification email (optional)
-       let notifEmailNode = document.getElementById('btc-notif-email');
-       notifEmail         = notifEmailNode.value;
-
-       if (!notifEmail || notifEmail.indexOf('@') < 1 || notifEmail.lastIndexOf('.') < notifEmail.indexOf('@'))
-       {
-         // already checked and handled before, no output or logging.. this is just fallback
-         return;
-       }
-       triplea_hideAllErrors();
-
-       let hiddenNotifEmailNode   = document.getElementById(settingsPrefix + '_' + 'triplea_notifications_email');
-       hiddenNotifEmailNode.value = notifEmail;
-       let dashboardEmail         = notifEmail;
-
-       // Remember for which email the OTP was last requested.
-       otpRequestEmail      = dashboardEmail;
-       otpRequestNotifEmail = notifEmail; // TODO need different Notification emails stored, for bitcoin or localcurrency !
-
-       // Ask for OTP to be sent to email address.
-
-       const url      = `https://moneyoverip.io/api/send_otp`;
-       const callback = triplea_btc_createMerchantAccountCallback;
-       const method   = "POST";
-       const data     = {
-         email: dashboardEmail
-       };
-
-       triplea_ajax_action(url, callback, method, JSON.stringify(data));
-     }
-
-     /**
-      * After asking for an OTP to be sent to the indicated email,
-      * we display the next step where the user can enter the OTP.
-      * We verify if the OTP is correct via API call.
-      * The callback (if successful) will then activate
-      * the user's bitcoin wallet account and save it.
-      */
-     function _OLD_triplea_btc_createMerchantAccountCallback(result)
-     {
-       if (result.status !== "OK")
-       {
-         console.error('ERROR. Problem requesting OTP for email validation.');
-         // TODO display error
-         return;
-       }
-
-       triplea_helper_displayNode("btc-email-sent");
-       triplea_helper_displayNode("btc-enter-otp");
-     }
-
-     function _OLD_triplea_btc_validateEmailOtp()
-     {
-       let dashboardEmail;
-       if (otpRequestEmail)
-       {
-         console.debug('otpRequestEmail: ', otpRequestEmail);
-         dashboardEmail = otpRequestEmail;
-       }
-
-       let otpNode = document.getElementById('btc-otp-value');
-       let otp     = otpNode.value;
-       if (!otp)
-       {
-         triplea_helper_displayNode('btc-error-provide-otp');
-         return;
-       }
-       triplea_hideAllErrors();
-       triplea_helper_displayNode('btc-otp-check-loading');
-
-       const url      = `https://moneyoverip.io/api/check_otp`;
-       const callback = triplea_btc_validateEmailOtpCallback;
-       const method   = "POST";
-       const data     = {
-         email: dashboardEmail,
-         otp: otp
-       };
-
-       triplea_ajax_action(url, callback, method, JSON.stringify(data));
-     }
-
-     function _OLD_triplea_btc_validateEmailOtpCallback(result)
-     {
-       if (result.status !== "OK" || !result.token)
-       {
-         triplea_hideAllErrors();
-         triplea_helper_displayNode('btc-error-otp-wrong');
-         return;
-       }
-       let authToken = result.token;
-
-       let pubkey, apiId, apiIdNode;
-
-       // Update wallet, if API ID set.
-       // Else request API ID for pubkey.
-       let pubkeyNode = document.getElementById('master-public-key');
-       pubkey         = pubkeyNode.value ? pubkeyNode.value : '';
-       if (!pubkey)
-       {
-         // already checked and handled before, no output or logging.. this is just fallback
-         return;
-       }
-       if (pubkey.indexOf('pub') !== 1)
-       {
-         // already checked and handled before, no output or logging.. this is just fallback
-         return;
-       }
-
-       apiIdNode = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_api_id');
-       if (apiIdNode && apiIdNode.value)
-       {
-         apiId = apiIdNode.value;
-       }
-       else
-       {
-         // already checked and handled before, no output or logging.. this is just fallback
-       }
-
-       let notifEmail = otpRequestNotifEmail || null;
-
-       const data = {
-         currency: 'BTC',
-         local_currency: local_currency,
-         notification_email: notifEmail,
-         return_url: return_url,
-         account_name: window.location.hostname,
-         account_type: 'ecommerce',
-         info: site_info,
-         auth_token: authToken,
-         // no wallet_type, autodetect
-       };
-       if (pubkey)
-       {
-         data.pub = pubkey;
-       }
-       if (apiId)
-       {
-         data.api_id = apiId;
-       }
-
-       triplea_addPub(data, triplea_btc_addPubCallback);
-     }
-
-     function _OLD_triplea_btc_addPubCallback(result)
-     {
-
-       if (result && result.return === "201")
-       {
-         console.warn('Something went wrong. Wallet could not be updated. Raw data: ', result);
-
-         let errorDetailsNode       = document.getElementById("btc-accountcreation-error-details");
-         errorDetailsNode.innerHTML = JSON.stringify(result);
-         triplea_helper_displayNode('btc-accountcreation-error');
-         return;
-       }
-       if (!result || result.status !== "OK" || !result.api_id || !result.server_public_key)
-       {
-         console.warn('Something went wrong. Wallet could not be updated. Missing required information. Raw data: ', result);
-
-         let errorDetailsNode       = document.getElementById("btc-accountcreation-error-details");
-         errorDetailsNode.innerHTML = JSON.stringify(result);
-         triplea_helper_displayNode('btc-accountcreation-error');
-         return;
-       }
-
-       /**
-        *  add_pub API call succeeded.
-        */
-         // console.debug("Account creation/update API call succeeded:");
-         // console.debug('API ID            : ', result.api_id);
-         // console.debug('Server public key : ', result.server_public_key);
-
-         // Set hidden value: server_public_key.
-       let encKeyNode;
-       encKeyNode       = document.getElementById(settingsPrefix + '_' + 'triplea_server_public_enc_key_btc');
-       encKeyNode.value = result.server_public_key;
-       //console.debug("Set hidden value: server_public_key.", encKeyNode.value);
-
-       // Set hidden value: API ID.
-       let apiIdNode;
-       apiIdNode       = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_api_id');
-       apiIdNode.value = result.api_id;
-       //console.debug("Set hidden value: API ID.", apiIdNode.value);
-
-       triplea_hideAllErrors();
-       updateBtcStep3();
-
-       console.debug('Setting active API ID to External bitcoin wallet ' + result.api_id);
-       // Sets active account then submits form.
-       triplea_setActiveAccount('btc2btc');
      }
 
 
