@@ -359,7 +359,7 @@ class TripleA_Payment_Gateway extends WC_Payment_Gateway {
       $this->api = API::get_instance();
       
       $this->id           = 'triplea_payment_gateway';
-      $this->method_title = __('Bitcoin Payment Gateway (by TripleA)', 'triplea-cryptocurrency-payment-gateway-for-woocommerce');
+      $this->method_title = __('<img src="https://triple-a.io/wp-content/uploads/2020/08/TripleA_MainLogo_Transparent-e1596423970124.png" alt="Footer Logo" class="webpexpress-processed" style="max-width: 149px; vertical-align: text-bottom;display: inline-block;position: relative;top: 5px;margin-right: 15px;">Bitcoin Payment Gateway', 'triplea-cryptocurrency-payment-gateway-for-woocommerce');
       $this->has_fields   = TRUE;
       $this->supports     = [
          'products',
@@ -567,8 +567,7 @@ class TripleA_Payment_Gateway extends WC_Payment_Gateway {
       
       $this->method_description = sprintf(
          __(
-            "With TripleA, you get to choose.<br>
-You can receive your transaction payments in bitcoins or in your local currency. Just provide your wallet's public key to receive bitcoins.<br>If you want to receive fiat currency (USD, EUR, and more), create a TripleA wallet within seconds directly from WordPress.<br>You just need to provide your email address to get started.",
+            'With <a href="https://triple-a.io">TripleA</a> you get to choose how your bitcoin payments are settled to you: <strong>in bitcoin</strong> or <strong>in your local currency</strong>.',
             'triplea-cryptocurrency-payment-gateway-for-woocommerce'
          )
       );
