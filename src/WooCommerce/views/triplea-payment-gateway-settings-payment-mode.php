@@ -71,18 +71,18 @@ $site_info      = get_bloginfo('name');
 //   $triplea_dashboard_email = '';
 //}
 $tmp_old_btc_id = $this->get_option('triplea_pubkey_id');
-$old_btc2btc_sandbox_api_id = '';
-$old_btc2btc_api_id = '';
-if (!empty($tmp_old_btc_id)) {
-   if (substr_compare($tmp_old_btc_id, "_t", -2, 2) === 0 ) {
-      $old_btc2btc_sandbox_api_id = $tmp_old_btc_id;
-      $old_btc2btc_api_id = '';
-   }
-   else {
-      $old_btc2btc_sandbox_api_id = '';
-      $old_btc2btc_api_id = $tmp_old_btc_id;
-   }
-}
+$old_btc2btc_sandbox_api_id = $tmp_old_btc_id; // '';
+$old_btc2btc_api_id = $tmp_old_btc_id; //'';
+//if (!empty($tmp_old_btc_id)) {
+//   if (substr_compare($tmp_old_btc_id, "_t", -2, 2) === 0 ) {
+//      $old_btc2btc_sandbox_api_id = $tmp_old_btc_id;
+//      $old_btc2btc_api_id = '';
+//   }
+//   else {
+//      $old_btc2btc_sandbox_api_id = '';
+//      $old_btc2btc_api_id = $tmp_old_btc_id;
+//   }
+//}
 $old_btc2fiat_api_id = $this->get_option('triplea_pubkey_id_for_conversion');
 $old_active_api_id = $this->get_option('triplea_active_pubkey_id');
 $old_btc2fiat_is_active = isset($old_active_api_id) && !empty($old_active_api_id) && $old_active_api_id === $old_btc2fiat_api_id;
@@ -300,8 +300,8 @@ ob_start();
       <input type="radio"
              name="receive-choice"
              value="localcurrency"
-         <?php echo($btc2fiat_is_active || $old_btc2fiat_is_active ? "checked" : '') ?>
-             style="margin:10px;">recommended - receive local currency<br>
+         <?php echo($btc2fiat_is_active || $old_btc2fiat_is_active || !$btc2btc_is_active ? "checked" : '') ?>
+             style="margin:10px;"><strong>recommended</strong> - receive local currency<br>
       <div class="receive-choice-wrapper"
            style="margin-left: 40px;display:<?php echo($btc2fiat_is_active ? "block" : 'none') ?>;"
            id="localcurrency-form-wrapper">
@@ -314,16 +314,16 @@ ob_start();
                   </small>
                </h3>
                <p>
-                  Due to technical improvements and added features, your account needs to be upgraded to be compatible.
+                  Due to technical improvements and added features, your account needs to be upgraded.
                   <br>
                   After upgrading, your account will be linked to your TripleA dashboard.
                   <br>
                   Login credentials will be shared by e-mail.
                </p>
-               <p>
-                  Existing API ID: <?php echo $old_btc2fiat_api_id; ?>
+               <!--<p>
+                  Existing API ID: <?php /*echo $old_btc2fiat_api_id; */?>
                   <span class="woocommerce-help-tip" data-tip="This is your TripleA account identifier"></span>
-               </p>
+               </p>-->
 
                <input type="button"
                       class="button-primary"
@@ -546,12 +546,12 @@ ob_start();
       <input type="radio"
              name="receive-choice"
              value="bitcoin"
-         <?php echo($btc2btc_is_active && !$sandbox_payment_mode ? "checked" : '') ?>
-             style="margin:10px;">expert - receive bitcoin<br>
+         <?php echo($btc2btc_is_active ? "checked" : '') ?>
+             style="margin:10px;"><strong>expert</strong> - receive bitcoin<br>
       <div class="receive-choice-wrapper"
-           style="margin-left: 40px;display:<?php echo($btc2btc_is_active && !$sandbox_payment_mode ? "block" : 'none') ?>;"
+           style="margin-left: 40px;display:<?php echo($btc2btc_is_active ? "block" : 'none') ?>;"
            id="bitcoin-form-wrapper">
-         <div style="display:<?php echo(!empty($old_btc2btc_api_id) && empty($btc_merchant_key) ? "block" : "none") ?>;" id="bitcoin-version-upgrade-form-wrapper">
+         <div style="display:<?php echo(!empty($old_btc2btc_api_id) && empty($btc_merchant_key) && empty($btc_sandbox_merchant_key) ? "block" : "none") ?>;" id="bitcoin-version-upgrade-form-wrapper">
             <hr>
             <div class="triplea_step" id="upgrade-bitcoin-form">
                <h3>
@@ -560,16 +560,16 @@ ob_start();
                   </small>
                </h3>
                <p>
-                  Due to technical improvements and added features, your account needs to be upgraded to be compatible.
+                  Due to technical improvements and added features, your account needs to be upgraded.
                   <br>
                   After upgrading, your account will be linked to your TripleA dashboard.
                   <br>
                   Login credentials will be shared by e-mail.
                </p>
-               <p>
-                  Existing API ID: <?php echo $old_btc2btc_api_id; ?>
+               <!--<p>
+                  Existing API ID: <?php /*echo $old_btc2btc_api_id; */?>
                   <span class="woocommerce-help-tip" data-tip="This is your TripleA account identifier"></span>
-               </p>
+               </p>-->
 
                <input type="button"
                       class="button-primary"
@@ -644,20 +644,25 @@ ob_start();
             </div>
          </div>
          <div class="receive-choice-update-wrapper"
-              style="display:<?php echo(!empty($triplea_btc2btc_api_id) ? "block" : 'none') ?>;"
+              style="display:<?php echo(!empty($triplea_btc2btc_api_id) || !empty($triplea_btc2btc_sandbox_api_id) ? "block" : 'none') ?>;"
               id="bitcoin-update-form-wrapper">
-            <input type="button" class="button-primary" value="Already active" onclick="" disabled="disabled" style="display:<?php echo($btc2btc_is_active && !$sandbox_payment_mode ? "block" : 'none') ?>;margin-bottom:8px;">
-            <span style="display:<?php echo($btc2btc_is_active && $sandbox_payment_mode ? "block" : 'none') ?>;"><strong>Email:</strong> <?php echo $btc_merchant_email; ?>.
-               <?php if(!empty($btc_pubkey)): ?>
-               <br><strong>Public key:</strong> <?php echo substr($btc_pubkey, 0, 8); ?>...
+            <input type="button" class="button-primary" value="Already active" onclick="" disabled="disabled" style="display:<?php echo($btc2btc_is_active ? "block" : 'none') ?>;margin-bottom:8px;">
+            
+            <span style="display:<?php echo($btc2btc_is_active ? "block" : 'none') ?>;">
+               <strong>Email:</strong> <?php if ($sandbox_payment_mode) {echo $btc_sandbox_merchant_email;} else {echo $btc_merchant_email;} ?>.
+               
+               <?php if((!$sandbox_payment_mode && !empty($btc_pubkey)) || ($sandbox_payment_mode && !empty($btc_sandbox_pubkey))): ?>
+               <br><strong>Public key:</strong>
+                  <?php if ($sandbox_payment_mode) {echo substr($btc_sandbox_pubkey, 0, 8);} else {echo substr($btc_pubkey, 0, 8);} ?>...
                <?php endif; ?>
             </span>
             <br>
             <input type="button" class="button-primary" value="Activate live bitcoin payments to my own wallet" onclick="triplea_setActiveAccount('btc2btc', false)" style="display:<?php echo($btc2btc_is_active && !$sandbox_payment_mode ? "none" : "block") ?>;margin-bottom:15px;">
+            <input type="button" class="button-primary" value="Activate testnet bitcoin payments to my own wallet" onclick="triplea_setActiveAccount('btc2btc', true)" style="display:<?php echo($btc2btc_is_active && $sandbox_payment_mode ? "none" : "block") ?>;margin-bottom:15px;">
             <input type="button" class="button-secondary" value="Update my bitcoin wallet" onclick="jQuery('#bitcoin-signup-form-wrapper').show()">
             <br>
          </div>
-         <div style="display:<?php echo(empty($triplea_btc2btc_api_id) && empty($old_btc2btc_api_id) ? "block" : "none") ?>;" id="bitcoin-signup-form-wrapper">
+         <div style="display:<?php echo(empty($triplea_btc2btc_api_id) && empty($triplea_btc2btc_sandbox_api_id) && empty($old_btc2btc_api_id) ? "block" : "none") ?>;" id="bitcoin-signup-form-wrapper">
             <hr>
             <div class="triplea_step" id="receive-bitcoin-form">
                <h3>
@@ -676,7 +681,11 @@ ob_start();
                          value=""
                          placeholder="master public key"
                          style="width: 330px;">
-                  <span>Please provide a valid master public key for your bitcoin wallet (starting with 'xpub', 'ypub' or 'zpub').</span>
+                  <span>
+                     Please provide a valid master public key for your bitcoin wallet (starting with 'xpub', 'ypub' or 'zpub').
+                     <br>You can also use a testnet bitcoin wallet (public key starting with 'tpub') for sandbox testing.
+                     <br>The derivation path use is the standard BIP-44 (like the one used by the Electrum wallet).
+                  </span>
                   <span style="color: darkred;display:none;"
                         class="triplea-error-msg"
                         id="bitcoin-wrong-pubkey-format"><br>The provided master public key does not have the right format.</span>
@@ -800,7 +809,7 @@ ob_start();
                   </small>
                </h3>
                <p>
-                  Due to technical improvements and added features, your account needs to be upgraded to be compatible.
+                  Due to technical improvements and added features, your account needs to be upgraded.
                   <br>
                   After upgrading, your account will be linked to your TripleA dashboard.
                   <br>
@@ -1105,8 +1114,8 @@ ob_start();
      let merchantAccountRequestResult;
      
      // Optional, available if upgrade needed from pre-v1.5.0:
-     const old_btc2bt2_api_id = <?php echo (!empty($old_btc2btc_api_id) ? "'$old_btc2btc_api_id'" : 'null'); ?>;
-     const old_btc2bt2_sandbox_api_id = <?php echo (!empty($old_btc2btc_sandbox_api_id) ? "'$old_btc2btc_sandbox_api_id'" : 'null'); ?>;
+     const old_btc2btc_api_id = <?php echo (!empty($old_btc2btc_api_id) ? "'$old_btc2btc_api_id'" : 'null'); ?>;
+     const old_btc2btc_sandbox_api_id = <?php echo (!empty($old_btc2btc_sandbox_api_id) ? "'$old_btc2btc_sandbox_api_id'" : 'null'); ?>;
      const old_btc2fiat_api_id = <?php echo (!empty($old_btc2fiat_api_id) ? "'$old_btc2fiat_api_id'" : 'null'); ?>;
      const old_active_api_id = <?php echo (!empty($old_active_api_id) ? "'$old_active_api_id'" : 'null'); ?>;
      const old_btc2fiat_is_active = <?php echo (!empty($old_btc2fiat_is_active) ? "'$old_btc2fiat_is_active'" : 'null'); ?>;
@@ -1594,14 +1603,21 @@ ob_start();
          jQuery('#bitcoin-wrong-pubkey-format').show();
          return;
        }
-       if (pubkey.indexOf('pub') !== 1 || (pubkey.indexOf('xpub') !== 0 && pubkey.indexOf('ypub') !== 0 && pubkey.indexOf('zpub') !== 0))
+       if (pubkey.indexOf('pub') !== 1 || (pubkey.indexOf('xpub') !== 0 && pubkey.indexOf('ypub') !== 0 && pubkey.indexOf('zpub') !== 0 && pubkey.indexOf('tpub') !== 0))
        {
          console.warn('Incorrect public key format. Cannot proceed.');
          jQuery('#bitcoin-wrong-pubkey-format').show();
          return;
        }
        console.debug("Received master public key : " + pubkey);
-       window.bitcoin_pubkey = pubkey;
+       if (pubkey.indexOf('tpub') !== 0) {
+         window.bitcoin_pubkey = null;
+         window.testbitcoin_pubkey = pubkey;
+       }
+       else {
+         window.bitcoin_pubkey = pubkey;
+         window.testbitcoin_pubkey = null;
+       }
 
        // Do email validation.
        let bitcoinEmail;
@@ -1615,7 +1631,11 @@ ob_start();
          return;
        }
        // TODO ? the below code should be done upon successful account creation, not before..
-       let hiddenBitcoinEmailNode   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_merchant_email');
+       let hiddenBitcoinEmailNode;
+       if (window.testbitcoin_pubkey)
+         hiddenBitcoinEmailNode   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_sandbox_merchant_email');
+       else
+         hiddenBitcoinEmailNode   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_merchant_email');
        hiddenBitcoinEmailNode.value = bitcoinEmail;
 
        triplea_bitcoin_createMerchantAccount();
@@ -1630,10 +1650,14 @@ ob_start();
        let merchantEmail, merchantPhone;
 
        // Get dashboard email.
-       let merchantEmailNode = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_merchant_email');
+       let merchantEmailNode
+       if (window.testbitcoin_pubkey)
+         merchantEmailNode = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_sandbox_merchant_email');
+       else
+         merchantEmailNode = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_merchant_email');
        merchantEmail         = merchantEmailNode.value;
 
-       if (!window.bitcoin_pubkey || window.bitcoin_pubkey === '') {
+       if (!window.bitcoin_pubkey || window.bitcoin_pubkey === '' || !window.testbitcoin_pubkey || window.testbitcoin_pubkey === '') {
          console.error('Incorrect master public key. Cannot proceed.');
          return;
        }
@@ -1654,7 +1678,7 @@ ob_start();
          phone: merchantPhone || undefined,
          local_currency: local_currency,
          source: 'woocommerce',
-         master_pubkey: window.bitcoin_pubkey,
+         master_pubkey: window.bitcoin_pubkey || window.testbitcoin_pubkey,
          direct: undefined,
          pid: undefined,
          plugin: {
@@ -1767,42 +1791,66 @@ ob_start();
          return;
        }
 
-       let hiddenNodeMerchantKey   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_merchant_key');
+       let hiddenNodeMerchantKey;
+       if (window.testbitcoin_pubkey)
+         hiddenNodeMerchantKey   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_sandbox_merchant_key');
+       else
+         hiddenNodeMerchantKey   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_merchant_key');
        hiddenNodeMerchantKey.value = merchantAccountRequestResult.merchant_key;
 
-       let hiddenNodeClientId   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_client_id');
+       let hiddenNodeClientId;
+       if (window.testbitcoin_pubkey)
+         hiddenNodeClientId   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_sandbox_client_id');
+       else
+         hiddenNodeClientId   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_client_id');
        hiddenNodeClientId.value = merchantAccountRequestResult.client_id;
 
-       let hiddenNodeClientSecret   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_client_secret');
+       let hiddenNodeClientSecret;
+       if (window.testbitcoin_pubkey)
+         hiddenNodeClientSecret   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_sandbox_client_secret');
+       else
+         hiddenNodeClientSecret   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_client_secret');
        hiddenNodeClientSecret.value = merchantAccountRequestResult.client_secret;
 
-       let hiddenNodeMerchantName   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_merchant_name');
+       let hiddenNodeMerchantName;
+       if (window.testbitcoin_pubkey)
+         hiddenNodeMerchantName   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_sandbox_merchant_name');
+       else
+         hiddenNodeMerchantName   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_merchant_name');
        hiddenNodeMerchantName.value = merchantAccountRequestResult.name || '-missing name-';
 
-       let hiddenNodeMerchantPhone   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_merchant_phone');
+       let hiddenNodeMerchantPhone;
+       if (window.testbitcoin_pubkey)
+         hiddenNodeMerchantPhone   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_sandbox_merchant_phone');
+       else
+         hiddenNodeMerchantPhone   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_merchant_phone');
        hiddenNodeMerchantPhone.value = merchantAccountRequestResult.phone || '';
 
-       let hiddenNodePubkey   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_pubkey');
-       hiddenNodePubkey.value = window.bitcoin_pubkey || '';
+       let hiddenNodePubkey;
+       if (window.testbitcoin_pubkey)
+         hiddenNodePubkey   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_sandbox_pubkey');
+       else
+         hiddenNodePubkey   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_pubkey');
+       hiddenNodePubkey.value = window.bitcoin_pubkey || window.testbitcoin_pubkey;
 
        for (let i = 0; i < merchantAccountRequestResult.accounts.length; ++i)
        {
          const acc = merchantAccountRequestResult.accounts[i];
 
-         if (acc.crypto_currency === 'BTC' && !acc.sandbox  && acc.type === 'self')
+         if (window.bitcoin_pubkey && acc.crypto_currency === 'BTC' && !acc.sandbox  && acc.type === 'self')
          {
            let apiIdNode   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_api_id');
            apiIdNode.value = acc.api_id;
          }
-         // if (acc.crypto_currency === 'testBTC' && acc.sandbox)
-         // {
-         //   let apiIdNode   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_sandbox_api_id');
-         //   apiIdNode.value = acc.api_id;
-         // }
+         else if (window.testbitcoin_pubkey && acc.crypto_currency === 'testBTC' && acc.sandbox)
+         {
+           let apiIdNode   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_sandbox_api_id');
+           apiIdNode.value = acc.api_id;
+         }
        }
 
        // Sets active account then submits form
-       let sandbox = false;
+       let sandbox = !!window.testbitcoin_pubkey;
        triplea_setActiveAccount('btc2btc', sandbox);
      }
 
@@ -2059,7 +2107,7 @@ ob_start();
      {
        triplea_hideAllErrors();
        
-       const apiId = old_btc2bt2_sandbox_api_id;
+       const apiId = old_btc2btc_sandbox_api_id;
 
        // Ask for upgrade and OTP to be sent to the API ID's associated email.
        const url      = `https://moneyoverip.io/api/v1/merchant/upgrade`;
@@ -2267,7 +2315,7 @@ ob_start();
      {
        triplea_hideAllErrors();
 
-       const apiId = old_btc2bt2_api_id;
+       const apiId = old_btc2btc_api_id;
 
        // Ask for upgrade and OTP to be sent to the API ID's associated email.
        const url      = `https://moneyoverip.io/api/v1/merchant/upgrade`;
@@ -2395,50 +2443,93 @@ ob_start();
        // We already had some info, now add/update with what we received.
        Object.assign(merchantAccountRequestResult, result);
 
-       let hiddenNodeMerchantKey   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_merchant_key');
+       let hiddenNodeMerchantKey;
+       if (window.testbitcoin_pubkey || old_btc2btc_api_id.toLowerCase().indexOf('_t') > 0)
+         hiddenNodeMerchantKey   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_sandbox_merchant_key');
+       else
+         hiddenNodeMerchantKey   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_merchant_key');
        hiddenNodeMerchantKey.value = merchantAccountRequestResult.merchant_key;
 
-       let hiddenNodeClientId   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_client_id');
+       let hiddenNodeClientId;
+       if (window.testbitcoin_pubkey || old_btc2btc_api_id.toLowerCase().indexOf('_t') > 0)
+         hiddenNodeClientId   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_sandbox_client_id');
+       else
+         hiddenNodeClientId   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_client_id');
        hiddenNodeClientId.value = merchantAccountRequestResult.client_id;
 
-       let hiddenNodeClientSecret   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_client_secret');
+       let hiddenNodeClientSecret;
+       if (window.testbitcoin_pubkey || old_btc2btc_api_id.toLowerCase().indexOf('_t') > 0)
+         hiddenNodeClientSecret   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_sandbox_client_secret');
+       else
+         hiddenNodeClientSecret   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_client_secret');
        hiddenNodeClientSecret.value = merchantAccountRequestResult.client_secret;
 
-       let hiddenNodeMerchantName   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_merchant_name');
+       let hiddenNodeMerchantName;
+       if (window.testbitcoin_pubkey || old_btc2btc_api_id.toLowerCase().indexOf('_t') > 0)
+         hiddenNodeMerchantName   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_sandbox_merchant_name');
+       else
+         hiddenNodeMerchantName   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_merchant_name');
        hiddenNodeMerchantName.value = merchantAccountRequestResult.name || '-missing name-';
 
-       let hiddenNodeMerchantEmail   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_merchant_email');
+       let hiddenNodeMerchantEmail;
+       if (window.testbitcoin_pubkey || old_btc2btc_api_id.toLowerCase().indexOf('_t') > 0)
+         hiddenNodeMerchantEmail   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_sandbox_merchant_email');
+       else
+         hiddenNodeMerchantEmail   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_merchant_email');
        hiddenNodeMerchantEmail.value = merchantAccountRequestResult.email || '';
 
-       let hiddenNodeMerchantPhone   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_merchant_phone');
+       let hiddenNodeMerchantPhone;
+       if (window.testbitcoin_pubkey || old_btc2btc_api_id.toLowerCase().indexOf('_t') > 0)
+         hiddenNodeMerchantPhone   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_sandbox_merchant_phone');
+       else
+         hiddenNodeMerchantPhone   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_merchant_phone');
        hiddenNodeMerchantPhone.value = merchantAccountRequestResult.phone || '';
 
-       let hiddenNodePubkey   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_pubkey');
-       hiddenNodePubkey.value = window.bitcoin_pubkey || '';
+       let hiddenNodePubkey;
+       if (window.testbitcoin_pubkey || old_btc2btc_api_id.toLowerCase().indexOf('_t') > 0)
+       {
+         console.debug('--------=======   TESTNET   =======--------')
+         hiddenNodePubkey   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_sandbox_pubkey');
+         hiddenNodePubkey.value = window.testbitcoin_pubkey;
+       }
+       else
+       {
+         console.debug('--------=======   MAINNET   =======--------')
+         hiddenNodePubkey   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_pubkey');
+         hiddenNodePubkey.value = window.bitcoin_pubkey;
+       }
 
        for (let i = 0; i < merchantAccountRequestResult.accounts.length; ++i)
        {
          const acc = merchantAccountRequestResult.accounts[i];
          console.debug(' - existing account found: ', acc);
+         console.debug(' - testbitcoin_pubkey: ', window.testbitcoin_pubkey);
+         console.debug(' - bitcoin_pubkey: ', window.bitcoin_pubkey);
+         console.debug(' - old_btc2btc_api_id: ', old_btc2btc_api_id);
+         console.debug(' - old_btc2btc_sandbox_api_id: ', old_btc2btc_sandbox_api_id);
+         
 
-         if (acc.crypto_currency === 'BTC' && !acc.sandbox && acc.type === 'self')
+         if ((window.bitcoin_pubkey || old_btc2btc_api_id.toLowerCase().indexOf('_t') < 0) && acc.crypto_currency === 'BTC' && !acc.sandbox && acc.type === 'self')
          {
-           // TODO rename this new variable where needed everywhere in the code
+           console.debug(' + account match for btc2btc: ');
            let apiIdNode   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_api_id');
            apiIdNode.value = acc.api_id;
          }
-         // if (acc.crypto_currency === 'testBTC' && acc.sandbox)
-         // {
-         //   console.debug(' + account match for testnet btc2btc: ');
-         //
-         //   // TODO create this new variable where needed all throughout the code
-         //   let apiIdNode   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_sandbox_api_id');
-         //   apiIdNode.value = acc.api_id;
-         // }
+         if ((window.testbitcoin_pubkey || old_btc2btc_api_id.toLowerCase().indexOf('_t') > 0) && acc.crypto_currency === 'testBTC' && acc.sandbox && acc.type === 'self')
+         {
+           console.debug(' + account match for testnet btc2btc: ');
+           let apiIdNode   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_sandbox_api_id');
+           apiIdNode.value = acc.api_id;
+         }
        }
 
+       if (!window.testbitcoin_pubkey && !window.bitcoin_pubkey && !old_btc2btc_api_id) {
+         console.warn('Code problem: missing pubkey');
+         return;
+       }
+       
        // Sets active account then submits form
-       let sandbox = false;
+       let sandbox = !!window.testbitcoin_pubkey || !!(old_btc2btc_api_id.toLowerCase().indexOf('_t') > 0);
        triplea_setActiveAccount('btc2btc', sandbox);
      }
 
@@ -2777,13 +2868,13 @@ ob_start();
 
    </script>
 
-<!--   <section>-->
-<!--   <pre>--><?php
-//
-//      echo print_r(get_option('woocommerce_triplea_payment_gateway_settings'), TRUE);
-//
-//      ?><!--</pre>-->
-<!--   </section>-->
+   <section>
+   <pre><?php
+
+      echo print_r(get_option('woocommerce_triplea_payment_gateway_settings'), TRUE);
+
+      ?></pre>
+   </section>
 
 <?php
 $output = ob_get_contents();
