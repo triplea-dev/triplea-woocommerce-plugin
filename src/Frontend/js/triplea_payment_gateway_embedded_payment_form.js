@@ -1,13 +1,12 @@
-(function($) {
+(function ($) {
 
   "use strict";
 
-  console.debug('triplea_payment_gateway_embedded_payment_form start');
+  let selector = '.wc_payment_method.payment_method_triplea_payment_gateway';
 
   // GET  -> triplea_ajax_action(url, callback, "GET", null)
   // POST -> triplea_ajax_action(url, callback, "POST", data)
-  window.triplea_ajax_action = function(url, callback, _method, _data, sendJSON = true)
-  {
+  window.triplea_ajax_action = function (url, callback, _method, _data, sendJSON = true) {
     let xmlhttp                = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function () {
       if (xmlhttp.readyState === 4 && xmlhttp.status === 200)
@@ -18,28 +17,28 @@
         }
         catch (err)
         {
-          console.log(err.message + " in " + xmlhttp.responseText, err);
+          console.warn(err.message + " in " + xmlhttp.responseText, err);
           return;
         }
         callback(data);
       }
     };
     xmlhttp.open(_method, url, true);
-    if (!sendJSON) {
+    if (!sendJSON)
+    {
       xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded;charset=UTF-8');
     }
     xmlhttp.send(_data);
   }
 
-  window.triplea_getPaymentFormData = function() {
-    console.debug('triplea_getPaymentFormData()');
-
+  window.triplea_getPaymentFormData = function () {
     const ajaxUrlNode = document.getElementById('triplea-payment-gateway-payment-form-request-ajax-url');
-    const ajaxUrl = ajaxUrlNode
+    const ajaxUrl     = ajaxUrlNode
       ? ajaxUrlNode.getAttribute('data-value')
       : null;
 
-    if (!ajaxUrl) {
+    if (!ajaxUrl)
+    {
       console.warn('missing ajax url for payment form data request');
       return;
     }
@@ -49,14 +48,27 @@
     triplea_ajax_action(url, triplea_getPaymentFormDataCallback, method);
   }
 
-  window.triplea_getPaymentFormDataCallback = function(response) {
-    console.debug('triplea_getPaymentFormDataCallback()', response);
+  window.triplea_getPaymentFormDataCallback = function (response) {
+    if (response.data && response.success === false)
+    {
+      var messageItems = response.data.messages.map(function (message) {
+        return '<li>' + message + '</li>';
+      }).join('');
 
-    if (!response || !response.status || response.status !== 'ok') {
-      console.warn('error occured when requesting payment form data');
-      return;
+      showError('<ul class="woocommerce-error" role="alert">' + messageItems + '</ul>', selector);
+      return null;
     }
-    console.debug(response.message);
+    else if (response.result && response.result === 'failure' && response.messages && typeof response.messages === "string")
+    {
+      showError(response.messages, selector);
+      return null;
+    }
+
+    if (!response || !response.status || response.status !== 'ok')
+    {
+      console.warn('error occured when requesting payment form data');
+      return null;
+    }
 
     triplea_createHiddenInputData('triplea_order_txid', response.order_txid);
     triplea_createHiddenInputData('triplea_embedded_payment_form_url', response.url);
@@ -66,20 +78,23 @@
     triplea_displayEmbeddedPaymentForm();
   }
 
-  window.triplea_displayEmbeddedPaymentForm = function() {
+  window.triplea_displayEmbeddedPaymentForm = function () {
     const iframeUrlNode = document.getElementById('triplea_embedded_payment_form_url');
-    if (!iframeUrlNode || !iframeUrlNode.value) {
+    if (!iframeUrlNode || !iframeUrlNode.value)
+    {
       return;
     }
 
-    const btnNode = document.getElementById('triplea_embedded_payment_form_btn');
+    const btnNode         = document.getElementById('triplea_embedded_payment_form_btn');
     btnNode.style.display = 'none';
 
     let iframeUrl = iframeUrlNode.value;
-    if ( iframeUrl.indexOf('?') > 0 ) {
+    if (iframeUrl.indexOf('?') > 0)
+    {
       iframeUrl += '&order_details=hide&order_currency=hide';
     }
-    else {
+    else
+    {
       iframeUrl += '?order_details=hide&order_currency=hide';
     }
 
@@ -87,13 +102,13 @@
     iframeNode.setAttribute("id", 'triplea_embedded_payment_form_iframe');
     iframeNode.setAttribute("name", 'triplea_embedded_payment_form_iframe');
     iframeNode.setAttribute("scrolling", 'no');
-    iframeNode.style.width = '100%';
-    iframeNode.style.maxWidth = '100%';
-    iframeNode.style.height = '400px';
+    iframeNode.style.width     = '100%';
+    iframeNode.style.maxWidth  = '100%';
+    iframeNode.style.height    = '400px';
     iframeNode.style.overflowY = 'hidden !important';
     iframeNode.style.overflowX = 'hidden !important';
-    iframeNode.style.overflow = 'hidden';
-    iframeNode.style.border = 'none';
+    iframeNode.style.overflow  = 'hidden';
+    iframeNode.style.border    = 'none';
 
     iframeNode.src = iframeUrl;
 
@@ -101,38 +116,35 @@
     let insertionNode = document.getElementById('triplea_embedded_payment_form_btn');
     insertionNode.parentNode.insertBefore(iframeNode, btnNode);
 
-    (function(){
+    (function () {
       window.addEventListener('message', event => {
-        console.debug('message received:', event.data);
+        //console.debug('message received:', event.data);
         let iframe = document.getElementById("triplea_embedded_payment_form_iframe");
-        if (typeof event.data === 'string') {
+        if (typeof event.data === 'string')
+        {
           const response = event.data.split("|");
           if (!iframe)
           {
-            console.debug('Cannot catch iframe event, iframe node issue');
+            console.warn('Cannot catch iframe event, iframe node issue');
           }
-          else if(response[0] === 'triplea.frameResized') {
-            if (parseInt(response[1]) > 400) {
-              console.debug('Catching ' + response[0] + ' event');
-              iframe.style.height = response[1] + 'px';
-            }
-            else {
-              console.debug('skipping resize event, height too low');
-            }
-            // triplea_displayBackupPlaceOrderBtn();
-          }
-          else if(response[0] === 'triplea.paymentTooLittle')
+          else if (response[0] === 'triplea.frameResized')
           {
-            console.debug('Catching ' + response[0] + ' event');
-            //triplea_submitForm();
+            // if (parseInt(response[1]) > 400) {
+            iframe.style.height = response[1] + 'px';
+            // }
           }
-          else if(response[0] === 'triplea.paymentSuccess')
+          else if (response[0] === 'triplea.paymentTooLittle')
           {
-            console.debug('Catching ' + response[0] + ' event');
+            // console.debug('Catching ' + response[0] + ' event');
+          }
+          else if (response[0] === 'triplea.paymentSuccess')
+          {
+            // console.debug('Catching ' + response[0] + ' event');
             triplea_submitForm();
           }
-          else if(response[0] === 'triplea.formExpired') {
-            console.debug('Catching ' + response[0] + ' event');
+          else if (response[0] === 'triplea.formExpired')
+          {
+            // console.debug('Catching ' + response[0] + ' event');
             triplea_displayBackupPlaceOrderBtn();
           }
         }
@@ -140,10 +152,11 @@
     })();
   }
 
-  window.triplea_displayBackupPlaceOrderBtn = function() {
+  window.triplea_displayBackupPlaceOrderBtn = function () {
 
     // Display a "Place order anyway" button and some text under it.
-    if (document.getElementById('triplea_place_order_form_expired_btn')) {
+    if (document.getElementById('triplea_place_order_form_expired_btn'))
+    {
       return;
     }
 
@@ -161,20 +174,21 @@
 
   }
 
-  window.triplea_submitForm = function(delay = 1500) {
-    const timer = setTimeout(function(){
+  window.triplea_submitForm = function (delay = 1500) {
+    const timer = setTimeout(function () {
       let submitBtn = document.getElementById('place_order');
-      if (submitBtn) {
+      if (submitBtn)
+      {
         submitBtn.click();
       }
-      else {
+      else
+      {
         console.warn('Missing submit button. Could not submit form to place order.');
       }
     }, delay);
   }
 
-  window.triplea_createHiddenInputData = function(inputId, inputValue)
-  {
+  window.triplea_createHiddenInputData = function (inputId, inputValue) {
     let hiddenInput;
 
     if (!!document.getElementById(inputId))
@@ -198,6 +212,97 @@
     }
   }
 
-  console.debug('triplea_payment_gateway_embedded_payment_form finished');
+  window.triplea_validateCheckout = function () {
+    let checkoutCheckUrlNode = document.getElementById('triplea-payment-gateway-start-checkout-check-url');
+
+    if (checkoutCheckUrlNode)
+    {
+      let url = checkoutCheckUrlNode.getAttribute('data-value');
+      if (url)
+      {
+        let callback = triplea_validateCheckoutCallback;
+
+        // Clear any errors from previous attempt.
+        $('.woocommerce-error', selector).remove();
+
+        let data = $(selector).closest('form').serialize();
+
+        // Call URL
+        triplea_ajax_action(url, callback, "POST", data, false);
+
+        // Upon return, if not successful let it display error messages...
+        // If successful, trigger Bitcoin payment form display.
+      }
+    }
+    else
+    {
+      console.error('Checkout validation callback URL not found.');
+    }
+  }
+
+  function triplea_validateCheckoutCallback(response)
+  {
+    if (response.data && response.success === false)
+    {
+      let messageItems = response.data.messages.map(function (message) {
+        return '<li>' + message + '</li>';
+      }).join('');
+
+      showError('<ul class="woocommerce-error" role="alert">' + messageItems + '</ul>', selector);
+      return null;
+    }
+    else if (response.result && response.result === 'failure' && response.messages && typeof response.messages === "string")
+    {
+      showError(response.messages, selector);
+      return null;
+    }
+
+    // Clear any errors from previous attempt.
+    $('.woocommerce-error').remove();
+
+    triplea_getPaymentFormData();
+  }
+
+  // Show error notice at top of checkout form, or else within button container
+  function showError(errorMessage, selector)
+  {
+    var $container = $('.woocommerce-notices-wrapper, form.checkout');
+
+    if (!$container || !$container.length)
+    {
+      $(selector).prepend(errorMessage);
+      return;
+    }
+    else
+    {
+      $container = $container.first();
+    }
+
+    // Adapted from https://github.com/woocommerce/woocommerce/blob/ea9aa8cd59c9fa735460abf0ebcb97fa18f80d03/assets/js/frontend/checkout.js#L514-L529
+    $('.woocommerce-NoticeGroup-checkout, .woocommerce-error, .woocommerce-message').remove();
+    $container.prepend('<div class="woocommerce-NoticeGroup woocommerce-NoticeGroup-checkout">' + errorMessage + '</div>');
+    $container.find('.input-text, select, input:checkbox').trigger('validate').blur();
+
+    var scrollElement = $('.woocommerce-NoticeGroup-checkout');
+    if (!scrollElement.length)
+    {
+      scrollElement = $container;
+    }
+
+    if ($.scroll_to_notices)
+    {
+      $.scroll_to_notices(scrollElement);
+    }
+    else
+    {
+      // Compatibility with WC <3.3
+      $('html, body').animate({
+        scrollTop: ($container.offset().top - 100)
+      }, 1000);
+    }
+
+    $(document.body).trigger('checkout_error');
+  }
+
 
 })(jQuery);

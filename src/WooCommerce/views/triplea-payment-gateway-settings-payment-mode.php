@@ -202,28 +202,18 @@ ob_start();
            style="display:<?php echo($btc2btc_is_active && $sandbox_payment_mode ? 'block' : 'none') ?> ;">
 
          <h3><span style="text-decoration: underline;">Sandbox</span> Bitcoin payments are enabled.</h3>
-
-         <h3>You will receive bitcoin payments straight to your testnet Bitcoin wallet.</h3>
-
+         
          <p>
-            You have chosen to receive testnet bitcoin payments straight in your own <strong>testnet bitcoin wallet</strong>.
+            You have chosen to receive sandbox bitcoin payments straight in your own <strong>testnet bitcoin wallet</strong>.
          </p>
          <p>
-            Testnet bitcoin payments you receive can be viewed in your own wallet or for more details,
-            <br>
-            you may access <a href="https://dashboard.triple-a.io" target="_blank">your TripleA dashboard</a> with the credentials you have received by email.
+            View transactions in your own wallet or <a href="https://dashboard.triple-a.io" target="_blank">in your TripleA dashboard</a> with the credentials you have received by email.
          </p>
          <p>
-            To easily test payments, online faucet websites can be used. Find some here: <a href="https://duckduckgo.com/?q=bitcoin+testnet+faucets" target="_blank">bitcoin testnet faucets</a>.
-            <br>
-            - When making a bitcoin payment, simply copy the bitcoin address and the bitcoin amount into the faucet website's form.
-            <br>
-            - The faucet website will make a bitcoin payment on your behalf.
-            <br>
-            - The checkout page will detect the payment and place the order accordingly.
+            You can use <a href="https://duckduckgo.com/?q=bitcoin+testnet+faucets" target="_blank">bitcoin testnet faucets</a> to easily test payments.
          </p>
          <br>
-         <input type="button" class="button-primary" value="Show settlement options" onclick="gotoStep1()">
+         <input type="button" class="button-primary" value="Show settlement options" onclick="jQuery(this).hide(); gotoStep1()">
       </div>
 
       <div id="step-enabled--btc2btc"
@@ -242,7 +232,7 @@ ob_start();
             you may access <a href="https://dashboard.triple-a.io" target="_blank">your TripleA dashboard</a> with the credentials you have received by email.
          </p>
          <br>
-         <input type="button" class="button-primary" value="Show settlement options" onclick="gotoStep1()">
+         <input type="button" class="button-primary" value="Show settlement options" onclick="jQuery(this).hide(); gotoStep1()">
       </div>
   
       <div id="step-enabled--btc2fiat"
@@ -279,7 +269,7 @@ ob_start();
                 value="Switch to Sandbox payments"
                 onclick="triplea_setActiveAccount('btc2fiat', true)">
          <br>
-         <input type="button" class="button-secondary" value="Show settlement options" onclick="gotoStep1()">
+         <input type="button" class="button-secondary" value="Show settlement options" onclick="jQuery(this).hide(); gotoStep1()">
       </div>
 
       <br>
@@ -400,12 +390,13 @@ ob_start();
          <div class="receive-choice-update-wrapper"
               style="display:<?php echo(!empty($triplea_btc2fiat_sandbox_api_id) || !empty($triplea_btc2fiat_api_id) ? "block" : 'none') ?>;"
               id="localcurrency-update-form-wrapper">
-            <input type="button" class="button-primary" value="Already active" onclick="" disabled="disabled" style="display:<?php echo($btc2fiat_is_active && $sandbox_payment_mode ? "block" : 'none') ?>;margin-bottom:8px;">
             <span><strong>Account e-mail:</strong> <?php echo $fiat_merchant_email; ?></span>
             <br>
             <br>
-            <input type="button" class="button-primary" value="Activate SANDBOX bitcoin payments to my own wallet" onclick="triplea_setActiveAccount('btc2fiat', true)" style="display:<?php echo($btc2fiat_is_active && $sandbox_payment_mode ? "none" : "block") ?>;margin-bottom:8px;">
-            <input type="button" class="button-primary" value="Activate Live bitcoin payments to my own wallet" onclick="triplea_setActiveAccount('btc2fiat', false)" style="display:<?php echo($btc2fiat_is_active && !$sandbox_payment_mode ? "none" : "block") ?>;margin-bottom:8px;">
+            <input type="button" class="button-primary" value="Sandbox payments enabled" onclick="" disabled="disabled" style="display:<?php echo($btc2fiat_is_active && $sandbox_payment_mode ? "block" : 'none') ?>;margin-bottom:8px;">
+            <input type="button" class="button-primary" value="Live payments enabled" onclick="" disabled="disabled" style="display:<?php echo($btc2fiat_is_active && !$sandbox_payment_mode ? "block" : 'none') ?>;margin-bottom:8px;">
+            <input type="button" class="button-primary" value="Switch to Sandbox payments" onclick="triplea_setActiveAccount('btc2fiat', true)" style="display:<?php echo($btc2fiat_is_active && $sandbox_payment_mode ? "none" : "block") ?>;margin-bottom:8px;">
+            <input type="button" class="button-primary" value="Switch to Live payments" onclick="triplea_setActiveAccount('btc2fiat', false)" style="display:<?php echo($btc2fiat_is_active && !$sandbox_payment_mode ? "none" : "block") ?>;margin-bottom:8px;">
             <!--<input type="button" class="button-secondary" value="Update my testnet bitcoin wallet" onclick="jQuery('#testnetbitcoin-signup-form-wrapper').show()">-->
          </div>
          <div style="display:<?php echo(empty($triplea_btc2fiat_sandbox_api_id) && empty($old_btc2fiat_api_id) ? "block" : "none") ?>;" id="localcurrency-signup-form-wrapper">
@@ -646,19 +637,21 @@ ob_start();
          <div class="receive-choice-update-wrapper"
               style="display:<?php echo(!empty($triplea_btc2btc_api_id) || !empty($triplea_btc2btc_sandbox_api_id) ? "block" : 'none') ?>;"
               id="bitcoin-update-form-wrapper">
-            <input type="button" class="button-primary" value="Already active" onclick="" disabled="disabled" style="display:<?php echo($btc2btc_is_active ? "block" : 'none') ?>;margin-bottom:8px;">
             
             <span style="display:<?php echo($btc2btc_is_active ? "block" : 'none') ?>;">
                <strong>Email:</strong> <?php if ($sandbox_payment_mode) {echo $btc_sandbox_merchant_email;} else {echo $btc_merchant_email;} ?>.
                
-               <?php if((!$sandbox_payment_mode && !empty($btc_pubkey)) || ($sandbox_payment_mode && !empty($btc_sandbox_pubkey))): ?>
-               <br><strong>Public key:</strong>
-                  <?php if ($sandbox_payment_mode) {echo substr($btc_sandbox_pubkey, 0, 8);} else {echo substr($btc_pubkey, 0, 8);} ?>...
-               <?php endif; ?>
+<!--               --><?php //if((!$sandbox_payment_mode && !empty($btc_pubkey)) || ($sandbox_payment_mode && !empty($btc_sandbox_pubkey))): ?>
+<!--               <br><strong>Public key:</strong>-->
+<!--                  --><?php //if ($sandbox_payment_mode) {echo substr($btc_sandbox_pubkey, 0, 8);} else {echo substr($btc_pubkey, 0, 8);} ?><!--...-->
+<!--               --><?php //endif; ?>
             </span>
             <br>
-            <input type="button" class="button-primary" value="Activate live bitcoin payments to my own wallet" onclick="triplea_setActiveAccount('btc2btc', false)" style="display:<?php echo($btc2btc_is_active && !$sandbox_payment_mode ? "none" : "block") ?>;margin-bottom:15px;">
-            <input type="button" class="button-primary" value="Activate testnet bitcoin payments to my own wallet" onclick="triplea_setActiveAccount('btc2btc', true)" style="display:<?php echo($btc2btc_is_active && $sandbox_payment_mode ? "none" : "block") ?>;margin-bottom:15px;">
+            <input type="button" class="button-primary" value="Live payments enabled" disabled="disabled" style="display:<?php echo(!empty($triplea_btc2btc_api_id) && $btc2btc_is_active && !$sandbox_payment_mode ? "block" : "none") ?>;margin-bottom:8px;">
+            <input type="button" class="button-primary" value="Sandbox payments enabled" disabled="disabled" style="display:<?php echo(!empty($triplea_btc2btc_sandbox_api_id) && $btc2btc_is_active && $sandbox_payment_mode ? "block" : "none") ?>;margin-bottom:8px;">
+            
+            <input type="button" class="button-primary" value="Switch to Live payments" onclick="triplea_setActiveAccount('btc2btc', false)" style="display:<?php echo(!empty($triplea_btc2btc_api_id) && (!$btc2btc_is_active || $sandbox_payment_mode) ? "block" : "none") ?>;margin-bottom:15px;">
+            <input type="button" class="button-primary" value="Switch to Sandbox payments" onclick="triplea_setActiveAccount('btc2btc', true)" style="display:<?php echo(!empty($triplea_btc2btc_sandbox_api_id) && (!$btc2btc_is_active || !$sandbox_payment_mode) ? "block" : "none") ?>;margin-bottom:15px;">
             <input type="button" class="button-secondary" value="Update my bitcoin wallet" onclick="jQuery('#bitcoin-signup-form-wrapper').show()">
             <br>
          </div>
@@ -681,10 +674,11 @@ ob_start();
                          value=""
                          placeholder="master public key"
                          style="width: 330px;">
+                  <br>
                   <span>
                      Please provide a valid master public key for your bitcoin wallet (starting with 'xpub', 'ypub' or 'zpub').
-                     <br>You can also use a testnet bitcoin wallet (public key starting with 'tpub') for sandbox testing.
-                     <br>The derivation path use is the standard BIP-44 (like the one used by the Electrum wallet).
+                     <br>You can also use a testnet bitcoin wallet for sandbox testing (public key starting with 'tpub').
+                     <br>Payment addresses are generated using the standard BIP-44 derivation path (the same one used by the Electrum wallet).
                   </span>
                   <span style="color: darkred;display:none;"
                         class="triplea-error-msg"
@@ -693,7 +687,7 @@ ob_start();
                <p>
                   Provide an email address:
                   <span class="woocommerce-help-tip"
-                        data-tip="Valid email address needed."></span>
+                        data-tip="Valid email address needed for dashboard account linking and notifications."></span>
                   <br>
                   <input type="text"
                          id="bitcoin-notif-email"
@@ -789,257 +783,6 @@ ob_start();
          <br>
          <hr>
       </div>
-      
-
-      <!--
-      <input type="radio"
-             name="receive-choice"
-             value="testnetbitcoin"
-         <?php echo(($btc2btc_is_active && $sandbox_payment_mode) || ($old_btc2btc_is_active && $old_sandbox_payment_mode) ? "checked" : '') ?>
-             style="margin:10px;">receive Testnet bitcoin<br>
-      <div class="receive-choice-wrapper"
-           style="margin-left: 40px;display:<?php echo($btc2btc_is_active && $sandbox_payment_mode ? "block" : 'none') ?>;"
-           id="testnetbitcoin-form-wrapper">
-         <div style="display:<?php echo(!empty($old_btc2btc_sandbox_api_id) && empty($btc_sandbox_merchant_key) ? "block" : "none") ?>;" id="testnetbitcoin-version-upgrade-form-wrapper">
-            <hr>
-            <div class="triplea_step" id="upgrade-testnetbitcoin-form">
-               <h3>
-                  <small>
-                     Upgrade your testnet bitcoin account
-                  </small>
-               </h3>
-               <p>
-                  Due to technical improvements and added features, your account needs to be upgraded.
-                  <br>
-                  After upgrading, your account will be linked to your TripleA dashboard.
-                  <br>
-                  Login credentials will be shared by e-mail.
-               </p>
-               <p>
-                  Existing API ID: <?php echo $old_btc2btc_sandbox_api_id; ?>
-                  <span class="woocommerce-help-tip" data-tip="This is your TripleA account identifier"></span>
-               </p>
-
-               <input type="button"
-                      class="button-primary"
-                      value="Upgrade"
-                      onclick="triplea_testnetbitcoin_upgrade_emailvalidationstep()">
-               <br>
-               <span style="color:darkred;display:none;"
-                     class="triplea-error-msg upgrade-something-wrong"
-                     id="testnetbitcoin-upgrade-error-something-wrong">
-                     Something went wrong while requesting the account upgrade. <a href="mailto:support@triple-a.io">Contact us at support@triple-a.io</a> if you need assistance.
-                  </span>
-               <br>
-               <br>
-            </div>
-            <div class="triplea_step"
-                 id="upgrade-testnetbitcoin-validate-email"
-                 style="opacity: 0.5;">
-               <hr>
-               <h3>
-                  <small>
-                     Validate email
-                  </small>
-               </h3>
-               <p>
-                  Sending OTP (one-time password) to your email address...
-                  <strong id="testnetbitcoin-upgrade-email-sent" style="display:none;">
-                     Email sent!
-                  </strong>
-               </p>
-               <small style="color:darkred;display:none;"
-                      class="triplea-error-msg error-otp-request"
-                      id="testnetbitcoin-upgrade-error-otp-request">
-                  Something went wrong while requesting OTP code. Try again, or
-                  <a
-                        href="mailto:support@triple-a.io">inform us at support@triple-a.io</a> so that we can assist you.
-               </small>
-               <p id="testnetbitcoin-upgrade-enter-otp" style="opacity: 0.5;">
-                  Enter the One-Time Password code:
-                  <input type="text"
-                         id="testnetbitcoin-upgrade-otp-value"
-                         name="testnetbitcoin-upgrade-otp-value"
-                         value=""
-                         placeholder="One-Time Password"
-                         style="width:150px">
-                  <small style="color:darkred;display:none;"
-                         class="triplea-error-msg error-provide-otp"
-                         id="testnetbitcoin-upgrade-error-provide-otp">
-                     Please provide the OTP code that was sent to you by email.
-                  </small>
-                  <small style="color:darkred;display:none;"
-                         class="triplea-error-msg error-otp-wrong"
-                         id="testnetbitcoin-upgrade-error-otp-wrong">
-                     Wrong OTP provided.
-                  </small>
-                  <br>
-                  <br>
-                  <input type="button"
-                         id="testnetbitcoin-upgrade-otp-submit"
-                         class="button-primary"
-                         value="Activate testnet bitcoin account"
-                         onclick="triplea_testnetbitcoin_upgrade_validateEmailOtp()"
-                         style="opacity: 0.5;">
-                  <small id="testnetbitcoin-upgrade-otp-check-loading"
-                         class="triplea-error-msg otp-check-loading"
-                         style="display:none;">
-                     Loading...
-                  </small>
-                  <small style="color:darkred;display:none;"
-                         class="triplea-error-msg account-creation-error"
-                         id="testnetbitcoin-upgrade-account-creation-error">
-                     The provided OTP was correct. However, something went wrong
-                     during
-                     the creation of your Testnet bitcoin account. Please <a
-                           href="mailto:support@triple-a.io">inform us at support@triple-a.io</a> so that we may assist you promptly.
-                  </small>
-               </p>
-            </div>
-         </div>
-         <div class="receive-choice-update-wrapper"
-              style="display:<?php echo(!empty($triplea_btc2btc_sandbox_api_id) ? "block" : 'none') ?>;"
-              id="testnetbitcoin-update-form-wrapper">
-            <input type="button" class="button-primary" value="Already active" onclick="" disabled="disabled" style="display:<?php echo($btc2btc_is_active && $sandbox_payment_mode ? "block" : 'none') ?>;margin-bottom:8px;">
-            <span style="display:<?php echo($btc2btc_is_active && $sandbox_payment_mode ? "block" : 'none') ?>;"><strong>Email:</strong> <?php echo $btc_sandbox_merchant_email; ?>
-               <?php if(!empty($btc_sandbox_pubkey)): ?>
-                  <br><strong>Public key:</strong> <?php echo substr($btc_sandbox_pubkey, 0, 8); ?>...
-               <?php endif; ?>
-            </span>
-            <br>
-            <input type="button" class="button-primary" value="Activate testnet bitcoin payments to my own wallet" onclick="triplea_setActiveAccount('btc2btc', true)" style="display:<?php echo($btc2btc_is_active && $sandbox_payment_mode ? "none" : "block") ?>;margin-bottom:8px;">
-            <input type="button" class="button-secondary" value="Update my testnet bitcoin wallet" onclick="jQuery('#testnetbitcoin-signup-form-wrapper').show()">
-            <br>
-         </div>
-         <div style="display:<?php echo(empty($triplea_btc2btc_sandbox_api_id) && empty($old_btc2btc_sandbox_api_id) ? "block" : "none") ?>;" id="testnetbitcoin-signup-form-wrapper">
-            <hr>
-            <div class="triplea_step" id="receive-testnetbitcoin-form">
-               <h3>
-                  <small>
-                     1. Provide Testnet wallet information
-                  </small>
-               </h3>
-               <p>
-                  Master public key of your Testnet bitcoin wallet:
-                  <span class="woocommerce-help-tip" data-tip="Your public key allows us to generate unique payment addresses that can receive funds. It does not allow spending, no risk involved."></span>
-                  <br>
-                  <input type="text"
-                         id="testnetbitcoin-master-public-key"
-                         name="testnetbitcoin-master-public-key"
-                         value=""
-                         placeholder="master public key"
-                         style="width: 330px;">
-                  <span>Please provide a valid master public key (starts with 'tpub') for your Testnet bitcoin wallet.</span>
-                  <span style="color: darkred;display:none;"
-                        class="triplea-error-msg"
-                        id="testnetbitcoin-wrong-pubkey-format"><br>The provided master public key does not have the right format.</span>
-               </p>
-               <p>
-                  Provide an email address:
-                  <span class="woocommerce-help-tip"
-                        data-tip="Valid email address needed."></span>
-                  <br>
-                  <input type="text"
-                         id="testnetbitcoin-notif-email"
-                         name="testnetbitcoin-notif-email"
-                         value=""
-                         placeholder="email address"
-                         style="width:330px">
-                  <span style="color:darkred;display:none;"
-                        class="triplea-error-msg pubkey-wrong-email"
-                        id="testnetbitcoin-error-pubkey-wrong-email">
-                     This master public key has been associated with another email address. <a href="mailto:support@triple-a.io">Contact us at support@triple-a.io</a> if you need assistance.
-                  </span>
-                  <span style="color:darkred;display:none;"
-                        class="triplea-error-msg pubkey-wrong-email"
-                        id="testnetbitcoin-error-pubkey-exists">
-                     This master public key has already been used on another website. Please create a new bitcoin wallet for this website. <a href="mailto:support@triple-a.io">Contact us at support@triple-a.io</a> if you need assistance.
-                  </span>
-                  <br>
-                  <small style="color: darkred;display:none;"
-                         class="triplea-error-msg wrong-notif-email"
-                         id="testnetbitcoin-wrong-notif-email">
-                     The provided email address seems wrong.
-                  </small>
-               </p>
-               <input type="button"
-                      class="button-primary"
-                      value="Proceed"
-                      onclick="triplea_testnetbitcoin_emailvalidationstep()">
-               <br>
-               <br>
-            </div>
-            <div class="triplea_step"
-                 id="receive-testnetbitcoin-validate-email"
-                 style="opacity: 0.5;">
-               <hr>
-               <h3>
-                  <small>
-                     2. Validate email
-                  </small>
-               </h3>
-               <p>
-                  Sending OTP (one-time password) to your email address...
-                  <strong id="testnetbitcoin-email-sent" style="display:none;">Email
-                                                                               sent!</strong>
-               </p>
-               <small style="color:darkred;display:none;"
-                      class="triplea-error-msg error-otp-request"
-                      id="testnetbitcoin-error-otp-request">
-                  Something went wrong while requesting OTP code. Try again, or
-                  contact
-                  us at support@triple-a.io so that we can assist you.
-               </small>
-               <p id="testnetbitcoin-enter-otp" style="opacity: 0.5;">
-                  Enter the One-Time Password code:
-                  <input type="text"
-                         id="testnetbitcoin-otp-value"
-                         name="testnetbitcoin-otp-value"
-                         value=""
-                         placeholder="One-Time Password"
-                         style="width:150px">
-                  <small style="color:darkred;display:none;"
-                         class="triplea-error-msg error-provide-otp"
-                         id="testnetbitcoin-error-provide-otp">
-                     Please provide the OTP code that was sent to you by email.
-                  </small>
-                  <small style="color:darkred;display:none;"
-                         class="triplea-error-msg error-otp-wrong"
-                         id="testnetbitcoin-error-otp-wrong">
-                     Wrong OTP provided.
-                  </small>
-                  <br>
-                  <br>
-                  <input type="button"
-                         id="testnetbitcoin-otp-submit"
-                         class="button-primary"
-                         value="Activate testnet bitcoin account"
-                         onclick="triplea_testnetbitcoin_validateEmailOtp()"
-                         style="opacity: 0.5;">
-                  <small id="testnetbitcoin-otp-check-loading"
-                         class="triplea-error-msg otp-check-loading"
-                         style="display:none;">
-                     Loading...
-                  </small>
-                  <small style="color:darkred;display:none;"
-                         class="triplea-error-msg account-creation-error"
-                         id="testnetbitcoin-account-creation-error">
-                     The provided OTP was correct. However, something went wrong
-                     during
-                     the creation of your Testnet bitcoin account. Please inform us
-                     at
-                     support@triple-a.io so that we may assist you promptly.
-                  </small>
-               </p>
-            </div>
-         </div>
-
-         <br>
-         <hr>
-      </div>
-      -->
-
-
 
       <br>
       <br>
@@ -1075,7 +818,6 @@ ob_start();
 
          let sandboxPaymentModeNode   = document.getElementById(settingsPrefix + '_' + 'triplea_sandbox_payment_mode');
          let sandbox = sandboxPaymentModeNode.value;
-         // php's sandbox_payment_mode value = <?php echo $sandbox_payment_mode; ?>.
          if ( !!(sandbox) !== !!(<?php echo (!isset($sandbox_payment_mode) || empty($sandbox_payment_mode) ? "false" : "'true'"); ?>) )
          {
            console.debug('Forcing page reload, outdated options values detected.');
@@ -1100,7 +842,6 @@ ob_start();
    <script>
      function gotoStep1()
      {
-       //triplea_hideAllSteps();
        triplea_helper_displayNode('step-1');
      }
    </script>
@@ -1139,11 +880,6 @@ ob_start();
      function triplea_hideAllErrors()
      {
        jQuery('.triplea-error-msg').hide();
-       // let errors = document.getElementsByClassName('triplea-error-msg');
-       // for (let i = 0; errors && i < errors.length; i++)
-       // {
-       //   errors[i].style.display = 'none';
-       // }
      }
 
 
@@ -1610,7 +1346,7 @@ ob_start();
          return;
        }
        console.debug("Received master public key : " + pubkey);
-       if (pubkey.indexOf('tpub') !== 0) {
+       if (pubkey.indexOf('tpub') === 0) {
          window.bitcoin_pubkey = null;
          window.testbitcoin_pubkey = pubkey;
        }
@@ -1657,7 +1393,7 @@ ob_start();
          merchantEmailNode = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_merchant_email');
        merchantEmail         = merchantEmailNode.value;
 
-       if (!window.bitcoin_pubkey || window.bitcoin_pubkey === '' || !window.testbitcoin_pubkey || window.testbitcoin_pubkey === '') {
+       if ((!window.bitcoin_pubkey || window.bitcoin_pubkey === '') && (!window.testbitcoin_pubkey || window.testbitcoin_pubkey === '')) {
          console.error('Incorrect master public key. Cannot proceed.');
          return;
        }

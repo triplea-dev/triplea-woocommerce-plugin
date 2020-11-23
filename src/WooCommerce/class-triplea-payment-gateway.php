@@ -391,11 +391,11 @@ class TripleA_Payment_Gateway extends WC_Payment_Gateway {
       }
       
       // TODO DEBUG TEST
-      $this->update_option('triplea_pubkey_id', 'HA1603243536RrBN_t');
-//      $this->update_option('triplea_pubkey_id', 'HA1602468931f9IK');
-//      $this->update_option('triplea_pubkey_id_for_conversion', 'HA1603080505qdWO');
-      $this->update_option('triplea_pubkey_id_for_conversion', 'HA1603432360gjwI');
-//      $this->update_option('triplea_btc2btc_sandbox_merchant_email', 'ahoebeke+test3@gmail.com');
+//      $this->update_option('triplea_pubkey_id', 'HA1603243536RrBN_t');
+////      $this->update_option('triplea_pubkey_id', 'HA1602468931f9IK');
+////      $this->update_option('triplea_pubkey_id_for_conversion', 'HA1603080505qdWO');
+//      $this->update_option('triplea_pubkey_id_for_conversion', 'HA1603432360gjwI');
+////      $this->update_option('triplea_btc2btc_sandbox_merchant_email', 'ahoebeke+test3@gmail.com');
       
       //$this->triplea_set_api_endpoint_token($debug_log_enabled);
       
@@ -419,6 +419,8 @@ class TripleA_Payment_Gateway extends WC_Payment_Gateway {
       $this->triplea_btc2btc_merchant_email = $this->get_option('triplea_btc2btc_merchant_email');
       $this->triplea_btc2btc_merchant_phone = $this->get_option('triplea_btc2btc_merchant_phone');
       $this->triplea_btc2btc_pubkey = $this->get_option('triplea_btc2btc_merchant_phone');
+      $this->triplea_btc2btc_oauth_token = $this->get_option('triplea_btc2btc_oauth_token');
+      $this->triplea_btc2btc_oauth_token_expiry = $this->get_option('triplea_btc2btc_oauth_token_expiry');
    
       $this->triplea_btc2btc_sandbox_merchant_key = $this->get_option('triplea_btc2btc_sandbox_merchant_key');
       $this->triplea_btc2btc_sandbox_client_id    = $this->get_option('triplea_btc2btc_sandbox_client_id');
@@ -426,9 +428,8 @@ class TripleA_Payment_Gateway extends WC_Payment_Gateway {
       $this->triplea_btc2btc_sandbox_merchant_name  = $this->get_option('triplea_btc2btc_sandbox_merchant_name');
       $this->triplea_btc2btc_sandbox_merchant_email = $this->get_option('triplea_btc2btc_sandbox_merchant_email');
       $this->triplea_btc2btc_sandbox_merchant_phone = $this->get_option('triplea_btc2btc_sandbox_merchant_phone');
-      
-      // Refresh oauth tokens
-      $this->refreshOauthTokens();
+      $this->triplea_btc2btc_sandbox_oauth_token = $this->get_option('triplea_btc2btc_sandbox_oauth_token');
+      $this->triplea_btc2btc_sandbox_oauth_token_expiry = $this->get_option('triplea_btc2btc_sandbox_oauth_token_expiry');
       
       // If a pubkey was given, we only store the first bit.
       $this->triplea_btc2btc_pubkey = $this->get_option('triplea_btc2btc_pubkey');
@@ -630,6 +631,10 @@ class TripleA_Payment_Gateway extends WC_Payment_Gateway {
 //         $this,
 //         'triplea_woocommerce_cart_get_total',
 //      ] );
+      
+      // Refresh oauth tokens
+      $this->refreshOauthTokens();
+      
    }
    
 //   public function triplea_woocommerce_cart_get_total($total) {
@@ -771,7 +776,7 @@ class TripleA_Payment_Gateway extends WC_Payment_Gateway {
             $notes[] = 'Amount due: <strong>BTC ' . number_format($payment_data->crypto_amount, 8) . '</strong>'.'<br>'
                        .'Value: '.$payment_data->order_currency.' '.$payment_data->order_amount.'<br>'
                        .' <br> '
-                       .'To be paid to '.$payment_data->order_currency.' address:' . '<br>'
+                       .'To be paid to BTC address:' . '<br>'
                        . $bitcoin_address . "<br>"
                        . "<a href='https://www.blockchain.com/search?search=" . $bitcoin_address . "' target='_blank'>(View details on the blockchain)</a>";
          }
@@ -1124,16 +1129,55 @@ class TripleA_Payment_Gateway extends WC_Payment_Gateway {
     * @since 1.6.0
     */
    public static function wc_ajax_start_checkout() {
-      
       if (!wp_verify_nonce($_GET['_wpnonce'], '_wc_triplea_start_checkout_nonce')) {
          wp_die(__('Bad attempt', 'triplea-cryptocurrency-payment-gateway-for-woocommerce'));
       }
       
       add_action('woocommerce_after_checkout_validation', [
          self::class,
-         'start_checkout_check',
+         'triplea_checkout_check',
       ], 10, 2);
       WC()->checkout->process_checkout();
+   }
+   
+   /**
+    * Report validation errors if any, or else save form data in session and
+    * proceed with checkout flow.
+    *
+    * @param      $data
+    * @param null $errors
+    *
+    * @since 1.5.0
+    */
+   public static function triplea_checkout_check($data, $errors = NULL) {
+      triplea_write_log("triplea_checkout_check() ", TRUE);
+      if (is_null($errors)) {
+         // Compatibility with WC <3.0: get notices and clear them so they don't re-appear.
+         $error_messages = wc_get_notices('error');
+         wc_clear_notices();
+      }
+      else {
+         $error_messages = $errors->get_error_messages();
+      }
+      
+      if (empty($error_messages)) {
+         triplea_write_log('triplea_checkout_check() success', TRUE);
+         wp_send_json_success(
+            [
+               'status'   => 'ok',
+            ]
+         );
+      }
+      else {
+         triplea_write_log('triplea_checkout_check() failed', TRUE);
+         wp_send_json_error(
+            [
+               'messages' => $error_messages,
+               'status'   => 'notok',
+            ]
+         );
+      }
+      exit;
    }
    
    /**
@@ -2132,12 +2176,17 @@ public function generate_triplea_pubkeyid_script_html($key, $data) {
       $paymentform_ajax_url       = WC_AJAX::get_endpoint('wc_triplea_get_payment_form_data');
       $paymentform_ajax_nonce_url = wp_nonce_url($paymentform_ajax_url, $nonce_action);
       $output_paymentform_url     = '<div id="triplea-payment-gateway-payment-form-request-ajax-url" data-value="' . $paymentform_ajax_nonce_url . '" style="display:none;"></div>';
+   
+      $nonce_action             = '_wc_triplea_start_checkout_nonce';
+      $start_checkout_url       = WC_AJAX::get_endpoint('wc_triplea_start_checkout');
+      $start_checkout_nonce_url = wp_nonce_url($start_checkout_url, $nonce_action);
+      $output_startcheckoutcheck = "<div id='triplea-payment-gateway-start-checkout-check-url' style='display:none;' data-value='$start_checkout_nonce_url'></div>";
       
       $order_button_text = 'Pay with bitcoin';
       $output            = '<button type="button"
       style="margin: 0 auto; display: block;"
       class="button alt"
-      onclick="triplea_getPaymentFormData()"
+      onclick="triplea_validateCheckout()"
       name="triplea_embedded_payment_form_btn"
       id="triplea_embedded_payment_form_btn"
       value="' . esc_attr($order_button_text) . '"
@@ -2146,7 +2195,7 @@ public function generate_triplea_pubkeyid_script_html($key, $data) {
       // TODO Remove this debug code
       $output .= '<!--small><pre>' . $paymentform_ajax_nonce_url . '</pre></small-->';
       
-      return $button_html . $output . $output_paymentform_url;
+      return $button_html . $output . $output_paymentform_url . $output_startcheckoutcheck;
    }
    
    /**
@@ -2161,13 +2210,32 @@ public function generate_triplea_pubkeyid_script_html($key, $data) {
       if (!wp_verify_nonce($_GET['_wpnonce'], '_wc_triplea_get_payment_form_data')) {
          wp_die(__('Bad attempt', 'triplea-cryptocurrency-payment-gateway-for-woocommerce'));
       }
+   
+      $triplea           = new TripleA_Payment_Gateway();
+      $debug_log_enabled = $triplea->get_option('debug_log_enabled') === 'yes';
       
+      
+//      /* Verify conditions for order placement */
+//      add_action('woocommerce_after_checkout_validation', [
+//         self::class,
+//         'triplea_checkout_check',
+//      ], 10, 2);
+//      triplea_write_log("display_embedded_payment_form_button() checkout form validation ...", $debug_log_enabled);
+//      $checkout_validation = WC()->checkout->process_checkout();
+//      triplea_write_log("display_embedded_payment_form_button() checkout form result: " . print_r($checkout_validation, TRUE), $debug_log_enabled);
+//      if ($checkout_validation['status'] === 'ok') {
+//         triplea_write_log("display_embedded_payment_form_button() checkout form validation SUCCESS", $debug_log_enabled);
+//      }
+//      else {
+//         triplea_write_log("display_embedded_payment_form_button() checkout form validation FAILED", $debug_log_enabled);
+//         wp_send_json_error($checkout_validation);
+//      }
+   
+   
+   
       $payment_reference        = $access_token = $hosted_url = $data_order_txid = NULL;
       $need_data                = TRUE;
       $payment_form_data_exists = FALSE;
-      
-      $triplea           = new TripleA_Payment_Gateway();
-      $debug_log_enabled = $triplea->get_option('debug_log_enabled') === 'yes';
       
       $loop_count = 2;
       do {
@@ -2305,10 +2373,6 @@ public function generate_triplea_pubkeyid_script_html($key, $data) {
    private function refreshOauthTokens() {
       $debug_log_enabled = $this->get_option('debug_log_enabled') === 'yes';
       
-      triplea_write_log('refreshOauthToken() starting', $debug_log_enabled);
-      //      $this->triplea_btc2fiat_client_id = $this->get_option('triplea_btc2fiat_client_id');
-      //      $this->triplea_btc2fiat_client_secret = $this->get_option('triplea_btc2fiat_client_secret');
-      
       $date_now          = (new DateTime())->getTimestamp();
       $date_expiry_limit = $date_now - 864000;   // 10 days before the 10 year limit is over
       
@@ -2323,6 +2387,7 @@ public function generate_triplea_pubkeyid_script_html($key, $data) {
          else {
             triplea_write_log('refreshOauthToken() OAuth token (for local currency settlement) is missing. Requesting a new oauth token.', $debug_log_enabled);
          }
+         
          $new_token_data = $this->getOauthToken($this->triplea_btc2fiat_client_id, $this->triplea_btc2fiat_client_secret);
          
          triplea_write_log('refreshOauthToken() OAuth token data received : ' . print_r($new_token_data, TRUE), $debug_log_enabled);
@@ -2360,7 +2425,7 @@ public function generate_triplea_pubkeyid_script_html($key, $data) {
          }
          $new_token_data = $this->getOauthToken($this->triplea_btc2btc_client_id, $this->triplea_btc2btc_client_secret);
       
-         triplea_write_log('refreshOauthToken() OAuth token data received : ' . print_r($new_token_data, TRUE), $debug_log_enabled);
+         triplea_write_log('refreshOauthToken() OAuth token data received ', $debug_log_enabled);
       
          if ($new_token_data !== FALSE
              && isset($new_token_data->access_token)
@@ -2393,6 +2458,7 @@ public function generate_triplea_pubkeyid_script_html($key, $data) {
           && (!isset($this->triplea_btc2btc_sandbox_oauth_token)
               || empty($this->triplea_btc2btc_sandbox_oauth_token)
               || $this->triplea_btc2btc_sandbox_oauth_token_expiry <= $date_expiry_limit)) {
+         
          if ($this->triplea_btc2btc_sandbox_oauth_token_expiry <= $date_expiry_limit) {
             triplea_write_log('refreshOauthToken() OAuth token (for sandbox btc settlement) expires in less than 10 days. Requesting a new oauth token.', $debug_log_enabled);
          }
@@ -2412,6 +2478,7 @@ public function generate_triplea_pubkeyid_script_html($key, $data) {
             $this->triplea_btc2btc_sandbox_oauth_token_expiry = $date_now + $new_token_data->expires_in;
             $this->update_option('triplea_btc2btc_sandbox_oauth_token', $this->triplea_btc2btc_sandbox_oauth_token);
             $this->update_option('triplea_btc2btc_sandbox_oauth_token_expiry', $this->triplea_btc2btc_sandbox_oauth_token_expiry);
+            
             triplea_write_log('refreshOauthToken() Obtained and saved a new oauth token.', $debug_log_enabled);
          }
          else {
@@ -2422,7 +2489,6 @@ public function generate_triplea_pubkeyid_script_html($key, $data) {
             $this->update_option('triplea_btc2btc_sandbox_oauth_token_expiry', $this->triplea_btc2btc_sandbox_oauth_token_expiry);
          }
       }
-      
    }
    
    private

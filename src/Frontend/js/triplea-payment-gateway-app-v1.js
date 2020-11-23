@@ -287,6 +287,7 @@
   }
 
   function triplea_validateCheckout() {
+    console.debug('triplea_validateCheckout()');
     let checkoutCheckUrlNode = document.getElementById('triplea-payment-gateway-start-checkout-check-url');
     if (checkoutCheckUrlNode) {
       let url = checkoutCheckUrlNode.getAttribute('data-value');
@@ -338,45 +339,11 @@
     triplea_showPaymentHtml(customerData);
   }
 
-  // Show error notice at top of checkout form, or else within button container
-  function showError( errorMessage, selector ) {
-    var $container = $( '.woocommerce-notices-wrapper, form.checkout' );
-
-    if ( ! $container || ! $container.length ) {
-      $( selector ).prepend( errorMessage );
-      return;
-    } else {
-      $container = $container.first();
-    }
-
-    // Adapted from https://github.com/woocommerce/woocommerce/blob/ea9aa8cd59c9fa735460abf0ebcb97fa18f80d03/assets/js/frontend/checkout.js#L514-L529
-    $( '.woocommerce-NoticeGroup-checkout, .woocommerce-error, .woocommerce-message' ).remove();
-    $container.prepend( '<div class="woocommerce-NoticeGroup woocommerce-NoticeGroup-checkout">' + errorMessage + '</div>' );
-    $container.find( '.input-text, select, input:checkbox' ).trigger( 'validate' ).blur();
-
-    var scrollElement = $( '.woocommerce-NoticeGroup-checkout' );
-    if ( ! scrollElement.length ) {
-      scrollElement = $container;
-    }
-
-    if ( $.scroll_to_notices ) {
-      $.scroll_to_notices( scrollElement );
-    } else {
-      // Compatibility with WC <3.3
-      $( 'html, body' ).animate( {
-        scrollTop: ( $container.offset().top - 100 )
-      }, 1000 );
-    }
-
-    $( document.body ).trigger( 'checkout_error' );
-  }
-
-
-  /*const tripleaPaymentButtons = document.getElementsByClassName('triplea-payment-gateway-btn');
+  const tripleaPaymentButtons = document.getElementsByClassName('triplea_embedded_payment_form_btn');
   for (let i = 0; i < tripleaPaymentButtons.length; i++)
   {
     tripleaPaymentButtons[i].removeEventListener('click', triplea_validateCheckout);
     tripleaPaymentButtons[i].addEventListener('click', triplea_validateCheckout);
-  }*/
+  }
 
 } )( jQuery, window, document );
