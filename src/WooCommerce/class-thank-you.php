@@ -89,8 +89,8 @@ class Thank_You {
          echo '<br>';
       }
       elseif (!empty($payment_tier)) {
-         echo '<p style="font-size: 115%">';
-         echo 'There was an error detecting your payment.'.'<br>';
+         echo '<p style="font-size: 115%;">';
+         echo '<span style="color: red;">There was an error detecting your payment.</span>'.'<br>';
          echo 'It might take a while for your payment transaction to be detected, after which your order will automatically be updated.'.'<br>';
          echo '</p>';
          echo '<br>';

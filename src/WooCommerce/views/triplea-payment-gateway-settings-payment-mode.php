@@ -250,7 +250,7 @@ ob_start();
             <strong>local currency</strong>
             settled to <strong>your bank account</strong>.
             <span style="display:<?php echo($sandbox_payment_mode ? 'block' : 'none') ?>;">
-               (Doesn't apply to sandbox payments :)
+               (This does not apply to sandbox payments :)
             </span>
          </p>
          <p>
@@ -390,6 +390,8 @@ ob_start();
          <div class="receive-choice-update-wrapper"
               style="display:<?php echo(!empty($triplea_btc2fiat_sandbox_api_id) || !empty($triplea_btc2fiat_api_id) ? "block" : 'none') ?>;"
               id="localcurrency-update-form-wrapper">
+            <hr>
+            <br>
             <span><strong>Account e-mail:</strong> <?php echo $fiat_merchant_email; ?></span>
             <br>
             <br>
@@ -509,7 +511,7 @@ ob_start();
                   <input type="button"
                          id="localcurrency-otp-submit"
                          class="button-primary"
-                         value="Activate (sandbox) local currency account"
+                         value="Activate local currency account"
                          onclick="triplea_localcurrency_validateEmailOtp()"
                          style="opacity: 0.5;">
                   <small id="localcurrency-otp-check-loading"
@@ -637,7 +639,8 @@ ob_start();
          <div class="receive-choice-update-wrapper"
               style="display:<?php echo(!empty($triplea_btc2btc_api_id) || !empty($triplea_btc2btc_sandbox_api_id) ? "block" : 'none') ?>;"
               id="bitcoin-update-form-wrapper">
-            
+            <hr>
+            <br>
             <span style="display:<?php echo($btc2btc_is_active ? "block" : 'none') ?>;">
                <strong>Email:</strong> <?php if ($sandbox_payment_mode) {echo $btc_sandbox_merchant_email;} else {echo $btc_merchant_email;} ?>.
                
@@ -645,8 +648,9 @@ ob_start();
 <!--               <br><strong>Public key:</strong>-->
 <!--                  --><?php //if ($sandbox_payment_mode) {echo substr($btc_sandbox_pubkey, 0, 8);} else {echo substr($btc_pubkey, 0, 8);} ?><!--...-->
 <!--               --><?php //endif; ?>
+               <br>
+               <br>
             </span>
-            <br>
             <input type="button" class="button-primary" value="Live payments enabled" disabled="disabled" style="display:<?php echo(!empty($triplea_btc2btc_api_id) && $btc2btc_is_active && !$sandbox_payment_mode ? "block" : "none") ?>;margin-bottom:8px;">
             <input type="button" class="button-primary" value="Sandbox payments enabled" disabled="disabled" style="display:<?php echo(!empty($triplea_btc2btc_sandbox_api_id) && $btc2btc_is_active && $sandbox_payment_mode ? "block" : "none") ?>;margin-bottom:8px;">
             
@@ -1806,7 +1810,7 @@ ob_start();
        }
 
        // Sets active account then submits form
-       let sandbox = true;
+       let sandbox = false;
        triplea_setActiveAccount('btc2fiat', sandbox);
      }
 
