@@ -63,8 +63,6 @@ class REST {
       $triplea = new TripleA_Payment_Gateway();
    
       $debug_log_enabled = $triplea->get_option('debug_log_enabled') === 'yes';
-      // TODO REMOVE this DEBUGGING FOR DEV
-      $debug_log_enabled = TRUE;
       
       // Load necessary plugin settings
       triplea_write_log( 'webhook_update : Received payment update notification. Status = ' . $request->get_param( 'status' ), $debug_log_enabled );
@@ -93,18 +91,18 @@ class REST {
       $unix_timestamp = null;
       $hex_signature = null;
       $triplea_signature = $request->get_header('triplea_signature');
-      triplea_write_log( 'webhook_update(): sig header => ' . print_r($triplea_signature, true), true );
+      //triplea_write_log( 'webhook_update(): sig header => ' . print_r($triplea_signature, true), $debug_log_enabled );
       
       if (isset($triplea_signature)) {
          $parts = preg_split("/[,]+/", $triplea_signature); // "t=<unix-timestamp>,v1=<hex-encoded-signature>"
          if (count($parts) === 2) {
             $unix_timestamp = preg_split("/[=]+/", $parts[0])[1];
             $hex_signature = preg_split("/[=]+/", $parts[1])[1];
-            triplea_write_log( 'webhook_update(): sig timestamp ' . print_r($unix_timestamp, true), true );
-            triplea_write_log( 'webhook_update(): sig hex sign. ' . print_r($hex_signature, true), true );
+            triplea_write_log( 'webhook_update(): sig timestamp ' . print_r($unix_timestamp, true), $debug_log_enabled );
+            triplea_write_log( 'webhook_update(): sig hex sign. ' . print_r($hex_signature, true), $debug_log_enabled );
 
             $webhook_data  = $request->get_param( 'webhook_data' );
-            triplea_write_log( 'webhook_update(): header  ' . print_r($webhook_data, true), true );
+            triplea_write_log( 'webhook_update(): header  ' . print_r($webhook_data, true), $debug_log_enabled );
             if (!isset($webhook_data['order_txid']) || empty($webhook_data['order_txid'])) {
                triplea_write_log( 'webhook_update(): problem: missing txid in received notification webhook data.', $debug_log_enabled );
                return new WP_Error(
@@ -115,10 +113,10 @@ class REST {
                   )
                );
             }
-            triplea_write_log( 'webhook_update(): order txid : ' . print_r($webhook_data['order_txid'], true), true );
+            triplea_write_log( 'webhook_update(): order txid : ' . print_r($webhook_data['order_txid'], true), $debug_log_enabled );
             $order_id = $this->triplea_get_orderid_from_txid( $webhook_data['order_txid'], $debug_log_enabled );
             if ( $order_id < 0 ) {
-               triplea_write_log( 'update_order_status() : ERROR. No matching order found for tx id ' . $webhook_data['order_txid'] . '.', $debug_log_enabled );
+               triplea_write_log( 'webhook_update() : ERROR. No matching order found for tx id ' . $webhook_data['order_txid'] . '.', $debug_log_enabled );
             }
          }
          else {
@@ -173,18 +171,6 @@ class REST {
             )
          );
       }
-   
-//      
-//
-//      // TODO REMoVE DEBUGGING STOP
-//      triplea_write_log( 'webhook_update(): debug stop 503', $debug_log_enabled );
-//      return new WP_Error(
-//         'debugging_stop',
-//         'debugging stop',
-//         array(
-//            'status'   => 503,
-//         )
-//      );
       
       $payment_data = json_decode($request->get_body());
       $triplea::update_order_status($payment_data, NULL, false, $unix_timestamp, $hex_signature);
@@ -259,7 +245,7 @@ class REST {
 			// All is good.
 			triplea_write_log( 'tx_update : Endpoint token valid, request authorized.', $debug_log_enabled );
 		} else {
-			// triplea_write_log('tx_update : Client endpoint token given by TripleA API did not match. ', $debug_log_enabled);
+			 triplea_write_log('tx_update : Client endpoint token given by TripleA API did not match. ', $debug_log_enabled);
 			// triplea_write_log('tx_update :   Local value: ' . $api_endpoint_token, $debug_log_enabled);
 			// triplea_write_log('tx_update :   Given value: ' . $token, $debug_log_enabled);
 
@@ -351,21 +337,7 @@ class REST {
 				'msg'    => 'Order already marked as completed.',
 			);
 		}
-		// elseif ($wc_order->get_status() !== $order_status_new
-		// && $wc_order->get_status() !== $order_status_paid
-		// && $wc_order->get_status() !== $order_status_on_hold) {
-		// If we're here, the order is not waiting for payment or payment confirmation and has not been marked as completed either.
-		// Which means something seems wrong.
-		//
-		// Log and return error.
-		// triplea_write_log('tx_update : ERROR! Order ' . $order_id . ' has status ' . $wc_order->get_status() . '. Cannot proceed.', $debug_log_enabled);
-		// return [
-		// 'order_metadata' => '',
-		// 'status'         => 'notok',
-		// 'msg'            => 'Order ' . $order_id . ' has status ' . $wc_order->get_status() . '. Cannot proceed.',
-		// ];
-		// }
-
+		
 		// We care only about a transaction having been confirmed here.
 		// Skip if confirmed balance is zero.
 
@@ -411,9 +383,9 @@ class REST {
       if ( $api_endpoint_token === $token ) {
          return true;
       } else {
-         // triplea_write_log('tx_update : Client endpoint token given by TripleA API did not match. ', $debug_log_enabled);
-         // triplea_write_log('tx_update :   Local value: ' . $api_endpoint_token, $debug_log_enabled);
-         // triplea_write_log('tx_update :   Given value: ' . $token, $debug_log_enabled);
+         //triplea_write_log('tx_update : Client endpoint token given by TripleA API did not match. ', $debug_log_enabled);
+         //triplea_write_log('tx_update :   Local value: ' . $api_endpoint_token, $debug_log_enabled);
+         //triplea_write_log('tx_update :   Given value: ' . $token, $debug_log_enabled);
          return false;
       }
    }
@@ -454,6 +426,5 @@ class REST {
 		return $order_id;
 	}
 	
-
 }
 

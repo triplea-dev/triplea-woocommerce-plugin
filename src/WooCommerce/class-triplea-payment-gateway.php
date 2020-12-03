@@ -505,24 +505,18 @@ class TripleA_Payment_Gateway extends WC_Payment_Gateway {
        *  and whether sandbox is on/off.
        */
       if (isset($this->triplea_payment_mode)) {
-         triplea_write_log('-- a1', $debug_log_enabled);
          if ('bitcoin-to-bitcoin' === $this->triplea_payment_mode) {
-            triplea_write_log('-- a1 b1', $debug_log_enabled);
             if ($this->triplea_sandbox_payment_mode) {
-               triplea_write_log('-- a1 b1 c1', $debug_log_enabled);
                // Set sandbox account as active.
                if (!isset($this->triplea_active_api_id) || empty($this->triplea_active_api_id) || $this->triplea_active_api_id !== $this->triplea_btc2btc_sandbox_api_id) {
-                  triplea_write_log('-- a1 b1 c1 d1', $debug_log_enabled);
                   $this->triplea_active_api_id = $this->triplea_btc2btc_sandbox_api_id;
                   $this->update_option('triplea_active_api_id', $this->triplea_btc2btc_sandbox_api_id);
                   triplea_write_log('Making sandbox bitcoin-to-bitcoin settlement account the active account. API ID = "' . $this->triplea_btc2btc_sandbox_api_id . '".', $debug_log_enabled);
                }
             }
             else {
-               triplea_write_log('-- a1 b1 c2', $debug_log_enabled);
                // Set live account as active.
                if (!isset($this->triplea_active_api_id) || empty($this->triplea_active_api_id) || $this->triplea_active_api_id !== $this->triplea_btc2btc_api_id) {
-                  triplea_write_log('-- a1 b1 c2 d1', $debug_log_enabled);
                   $this->triplea_active_api_id = $this->triplea_btc2btc_api_id;
                   $this->update_option('triplea_active_api_id', $this->triplea_btc2btc_api_id);
                   triplea_write_log('Making live bitcoin-to-bitcoin settlement account the active account. API ID = "' . $this->triplea_btc2btc_api_id . '".', $debug_log_enabled);
@@ -531,22 +525,17 @@ class TripleA_Payment_Gateway extends WC_Payment_Gateway {
             
          }
          elseif ('bitcoin-to-cash' === $this->triplea_payment_mode) {
-            triplea_write_log('-- a1 b2', $debug_log_enabled);
             if ($this->triplea_sandbox_payment_mode) {
-               triplea_write_log('-- a1 b2 c1', $debug_log_enabled);
                // Set sandbox account as active.
                if (!isset($this->triplea_active_api_id) || empty($this->triplea_active_api_id) || $this->triplea_active_api_id !== $this->triplea_btc2fiat_sandbox_api_id) {
-                  triplea_write_log('-- a1 b2 c1 d1', $debug_log_enabled);
                   $this->triplea_active_api_id = $this->triplea_btc2fiat_sandbox_api_id;
                   $this->update_option('triplea_active_api_id', $this->triplea_btc2fiat_sandbox_api_id);
                   triplea_write_log('Making sandbox bitcoin-to-local currency settlement account the active account. API ID = "' . $this->triplea_btc2fiat_sandbox_api_id . '".', $debug_log_enabled);
                }
             }
             else {
-               triplea_write_log('-- a1 b2 c2', $debug_log_enabled);
                // Set live account as active.
                if (!isset($this->triplea_active_api_id) || empty($this->triplea_active_api_id) || $this->triplea_active_api_id !== $this->triplea_btc2fiat_api_id) {
-                  triplea_write_log('-- a1 b2 c2 d1', $debug_log_enabled);
                   $this->triplea_active_api_id = $this->triplea_btc2fiat_api_id;
                   $this->update_option('triplea_active_api_id', $this->triplea_btc2fiat_api_id);
                   triplea_write_log('Making live bitcoin-to-local currency settlement account the active account. API ID = "' . $this->triplea_btc2fiat_api_id . '".', $debug_log_enabled);
@@ -589,72 +578,49 @@ class TripleA_Payment_Gateway extends WC_Payment_Gateway {
             ]
          );
       }
-      
+   
       // Save settings page options as defined in nested/injected HTML content.
       add_action('woocommerce_update_options_payment_gateways_' . $this->id, [
          $this,
          'save_plugin_options',
       ]);
       
-      /**
-       * Remove the payment button.
-       */
-      ////      add_filter(
-      ////         'woocommerce_order_button_html',
-      ////         [
-      ////            $this,
-      ////            'display_custom_payment_button',
-      ////         ]
-      ////      );
-      //      add_filter(
-      //         'woocommerce_pay_order_button_html',
-      //         [
-      //            $this,
-      //            'display_custom_payment_button',
-      //         ]
-      //      );
-      
-      // add_action( 'woocommerce_receipt_' . $this->id, array(
-      // $this,
-      // 'pay_for_order'
-      // ) );
-      
       // We need custom JavaScript to run in the front-end (checkout page)
       add_action('wp_enqueue_scripts', [$this, 'payment_scripts']);
-      
-      add_action('woocommerce_checkout_update_order_review', [
-         $this,
-         'triplea_checkout_update_order_review',
-      ]);
    
-//      add_filter( 'woocommerce_cart_get_total', [
-//         $this,
-//         'triplea_woocommerce_cart_get_total',
-//      ] );
-      
       // Refresh oauth tokens
       $this->refreshOauthTokens();
       
    }
    
-//   public function triplea_woocommerce_cart_get_total($total) {
-//      triplea_write_log( 'triplea_check_cart_get_total(): '. print_r($total, true), TRUE );
+//   public static function triplea_checkout_update_order_review($posted_data) {
+//      $triplea           = new TripleA_Payment_Gateway();
 //
-//      if (!WC()->session->has_session()) {
-//         triplea_write_log( 'triplea_check_cart_get_total(): no session found ! ', TRUE );
+//      $debug_log_enabled = $triplea->get_option('debug_log_enabled') === 'yes';
+//      triplea_write_log('DEBUG triplea_checkout_update_order_review() called ###############################', TRUE);
+//
+//      // Parsing posted data on checkout
+//      $post = [];
+//      $vars = explode('&', $posted_data);
+//      foreach ($vars as $k => $value) {
+//         $v           = explode('=', urldecode($value));
+//         $post[$v[0]] = $v[1];
 //      }
 //
-//      $cart_total = WC()->session->get('triplea_cart_total');
-//      if (empty($cart_total)) {
-//         triplea_write_log( 'triplea_check_cart_get_total(): cart_total is empty ', TRUE );
-////         WC()->session->set('triplea_cart_total', $total);
-//      }
-//      elseif ($cart_total != $total) {
-//         triplea_write_log( 'triplea_check_cart_get_total(): cart_total is different from total : '. print_r($cart_total, true), TRUE );
-////         WC()->session->set('triplea_cart_total', $total);
-//      }
+//      // Here we collect payment method
+//      $payment_method = $post['payment_method'];
 //
-//      return $total;
+//      triplea_write_log('Payment method debug : ' . $payment_method, $debug_log_enabled);
+//
+//      // Run code custom code for each specific payment option selected
+//      if ($payment_method == $triplea->id) {
+//         // Your code goes here
+//         triplea_write_log('TripleA Bitcoin payment selected !!', TRUE);
+//      }
+//      else {
+//         triplea_write_log('A non-TripleA payment method selected...', TRUE);
+//      }
+//      return $posted_data;
 //   }
    
    public function customize_thank_you_title($old_title, $order) {
@@ -1092,11 +1058,13 @@ class TripleA_Payment_Gateway extends WC_Payment_Gateway {
    }
    
    public function payment_fields() {
-      //      echo $this->display_custom_payment_button('');
-   
       echo $this->get_description('');
       echo "<br><br>";
       echo $this->display_embedded_payment_form_button('');
+      
+      $cart_totals_hash = (!empty(WC()->cart->get_cart_contents_total()) ? WC()->cart->get_cart_contents_total() : '2').'_' .(!empty(WC()->cart->get_cart_discount_total()) ? WC()->cart->get_cart_discount_total() : '3').'_'. (!empty(WC()->cart->get_cart_shipping_total()) ? WC()->cart->get_cart_shipping_total() : '4');
+      
+      echo "<!-- anti-checkout.js-fragment-cache '" . md5($cart_totals_hash) . "' -->";
    }
    
    /**
@@ -1115,10 +1083,10 @@ class TripleA_Payment_Gateway extends WC_Payment_Gateway {
             $api_endpoint_token = md5((uniqid(rand(), TRUE)) . (uniqid(rand(), TRUE)));
          }
          add_option('triplea_api_endpoint_token', $api_endpoint_token);
-         triplea_write_log('SET ENDPOINT TOKEN: '.get_option('triplea_api_endpoint_token'), TRUE);
+         triplea_write_log('Setting endpoint token: '.get_option('triplea_api_endpoint_token'), $debug_log_enabled);
       }
       else {
-         triplea_write_log('EXISTING ENDPOINT TOKEN: '.get_option('triplea_api_endpoint_token'), TRUE);
+         //triplea_write_log('EXISTING ENDPOINT TOKEN: '.get_option('triplea_api_endpoint_token'), $debug_log_enabled);
       }
    }
    
@@ -1150,7 +1118,6 @@ class TripleA_Payment_Gateway extends WC_Payment_Gateway {
     * @since 1.5.0
     */
    public static function triplea_checkout_check($data, $errors = NULL) {
-      triplea_write_log("triplea_checkout_check() ", TRUE);
       if (is_null($errors)) {
          // Compatibility with WC <3.0: get notices and clear them so they don't re-appear.
          $error_messages = wc_get_notices('error');
@@ -1161,7 +1128,7 @@ class TripleA_Payment_Gateway extends WC_Payment_Gateway {
       }
       
       if (empty($error_messages)) {
-         triplea_write_log('triplea_checkout_check() success', TRUE);
+         //triplea_write_log('triplea_checkout_check() success', TRUE);
          wp_send_json_success(
             [
                'status'   => 'ok',
@@ -1169,7 +1136,7 @@ class TripleA_Payment_Gateway extends WC_Payment_Gateway {
          );
       }
       else {
-         triplea_write_log('triplea_checkout_check() failed', TRUE);
+         //triplea_write_log('triplea_checkout_check() failed', TRUE);
          wp_send_json_error(
             [
                'messages' => $error_messages,
@@ -1291,179 +1258,6 @@ class TripleA_Payment_Gateway extends WC_Payment_Gateway {
    
    public function triplea_cryptocurrency_payment_gateway_for_woocommerce_notice_payments_disabled_missing_apiid() {
       echo '<div class="error notice is-dismissable"><p>' . __('Bitcoin payments disabled, no active wallets.', 'triplea-cryptocurrency-payment-gateway-for-woocommerce') . '</p></div>';
-   }
-   
-   /**
-    * @param string $button_html
-    *
-    * @return string
-    */
-   public function display_custom_payment_button($button_html) {
-      global $wp;
-      
-      $output                = '';
-      $session_btc_addr      = '';
-      $session_exchange_rate = 'empty';
-      
-      if (WC()->session->has_session()) {
-         
-         $data_tx_id_token = WC()->session->get('triplea_payment_client_txid');
-         if (empty($data_tx_id_token)) {
-            $data_tx_id_token = $this->generate_order_txid();
-            WC()->session->set('generate_order_txid', $data_tx_id_token);
-         }
-         
-         $triplea_payment_payload = WC()->session->get('triplea_payment_payload');
-         // TODO should empty this value during order processing, if successful?
-         
-         // TODO remove debug 'true'
-         if (TRUE || empty($triplea_payment_payload)) {
-            $triplea_payment_payload = $this->prepare_encrypted_order_payload($data_tx_id_token);
-            WC()->session->set('triplea_payment_payload', $triplea_payment_payload);
-         }
-         
-         $public_key_shared = WC()->session->get('triplea_payment_public_key_shared');
-         
-         // TODO remove debug 'true'
-         if (TRUE || empty($public_key_shared)) {
-            $public_key_shared = $this->prepare_encrypted_public_key_shared();
-            WC()->session->set('triplea_payment_public_key_shared', $public_key_shared);
-         }
-      }
-      else {
-         $data_tx_id_token = $this->generate_order_txid();
-         WC()->session->set('generate_order_txid', $data_tx_id_token);
-         
-         $triplea_payment_payload = $this->prepare_encrypted_order_payload($data_tx_id_token);
-         WC()->session->set('triplea_payment_payload', $triplea_payment_payload);
-         
-         $public_key_shared = $this->prepare_encrypted_public_key_shared();
-         WC()->session->set('triplea_payment_public_key_shared', $public_key_shared);
-      }
-      
-      if (is_checkout_pay_page()) {
-         $data_order_id = get_query_var('order-pay');
-         $order         = wc_get_order($data_order_id);
-         
-         $data_amount   = esc_attr(((WC()->version < '2.7.0') ? $order->order_total : $order->get_total()));
-         $data_currency = esc_attr(((WC()->version < '2.7.0') ? $order->order_currency : $order->get_currency()));
-      }
-      else {
-         $data_amount   = esc_attr(WC()->cart->total);
-         $data_currency = esc_attr(strtoupper(get_woocommerce_currency()));
-      }
-   
-      triplea_write_log('Order WC()->cart->total: '.WC()->cart->total, TRUE);
-      triplea_write_log('Order WC()->cart->get_cart_total(): '.WC()->cart->get_cart_total(), TRUE);
-      triplea_write_log('Order WC()->cart->get_cart_contents_total(): '.WC()->cart->get_cart_contents_total(), TRUE);
-      triplea_write_log('Order WC()->cart->get_cart_discount_total(): '.WC()->cart->get_cart_discount_total(), TRUE);
-      triplea_write_log('Order WC()->cart->get_cart_shipping_total(): '.WC()->cart->get_cart_shipping_total(), TRUE);
-   
-   
-      $source_script = plugin_dir_url(__DIR__) . '/Frontend/js/triplea-payment-gateway-app.js';
-      
-      $nonce_action             = '_wc_triplea_start_checkout_nonce';
-      $start_checkout_url       = WC_AJAX::get_endpoint('wc_triplea_start_checkout');
-      $start_checkout_nonce_url = wp_nonce_url($start_checkout_url, $nonce_action);
-      
-      $is_ajax = (defined('DOING_AJAX') && DOING_AJAX) || (function_exists('wp_doing_ajax') && wp_doing_ajax());
-      if (defined('TRIPLEA_CRYPTOCURRENCY_PAYMENT_GATEWAY_FOR_WOOCOMMERCE_VERSION')) {
-         $plugin_version = TRIPLEA_CRYPTOCURRENCY_PAYMENT_GATEWAY_FOR_WOOCOMMERCE_VERSION;
-      }
-      else {
-         $plugin_version = 'missing';
-      }
-      
-      $output .= "<div id='triplea-payment-gateway-checkout-wrapper' style='display:none;'>";
-      $output .= "<div id='triplea-payment-gateway-start-checkout-check-url' style='display:none;' data-value='$start_checkout_nonce_url'></div>";
-      $output .= "<button type='button' title='Show payment QR code' style='margin:auto;display:block;' class='button alt triplea-payment-gateway-btn'>Pay with Bitcoin</button>";
-      $output .= "<div id='triplea-payment-gateway-script-wrapper'>";
-      $output .= "<script src='$source_script' id='triplea-payment-gateway-script' data-tx-id='$data_tx_id_token' data-amount='$data_amount' data-currency='$data_currency' data-payment-addr='$session_btc_addr' data-xrate='$session_exchange_rate' data-payload='$triplea_payment_payload' data-pubkey-shared='$public_key_shared' data-api-id='$this->triplea_active_api_id'></script>";
-      
-      ob_start();
-      include realpath(__DIR__ . '/..') . '/Frontend/triplea-payment-gateway-template.php';
-      $source_template_contents = ob_get_contents();
-      ob_end_clean();
-      $output .= "\n" . $source_template_contents . "\n";
-      
-      $output .= '</div>';
-      $output .= '</div>';
-      $output .= '';
-      
-      ?>
-      <script>
-        (function ($, window, document) {
-          'use strict';
-
-          //console.debug('action1');
-
-          let isTripleaPaymentGateway = $(this).is('#payment_method_triplea_payment_gateway');
-
-          //console.debug('btn check');
-
-          if (isTripleaPaymentGateway)
-          {
-            // Check if customer/billing/shipping form is correctly filled in, before proceeding with letting user pay.
-            $('#place_order').parent().children('button').hide();
-            $('#place_order').parent().children('[type="button"]').hide();
-            $('#place_order').parent().children('[type="submit"]').hide();
-            $('#triplea-payment-gateway-checkout-wrapper').toggle(true);
-          }
-          else
-          {
-            $('#place_order').parent().children('button').show();
-            $('#place_order').parent().children('[type="button"]').show();
-            $('#place_order').parent().children('[type="submit"]').show();
-            $('#triplea-payment-gateway-checkout-wrapper').toggle(false);
-          }
-
-          let triplea_updatePlaceOrderBtn = function () {
-            let isTripleaPaymentGateway = $(this).is('#payment_method_triplea_payment_gateway');
-
-            console.debug('btn re-check');
-
-            if (isTripleaPaymentGateway)
-            {
-              // Check if customer/billing/shipping form is correctly filled in, before proceeding with letting user pay.
-              $('#place_order').parent().children('button').hide();
-              $('#place_order').parent().children('[type="button"]').hide();
-              $('#place_order').parent().children('[type="submit"]').hide();
-              $('#triplea-payment-gateway-checkout-wrapper').toggle(true);
-            }
-            else
-            {
-              $('#place_order').parent().children('button').show();
-              $('#place_order').parent().children('[type="button"]').show();
-              $('#place_order').parent().children('[type="submit"]').show();
-              $('#triplea-payment-gateway-checkout-wrapper').toggle(false);
-            }
-          };
-
-          $('form.checkout, form#order_review').on('click', 'input[name="payment_method"]', triplea_updatePlaceOrderBtn);
-          $('form.checkout, form#order_review').on('change', 'input[name="payment_method"]', triplea_updatePlaceOrderBtn);
-          $(document).ready(triplea_updatePlaceOrderBtn);
-
-          // let counter = 0;
-          // let btnIntervalCheck = setInterval(function() {
-          //   console.log('interval ping');
-          //   triplea_updatePlaceOrderBtn();
-          //   counter += 1;
-          //   if (counter > 10) {
-          //     clearInterval(btnIntervalCheck);
-          //   }
-          // }, 300);
-          // $('form.checkout, form#order_review').on('change', 'input[name="payment_method"]', triplea_updatePlaceOrderBtn);
-           
-           <?php if ( !$is_ajax ) : ?>
-          $.get('https://moneyoverip.io/api/ping_pageloaded?plugin_v=<?php echo $plugin_version; ?>&usage=woocommerce', function (data) {
-          });
-           <?php endif; ?>
-
-        })(jQuery, window, document);
-      </script>
-      <?php
-      
-      return $button_html . $output;
    }
    
    /**
@@ -1703,12 +1497,7 @@ class TripleA_Payment_Gateway extends WC_Payment_Gateway {
       }
       return FALSE;
    }
-   
-   public function get_payment_values() {
-      $list = '<span style="padding: 5px;"><strong> ' . WC()->cart->total . ' ' . get_woocommerce_currency() . ' </strong><strong id="triplea-payment-gateway-pay_converted_amount"> </strong><br><u>' . $this->triplea_currency_converter_description . '</u></span>
-                ';
-      return $list;
-   }
+
    
    /**
     * Returns true or false depending on how validation of input fields went.
@@ -1716,10 +1505,6 @@ class TripleA_Payment_Gateway extends WC_Payment_Gateway {
     * @return bool
     */
    function validate_fields() {
-      //      if ( ! isset( $_POST['triplea_balance_payload'] ) ) {
-      //         wc_add_notice(  'Missing balance payload. Are you sure you made your bitcoin payment?', 'error' );
-      //         return false;
-      //      }
       return TRUE;
    }
    
@@ -2206,33 +1991,31 @@ public function generate_triplea_pubkeyid_script_html($key, $data) {
     */
    public
    static function triplea_ajax_get_payment_form_data() {
-      
-      if (!wp_verify_nonce($_GET['_wpnonce'], '_wc_triplea_get_payment_form_data')) {
+   
+      triplea_write_log('DEBUGGING : ' . print_r($_REQUEST, TRUE), TRUE);
+   
+      if (!wp_verify_nonce($_REQUEST['_wpnonce'], '_wc_triplea_get_payment_form_data')) {
          wp_die(__('Bad attempt', 'triplea-cryptocurrency-payment-gateway-for-woocommerce'));
       }
-   
+      
+      $user_firstname = wc_get_var($_REQUEST['billing_first_name'], null);
+      $user_lastname = wc_get_var($_REQUEST['billing_last_name'], null);
+      $user_email = wc_get_var($_REQUEST['billing_email'], null);
+      $user_phone = wc_get_var($_REQUEST['billing_phone'], null);
+      
+      $user_address_company = wc_get_var($_REQUEST['billing_company'], null);
+      $user_address_address1 = wc_get_var($_REQUEST['billing_address_1'], null);
+      $user_address_address2 = wc_get_var($_REQUEST['billing_address_2'], null);
+      $user_address_city = wc_get_var($_REQUEST['billing_city'], null);
+      $user_address_state = wc_get_var($_REQUEST['billing_state'], null);
+      $user_address_postcode = wc_get_var($_REQUEST['billing_postcode'], null);
+      $user_address_country = wc_get_var($_REQUEST['billing_country'], null);
+      $user_address_temp = join(', ', array($user_address_company, $user_address_address1, $user_address_address2, $user_address_city, $user_address_state, $user_address_country, $user_address_postcode));
+      $user_address = ltrim(rtrim($user_address_temp, ', '), ', ');
+      
       $triplea           = new TripleA_Payment_Gateway();
       $debug_log_enabled = $triplea->get_option('debug_log_enabled') === 'yes';
       
-      
-//      /* Verify conditions for order placement */
-//      add_action('woocommerce_after_checkout_validation', [
-//         self::class,
-//         'triplea_checkout_check',
-//      ], 10, 2);
-//      triplea_write_log("display_embedded_payment_form_button() checkout form validation ...", $debug_log_enabled);
-//      $checkout_validation = WC()->checkout->process_checkout();
-//      triplea_write_log("display_embedded_payment_form_button() checkout form result: " . print_r($checkout_validation, TRUE), $debug_log_enabled);
-//      if ($checkout_validation['status'] === 'ok') {
-//         triplea_write_log("display_embedded_payment_form_button() checkout form validation SUCCESS", $debug_log_enabled);
-//      }
-//      else {
-//         triplea_write_log("display_embedded_payment_form_button() checkout form validation FAILED", $debug_log_enabled);
-//         wp_send_json_error($checkout_validation);
-//      }
-   
-   
-   
       $payment_reference        = $access_token = $hosted_url = $data_order_txid = NULL;
       $need_data                = TRUE;
       $payment_form_data_exists = FALSE;
@@ -2271,7 +2054,7 @@ public function generate_triplea_pubkeyid_script_html($key, $data) {
                   $need_data = TRUE;
                }
                elseif ($cart_total != WC()->cart->total) {
-                  triplea_write_log('triplea_ajax_get_payment_form_data(): updating cart total! ' . WC()->cart->total . ' != ' . $cart_total, TRUE);
+                  triplea_write_log('triplea_ajax_get_payment_form_data(): updating cart total! ' . WC()->cart->total . ' != ' . $cart_total, $debug_log_enabled);
                   $need_data = TRUE;
                   WC()->session->set('triplea_cart_total', WC()->cart->total);
                }
@@ -2292,9 +2075,16 @@ public function generate_triplea_pubkeyid_script_html($key, $data) {
          
          $is_data_expired = FALSE;
          if ($need_data) {
-            triplea_write_log('Preparing to make payment form request using order_txd "' . $data_order_txid . '".', $debug_log_enabled);
+            triplea_write_log('Preparing to make payment form request using order_txid "' . $data_order_txid . '".', $debug_log_enabled);
             
-            $payment_form_data = $triplea->get_payment_form_request($data_order_txid);
+            $payment_form_data = $triplea->get_payment_form_request(
+                  $data_order_txid,
+                  $user_firstname,
+                  $user_lastname,
+                  $user_email,
+                  $user_phone,
+                  $user_address
+            );
             
             if (isset($payment_form_data->error) || !isset($payment_form_data->payment_reference)) {
                triplea_write_log('Error. Ajax payment form request failed', $debug_log_enabled);
@@ -2533,7 +2323,12 @@ public function generate_triplea_pubkeyid_script_html($key, $data) {
     */
    private
    function get_payment_form_request(
-      $order_txid
+      $order_txid,
+      $user_firstname,
+      $user_lastname,
+      $user_email,
+      $user_phone,
+      $user_address
    ) {
       $debug_log_enabled = $this->get_option('debug_log_enabled') === 'yes';
       
@@ -2564,7 +2359,14 @@ public function generate_triplea_pubkeyid_script_html($key, $data) {
       }
       
       $post_url = 'https://api.triple-a.io/api/v1/payment/request';
-      $body     = $this->preparePaymentFormRequestBody($order_txid);
+      $body     = $this->preparePaymentFormRequestBody(
+         $order_txid,
+         $user_firstname,
+         $user_lastname,
+         $user_email,
+         $user_phone,
+         $user_address
+      );
       
       triplea_write_log("Making a payment form API request with body: \n" . print_r($body, TRUE), $debug_log_enabled);
       
@@ -2742,7 +2544,12 @@ public function generate_triplea_pubkeyid_script_html($key, $data) {
     */
    private
    function preparePaymentFormRequestBody(
-      $order_txid
+      $order_txid,
+      $user_firstname,
+      $user_lastname,
+      $user_email,
+      $user_phone,
+      $user_address
    ) {
       $debug_log_enabled = $this->get_option('debug_log_enabled') === 'yes';
       
@@ -2785,11 +2592,11 @@ public function generate_triplea_pubkeyid_script_html($key, $data) {
          $order_currency = esc_attr(strtoupper(get_woocommerce_currency()));
       }
    
-      triplea_write_log('Order WC()->cart->total: '.WC()->cart->total, TRUE);
-      triplea_write_log('Order WC()->cart->get_cart_total(): '.WC()->cart->get_cart_total(), TRUE);
-      triplea_write_log('Order WC()->cart->get_cart_contents_total(): '.WC()->cart->get_cart_contents_total(), TRUE);
-      triplea_write_log('Order WC()->cart->get_cart_discount_total(): '.WC()->cart->get_cart_discount_total(), TRUE);
-      triplea_write_log('Order WC()->cart->get_cart_shipping_total(): '.WC()->cart->get_cart_shipping_total(), TRUE);
+      triplea_write_log('Order WC()->cart->total: '.WC()->cart->total, $debug_log_enabled);
+      triplea_write_log('Order WC()->cart->get_cart_total(): '.WC()->cart->get_cart_total(), $debug_log_enabled);
+      triplea_write_log('Order WC()->cart->get_cart_contents_total(): '.WC()->cart->get_cart_contents_total(), $debug_log_enabled);
+      triplea_write_log('Order WC()->cart->get_cart_discount_total(): '.WC()->cart->get_cart_discount_total(), $debug_log_enabled);
+      triplea_write_log('Order WC()->cart->get_cart_shipping_total(): '.WC()->cart->get_cart_shipping_total(), $debug_log_enabled);
       
       $tax_cost          = NULL; //WC()->cart->get_tax_totals();
       $shipping_cost     = empty(WC()->cart->get_cart_shipping_total()) ? NULL : WC()->cart->get_cart_shipping_total();
@@ -2882,11 +2689,16 @@ public function generate_triplea_pubkeyid_script_html($key, $data) {
       }
       else {
          
-         $payer_id      = 'guest_' . $this->randomString();
-         $payer_name    = NULL;
-         $payer_email   = NULL;
-         $payer_phone   = NULL;
-         $payer_address = NULL;
+         if (!empty($user_email)) {
+            $payer_id      = 'guest_' . $user_email;
+         }
+         else {
+            $payer_id      = 'guest_' . $this->randomString() . '.';
+         }
+         $payer_name    = $user_firstname .' '. $user_lastname;
+         $payer_email   = $user_email;
+         $payer_phone   = null;
+         $payer_address = $user_address;
          
          $extra_metadata['payer_id'] = $payer_id;
          

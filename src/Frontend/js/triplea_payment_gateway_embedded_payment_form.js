@@ -44,8 +44,9 @@
     }
 
     const url    = ajaxUrl;
-    const method = 'GET';
-    triplea_ajax_action(url, triplea_getPaymentFormDataCallback, method);
+    const method = 'POST';
+    let data = $(selector).closest('form').serialize();
+    triplea_ajax_action(url, triplea_getPaymentFormDataCallback, method, data, false);
   }
 
   window.triplea_getPaymentFormDataCallback = function (response) {

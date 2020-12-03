@@ -824,7 +824,6 @@ ob_start();
          let sandbox = sandboxPaymentModeNode.value;
          if ( !!(sandbox) !== !!(<?php echo (!isset($sandbox_payment_mode) || empty($sandbox_payment_mode) ? "false" : "'true'"); ?>) )
          {
-           console.debug('Forcing page reload, outdated options values detected.');
            window.location.reload(true);
          }
          
@@ -837,9 +836,7 @@ ob_start();
       */
      function triplea_getemailotp(email, callback, errorCallback)
      {
-       console.debug('Requesting OTP for ' + email);
-       // TODO request OTP for email >> then call Callback >> if error, ErrorCallback()
-
+       console.log('Requesting OTP for ' + email);
        callback();
      }
    </script>
@@ -909,7 +906,7 @@ ob_start();
          || merchantEmail.indexOf('@') < 1
          || merchantEmail.lastIndexOf('.') < merchantEmail.indexOf('@'))
        {
-         console.debug('Incorrect TripleA wallet email. Cannot proceed.');
+         console.warn('TripleA Warning: Incorrect TripleA wallet email. Cannot proceed.');
          triplea_helper_displayNode(step + '-input-error');
          return;
        }
@@ -952,7 +949,7 @@ ob_start();
 
      function triplea_fiat_createMerchantAccountCallbackError(err)
      {
-       console.error('ERROR. Problem requesting OTP for email validation.');
+       console.warn('TripleA Error:  Problem requesting OTP for email validation.', err);
        // TODO display error in form
      }
 
@@ -1012,7 +1009,7 @@ ob_start();
          || !merchantAccountRequestResult.accounts
          || merchantAccountRequestResult.accounts.length === 0)
        {
-         window.console.warn('TripleA Warning: missing merchant account data.');
+         console.warn('TripleA Warning: missing merchant account data.');
          triplea_helper_displayNode("cash-account-creation-error");
          return;
        }
@@ -1095,17 +1092,16 @@ ob_start();
        pubkey         = pubkeyNode.value ? pubkeyNode.value : '';
        if (!pubkey)
        {
-         console.warn('No public key provided. Cannot proceed.');
+         console.warn('TripleA Warning: No public key provided. Cannot proceed.');
          jQuery('#testnetbitcoin-wrong-pubkey-format').show();
          return;
        }
        if (pubkey.indexOf('pub') !== 1 || !(pubkey.indexOf('tpub') === 0))
        {
-         console.warn('Incorrect public key format. Cannot proceed.');
+         console.warn('TripleA Warning: Incorrect public key format. Cannot proceed.');
          jQuery('#testnetbitcoin-wrong-pubkey-format').show();
          return;
        }
-       console.debug("Received master public key : " + pubkey);
        window.testbitcoin_pubkey = pubkey;
 
        // Do email validation.
@@ -1115,7 +1111,7 @@ ob_start();
        if (!testnetBitcoinEmail ||
          (testnetBitcoinEmail.indexOf('@') < 1 || testnetBitcoinEmail.lastIndexOf('.') < testnetBitcoinEmail.indexOf('@')))
        {
-         console.warn('Incorrect notification email. Cannot proceed.');
+         console.warn('TripleA Warning: Incorrect notification email. Cannot proceed.');
          jQuery('#testnetbitcoin-wrong-notif-email').show();
          return;
        }
@@ -1139,7 +1135,7 @@ ob_start();
        merchantEmail         = merchantEmailNode.value;
 
        if (!window.testbitcoin_pubkey || window.testbitcoin_pubkey === '') {
-         console.error('Incorrect email. Cannot proceed.');
+         console.warn('TripleA Warning: Incorrect email. Cannot proceed.');
          return;
        }
        triplea_hideAllErrors();
@@ -1188,7 +1184,7 @@ ob_start();
      function triplea_testnetbitcoin_createMerchantAccountCallbackError(err)
      {
        jQuery('#receive-testnetbitcoin-validate-email').fadeTo(0, 0.5);
-       console.error('Error with merchant account creation.', err.response);
+       console.error('TripleA Error: Error with merchant account creation.', err.response);
        jsonErr = JSON.parse(err.response);
        if (jsonErr && jsonErr.message === 'pubkey_exists') {
          jQuery('#testnetbitcoin-error-pubkey-exists').show();
@@ -1206,7 +1202,7 @@ ob_start();
      {
        jQuery('#receive-testnetbitcoin-validate-email').fadeTo(0, 1);
        triplea_hideAllErrors();
-       console.debug('Prepared account creation. Requested OTP code. Pending OTP validation..');
+       console.log('Prepared account creation. Requested OTP code. Pending OTP validation..');
        jQuery('#testnetbitcoin-email-sent').fadeTo(0, 1);
        jQuery('#testnetbitcoin-enter-otp').fadeTo(1, 1);
        jQuery('#testnetbitcoin-otp-submit').fadeTo(1, 1);
@@ -1256,9 +1252,6 @@ ob_start();
      function triplea_testnetbitcoin_validateEmailOtpCallback(result)
      {
        triplea_hideAllErrors();
-
-       console.debug('triplea_testnetbitcoin_validateEmailOtpCallback() : result = ', result);
-       console.debug('triplea_testnetbitcoin_validateEmailOtpCallback() : merchantAccountRequestResult = ', merchantAccountRequestResult);
 
        if (!merchantAccountRequestResult
          || !merchantAccountRequestResult.client_id
@@ -1339,17 +1332,16 @@ ob_start();
        pubkey         = pubkeyNode.value ? pubkeyNode.value : '';
        if (!pubkey)
        {
-         console.warn('No public key provided. Cannot proceed.');
+         console.warn('TripleA Warning: No public key provided. Cannot proceed.');
          jQuery('#bitcoin-wrong-pubkey-format').show();
          return;
        }
        if (pubkey.indexOf('pub') !== 1 || (pubkey.indexOf('xpub') !== 0 && pubkey.indexOf('ypub') !== 0 && pubkey.indexOf('zpub') !== 0 && pubkey.indexOf('tpub') !== 0))
        {
-         console.warn('Incorrect public key format. Cannot proceed.');
+         console.warn('TripleA Warning: Incorrect public key format. Cannot proceed.');
          jQuery('#bitcoin-wrong-pubkey-format').show();
          return;
        }
-       console.debug("Received master public key : " + pubkey);
        if (pubkey.indexOf('tpub') === 0) {
          window.bitcoin_pubkey = null;
          window.testbitcoin_pubkey = pubkey;
@@ -1366,7 +1358,7 @@ ob_start();
        if (!bitcoinEmail ||
          (bitcoinEmail.indexOf('@') < 1 || bitcoinEmail.lastIndexOf('.') < bitcoinEmail.indexOf('@')))
        {
-         console.warn('Incorrect notification email. Cannot proceed.');
+         console.warn('TripleA Warning: Incorrect notification email. Cannot proceed.');
          jQuery('#bitcoin-wrong-notif-email').show();
          return;
        }
@@ -1398,7 +1390,7 @@ ob_start();
        merchantEmail         = merchantEmailNode.value;
 
        if ((!window.bitcoin_pubkey || window.bitcoin_pubkey === '') && (!window.testbitcoin_pubkey || window.testbitcoin_pubkey === '')) {
-         console.error('Incorrect master public key. Cannot proceed.');
+         console.warn('TripleA Warning: Incorrect master public key. Cannot proceed.');
          return;
        }
        triplea_hideAllErrors();
@@ -1447,7 +1439,7 @@ ob_start();
      function triplea_bitcoin_createMerchantAccountCallbackError(err)
      {
        jQuery('#receive-bitcoin-validate-email').fadeTo(0, 0.5);
-       console.error('Error with merchant account creation.', err.response);
+       console.error('TripleA Error: Error with merchant account creation.', err.response);
        let jsonErr = JSON.parse(err.response);
        if (jsonErr && jsonErr.message === 'pubkey_exists') {
          jQuery('#bitcoin-error-pubkey-exists').show();
@@ -1465,7 +1457,7 @@ ob_start();
      {
        jQuery('#receive-bitcoin-validate-email').fadeTo(0, 1);
        triplea_hideAllErrors();
-       console.debug('Prepared account creation. Requested OTP code. Pending OTP validation..');
+       console.log('Prepared account creation. Requested OTP code. Pending OTP validation..');
        jQuery('#bitcoin-email-sent').fadeTo(0, 1);
        jQuery('#bitcoin-enter-otp').fadeTo(1, 1);
        jQuery('#bitcoin-otp-submit').fadeTo(1, 1);
@@ -1515,10 +1507,7 @@ ob_start();
      function triplea_bitcoin_validateEmailOtpCallback(result)
      {
        triplea_hideAllErrors();
-
-       console.debug('triplea_bitcoin_validateEmailOtpCallback() : result = ', result);
-       console.debug('triplea_bitcoin_validateEmailOtpCallback() : merchantAccountRequestResult = ', merchantAccountRequestResult);
-
+       
        if (!merchantAccountRequestResult
          || !merchantAccountRequestResult.client_id
          || !merchantAccountRequestResult.client_secret
@@ -1628,7 +1617,7 @@ ob_start();
        if (!localcurrencyEmail ||
          (localcurrencyEmail.indexOf('@') < 1 || localcurrencyEmail.lastIndexOf('.') < localcurrencyEmail.indexOf('@')))
        {
-         console.warn('Incorrect email. Cannot proceed.');
+         console.warn('TripleA Warning: Incorrect email. Cannot proceed.');
          jQuery('#localcurrency-wrong-notif-email').show();
          return;
        }
@@ -1701,7 +1690,7 @@ ob_start();
      function triplea_localcurrency_createMerchantAccountCallbackError(err)
      {
        jQuery('#receive-localcurrency-validate-email').fadeTo(0, 0.5);
-       console.error('Error with merchant account creation.', err);
+       console.error('TripleA Error: Error with merchant account creation.', err);
        jQuery('#localcurrency-error-pubkey-wrong-email').show();
      }
 
@@ -1712,7 +1701,7 @@ ob_start();
      {
        jQuery('#receive-localcurrency-validate-email').fadeTo(0, 1);
        triplea_hideAllErrors();
-       console.debug('Prepared account creation. Requested OTP code. Pending OTP validation..');
+       console.log('Prepared account creation. Requested OTP code. Pending OTP validation..');
        jQuery('#localcurrency-email-sent').fadeTo(0, 1);
        jQuery('#localcurrency-enter-otp').fadeTo(1, 1);
        jQuery('#localcurrency-otp-submit').fadeTo(1, 1);
@@ -1762,9 +1751,6 @@ ob_start();
      function triplea_localcurrency_validateEmailOtpCallback(result)
      {
        triplea_hideAllErrors();
-
-       console.debug('triplea_localcurrency_validateEmailOtpCallback() : result = ', result);
-       console.debug('triplea_localcurrency_validateEmailOtpCallback() : merchantAccountRequestResult = ', merchantAccountRequestResult);
 
        if (!merchantAccountRequestResult
          || !merchantAccountRequestResult.client_id
@@ -1882,7 +1868,7 @@ ob_start();
      function triplea_testnetbitcoin_upgradeMerchantAccountCallbackError(err)
      {
        jQuery('#upgrade-testnetbitcoin-validate-email').fadeTo(0, 0.5);
-       console.error('Error with merchant account upgrade.', err);
+       console.error('TripleA Error: Error with merchant account upgrade.', err);
        jQuery('#testnetbitcoin-upgrade-error-something-wrong').show();
      }
 
@@ -1947,9 +1933,6 @@ ob_start();
      {
        triplea_hideAllErrors();
 
-       console.debug('triplea_testnetbitcoin_upgrade_validateEmailOtpCallback() : result = ', result);
-       console.debug('triplea_testnetbitcoin_upgrade_validateEmailOtpCallback() : merchantAccountRequestResult = ', merchantAccountRequestResult);
-
        if (!merchantAccountRequestResult
          || !merchantAccountRequestResult.name
          || !merchantAccountRequestResult.email
@@ -1999,19 +1982,9 @@ ob_start();
        for (let i = 0; i < merchantAccountRequestResult.accounts.length; ++i)
        {
          const acc = merchantAccountRequestResult.accounts[i];
-         console.debug(' - existing account found: ', acc);
 
-         // if (acc.crypto_currency === 'BTC' && !acc.sandbox)
-         // {
-         //   // TODO rename this new variable where needed everywhere in the code
-         //   let apiIdNode   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2fiat_api_id');
-         //   apiIdNode.value = acc.api_id;
-         // }
          if (acc.crypto_currency === 'testBTC' && acc.sandbox && acc.type === 'self')
          {
-           console.debug(' + account match for testnet btc2btc: ');
-
-           // TODO create this new variable where needed all throughout the code
            let apiIdNode   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_sandbox_api_id');
            apiIdNode.value = acc.api_id;
          }
@@ -2090,7 +2063,7 @@ ob_start();
      function triplea_bitcoin_upgradeMerchantAccountCallbackError(err)
      {
        jQuery('#upgrade-bitcoin-validate-email').fadeTo(0, 0.5);
-       console.error('Error with merchant account upgrade.', err);
+       console.error('TripleA Error: Error with merchant account upgrade.', err);
        jQuery('#bitcoin-upgrade-error-something-wrong').show();
      }
 
@@ -2154,9 +2127,6 @@ ob_start();
      function triplea_bitcoin_upgrade_validateEmailOtpCallback(result)
      {
        triplea_hideAllErrors();
-
-       console.debug('triplea_bitcoin_upgrade_validateEmailOtpCallback() : result = ', result);
-       console.debug('triplea_bitcoin_upgrade_validateEmailOtpCallback() : merchantAccountRequestResult = ', merchantAccountRequestResult);
 
        if (!merchantAccountRequestResult
          || !merchantAccountRequestResult.name
@@ -2228,13 +2198,13 @@ ob_start();
        let hiddenNodePubkey;
        if (window.testbitcoin_pubkey || old_btc2btc_api_id.toLowerCase().indexOf('_t') > 0)
        {
-         console.debug('--------=======   TESTNET   =======--------')
+         console.log('Testnet bitcoin wallet linked to account');
          hiddenNodePubkey   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_sandbox_pubkey');
          hiddenNodePubkey.value = window.testbitcoin_pubkey;
        }
        else
        {
-         console.debug('--------=======   MAINNET   =======--------')
+         console.log('Bitcoin wallet linked to account');
          hiddenNodePubkey   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_pubkey');
          hiddenNodePubkey.value = window.bitcoin_pubkey;
        }
@@ -2242,29 +2212,28 @@ ob_start();
        for (let i = 0; i < merchantAccountRequestResult.accounts.length; ++i)
        {
          const acc = merchantAccountRequestResult.accounts[i];
-         console.debug(' - existing account found: ', acc);
-         console.debug(' - testbitcoin_pubkey: ', window.testbitcoin_pubkey);
-         console.debug(' - bitcoin_pubkey: ', window.bitcoin_pubkey);
-         console.debug(' - old_btc2btc_api_id: ', old_btc2btc_api_id);
-         console.debug(' - old_btc2btc_sandbox_api_id: ', old_btc2btc_sandbox_api_id);
-         
+         // console.debug(' - existing account found: ', acc);
+         // console.debug(' - testbitcoin_pubkey: ', window.testbitcoin_pubkey);
+         // console.debug(' - bitcoin_pubkey: ', window.bitcoin_pubkey);
+         // console.debug(' - old_btc2btc_api_id: ', old_btc2btc_api_id);
+         // console.debug(' - old_btc2btc_sandbox_api_id: ', old_btc2btc_sandbox_api_id);
 
          if ((window.bitcoin_pubkey || old_btc2btc_api_id.toLowerCase().indexOf('_t') < 0) && acc.crypto_currency === 'BTC' && !acc.sandbox && acc.type === 'self')
          {
-           console.debug(' + account match for btc2btc: ');
+           // console.debug(' + account match for btc2btc: ');
            let apiIdNode   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_api_id');
            apiIdNode.value = acc.api_id;
          }
          if ((window.testbitcoin_pubkey || old_btc2btc_api_id.toLowerCase().indexOf('_t') > 0) && acc.crypto_currency === 'testBTC' && acc.sandbox && acc.type === 'self')
          {
-           console.debug(' + account match for testnet btc2btc: ');
+           // console.debug(' + account match for testnet btc2btc: ');
            let apiIdNode   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_sandbox_api_id');
            apiIdNode.value = acc.api_id;
          }
        }
 
        if (!window.testbitcoin_pubkey && !window.bitcoin_pubkey && !old_btc2btc_api_id) {
-         console.warn('Code problem: missing pubkey');
+         console.warn('TripleA Warning: Problem, missing pubkey');
          return;
        }
        
@@ -2341,7 +2310,7 @@ ob_start();
      function triplea_fiat_upgradeMerchantAccountCallbackError(err)
      {
        jQuery('#upgrade-fiat-validate-email').fadeTo(0, 0.5);
-       console.error('Error with merchant account upgrade.', err);
+       console.error('TripleA Error: Error with merchant account upgrade.', err);
        jQuery('#fiat-upgrade-error-something-wrong').show();
      }
 
@@ -2406,9 +2375,6 @@ ob_start();
      {
        triplea_hideAllErrors();
 
-       console.debug('triplea_fiat_upgrade_validateEmailOtpCallback() : result = ', result);
-       console.debug('triplea_fiat_upgrade_validateEmailOtpCallback() : merchantAccountRequestResult = ', merchantAccountRequestResult);
-
        if (!merchantAccountRequestResult
          || !merchantAccountRequestResult.name
          || !merchantAccountRequestResult.email
@@ -2455,21 +2421,21 @@ ob_start();
        for (let i = 0; i < merchantAccountRequestResult.accounts.length; ++i)
        {
          const acc = merchantAccountRequestResult.accounts[i];
-         console.debug(' - existing account found: ', acc);
+         // console.debug(' - existing account found: ', acc);
 
          if (acc.crypto_currency === 'BTC' && acc.type === 'triplea' && !acc.sandbox)
          {
            // We know which API ID we're upgrading. If there are any other 'BTC' accounts, ignore them.
-           if (acc.api_id !== old_btc2fiat_api_id)
-             return;
+           if (acc.api_id !== old_btc2fiat_api_id) {
+             // console.debug(' - - skipping account with API ID not matching');
+             continue;
+           }
            
            let apiIdNode   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2fiat_api_id');
            apiIdNode.value = acc.api_id;
          }
-         if (acc.crypto_currency === 'testBTC' && acc.sandbox && acc.type === 'triplea')
+         else if (acc.crypto_currency === 'testBTC' && acc.sandbox && acc.type === 'triplea')
          {
-           console.debug(' + account match for testnet btc2btc: ');
-
            let apiIdNode   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2fiat_sandbox_api_id');
            apiIdNode.value = acc.api_id;
          }
@@ -2507,8 +2473,7 @@ ob_start();
        let submitBtnNodes = document.getElementsByName('save');
        if (submitBtnNodes && submitBtnNodes.length > 0)
        {
-         console.debug('Clicking Form Submit button');
-
+         console.log('Submitting form');
          submitBtnNodes[0].click();
        }
      }
@@ -2526,7 +2491,7 @@ ob_start();
      function triplea_setActiveAccount(walletType, sandbox)
      {
        let apiId, apiIdNode;
-       console.debug('_setActiveAccount() for ' + walletType + ' ' + (sandbox ? 'testnet' : ''));
+       console.log('Setting active account : ' + walletType + ' ' + (sandbox ? 'testnet' : ''));
        switch (walletType)
        {
          case 'btc2btc':
@@ -2539,23 +2504,23 @@ ob_start();
            }
            else
            {
-             console.warn('Cannot change active account. Target account not found.');
+             console.warn('TripleA Warning: Cannot change active account. Target account not found.');
              return;
            }
            break;
          case 'btc2fiat':
-           console.debug('switching btc2fiat sandbox from ' + !sandbox + ' to ' + (sandbox) + '.');
+           // console.debug('switching btc2fiat sandbox from ' + !sandbox + ' to ' + (sandbox) + '.');
            apiIdNode = sandbox
              ? document.getElementById(settingsPrefix + '_' + 'triplea_btc2fiat_sandbox_api_id')
              : document.getElementById(settingsPrefix + '_' + 'triplea_btc2fiat_api_id');
            if (apiIdNode.value !== '')
            {
-             console.debug('using ' + apiIdNode.value + ' as target.');
+             // console.debug('using ' + apiIdNode.value + ' as target.');
              apiId = apiIdNode.value;
            }
            else
            {
-             console.warn('Cannot change active account. Target account not found.');
+             console.warn('TripleA Warning: Cannot change active account. Target account not found.');
              return;
            }
            break;
@@ -2563,7 +2528,7 @@ ob_start();
 
        let activeApiIdNode   = document.getElementById(settingsPrefix + '_' + 'triplea_active_api_id');
        activeApiIdNode.value = apiId;
-       console.debug('active API ID value set to ' + apiId);
+       // console.debug('active API ID value set to ' + apiId);
 
        let sandboxPaymentModeNode   = document.getElementById(settingsPrefix + '_' + 'triplea_sandbox_payment_mode');
        sandboxPaymentModeNode.value = sandbox;
@@ -2587,7 +2552,7 @@ ob_start();
            }
            catch (err)
            {
-             console.log('Error parsing JSON response. ' + err.message + " in " + xmlhttp.responseText);
+             console.err('TripleA Warning: Error parsing JSON response. ' + err.message + " in " + xmlhttp.responseText);
              if (errorCallback) errorCallback(err);
              return;
            }
@@ -2608,13 +2573,13 @@ ob_start();
 
    </script>
 
-   <section>
+   <!--section id="TripleA-debugging-information" data-info="Share this via support@triple-a.io if asked by TripleA support">
    <pre><?php
 
       echo print_r(get_option('woocommerce_triplea_payment_gateway_settings'), TRUE);
 
       ?></pre>
-   </section>
+   </section-->
 
 <?php
 $output = ob_get_contents();

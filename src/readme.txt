@@ -2,8 +2,8 @@
 Contributors: tripleatechnology, BrianHenryIE
 Donate link: https://triple-a.io/
 Tags: bitcoin woocommerce,bitcoin payments,bitcoin,crypto payment gateway,bitcoin wordpress plugin
-Requires at least: 3.8
-Tested up to: 5.4.2
+Requires at least: 4.0
+Tested up to: 5.6
 Stable tag: 1.5.0
 Requires PHP: 5.4.0
 License: GPLv2 or later
