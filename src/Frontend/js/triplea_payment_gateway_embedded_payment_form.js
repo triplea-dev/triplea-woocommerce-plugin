@@ -40,6 +40,8 @@
     if (!ajaxUrl)
     {
       console.warn('missing ajax url for payment form data request');
+      $('#triplea_embedded_payment_form_btn').show();
+      $('#triplea_embedded_payment_form_loading_txt').hide();
       return;
     }
 
@@ -57,19 +59,28 @@
       }).join('');
 
       showError('<ul class="woocommerce-error" role="alert">' + messageItems + '</ul>', selector);
+      $('#triplea_embedded_payment_form_btn').show();
+      $('#triplea_embedded_payment_form_loading_txt').hide();
       return null;
     }
     else if (response.result && response.result === 'failure' && response.messages && typeof response.messages === "string")
     {
       showError(response.messages, selector);
+      $('#triplea_embedded_payment_form_btn').show();
+      $('#triplea_embedded_payment_form_loading_txt').hide();
       return null;
     }
 
     if (!response || !response.status || response.status !== 'ok')
     {
       console.warn('error occured when requesting payment form data');
+      $('#triplea_embedded_payment_form_btn').show();
+      $('#triplea_embedded_payment_form_loading_txt').hide();
       return null;
     }
+
+    $('#triplea_embedded_payment_form_btn').hide();
+    $('#triplea_embedded_payment_form_loading_txt').hide();
 
     triplea_createHiddenInputData('triplea_order_txid', response.order_txid);
     triplea_createHiddenInputData('triplea_embedded_payment_form_url', response.url);
@@ -214,6 +225,9 @@
   }
 
   window.triplea_validateCheckout = function () {
+    $('#triplea_embedded_payment_form_btn').hide();
+    $('#triplea_embedded_payment_form_loading_txt').show();
+
     let checkoutCheckUrlNode = document.getElementById('triplea-payment-gateway-start-checkout-check-url');
 
     if (checkoutCheckUrlNode)
@@ -238,6 +252,8 @@
     else
     {
       console.error('Checkout validation callback URL not found.');
+      $('#triplea_embedded_payment_form_btn').show();
+      $('#triplea_embedded_payment_form_loading_txt').hide();
     }
   }
 
@@ -250,11 +266,15 @@
       }).join('');
 
       showError('<ul class="woocommerce-error" role="alert">' + messageItems + '</ul>', selector);
+      $('#triplea_embedded_payment_form_btn').show();
+      $('#triplea_embedded_payment_form_loading_txt').hide();
       return null;
     }
     else if (response.result && response.result === 'failure' && response.messages && typeof response.messages === "string")
     {
       showError(response.messages, selector);
+      $('#triplea_embedded_payment_form_btn').show();
+      $('#triplea_embedded_payment_form_loading_txt').hide();
       return null;
     }
 

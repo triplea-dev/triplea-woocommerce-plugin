@@ -390,15 +390,6 @@ class TripleA_Payment_Gateway extends WC_Payment_Gateway {
          triplea_write_log('Debug log cleared!', $debug_log_enabled);
       }
       
-      // TODO DEBUG TEST
-//      $this->update_option('triplea_pubkey_id', 'HA1603243536RrBN_t');
-////      $this->update_option('triplea_pubkey_id', 'HA1602468931f9IK');
-////      $this->update_option('triplea_pubkey_id_for_conversion', 'HA1603080505qdWO');
-//      $this->update_option('triplea_pubkey_id_for_conversion', 'HA1603432360gjwI');
-////      $this->update_option('triplea_btc2btc_sandbox_merchant_email', 'ahoebeke+test3@gmail.com');
-      
-      //$this->triplea_set_api_endpoint_token($debug_log_enabled);
-      
       $this->triplea_mode                = $this->get_option('triplea_mode');
       $this->triplea_notifications_email = $this->get_option('triplea_notifications_email');
       
@@ -433,18 +424,8 @@ class TripleA_Payment_Gateway extends WC_Payment_Gateway {
       
       // If a pubkey was given, we only store the first bit.
       $this->triplea_btc2btc_pubkey = $this->get_option('triplea_btc2btc_pubkey');
-      /*if (strlen($this->triplea_btc2btc_pubkey) > 12) {
-         $short_pubkey                 = substr($this->triplea_btc2btc_pubkey, 0, 8) . '...';
-         $this->triplea_btc2btc_pubkey = $short_pubkey;
-         $this->update_option('triplea_btc_pubkey', $this->triplea_btc2btc_pubkey);
-      }*/
       // If a sandbox pubkey was given, we only store the first bit.
       $this->triplea_btc2btc_sandbox_pubkey = $this->get_option('triplea_btc2btc_sandbox_pubkey');
-      /*if (strlen($this->triplea_btc2btc_sandbox_pubkey) > 12) {
-         $short_pubkey                         = substr($this->triplea_btc2btc_sandbox_pubkey, 0, 8) . '...';
-         $this->triplea_btc2btc_sandbox_pubkey = $short_pubkey;
-         $this->update_option('triplea_btc_sandbox_pubkey', $this->triplea_btc2btc_sandbox_pubkey);
-      }*/
       
       // Bitcoin settlement
       $this->triplea_btc2btc_api_id         = $this->get_option('triplea_btc2btc_api_id');
@@ -593,43 +574,9 @@ class TripleA_Payment_Gateway extends WC_Payment_Gateway {
       
    }
    
-//   public static function triplea_checkout_update_order_review($posted_data) {
-//      $triplea           = new TripleA_Payment_Gateway();
-//
-//      $debug_log_enabled = $triplea->get_option('debug_log_enabled') === 'yes';
-//      triplea_write_log('DEBUG triplea_checkout_update_order_review() called ###############################', TRUE);
-//
-//      // Parsing posted data on checkout
-//      $post = [];
-//      $vars = explode('&', $posted_data);
-//      foreach ($vars as $k => $value) {
-//         $v           = explode('=', urldecode($value));
-//         $post[$v[0]] = $v[1];
-//      }
-//
-//      // Here we collect payment method
-//      $payment_method = $post['payment_method'];
-//
-//      triplea_write_log('Payment method debug : ' . $payment_method, $debug_log_enabled);
-//
-//      // Run code custom code for each specific payment option selected
-//      if ($payment_method == $triplea->id) {
-//         // Your code goes here
-//         triplea_write_log('TripleA Bitcoin payment selected !!', TRUE);
-//      }
-//      else {
-//         triplea_write_log('A non-TripleA payment method selected...', TRUE);
-//      }
-//      return $posted_data;
-//   }
+   public function customize_thank_you_title($old_title, $order) {}
    
-   public function customize_thank_you_title($old_title, $order) {
-   
-   }
-   
-   public function customize_thank_you_text($old_text, $order) {
-   
-   }
+   public function customize_thank_you_text($old_text, $order) {}
    
    /**
     * @param array|object     $payment_data
@@ -1702,17 +1649,6 @@ class TripleA_Payment_Gateway extends WC_Payment_Gateway {
          'result'   => 'success',
          'redirect' => $this->get_return_url($wc_order),
       ];
-      
-      
-      //      wc_add_notice(__('Payment Failed ', 'triplea-cryptocurrency-payment-gateway-for-woocommerce') . '( ' . $error_message . ' ).', $notice_type = 'error');
-      //
-      //      return [
-      //         'reload'   => FALSE,
-      //         'refresh'  => FALSE,
-      //         'result'   => 'failure',
-      //         'messages' => 'Exception occured. Message: ' . $error_message,
-      //      ];
-   
    }
    
    /**
@@ -1976,6 +1912,10 @@ public function generate_triplea_pubkeyid_script_html($key, $data) {
       id="triplea_embedded_payment_form_btn"
       value="' . esc_attr($order_button_text) . '"
       data-value="' . esc_attr($order_button_text) . '">' . esc_html($order_button_text) . '</button>';
+   
+      $output            .= '<div style="margin: 0 auto; display: none; text-align: center;"
+      id="triplea_embedded_payment_form_loading_txt"
+      >loading...</div>';
       
       // TODO Remove this debug code
       $output .= '<!--small><pre>' . $paymentform_ajax_nonce_url . '</pre></small-->';
@@ -1991,8 +1931,6 @@ public function generate_triplea_pubkeyid_script_html($key, $data) {
     */
    public
    static function triplea_ajax_get_payment_form_data() {
-   
-      triplea_write_log('DEBUGGING : ' . print_r($_REQUEST, TRUE), TRUE);
    
       if (!wp_verify_nonce($_REQUEST['_wpnonce'], '_wc_triplea_get_payment_form_data')) {
          wp_die(__('Bad attempt', 'triplea-cryptocurrency-payment-gateway-for-woocommerce'));
