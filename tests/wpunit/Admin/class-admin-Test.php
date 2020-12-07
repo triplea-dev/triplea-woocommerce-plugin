@@ -157,8 +157,8 @@ class Admin_Test extends \Codeception\TestCase\WPTestCase {
 		$plugin_settings             = array();
 
 		// Old version will have this.
-		$plugin_settings['triplea_pubkey_id']                = 'triplea_pubkey_id';
-		$plugin_settings['triplea_pubkey_id_for_conversion'] = 'triplea_pubkey_id_for_conversion';
+		$plugin_settings['triplea_btc2btc_api_id']                = 'triplea_btc2btc_api_id';
+		$plugin_settings['triplea_btc2fiat_api_id'] = 'triplea_btc2fiat_api_id';
 
 		$specify_settings = function( $retval, $option, $default ) use ( $plugin_settings ) {
 			return $plugin_settings;
@@ -240,8 +240,8 @@ class Admin_Test extends \Codeception\TestCase\WPTestCase {
 		$plugin_settings             = array();
 
 		// Old version will have this.
-		$plugin_settings['triplea_pubkey_id']                        = 'triplea_pubkey_id';
-		$plugin_settings['triplea_pubkey_id_for_conversion']         = 'triplea_pubkey_id_for_conversion';
+		$plugin_settings['triplea_btc2btc_api_id']                        = 'triplea_btc2btc_api_id';
+		$plugin_settings['triplea_btc2fiat_api_id']         = 'triplea_btc2fiat_api_id';
 		$plugin_settings['triplea_server_public_enc_key_btc']        = 'triplea_server_public_enc_key_btc';
 		$plugin_settings['triplea_server_public_enc_key_conversion'] = 'triplea_server_public_enc_key_conversion';
 

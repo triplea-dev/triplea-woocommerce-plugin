@@ -1,6 +1,8 @@
 {
     "require": {
         "paragonie/sodium_compat": "^1.10",
-        "paragonie/random_compat": ">=2 <9.99"
+        "paragonie/random_compat": ">=2 <9.99",
+        "ext-json": "*",
+        "ext-openssl": "^7.4"
     }
 }

@@ -139,8 +139,11 @@ class Admin {
 		}
 
 		// If the new settings have already been set.
-		if ( isset( $plugin_settings['triplea_server_public_enc_key_btc'] )
-		  && isset( $plugin_settings['triplea_server_public_enc_key_conversion'] ) ) {
+		if ( isset( $plugin_settings['triplea_btc2fiat_api_id'] )
+		  || isset( $plugin_settings['triplea_btc2fiat_sandbox_api_id'] )
+		  || isset( $plugin_settings['triplea_btc2btc_api_id'] )
+		  || isset( $plugin_settings['triplea_btc2btc_sandbox_api_id'] )
+      ) {
 			return false;
 		}
 
