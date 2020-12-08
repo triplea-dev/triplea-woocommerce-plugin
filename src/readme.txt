@@ -165,6 +165,24 @@ Minor improvement added for sites with custom checkout submit buttons.
 
 == Upgrade Notice ==
 
+= 1.5.0 =
+Upgraded the plugin to use a new API by TripleA.
+Instant confirmation available when using local currency settlement.
+Better checkout page integration, less UI/CSS bugs thanks to iframe loading, and more.
+Better account management (sandbox payments available; better email notifications; integration credentials provided..).
+
+= 1.4.8 =
+Small change in debug info display.
+
+= 1.4.7 =
+Qr code not updated when user paid too little.
+
+= 1.4.6 =
+CSS styling improvement to avoid interference with qr code size on some sites.
+
+= 1.4.5 =
+Bug fix for users experiencing problems updating product images while other plugins (such as Tera Wallet) are also enabled.
+
 = 1.4.3 =
 No need to update unless the "place order/pay with bitcoin" button on your checkout page is misbehaving.
 
