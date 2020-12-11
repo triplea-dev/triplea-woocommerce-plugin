@@ -92,26 +92,41 @@ class Admin {
 	 * @hooked admin_notices
 	 */
 	public function settings_update_notice() {
-
+      global $pagenow;
+      
 		// Only show this if we detect an upgrade from an old version.
-		if ( ! $this->settings_upgrade_required() ) {
-			return;
-		}
 
-		// Display the notice.
-		$class        = 'notice notice-warning';
-		$setting_link = admin_url( 'admin.php?page=wc-settings&tab=checkout&section=triplea_payment_gateway' );
-		$setting_text = __( 'Settings', 'triplea-cryptocurrency-payment-gateway-for-woocommerce' );
+      $plugin_setting_option_name = 'woocommerce_triplea_payment_gateway_settings';
+      $plugin_settings            = get_option( $plugin_setting_option_name );
+      
+      $old_btc2fiat_api_id = isset($plugin_settings['triplea_pubkey_id_for_conversion']) ? $plugin_settings['triplea_pubkey_id_for_conversion'] : null;
+      $old_btc2btc_api_id = isset($plugin_settings['triplea_pubkey_id']) ? $plugin_settings['triplea_pubkey_id'] : null;
+      $fiat_merchant_key = isset($plugin_settings['triplea_btc2fiat_merchant_key']) ? $plugin_settings['triplea_btc2fiat_merchant_key'] : null;
+      $btc_merchant_key = isset($plugin_settings['triplea_btc2btc_merchant_key']) ? $plugin_settings['triplea_btc2btc_merchant_key'] : null;
+      $btc_sandbox_merchant_key = isset($plugin_settings['triplea_btc2btc_sandbox_merchant_key']) ? $plugin_settings['triplea_btc2btc_sandbox_merchant_key'] : null;
+      
+      if ((!empty($old_btc2fiat_api_id) || !empty($old_btc2btc_api_id)) && empty($fiat_merchant_key) && empty($btc_merchant_key) && empty($btc_sandbox_merchant_key))
+      {
+         if ( $pagenow == 'admin.php' || $pagenow == 'plugins.php' || $pagenow == 'plugin-install.php' )
+         {
+            $class        = 'notice notice-info notice-large';
+            $setting_link = admin_url( 'admin.php?page=wc-settings&tab=checkout&section=triplea_payment_gateway' );
+            $setting_text = __( 'Bitcoin payment settings', 'triplea-cryptocurrency-payment-gateway-for-woocommerce' );
 
-		$message      = 'Bitcoin Payment Gateway requires wallet updates. Please update your <a href="' . $setting_link . '" target="_self">' . $setting_text . '</a> to benefit from recent security improvements.';
-		$allowed_html = array(
-			'a' => array(
-				'href'   => array(),
-				'target' => array(),
-			),
-		);
+            $message      = 'Your "Bitcoin Payment Gateway for WooCommerce" plugin has been disabled after the update. <br>
+                          <b>Please take a short moment to update the settings</b> and re-enable bitcoin payments. &nbsp; &nbsp; <a href="' . $setting_link . '" target="_self">' . $setting_text . '</a>';
+            $allowed_html = array(
+               'a' => array(
+                  'href'   => array(),
+                  'target' => array(),
+               ),
+               'b' => array(),
+               'br' => array(),
+            );
 
-		printf( '<div class="%1$s"><p>%2$s</p></div>', esc_attr( $class ), wp_kses( $message, $allowed_html ) );
+            printf( '<div class="%1$s"><p>%2$s</p></div>', esc_attr( $class ), wp_kses( $message, $allowed_html ) );
+         }
+      }
 	}
 
 	/**

@@ -304,7 +304,7 @@ ob_start();
                   </small>
                </h3>
                <p>
-                  Due to technical improvements and added features, your account needs to be upgraded.
+                  Due to technical improvements and added features, your account needs to be upgraded (a simple click!).
                   <br>
                   After upgrading, your account will be linked to your TripleA dashboard.
                   <br>
@@ -553,7 +553,7 @@ ob_start();
                   </small>
                </h3>
                <p>
-                  Due to technical improvements and added features, your account needs to be upgraded.
+                  Due to technical improvements and added features, your account needs to be upgraded (a simple click!).
                   <br>
                   After upgrading, your account will be linked to your TripleA dashboard.
                   <br>
