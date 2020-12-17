@@ -372,7 +372,7 @@ class TripleA_Payment_Gateway extends WC_Payment_Gateway {
       /**
        * Display text customisation options
        */
-      $this->description = __('Secure and easy payment with Bitcoin using the TripleA.io service.', 'triplea-cryptocurrency-payment-gateway-for-woocommerce');
+      $this->description = __('Secure and easy payment with Bitcoin using the Triple-A.io service.', 'triplea-cryptocurrency-payment-gateway-for-woocommerce');
       $this->init_form_fields();
       $this->init_settings();
       

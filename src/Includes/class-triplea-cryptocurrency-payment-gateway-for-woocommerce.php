@@ -95,7 +95,8 @@ class TripleA_Cryptocurrency_Payment_Gateway_for_WooCommerce extends WPPB_Object
 	protected function set_locale() {
 
 		$plugin_i18n = new I18n();
-		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
+		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain', 99 );
+		//$this->loader->add_action( 'init', $plugin_i18n, 'load_plugin_textdomain', 99 );
 	}
 
 	/**

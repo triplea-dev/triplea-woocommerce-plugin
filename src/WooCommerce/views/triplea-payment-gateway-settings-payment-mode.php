@@ -1040,24 +1040,26 @@ ob_start();
        let hiddenNodeMerchantLocalCurrency   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2fiat_merchant_local_currency');
        hiddenNodeMerchantLocalCurrency.value = merchantAccountRequestResult.local_currency || '-missing local currency-';
 
+       let mostRecentDate = '';
+       let mostRecentDate_sandbox = '';
        for (let i = 0; i < merchantAccountRequestResult.accounts.length; ++i)
        {
          const acc = merchantAccountRequestResult.accounts[i];
 
-         if (acc.crypto_currency === 'BTC' && !acc.sandbox && acc.type === 'triplea')
+         if (acc.crypto_currency === 'BTC' && !acc.sandbox && acc.type === 'triplea' && acc.create_date && acc.create_date > mostRecentDate)
          {
            // TODO rename this new variable where needed everywhere in the code
            let apiIdNode   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2fiat_api_id');
            apiIdNode.value = acc.api_id;
+           mostRecentDate = acc.create_date; // we end up using the most recently (/just) created account's API ID
          }
-         else if (acc.crypto_currency === 'testBTC' && acc.sandbox  && acc.type === 'triplea')
+         else if (acc.crypto_currency === 'testBTC' && acc.sandbox  && acc.type === 'triplea' && acc.create_date && acc.create_date > mostRecentDate_sandbox)
          {
            // TODO create this new variable where needed all throughout the code
            let apiIdNode   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2fiat_sandbox_api_id');
            apiIdNode.value = acc.api_id;
+           mostRecentDate_sandbox = acc.create_date; // we end up using the most recently (/just) created account's API ID
          }
-
-
        }
 
        // Sets active account then submits form
@@ -1283,21 +1285,17 @@ ob_start();
        let hiddenNodePubkey   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_sandbox_pubkey');
        hiddenNodePubkey.value = window.testbitcoin_pubkey || '';
 
+       let mostRecentDate_sandbox = '';
        for (let i = 0; i < merchantAccountRequestResult.accounts.length; ++i)
        {
          const acc = merchantAccountRequestResult.accounts[i];
 
-         // if (acc.crypto_currency === 'BTC' && !acc.sandbox)
-         // {
-         //   // TODO rename this new variable where needed everywhere in the code
-         //   let apiIdNode   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2fiat_api_id');
-         //   apiIdNode.value = acc.api_id;
-         // }
-         if (acc.crypto_currency === 'testBTC' && acc.sandbox  && acc.type === 'self')
+         if (acc.crypto_currency === 'testBTC' && acc.sandbox  && acc.type === 'self' && acc.create_date && acc.create_date > mostRecentDate_sandbox)
          {
            // TODO create this new variable where needed all throughout the code
            let apiIdNode   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_sandbox_api_id');
            apiIdNode.value = acc.api_id;
+           mostRecentDate_sandbox = acc.create_date; // we end up using the most recently (/just) created account's API ID
          }
        }
 
@@ -1562,19 +1560,23 @@ ob_start();
          hiddenNodePubkey   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_pubkey');
        hiddenNodePubkey.value = window.bitcoin_pubkey || window.testbitcoin_pubkey;
 
+       let mostRecentDate = '';
+       let mostRecentDate_sandbox = '';
        for (let i = 0; i < merchantAccountRequestResult.accounts.length; ++i)
        {
          const acc = merchantAccountRequestResult.accounts[i];
 
-         if (window.bitcoin_pubkey && acc.crypto_currency === 'BTC' && !acc.sandbox  && acc.type === 'self')
+         if (window.bitcoin_pubkey && acc.crypto_currency === 'BTC' && !acc.sandbox  && acc.type === 'self' && acc.create_date && acc.create_date > mostRecentDate)
          {
            let apiIdNode   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_api_id');
            apiIdNode.value = acc.api_id;
+           mostRecentDate = acc.create_date; // we end up using the most recently (/just) created account's API ID
          }
-         else if (window.testbitcoin_pubkey && acc.crypto_currency === 'testBTC' && acc.sandbox)
+         else if (window.testbitcoin_pubkey && acc.crypto_currency === 'testBTC' && acc.sandbox && acc.create_date && acc.create_date > mostRecentDate_sandbox)
          {
            let apiIdNode   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_sandbox_api_id');
            apiIdNode.value = acc.api_id;
+           mostRecentDate_sandbox = acc.create_date; // we end up using the most recently (/just) created account's API ID
          }
        }
 
@@ -1779,19 +1781,23 @@ ob_start();
        let hiddenNodeMerchantPhone   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2fiat_merchant_phone');
        hiddenNodeMerchantPhone.value = merchantAccountRequestResult.phone || '';
 
+       let mostRecentDate = '';
+       let mostRecentDate_sandbox = '';
        for (let i = 0; i < merchantAccountRequestResult.accounts.length; ++i)
        {
          const acc = merchantAccountRequestResult.accounts[i];
 
-         if (acc.crypto_currency === 'BTC' && !acc.sandbox && acc.type === 'triplea')
+         if (acc.crypto_currency === 'BTC' && !acc.sandbox && acc.type === 'triplea' && acc.create_date && acc.create_date > mostRecentDate)
          {
            let apiIdNode   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2fiat_api_id');
            apiIdNode.value = acc.api_id;
+           mostRecentDate = acc.create_date; // we end up using the most recently (/just) created account's API ID
          }
-         if (acc.crypto_currency === 'testBTC' && acc.sandbox && acc.type === 'triplea')
+         if (acc.crypto_currency === 'testBTC' && acc.sandbox && acc.type === 'triplea' && acc.create_date && acc.create_date > mostRecentDate_sandbox)
          {
            let apiIdNode   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2fiat_sandbox_api_id');
            apiIdNode.value = acc.api_id;
+           mostRecentDate_sandbox = acc.create_date; // we end up using the most recently (/just) created account's API ID
          }
        }
 
@@ -1979,14 +1985,16 @@ ob_start();
        let hiddenNodePubkey   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_sandbox_pubkey');
        hiddenNodePubkey.value = window.testbitcoin_pubkey || '';
 
+       let mostRecentDate_sandbox = '';
        for (let i = 0; i < merchantAccountRequestResult.accounts.length; ++i)
        {
          const acc = merchantAccountRequestResult.accounts[i];
 
-         if (acc.crypto_currency === 'testBTC' && acc.sandbox && acc.type === 'self')
+         if (acc.crypto_currency === 'testBTC' && acc.sandbox && acc.type === 'self' && acc.create_date && acc.create_date > mostRecentDate_sandbox)
          {
            let apiIdNode   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_sandbox_api_id');
            apiIdNode.value = acc.api_id;
+           mostRecentDate_sandbox = acc.create_date; // we end up using the most recently (/just) created account's API ID
          }
        }
 
@@ -2209,6 +2217,8 @@ ob_start();
          hiddenNodePubkey.value = window.bitcoin_pubkey;
        }
 
+       let mostRecentDate = '';
+       let mostRecentDate_sandbox = '';
        for (let i = 0; i < merchantAccountRequestResult.accounts.length; ++i)
        {
          const acc = merchantAccountRequestResult.accounts[i];
@@ -2218,17 +2228,19 @@ ob_start();
          // console.debug(' - old_btc2btc_api_id: ', old_btc2btc_api_id);
          // console.debug(' - old_btc2btc_sandbox_api_id: ', old_btc2btc_sandbox_api_id);
 
-         if ((window.bitcoin_pubkey || old_btc2btc_api_id.toLowerCase().indexOf('_t') < 0) && acc.crypto_currency === 'BTC' && !acc.sandbox && acc.type === 'self')
+         if ((window.bitcoin_pubkey || old_btc2btc_api_id.toLowerCase().indexOf('_t') < 0) && acc.crypto_currency === 'BTC' && !acc.sandbox && acc.type === 'self' && acc.create_date && acc.create_date > mostRecentDate)
          {
            // console.debug(' + account match for btc2btc: ');
            let apiIdNode   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_api_id');
            apiIdNode.value = acc.api_id;
+           mostRecentDate = acc.create_date; // we end up using the most recently (/just) created account's API ID
          }
-         if ((window.testbitcoin_pubkey || old_btc2btc_api_id.toLowerCase().indexOf('_t') > 0) && acc.crypto_currency === 'testBTC' && acc.sandbox && acc.type === 'self')
+         if ((window.testbitcoin_pubkey || old_btc2btc_api_id.toLowerCase().indexOf('_t') > 0) && acc.crypto_currency === 'testBTC' && acc.sandbox && acc.type === 'self' && acc.create_date && acc.create_date > mostRecentDate_sandbox)
          {
            // console.debug(' + account match for testnet btc2btc: ');
            let apiIdNode   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2btc_sandbox_api_id');
            apiIdNode.value = acc.api_id;
+           mostRecentDate_sandbox = acc.create_date; // we end up using the most recently (/just) created account's API ID
          }
        }
 
@@ -2417,27 +2429,32 @@ ob_start();
 
        let hiddenNodeMerchantPhone   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2fiat_merchant_phone');
        hiddenNodeMerchantPhone.value = merchantAccountRequestResult.phone || '';
-       
+
+       let mostRecentDate = '';
+       let mostRecentDate_sandbox = '';
        for (let i = 0; i < merchantAccountRequestResult.accounts.length; ++i)
        {
          const acc = merchantAccountRequestResult.accounts[i];
          // console.debug(' - existing account found: ', acc);
 
-         if (acc.crypto_currency === 'BTC' && acc.type === 'triplea' && !acc.sandbox)
+         if (acc.crypto_currency === 'BTC' && acc.type === 'triplea' && !acc.sandbox && acc.create_date && acc.create_date > mostRecentDate)
          {
            // We know which API ID we're upgrading. If there are any other 'BTC' accounts, ignore them.
            if (acc.api_id !== old_btc2fiat_api_id) {
-             // console.debug(' - - skipping account with API ID not matching');
+             console.debug('plugin upgrade step: skipping account with API ID not matching (' + acc.api_id + ' does not match ' + old_btc2fiat_api_id + ')');
              continue;
            }
            
            let apiIdNode   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2fiat_api_id');
            apiIdNode.value = acc.api_id;
+           //mostRecentDate = acc.create_date; // we end up using the most recently (/just) created account's API ID
+           // TODO remove this: disabled so that it logs all found accounts, even those not matching, in case this helps for any debugging needs
          }
-         else if (acc.crypto_currency === 'testBTC' && acc.sandbox && acc.type === 'triplea')
+         else if (acc.crypto_currency === 'testBTC' && acc.sandbox && acc.type === 'triplea' && acc.create_date && acc.create_date > mostRecentDate_sandbox)
          {
            let apiIdNode   = document.getElementById(settingsPrefix + '_' + 'triplea_btc2fiat_sandbox_api_id');
            apiIdNode.value = acc.api_id;
+           mostRecentDate_sandbox = acc.create_date; // we end up using the most recently (/just) created account's API ID
          }
        }
 
