@@ -2651,15 +2651,11 @@ public function generate_triplea_pubkeyid_script_html($key, $data) {
          if (!empty($product)) {
             $new_item = [];
             
-            $new_item['label'] = !empty($product->get_name()) ? $product->get_name() : 'unknown product name';
-            $new_item['sku']   = !empty($product->get_sku()) ? $product->get_sku() : 'no_sku';
+            $new_item['label']      = !empty($product->get_name()) ? $product->get_name() : 'unknown product name';
+            $new_item['sku']        = !empty($product->get_sku()) ? $product->get_sku() : 'no_sku';
+            $new_item['quantity']   = !empty(!empty($cart_item['quantity'])) ? floatval($cart_item['quantity']) : 0;
+            $new_item['amount']     = !empty($product->get_price()) ? floatval($product->get_price()) : 0.0;
             
-            if (!empty($cart_item['quantity'])) {
-               $new_item['quantity'] = floatval($cart_item['quantity']);
-            }
-            if (!empty($product->get_price())) {
-               $new_item['amount'] = floatval($product->get_price());
-            }
             if (!empty($new_item)) {
                $cart_items[] = $new_item;
             }
