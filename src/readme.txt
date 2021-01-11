@@ -4,7 +4,7 @@ Donate link: https://triple-a.io/
 Tags: bitcoin woocommerce,bitcoin payments,bitcoin,crypto payment gateway,bitcoin wordpress plugin
 Requires at least: 4.0
 Tested up to: 5.6
-Stable tag: 1.5.0
+Stable tag: 1.5.2
 Requires PHP: 5.4.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -164,6 +164,12 @@ Minor improvement added for sites with custom checkout submit buttons.
 
 
 == Upgrade Notice ==
+
+= 1.5.2 =
+Better public key validation and clearer error messages to assist users having issues with account activation.
+
+= 1.5.1 =
+WooCommerce Bundled Products compatibility fix.
 
 = 1.5.0 =
 Upgraded the plugin to use a new API by TripleA.

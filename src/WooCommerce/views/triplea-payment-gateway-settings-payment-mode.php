@@ -687,6 +687,9 @@ ob_start();
                   <span style="color: darkred;display:none;"
                         class="triplea-error-msg"
                         id="bitcoin-wrong-pubkey-format"><br>The provided master public key does not have the right format.</span>
+                  <span style="color: darkred;display:none;"
+                        class="triplea-error-msg"
+                        id="bitcoin-wrong-pubkey-format-multisig"><br>Please provide a single master public key. Multi-signature wallets are not accepted.</span>
                </p>
                <p>
                   Provide an email address:
@@ -708,6 +711,14 @@ ob_start();
                         class="triplea-error-msg pubkey-wrong-email"
                         id="bitcoin-error-pubkey-exists">
                      This master public key has already been used on another website. Please create a new bitcoin wallet for this website. <a href="mailto:support@triple-a.io">Contact us at support@triple-a.io</a> if you need assistance.
+                  </span>
+                  <span style="color:darkred;display:none;"
+                        class="triplea-error-msg pubkey-unexpected-error"
+                        id="bitcoin-error-pubkey-unexpected-error">
+                     <br>
+                     An unexpected error occurred. <a href="mailto:support@triple-a.io">Contact us at support@triple-a.io</a> if you need assistance.
+                     <br>
+                     <small id="pubkey-unexpected-error-raw"></small>
                   </span>
                   <br>
                   <small style="color: darkred;display:none;"
@@ -1340,6 +1351,12 @@ ob_start();
          jQuery('#bitcoin-wrong-pubkey-format').show();
          return;
        }
+       if (pubkey.indexOf('pub') !== pubkey.lastIndexOf('pub'))
+       {
+         console.warn('TripleA Warning: Multi-signature wallets are not accepted. Please provide a single wallet public key.');
+         jQuery('#bitcoin-wrong-pubkey-format-multisig').show();
+         return;
+       }
        if (pubkey.indexOf('tpub') === 0) {
          window.bitcoin_pubkey = null;
          window.testbitcoin_pubkey = pubkey;
@@ -1442,10 +1459,15 @@ ob_start();
        if (jsonErr && jsonErr.message === 'pubkey_exists') {
          jQuery('#bitcoin-error-pubkey-exists').show();
        }
-       else
+       else //if (jsonErr && jsonErr.message === 'validation_error')
        {
-         jQuery('#bitcoin-error-pubkey-wrong-email').show();
+         jQuery('#bitcoin-error-pubkey-unexpected-error #pubkey-unexpected-error-raw').text(JSON.stringify(jsonErr));
+         jQuery('#bitcoin-error-pubkey-unexpected-error').show();
        }
+       // else
+       // {
+       //   jQuery('#bitcoin-error-pubkey-wrong-email').show();
+       // }
      }
 
      /**
