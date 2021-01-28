@@ -2561,7 +2561,7 @@ public function generate_triplea_pubkeyid_script_html($key, $data) {
             WC()->customer->get_billing_state(),
             WC()->customer->get_billing_country(),
             WC()->customer->get_billing_postcode(),
-         ]);
+         ]) ?: 'no address';
          
          if (!empty(WC()->customer->get_username())) {
             $extra_metadata['username'] = WC()->customer->get_username();
@@ -2633,10 +2633,10 @@ public function generate_triplea_pubkeyid_script_html($key, $data) {
          else {
             $payer_id      = 'guest_' . $this->randomString() . '.';
          }
-         $payer_name    = $user_firstname .' '. $user_lastname;
-         $payer_email   = $user_email;
+         $payer_name    = $user_firstname .' '. $user_lastname ?: '';
+         $payer_email   = $user_email ?: '';
          $payer_phone   = null;
-         $payer_address = $user_address;
+         $payer_address = $user_address ?: 'no address';
          
          $extra_metadata['payer_id'] = $payer_id;
          

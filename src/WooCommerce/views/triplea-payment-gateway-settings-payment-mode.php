@@ -59,7 +59,10 @@ elseif ($btc2fiat_is_active && $triplea_active_api_id === $triplea_btc2fiat_sand
 
 $return_url     = get_rest_url(NULL, 'triplea/v1/tx_update/' . get_option('triplea_api_endpoint_token'));
 $local_currency = strtoupper(get_woocommerce_currency());
-$site_info      = get_bloginfo('name');
+if (in_array($local_currency, ['BTC','TBTC','TESTBTC'])) {
+   $local_currency = 'USD';
+}
+$site_info      = get_bloginfo('name') ?: 'no_name';
 
 
 //$triplea_notifications_email = $this->get_option('triplea_notifications_email');
@@ -710,7 +713,8 @@ ob_start();
                   <span style="color:darkred;display:none;"
                         class="triplea-error-msg pubkey-wrong-email"
                         id="bitcoin-error-pubkey-exists">
-                     This master public key has already been used on another website. Please create a new bitcoin wallet for this website. <a href="mailto:support@triple-a.io">Contact us at support@triple-a.io</a> if you need assistance.
+                     <br>
+                     This master public key has already been used on another website. Please provide the same email address you you used to register it the first time, or create a new bitcoin wallet for this website. <a href="mailto:support@triple-a.io">Contact us at support@triple-a.io</a> if you need assistance.
                   </span>
                   <span style="color:darkred;display:none;"
                         class="triplea-error-msg pubkey-unexpected-error"
@@ -934,7 +938,7 @@ ob_start();
        const callback = triplea_fiat_createMerchantAccountCallback;
        const method   = "POST";
        const data     = {
-         name: site_info.name,
+         name: site_info.name || 'no_name',
          email: merchantEmail,
          phone: merchantPhone || undefined,
          local_currency: 'USD',
@@ -1163,7 +1167,7 @@ ob_start();
        const errorCallback = triplea_testnetbitcoin_createMerchantAccountCallbackError;
        const method   = "POST";
        const data     = {
-         name: site_info.name,
+         name: site_info.name || 'no_name',
          email: merchantEmail,
          phone: merchantPhone || undefined,
          local_currency: local_currency,
@@ -1420,7 +1424,7 @@ ob_start();
        const errorCallback = triplea_bitcoin_createMerchantAccountCallbackError;
        const method   = "POST";
        const data     = {
-         name: site_info.name,
+         name: site_info.name || 'no_name',
          email: merchantEmail,
          phone: merchantPhone || undefined,
          local_currency: local_currency,
@@ -1680,7 +1684,7 @@ ob_start();
        const errorCallback = triplea_localcurrency_createMerchantAccountCallbackError;
        const method   = "POST";
        const data     = {
-         name: site_info.name,
+         name: site_info.name || 'no_name',
          email: merchantEmail,
          phone: merchantPhone || undefined,     // TODO fiat: add phone input field!
          local_currency: local_currency,        // TODO fiat: give choice of preferred local currency for settlement
