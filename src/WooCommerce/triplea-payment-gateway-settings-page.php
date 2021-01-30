@@ -39,6 +39,10 @@ return [
    'triplea_active_api_id'                 => [
       'type' => 'hidden',
    ],
+   'triplea_active_api_id_auth_reset' => [
+      'type' => 'hidden',
+      'default'     => 'false',
+   ],
    'triplea_btc2btc_api_id'                   => [
       'type' => 'hidden',
    ],

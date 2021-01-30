@@ -204,25 +204,32 @@ ob_start();
       <div id="step-enabled--btc2btc-sandbox"
            style="display:<?php echo($btc2btc_is_active && $sandbox_payment_mode ? 'block' : 'none') ?> ;">
 
-         <h3><span style="text-decoration: underline;">Sandbox</span> Bitcoin payments are enabled.</h3>
+         <h3>
+            <span style="text-decoration: underline;">Sandbox</span> Bitcoin payments are enabled.
+         </h3>
          
          <p>
-            You have chosen to receive sandbox bitcoin payments straight in your own <strong>testnet bitcoin wallet</strong>.
+            <?php printf(_x("You have chosen to receive sandbox bitcoin payments straight in your own %s.", 'You have chosen to receive sandbox bitcoin payments straight in your own testnet bitcoin wallet.', 'triplea-cryptocurrency-payment-gateway-for-woocommerce'), '<strong>'.__('testnet bitcoin wallet','triplea-cryptocurrency-payment-gateway-for-woocommerce').'</strong>') ?>
+
+
+            
          </p>
          <p>
-            View transactions in your own wallet or <a href="https://dashboard.triple-a.io" target="_blank">in your TripleA dashboard</a> with the credentials you have received by email.
+            <?php printf(_x('View transactions in your own wallet or %s with the credentials you have received by email.', 'View transactions in your own wallet or in your TripleA dashboard with the credentials you have received by email.', 'triplea-cryptocurrency-payment-gateway-for-woocommerce'), '<a href="https://dashboard.triple-a.io" target="_blank">'.__('bitcoin testnet faucets', 'triplea-cryptocurrency-payment-gateway-for-woocommerce').'.</a>') ?>
          </p>
          <p>
-            You can use <a href="https://duckduckgo.com/?q=bitcoin+testnet+faucets" target="_blank">bitcoin testnet faucets</a> to easily test payments.
+            <?php printf(_x('You can use %s to easily test payments.', 'You can use bitcoin testnet faucets to easily test payments', 'triplea-cryptocurrency-payment-gateway-for-woocommerce'), '<a href="https://duckduckgo.com/?q=bitcoin+testnet+faucets" target="_blank">'.__('bitcoin testnet faucets', 'triplea-cryptocurrency-payment-gateway-for-woocommerce').'</a>') ?>
          </p>
          <br>
-         <input type="button" class="button-primary" value="Show settlement options" onclick="jQuery(this).hide(); gotoStep1()">
+         <input type="button" class="button-primary" value="<?php printf(_x('Show settlement options', 'button label', 'triplea-cryptocurrency-payment-gateway-for-woocommerce')) ?>" onclick="jQuery(this).hide(); gotoStep1()">
       </div>
 
       <div id="step-enabled--btc2btc"
            style="display:<?php echo($btc2btc_is_active && !$sandbox_payment_mode ? 'block' : 'none') ?> ;">
 
-         <h3><span style="text-decoration: underline;">Live</span> Bitcoin payments are enabled.</h3>
+         <h3>
+            <span style="text-decoration: underline;"><?php printf(_x('Live', 'Live Bitcoin payments are enabled.', 'triplea-cryptocurrency-payment-gateway-for-woocommerce')) ?></span> <?php printf(_x('Live', 'Live Bitcoin payments are enabled.', 'triplea-cryptocurrency-payment-gateway-for-woocommerce')) ?>
+         </h3>
 
          <h4>You will receive Bitcoin in your wallet.</h4>
 
@@ -2571,6 +2578,10 @@ ob_start();
 
        let activeApiIdNode   = document.getElementById(settingsPrefix + '_' + 'triplea_active_api_id');
        activeApiIdNode.value = apiId;
+
+       let activeApiIdAuthResetNode   = document.getElementById(settingsPrefix + '_' + 'triplea_active_api_id_auth_reset');
+       activeApiIdAuthResetNode.value = 'true';
+       
        // console.debug('active API ID value set to ' + apiId);
 
        let sandboxPaymentModeNode   = document.getElementById(settingsPrefix + '_' + 'triplea_sandbox_payment_mode');
