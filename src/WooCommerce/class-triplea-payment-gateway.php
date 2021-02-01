@@ -1052,7 +1052,7 @@ class TripleA_Payment_Gateway extends WC_Payment_Gateway {
     */
    public static function wc_ajax_start_checkout() {
       if (!wp_verify_nonce($_GET['_wpnonce'], '_wc_triplea_start_checkout_nonce')) {
-         wp_die(__('Bad attempt', 'triplea-cryptocurrency-payment-gateway-for-woocommerce'));
+         wp_die(__('Bad attempt, invalid nonce for checkout_start', 'triplea-cryptocurrency-payment-gateway-for-woocommerce'));
       }
       
       add_action('woocommerce_after_checkout_validation', [
@@ -1940,7 +1940,7 @@ public function generate_triplea_pubkeyid_script_html($key, $data) {
    static function triplea_ajax_get_payment_form_data() {
    
       if (!wp_verify_nonce($_REQUEST['_wpnonce'], '_wc_triplea_get_payment_form_data')) {
-         wp_die(__('Bad attempt', 'triplea-cryptocurrency-payment-gateway-for-woocommerce'));
+         wp_die(__('Bad attempt, invalid nonce for payment form data request', 'triplea-cryptocurrency-payment-gateway-for-woocommerce'));
       }
       
       $user_firstname = wc_get_var($_REQUEST['billing_first_name'], null);

@@ -137,7 +137,7 @@ Of course, our support team is always here to help. <a href="mailto:support@trip
 == Changelog ==
 
 = 1.5.4 =
-Minor fix for sites experiencing issues displaying the payment form.
+2 minor fixes for sites experiencing issues displaying the payment form.
 
 = 1.5.3 =
 Minor fix for sites experiencing issues getting the OTP.
@@ -196,7 +196,7 @@ Minor improvement added for sites with custom checkout submit buttons.
 == Upgrade Notice ==
 
 = 1.5.4 =
-Minor fix for sites experiencing issues displaying the payment form.
+Two minor fixes for sites experiencing issues displaying the payment form.
 
 = 1.5.3 =
 Minor fix for sites experiencing issues getting the OTP.
