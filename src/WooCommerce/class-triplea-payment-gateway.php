@@ -2325,7 +2325,7 @@ public function generate_triplea_pubkeyid_script_html($key, $data) {
       );
       
       triplea_write_log("Making a payment form API request with body: \n" . print_r($body, TRUE), $debug_log_enabled);
-      
+
       $result = wp_remote_post($post_url, [
          'method'      => 'POST',
          'headers'     => [
@@ -2651,10 +2651,10 @@ public function generate_triplea_pubkeyid_script_html($key, $data) {
          else {
             $payer_id      = 'guest_' . $this->randomString() . '.';
          }
-         $payer_name    = $user_firstname .' '. $user_lastname ?: '';
+         $payer_name    = (!empty($user_firstname) || !empty($user_lastname)) ? $user_firstname .' '. $user_lastname : '';
          $payer_email   = $user_email ?: '';
          $payer_phone   = null;
-         $payer_address = $user_address ?: 'no address';
+         $payer_address = $user_address ?: '';
          
          $extra_metadata['payer_id'] = $payer_id;
          
@@ -2693,15 +2693,15 @@ public function generate_triplea_pubkeyid_script_html($key, $data) {
          "notify_url"      => $notify_url,
          //"notify_secret"   => $notify_secret,
          // either user_id or guest+random token
-         "payer_id"        => $payer_id,
+         "payer_id"        => !empty($payer_id) ? $payer_id : null,
          // only if available
-         "payer_name"      => $payer_name,
+         "payer_name"      => !empty($payer_name) ? $payer_name : null,
          // only if available
-         "payer_email"     => $payer_email,
+         "payer_email"     => !empty($payer_email) ? $payer_email : null,
          // only if available
-         "payer_phone"     => $payer_phone,
+         "payer_phone"     => !empty($payer_phone) ? $payer_phone : null,
          // only if available
-         "payer_address"   => $payer_address,
+         "payer_address"   => !empty($payer_address) ? $payer_address : null,
          //"payer_poi"       => $payer_poi,
          //"success_url"     => "https://www.success.io/success.html",
          //"cancel_url"      => "https://www.failure.io/cancel.html",

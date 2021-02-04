@@ -1,0 +1,311 @@
+# Translation of Plugins - Bitcoin Payment Gateway for WooCommerce - Stable Readme (latest release) in French (France)
+# This file is distributed under the same license as the Plugins - Bitcoin Payment Gateway for WooCommerce - Stable Readme (latest release) package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: +0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: GlotPress/3.0.0-alpha.2\n"
+"Language: fr\n"
+"Project-Id-Version: Plugins - Bitcoin Payment Gateway for WooCommerce - Stable Readme (latest release)\n"
+
+#. Short description.
+msgid "Start accepting Bitcoins now on your website and diversify your revenue right away. Powered by TripleA."
+msgstr "Commencez à accepter les paiements par Bitcoin dès maintenant sur votre site web et diversifiez vos revenus immédiatement. Développé par TripleA."
+
+#. Plugin name.
+msgid "Bitcoin Payment Gateway for WooCommerce"
+msgstr "Passerelle de paiement Bitcoin pour WooCommerce"
+
+#. Found in description paragraph.
+msgid ""
+"Triple A is headquartered in Singapore and in the process of becoming the first bitcoin payment gateway licensed by the Monetary Authority of Singapore (MAS).\n"
+"Find out more about us at <a href=\"https://triple-a.io/\" title=\"TripleA Payment Gateway website\">Triple-A.io</a>"
+msgstr ""
+"Triple A a son siège à Singapour et est en passe de devenir la première passerelle de paiement bitcoin autorisée par l'Autorité monétaire de Singapour (MAS).\n"
+"En savoir plus sur nous à <a href=\"https://triple-a.io/\" title=\"TripleA - Passerelle de paiement Bitcoin\">Triple-A.io</a>"
+
+#. Found in description paragraph.
+msgid "In addition, we offer bitcoin to local currency settlement too:"
+msgstr "En outre, nous proposons également la conversion et le règlement des bitcoins en monnaie locale : "
+
+#. Found in description paragraph.
+msgid "Get up and running in under a minute with our easy and simple-to-use plugin. Enjoy an easy setup, minimal or no learning curve and all the benefits bitcoin payments bring you and your customers."
+msgstr "Soyez opérationnel en moins d'une minute grâce à notre plugin simple et facile à utiliser. Profitez d'une installation facile, d'une courbe d'apprentissage minimale voir nulle et de tous les avantages que les paiements par bitcoin vous apportent, à vous et à vos clients."
+
+#. Found in description list item.
+msgid "<strong>Local currency (withdrawal fee)</strong>: No volatility. Easily withdraw to your bank account. Single 0.8% commission."
+msgstr "<strong>Monnaie locale (frais de retrait)</strong> : Pas de volatilité. Retrait facile sur votre compte bancaire. Commission unique de 0,8 %."
+
+#. Found in description list item.
+msgid "<strong>Bitcoin (Free)</strong>: Direct bitcoin payments without any fee. From their wallet to yours, total privacy, without going through TripleA."
+msgstr ""
+
+#. Found in description list item.
+msgid "A 0.8% fee for withdrawals is the only cost."
+msgstr ""
+
+#. Found in description list item.
+msgid "No impact from volatility, receive the expected amount."
+msgstr ""
+
+#. Found in description list item.
+msgid "Accept bitcoin payments without needing to understand or handle bitcoin."
+msgstr ""
+
+#. Found in description list item.
+msgid "Easily settle payments to your bank account in your local currency."
+msgstr ""
+
+#. Found in description list item.
+msgid "No commissions or platform fees on bitcoin payments."
+msgstr ""
+
+#. Found in description header.
+msgid "Settlement options"
+msgstr ""
+
+#. Found in installation paragraph.
+msgid "Certain WooCommerce plugins might add custom order statuses. We have tried to accommodate this, however carefully test a payment if you change the default settings and let us know if you're uncertain about anything."
+msgstr ""
+
+#. Found in installation paragraph.
+msgid ""
+"We like to keep things short, clear, and simple.\n"
+"If you require more than customising the payment gateway text and logo, let us know at <a href=\"mailto:support@triple-a.io\">support@triple-a.io</a>."
+msgstr ""
+
+#. Found in installation paragraph.
+msgid "We recommend you create a new Bitcoin wallet using your preferred wallet software or app (to avoid mixing notifications between TripleA and separate/previous usage)."
+msgstr ""
+
+#. Found in installation paragraph.
+msgid ""
+"<strong>Important note</strong>: Our plugin generates a new, unique bitcoin payment address (thanks to your public key).\n"
+"Our plugin does not support displaying the same address each time, so please do not enter a bitcoin address in the form."
+msgstr ""
+
+#. Found in installation paragraph.
+msgid "We give you the option:"
+msgstr ""
+
+#. Found in installation list item.
+msgid "Click 'Activate'. Your TripleA local currency account will be created."
+msgstr ""
+
+#. Found in installation list item.
+msgid "We require One-Time Password validation of your email address (code sent via email)."
+msgstr ""
+
+#. Found in installation list item.
+msgid "Provide an email account to associate with your TripleA Local Currency account."
+msgstr ""
+
+#. Found in installation list item.
+msgid "Settings will be saved, page will reload automatically and you will be good to go!"
+msgstr ""
+
+#. Found in installation list item.
+msgid "Click 'Activate'. Your wallet will be linked to a TripleA account."
+msgstr ""
+
+#. Found in installation list item.
+msgid "Provide an email address to receive payment notifications."
+msgstr ""
+
+#. Found in installation list item.
+msgid "Provide the master public key of your Bitcoin wallet."
+msgstr ""
+
+#. Found in installation list item.
+msgid "<strong>Receive local currency</strong>: If your prefer to avoid a learning curve, avoid accounting trouble or simply prefer to be paid local currency to your bank account."
+msgstr ""
+
+#. Found in installation list item.
+msgid "<strong>Receive bitcoin</strong>: If you are familiar with bitcoin and would like to receive bitcoin payments into your own bitcoin wallet"
+msgstr ""
+
+#. Found in installation header.
+msgid "Customise look &amp; feel"
+msgstr ""
+
+#. Found in installation header.
+msgid "To receive bitcoin"
+msgstr ""
+
+#. Found in description paragraph.
+msgid ""
+"•   United States dollar (USD)\n"
+"•   Singapore dollar (SGD)\n"
+"•   Euro (EUR)\n"
+"•   Malaysian Ringgit (MYR)\n"
+"•   Philippine peso (PHP)\n"
+"•   Indonesian Rupiah (IDR)\n"
+"•   Thai Baht (THB)\n"
+"•   Vietnamese dong (VND)\n"
+"•   South Korean won (KRW)\n"
+"•   New Taiwan Dollar (TWD)\n"
+"•   Hong Kong Dollar (HKD)\n"
+"•   Pound sterling (GBP)\n"
+"•   Japanese yen (JPY)\n"
+"•   Australian dollar (AUD)\n"
+"•   New Zealand dollar (NZD)\n"
+"•   Canadian dollar (CAD)\n"
+"•   Swiss franc (CHF)\n"
+"•   Norwegian krone (NOK)\n"
+"•   Swedish krona (SEK)"
+msgstr ""
+
+#. Screenshot description.
+msgid "Receive bitcoin payments as local currency in your bank account - Bitcoin Payment Gateway by TripleA"
+msgstr ""
+
+#. Screenshot description.
+msgid "Receive bitcoin payments into your own bitcoin wallet - Bitcoin Payment Gateway by TripleA"
+msgstr ""
+
+#. Found in faq paragraph.
+msgid "Of course, our support team is always here to help. <a href=\"mailto:support@triple-a.io\">Contact us by e-mail</a>."
+msgstr ""
+
+#. Found in faq paragraph.
+msgid "We support all wallets allowing public keys, meaning BIP 44-compatible HD wallets."
+msgstr ""
+
+#. Found in faq paragraph.
+msgid "There is no account needed for your clients to pay with bitcoins. They just scan the payment QR code and enter the right amount to pay. Very Easy."
+msgstr ""
+
+#. Found in faq header.
+msgid "Can you help me to integrate bitcoin payments to my website?"
+msgstr ""
+
+#. Found in faq header.
+msgid "Which cryptocurrency wallet do you support?"
+msgstr ""
+
+#. Found in faq header.
+msgid "Can customer pay with bitcoins without registering on my website?"
+msgstr ""
+
+#. Found in installation header.
+msgid "Using a TripleA local currency wallet:"
+msgstr ""
+
+#. Found in description paragraph.
+msgid "We offer 2 easy options for more flexibility."
+msgstr ""
+
+#. Found in description paragraph.
+msgid "This plugin equips online businesses using WordPress WooCommerce with the ability to accept and process bitcoin payments seamlessly."
+msgstr ""
+
+#. Found in description paragraph.
+msgid "Accept Bitcoin now on your website and diversify your revenue right away. Powered by TripleA."
+msgstr ""
+
+#. Found in description list item.
+msgid "Dedicated support."
+msgstr ""
+
+#. Found in description list item.
+msgid "No chargebacks or fraud."
+msgstr ""
+
+#. Found in description list item.
+msgid "Real-time exchange rates for bitcoin-to-local-currency conversion."
+msgstr ""
+
+#. Found in description list item.
+msgid "Non custodial system: wallet to wallet, no intermediary."
+msgstr ""
+
+#. Found in description header.
+msgid "TripleA for WooCommerce"
+msgstr ""
+
+#. Found in description header.
+msgid "Supported currencies"
+msgstr ""
+
+#. Found in installation header.
+msgid "Choose your preferred settlement mode"
+msgstr ""
+
+#. Found in description list item.
+msgid "Email notification for every transaction."
+msgstr ""
+
+#. Found in description list item.
+msgid "No setup cost or recurring fees."
+msgstr ""
+
+#. Found in description list item.
+msgid "No registration or login needed."
+msgstr ""
+
+#. Screenshot description.
+msgid "Receive payments in Bitcoin or cash - Bitcoin Payment Gateway by TripleA"
+msgstr ""
+
+#. Screenshot description.
+msgid "Appeal and cater to an international audience - Bitcoin Payment Gateway by TripleA"
+msgstr ""
+
+#. Screenshot description.
+msgid "Seamless integration with WooCommerce checkout - Bitcoin Payment Gateway by TripleA"
+msgstr ""
+
+#. Found in installation list item.
+msgid "Activate the plugin through the 'Plugins' menu in WordPress."
+msgstr ""
+
+#. Found in installation list item.
+msgid "(Or: Upload <code>triplea-cryptocurrency-payment-gateway-for-woocommerce.php</code> to the <code>/wp-content/plugins/</code> directory.)"
+msgstr ""
+
+#. Found in installation list item.
+msgid "Install via the searchable Plugin Directory within your WordPress site's plugin page."
+msgstr ""
+
+#. Found in description header.
+msgid "About TripleA"
+msgstr ""
+
+#. Found in changelog paragraph.
+msgid "Minor bug fixes and plugin file structure improvements."
+msgstr ""
+
+#. Found in changelog paragraph.
+msgid ""
+"Payment form expiry now at 25 minutes instead of 15.\n"
+"Minor QR code related bug fix.\n"
+"Plugin stability and performance improvements, thanks to open-source contributors."
+msgstr ""
+
+#. Found in changelog paragraph.
+msgid "Confirmed working with latest WooCommerce v4.0.1 and latest Wordpress (v5.3.2)"
+msgstr ""
+
+#. Found in changelog paragraph.
+msgid ""
+"Added configuration options for bitcoin payment option in checkout page.\n"
+"Added order status customisation (only for those who know exactly what they're doing!).\n"
+"Added debug log settings (enable/disable logging, easily view log, easily clear log)."
+msgstr ""
+
+#. Found in changelog paragraph.
+msgid "Overhauled plugin settings page, to make things simpler, clearer and hopefully much less confusing for some users."
+msgstr ""
+
+#. Found in changelog paragraph.
+msgid "Fixed T&amp;C not appearing on some sites with our plugin enabled."
+msgstr ""
+
+#. Found in changelog paragraph.
+msgid ""
+"QR code is now a link. Click or tap to open with default bitcoin wallet (should work on mobile, depends on mobile setup and app used).\n"
+"Minor improvement added for sites with custom checkout submit buttons."
+msgstr ""
