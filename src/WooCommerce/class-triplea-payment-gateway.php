@@ -538,13 +538,19 @@ class TripleA_Payment_Gateway extends WC_Payment_Gateway {
       
       // TODO detect if v1.4.x or previous was installed, and if yes, redirect user to settings page after installation and prompt the user to re-enable the plugin
       
-      $is_enabled = 'yes'; //$this->get_option('enabled');
+      $is_enabled = $this->get_option('enabled');
+      $force_enabled = $this->get_option('force_enabled');
+      if ($force_enabled === 'yes') {
+         $is_enabled = 'yes';
+      }
       if (!isset($this->triplea_active_api_id) || empty($this->triplea_active_api_id)) {
          $is_enabled = 'no';
-         triplea_write_log('Disabling plugin, not accepting bitcoin payments as there is no active API ID.', $debug_log_enabled);
       }
       $this->enabled = $is_enabled;
       $this->update_option('enabled', $is_enabled);
+      if ($is_enabled === 'yes') {
+         $this->update_option('force_enabled', 'no');
+      }
       
       $this->method_description = sprintf(
          __(

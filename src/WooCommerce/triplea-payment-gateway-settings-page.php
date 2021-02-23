@@ -174,6 +174,10 @@ return [
       'default' => 'yes',
    ],
 
+   'force_enabled' => [
+      'type'    => 'hidden',
+      'default' => 'no',
+   ],
 
    'triplea_plugin_options_form' => [
       'title'       => __('Plugin options', 'triplea-cryptocurrency-payment-gateway-for-woocommerce'),

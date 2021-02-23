@@ -2281,7 +2281,7 @@ ob_start();
          console.warn('TripleA Warning: Problem, missing pubkey');
          return;
        }
-       
+
        // Sets active account then submits form
        let sandbox = !!window.testbitcoin_pubkey || !!(old_btc2btc_api_id.toLowerCase().indexOf('_t') > 0);
        triplea_setActiveAccount('btc2btc', sandbox);
@@ -2589,6 +2589,9 @@ ob_start();
 
        console.log('Enabling ' + (sandbox ? 'sandbox ' : ' ') + 'account for ' + (walletType === 'btc2btc' ? 'bitcoin' : 'local currency') + ' settlement.');
 
+       let hiddenNodeForceEnabled = document.getElementById(settingsPrefix + '_' + 'force_enabled');
+       hiddenNodeForceEnabled.value = 'yes';
+       
        setTimeout(function () {
          triplea_submitForm();
        }, 200);
