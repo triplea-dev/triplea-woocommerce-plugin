@@ -389,7 +389,9 @@ class TripleA_Payment_Gateway extends WC_Payment_Gateway {
          $this->update_option('debug_log_clear_action', FALSE);
          triplea_write_log('Debug log cleared!', $debug_log_enabled);
       }
-      
+   
+      $this->triplea_set_api_endpoint_token( $debug_log_enabled );
+   
       $this->triplea_mode                = $this->get_option('triplea_mode');
       $this->triplea_notifications_email = $this->get_option('triplea_notifications_email');
       
@@ -1028,7 +1030,7 @@ class TripleA_Payment_Gateway extends WC_Payment_Gateway {
     *
     * @param $debug_log_enabled
     */
-   protected function triplea_set_api_endpoint_token($debug_log_enabled) {
+   public function triplea_set_api_endpoint_token($debug_log_enabled) {
       if (empty(get_option('triplea_api_endpoint_token'))) {
          if (function_exists('openssl_random_pseudo_bytes')) {
             $api_endpoint_token = md5(bin2hex(openssl_random_pseudo_bytes(16)) . (uniqid(rand(), TRUE)));
@@ -1037,10 +1039,11 @@ class TripleA_Payment_Gateway extends WC_Payment_Gateway {
             $api_endpoint_token = md5((uniqid(rand(), TRUE)) . (uniqid(rand(), TRUE)));
          }
          add_option('triplea_api_endpoint_token', $api_endpoint_token);
-         triplea_write_log('Setting endpoint token: '.get_option('triplea_api_endpoint_token'), $debug_log_enabled);
+         update_option('triplea_api_endpoint_token', $api_endpoint_token);
+         triplea_write_log('Setting new endpoint token.', $debug_log_enabled);
       }
       else {
-         //triplea_write_log('EXISTING ENDPOINT TOKEN: '.get_option('triplea_api_endpoint_token'), $debug_log_enabled);
+         //triplea_write_log('API Endpoint token found.', $debug_log_enabled);
       }
    }
    
@@ -1051,7 +1054,13 @@ class TripleA_Payment_Gateway extends WC_Payment_Gateway {
     * @since 1.6.0
     */
    public static function wc_ajax_start_checkout() {
+      $plugin_options  = 'woocommerce_triplea_payment_gateway_settings';
+      $plugin_settings = get_option( $plugin_options );
+      $debug_log_enabled = $plugin_settings['debug_log_enabled'];
+      triplea_write_log('wc_ajax_start_checkout() called. ', $debug_log_enabled);
+   
       if (!wp_verify_nonce($_GET['_wpnonce'], '_wc_triplea_start_checkout_nonce')) {
+         triplea_write_log('wc_ajax_start_checkout() ERROR: wrong nonce.', $debug_log_enabled);
          wp_die(__('Bad attempt, invalid nonce for checkout_start', 'triplea-cryptocurrency-payment-gateway-for-woocommerce'));
       }
       
@@ -1072,7 +1081,13 @@ class TripleA_Payment_Gateway extends WC_Payment_Gateway {
     * @since 1.5.0
     */
    public static function triplea_checkout_check($data, $errors = NULL) {
+      $plugin_options  = 'woocommerce_triplea_payment_gateway_settings';
+      $plugin_settings = get_option( $plugin_options );
+      $debug_log_enabled = $plugin_settings['debug_log_enabled'];
+      triplea_write_log('triplea_checkout_check() called. ', $debug_log_enabled);
+   
       if (is_null($errors)) {
+         triplea_write_log('triplea_checkout_check(): Form errors found.', $debug_log_enabled);
          // Compatibility with WC <3.0: get notices and clear them so they don't re-appear.
          $error_messages = wc_get_notices('error');
          wc_clear_notices();
@@ -1090,6 +1105,7 @@ class TripleA_Payment_Gateway extends WC_Payment_Gateway {
          );
       }
       else {
+         triplea_write_log('triplea_checkout_check(): Form errors found..', $debug_log_enabled);
          //triplea_write_log('triplea_checkout_check() failed', TRUE);
          wp_send_json_error(
             [
@@ -1101,47 +1117,47 @@ class TripleA_Payment_Gateway extends WC_Payment_Gateway {
       exit;
    }
    
-   /**
-    * Report validation errors if any, or else save form data in session and
-    * proceed with checkout flow.
-    *
-    * @param      $data
-    * @param null $errors
-    *
-    * @since 1.6.4
-    */
-   public static function start_checkout_check($data, $errors = NULL) {
-      if (is_null($errors)) {
-         // Compatibility with WC <3.0: get notices and clear them so they don't re-appear.
-         $error_messages = wc_get_notices('error');
-         wc_clear_notices();
-      }
-      else {
-         $error_messages = $errors->get_error_messages();
-      }
-      
-      if (empty($error_messages)) {
-         $customer_data = self::get_customer_data($_POST);
-         
-         wp_send_json_success(
-            [
-               // 'token' => ...
-               // 'order_payload' => ...
-               'status'        => 'ok',
-               'customer_data' => $customer_data,
-            ]
-         );
-      }
-      else {
-         wp_send_json_error(
-            [
-               'messages' => $error_messages,
-               'status'   => 'notok',
-            ]
-         );
-      }
-      exit;
-   }
+//   /**
+//    * Report validation errors if any, or else save form data in session and
+//    * proceed with checkout flow.
+//    *
+//    * @param      $data
+//    * @param null $errors
+//    *
+//    * @since 1.6.4
+//    */
+//   public static function start_checkout_check($data, $errors = NULL) {
+//      if (is_null($errors)) {
+//         // Compatibility with WC <3.0: get notices and clear them so they don't re-appear.
+//         $error_messages = wc_get_notices('error');
+//         wc_clear_notices();
+//      }
+//      else {
+//         $error_messages = $errors->get_error_messages();
+//      }
+//
+//      if (empty($error_messages)) {
+//         $customer_data = self::get_customer_data($_POST);
+//
+//         wp_send_json_success(
+//            [
+//               // 'token' => ...
+//               // 'order_payload' => ...
+//               'status'        => 'ok',
+//               'customer_data' => $customer_data,
+//            ]
+//         );
+//      }
+//      else {
+//         wp_send_json_error(
+//            [
+//               'messages' => $error_messages,
+//               'status'   => 'notok',
+//            ]
+//         );
+//      }
+//      exit;
+//   }
    
    protected static function get_customer_data($post_data) {
       $customer = [];

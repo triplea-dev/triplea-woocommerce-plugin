@@ -4,7 +4,7 @@ Donate link: https://triple-a.io/
 Tags: bitcoin woocommerce,bitcoin payments,bitcoin,crypto payment gateway,bitcoin wordpress plugin
 Requires at least: 4.0
 Tested up to: 5.6
-Stable tag: 1.5.5
+Stable tag: 1.5.7
 Requires PHP: 5.4.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -136,6 +136,12 @@ Of course, our support team is always here to help. <a href="mailto:support@trip
 
 == Changelog ==
 
+= 1.5.7 =
+Adding debug log messages for checkout form validation.
+
+= 1.5.6 =
+Important small fix for merchants experiencing real-time update issues for their orders.
+
 = 1.5.5 =
 Minor fix for sites experiencing issues displaying the payment form.
 
@@ -194,6 +200,9 @@ Minor improvement added for sites with custom checkout submit buttons.
 
 
 == Upgrade Notice ==
+
+= 1.5.5 =
+Simply update. No further action needed.
 
 = 1.5.5 =
 Minor fixes for sites experiencing issues displaying the payment form.
