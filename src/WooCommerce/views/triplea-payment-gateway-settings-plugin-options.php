@@ -371,14 +371,15 @@ ob_start();
 	  <hr>
 	  <br>
 	  <h2>
-		 Support & information
+		 Support & feedback
 	  </h2>
 	  <p>
-		 If you have feedback or questions, reach out to us at
+		 The F.A.Q. might not be enough. If you have <strong>any issue</strong> or simply want to share a <strong>feature request</strong>, reach out to us at
 		 <a href="mailto:support@triple-a.io">support@triple-a.io</a>.
-		 <br>
-		 We will respond within 24 hours.
 	  </p>
+      <p>
+         We respond to each email as soon as possible. Due to possible timezone differences, we may reply the next day.
+      </p>
 	  <br>
 	  <br>
    </div>
@@ -396,6 +397,8 @@ ob_start();
 				value="/wp-admin/admin.php?page=wc-settings&tab=checkout&section=triplea_payment_gateway">
 	  </p>
    </div>
+   <br>
+   <br>
 
    <script>
 	 function updatePreviewOnChange()

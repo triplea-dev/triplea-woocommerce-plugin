@@ -233,7 +233,7 @@ ob_start();
                <a href="#link-faq">F.A.Q.</a>
             </li>
             <li>
-               <a href="#link-support-feedback">Support & Feedback!</a>
+               <a href="#link-support-feedback">Support & feedback</a>
             </li>
             <!--<li>
                <a href="#link-debug">Debug log</a>
