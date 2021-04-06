@@ -56,6 +56,7 @@ ob_start();
 
    <hr>
 
+   <div id="link-plugin-options" class="triplea-menulink-anchor"></div>
    <h1>
 	  Plugin settings
    </h1>
@@ -275,7 +276,97 @@ ob_start();
 	  </tr>
    </table>
 
+   <div id="link-faq" class="triplea-menulink-anchor"></div>
+   <style>
+     .triplea-faq-list {
+       max-width: 900px;
+     }
 
+     .triplea-faq-list li {
+     }
+
+     .triplea-faq-list li .triplea-faq-collapsible {
+       width: 100%;
+       text-align: left;
+       border: 1px solid lightgray;
+       padding: 8px 10px;
+       border-radius: 2px;
+       font-weight: 500;
+       background: white;
+     }
+     .triplea-faq-list li .triplea-faq-content {
+       display: none;
+       overflow: hidden;
+       border: 1px solid lightgray;
+       border-top: none;
+       border-radius: 2px;
+       background: white;
+       padding: 5px 20px;
+     }
+
+     .triplea-faq-collapsible-active, .triplea-faq-collapsible:hover {
+       /*background-color: #cccccc !important;*/
+       color: #0071a1;
+       border-color: #0071a1 !important;
+     }
+   </style>
+   <div>
+      <hr>
+      <br>
+      <h2>
+         Frequently Asked Questions
+      </h2>
+      <ol class="triplea-faq-list">
+         <li>
+            <button type="button" class="triplea-faq-collapsible">FAQ question 1</button>
+            <div class="triplea-faq-content">
+               <p>
+                  FAQ answer 1
+               </p>
+               <p>
+                  FAQ answer 1 paragraph 2
+               </p>
+            </div>
+         </li>
+         <li>
+            <button type="button" class="triplea-faq-collapsible">FAQ question 2</button>
+            <div class="triplea-faq-content">
+               <p>
+                  FAQ answer 2
+               </p>
+            </div>
+         </li>
+      </ol>
+      <br>
+      <br>
+   </div>
+   <script>
+     let coll = document.getElementsByClassName("triplea-faq-collapsible");
+     var i;
+
+     for (i = 0; i < coll.length; i++) {
+       coll[i].addEventListener("click", function() {
+         this.classList.toggle("triplea-faq-collapsible-active");
+         let content = this.nextElementSibling;
+         if (content.style.display === "block") {
+           content.style.display = "none";
+         } else {
+           let colls2close = document.getElementsByClassName("triplea-faq-collapsible");
+           var j;
+           for (j = 0; j < colls2close.length; j++) {
+             let content2close = colls2close[j].nextElementSibling;
+             if (content2close.style.display === "block") {
+               colls2close[j].classList.remove('triplea-faq-collapsible-active');
+               content2close.style.display = "none";
+             }
+           }
+           content.style.display = "block";
+         }
+       });
+     }
+   </script>
+
+   <div id="link-support-feedback" class="triplea-menulink-anchor"></div>
    <div>
 	  <hr>
 	  <br>

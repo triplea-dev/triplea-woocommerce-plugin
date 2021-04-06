@@ -192,8 +192,57 @@ ob_start();
        color: white;
        font-weight: bold;
      }
+
+     .triplea-plugin-settings-menu {
+       list-style: none;
+       padding: 0;
+       font-weight: 500;
+     }
+     .triplea-plugin-settings-menu li {
+       display: inline;
+       padding-right: 40px;
+       padding-left: 20px;
+     }
+     .triplea-plugin-settings-menu li a {
+       text-decoration: none;
+       color: #333;
+     }
+     .triplea-plugin-settings-menu li:hover a {
+       text-decoration: underline;
+       color: #111;
+     }
+     
+     .triplea-menulink-anchor {
+       position: absolute;
+       margin-top: -130px;
+     }
    </style>
 
+   <div>
+      <hr>
+
+      <div>
+         <ul class="triplea-plugin-settings-menu">
+            <li>
+               <a href="#link-account-setup">Account setup</a>
+            </li>
+            <li>
+               <a href="#link-plugin-options">Plugin options</a>
+            </li>
+            <li>
+               <a href="#link-faq">F.A.Q.</a>
+            </li>
+            <li>
+               <a href="#link-support-feedback">Support & Feedback!</a>
+            </li>
+            <!--<li>
+               <a href="#link-debug">Debug log</a>
+            </li>-->
+         </ul>
+      </div>
+   </div>
+
+   <div id="link-account-setup" class="triplea-menulink-anchor"></div>
    <!--payments enabled with either btc or fiat settlement-->
    <div class="triplea_step" id="step-enabled"
         style="display: <?php echo($btc2fiat_is_active || $btc2btc_is_active ? 'block' : 'none'); ?>;">
