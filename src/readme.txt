@@ -137,6 +137,7 @@ Of course, our support team is always here to help. <a href="mailto:support@trip
 == Changelog ==
 
 = 1.5.7 =
+Made a fix allowing the plugin to be disabled :)
 Adding debug log messages for checkout form validation.
 
 = 1.5.6 =
@@ -201,7 +202,7 @@ Minor improvement added for sites with custom checkout submit buttons.
 
 == Upgrade Notice ==
 
-= 1.5.5 =
+= 1.5.7 =
 Simply update. No further action needed.
 
 = 1.5.5 =

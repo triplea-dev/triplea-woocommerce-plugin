@@ -2702,6 +2702,11 @@ public function generate_triplea_pubkeyid_script_html($key, $data) {
          }
       }
       
+      if (in_array(strtolower($order_currency), ['btc','eth','tbtc', 'ltc', 'ada', 'dot', 'bch', 'xlm', 'link', 'bnb', 'usdt', 'tusd', 'usdc', 'xmr', 'doge', 'nano', 'dash'] ))
+      {
+         $order_currency = 'USD';
+      }
+      
       // Not including notify_email, account's default will be used.
       // Not including notify_secret, server will generate one for each request.
       
