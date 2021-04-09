@@ -61,6 +61,19 @@ class Thank_You {
          return;
       }
    
+      if (isset($triplea->settings['triplea_woocommerce_order_states']) && isset($triplea->settings['triplea_woocommerce_order_states']['paid'])) {
+         $order_status_invalid = $triplea->settings['triplea_woocommerce_order_states']['invalid'];
+      }
+      else {
+         $order_status_invalid = 'wc-failed';
+      }
+      
+      $block_order_status_update = FALSE;
+      $order_status = $wc_order->get_status();
+      if ('wc-'.$order_status == $order_status_invalid || $order_status == 'failed' || strpos($order_status,'fail') !== FALSE || strpos($order_status,'invalid') !== FALSE) {
+         $block_order_status_update = TRUE;
+      }
+   
       $payment_tier = get_post_meta($order_id, '_triplea_payment_tier', true);
       $crypto_amount = get_post_meta($order_id, '_triplea_order_crypto_amount', true);
       $order_amount = get_post_meta($order_id, '_triplea_order_amount', true);
@@ -69,7 +82,14 @@ class Thank_You {
       $crypto_currency = get_post_meta($order_id, '_triplea_crypto_currency', true);
       $order_currency = get_post_meta($order_id, '_triplea_order_currency', true);
       
-      if ( $payment_tier === 'short' ) {
+      if ($block_order_status_update) {
+         echo '<p style="font-size: 115%">';
+         echo 'Your bitcoin payment was detected.'.'<br>';
+         echo 'However, an irregularity has been detected. Please reach out to us for a refund.' . '<br>';
+         echo '</p>';
+         echo '<br>';
+      }
+      elseif ( $payment_tier === 'short' ) {
          echo '<p style="font-size: 115%">';
          echo 'Your order was placed.'.'<br>';
          echo '<strong>It seems you paid too little</strong>. '.'<br>';
@@ -79,7 +99,6 @@ class Thank_You {
          echo '<br>';
          
          // TODO Come up with information for the user : top up or get refund or so?
-         
       }
       elseif ( $payment_tier === 'good' || $payment_tier === 'hold' ) {
          echo '<p style="font-size: 115%">';

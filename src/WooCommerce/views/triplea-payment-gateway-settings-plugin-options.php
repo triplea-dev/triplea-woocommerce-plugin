@@ -79,11 +79,6 @@ ob_start();
 					 <br>
 					 <span id="triplea_preview_description"
 						   style="padding-top: 10px; font-size: 90%;">Secure and easy payment with Bitcoin</span>
-					 <!--<br>
-					 <br>
-					 <button type="button" onclick="updatePreviewOnChange()">
-						Update preview
-					 </button>-->
 				  </td>
 			   </tr>
 			   <tr>
@@ -276,6 +271,20 @@ ob_start();
 	  </tr>
    </table>
 
+   <div>
+      <p class="custom submit">
+         <button name="save"
+                 class="button-primary woocommerce-save-button"
+                 type="submit"
+                 value="Save changes">
+            Save changes
+         </button>
+         <input type="hidden"
+                name="_wp_http_referer"
+                value="/wp-admin/admin.php?page=wc-settings&tab=checkout&section=triplea_payment_gateway">
+      </p>
+   </div>
+
    <div id="link-faq" class="triplea-menulink-anchor"></div>
    <style>
      .triplea-faq-list {
@@ -348,6 +357,37 @@ ob_start();
          </li>
          <li>
             <button type="button" class="triplea-faq-collapsible">
+               Which bitcoin wallets are supported for customers to pay with?
+            </button>
+            <div class="triplea-faq-content">
+               <p>
+                  TripleA supports any proper standards-compatible wallet using either legacy or segwit addresses.
+                  This should cover almost any good bitcoin wallet your customers may be using.
+               </p>
+            </div>
+         </li>
+         <li>
+            <button type="button" class="triplea-faq-collapsible">
+               Do you support bitcoin lightning payments?
+            </button>
+            <div class="triplea-faq-content">
+               <p>
+                  Not yet, but this is planned!
+               </p>
+            </div>
+         </li>
+         <li>
+            <button type="button" class="triplea-faq-collapsible">
+               Do you support other cryptocurrencies for payment?
+            </button>
+            <div class="triplea-faq-content">
+               <p>
+                  Not yet, but this is planned!
+               </p>
+            </div>
+         </li>
+         <li>
+            <button type="button" class="triplea-faq-collapsible">
                What is the TripleA Dashboard?
             </button>
             <div class="triplea-faq-content">
@@ -366,36 +406,66 @@ ob_start();
          </li>
          <li>
             <button type="button" class="triplea-faq-collapsible">
-               Which bitcoin wallets are supported for customers to pay with?
+               Where can I find my dashboard credentials?
             </button>
             <div class="triplea-faq-content">
                <p>
-                  TripleA supports any proper standards-compatible wallet using either legacy or segwit addresses.
-                  This should cover almost any good bitcoin wallet your customers may be using.
+                  As soon as you activate an account, the dashboard credentials will be emailed to you.
+                  Please make sure to check your spam folder if you don't see an incoming email from TripleA within a few minutes.
                </p>
             </div>
          </li>
          <li>
             <button type="button" class="triplea-faq-collapsible">
-               Do you support bitcoin lightning payments?
+               Do you support other languages?
             </button>
             <div class="triplea-faq-content">
                <p>
-                  Not yet, but this is planned.
+                  Yes! Our payment form itself displays in the user's browser language (automatic detection).
+                  Most other elements are translated as well. Please notify us if you see any missing or wrong translation.
                </p>
-            </div>
-         </li>
-         <li>
-            <button type="button" class="triplea-faq-collapsible">
-               Do you support other cryptocurrencies for payment?
-            </button>
-            <div class="triplea-faq-content">
                <p>
-                  Not yet, but this is planned.
+                  Currently the following languages are supported (you can reach out if you'd like us to add another language):
                </p>
+               <ul>
+                  <li>
+                     ZH Chinese (simplified)
+                  </li>
+                  <li>
+                     NL Dutch
+                  </li>
+                  <li>
+                     FR French
+                  </li>
+                  <li>
+                     DE German
+                  </li>
+                  <li>
+                     ID Indonesian
+                  </li>
+                  <li>
+                     IT Italian
+                  </li>
+                  <li>
+                     JP Japanese
+                  </li>
+                  <li>
+                     PL Polish
+                  </li>
+                  <li>
+                     PT Portuguese
+                  </li>
+                  <li>
+                     RU Russian
+                  </li>
+                  <li>
+                     ES Spanish
+                  </li>
+               </ul>
             </div>
          </li>
       </ol>
+      
 
       <h3>
          Local currency settlement
@@ -496,172 +566,87 @@ ob_start();
             </div>
          </li>
       </ol>
-      <!--
+
       <h3>
-         Local currency settlement
+         Customers and payments
       </h3>
       <ol class="triplea-faq-list">
          <li>
             <button type="button" class="triplea-faq-collapsible">
-               <strong>General</strong> -- What is the difference between local currency settlement mode and bitcoin settlement mode?
+               Which bitcoin wallets are supported for customers to pay with?
             </button>
             <div class="triplea-faq-content">
                <p>
-                  With local currency settlement, received bitcoin payments are instantly converted to their local currency value.
-                  TripleA settles the amount due to your bank account minus a 0.8% commission, as soon as the amount due reaches 100 USD worth.
-                  It is possible to request settlement in crypto or USDT (for this, please request this at
-                  <a href="mailto:support@triple-a.io" target="_blank">support@triple-a.io</a>).
+                  Any standard bitcoin wallet can be used to make payments with.
                </p>
                <p>
-                  With bitcoin settlement, you receive bitcoin payments directly into your own bitcoin wallet. TripleA does not take any commission in this case.
-                  You will be responsible for managing your wallet's security.
-               </p>
-               <p>
-                  For both settlement modes, a TripleA dashboard account will be created where you can issue refunds, view transaction history, send bitcoin payment request links (for invoice payments).
-                  If you create several accounts, these will all be available in your TripleA dashboard, linked to the email address used to create the accounts in the plugin.
+                  Users may also pay from exchange accounts although this is generally not recommended.
+                  Exchanges don't aim to function as wallets and this may worsen user experience for e-commerce payments.
                </p>
             </div>
          </li>
          <li>
             <button type="button" class="triplea-faq-collapsible">
-               <strong>General</strong> -- What is the TripleA Dashboard?
+               How long does it take for bitcoin payments to go from pending/unconfirmed to confirmed?
             </button>
             <div class="triplea-faq-content">
                <p>
-                  For both settlement modes, a TripleA dashboard account will be created upon account activation.
-                  In the dashboard you can view the transaction history for any one of your accounts, issue refunds, and send bitcoin payment request links (for invoice payments).
+                  Bitcoin payments can be detected instantly on the blockchain. Orders get placed then with "pending" status.
+                  <br>
+                  <u>As long as a payment has not been confirmed, goods or services should NOT be delivered yet.</u>
+                  <br>
+                  For payments to be confirmed it can take anywhere from 10 minutes to several hours
+                  (in the worst cases). This depends on the transaction fee the customer paid.
                </p>
                <p>
-                  If you create several accounts, these will all be available in your TripleA dashboard, linked to the email address used to create the accounts in the plugin.
-                  So if you sign up for a bitcoin settlement mode, then activate the local currency settlement mode with the same email address, both will appear in the TripleA dashboard.
+                  <strong>TripleA Instant Confirmation</strong>
+                  <br>
+                  If you accept payment to a local currency account, most orders can instantly be considered fully paid (well before they have been confirmed on the blockchain).
+                  This is made possible thanks to our proprietary technology and the fact that once we guarantee you a payment, that amount will be settled to you no matter what may happen with the blockchain confirmation.
                </p>
                <p>
-                  Local currency settlement accounts are created with both a Live and a Sandbox account, both will appear in the dashboard to facilitate testing payments.
+                  Your dashboard account offers full transparent information about the state of transactions.
                </p>
             </div>
          </li>
          <li>
             <button type="button" class="triplea-faq-collapsible">
-               <strong>General</strong> -- Which bitcoin wallets are supported for customers to pay with?
+               A customer paid but says his payment was not detected
             </button>
             <div class="triplea-faq-content">
                <p>
-                  TripleA supports any proper standards-compatible wallet using either legacy or segwit addresses.
-                  This should cover almost any good bitcoin wallet your customers may be using.
+                  The bitcoin payment form guarantees the exchange rate for 25 minutes which is more than enough for most users.
+               </p>
+               <p>
+                  However, some users may be paying from an exchange wallet. Exchanges tend to wait and accumulate transactions to process them all at once for cost savings, meaning the bitcoin transaction from the customer will not appear on the blockchain right away.
+               </p>
+               <p>
+                  If your customer paid but the payment form expired before the payment was detected, the order can still be placed.
+                  The order details in your WooCommerce backend will reflect this.
+                  <br>
+                  As soon as TripleA detects the payment, the order will be updated in your WooCommerce backend.
                </p>
             </div>
          </li>
          <li>
             <button type="button" class="triplea-faq-collapsible">
-               <strong>General</strong> -- Do you support bitcoin lightning payments?
+               A customer paid but the order did not get placed
             </button>
             <div class="triplea-faq-content">
                <p>
-                  Not yet, but this is planned.
+                  If a user has internet connexion issues or is using certain browser plugins, very rarely it may happen that the order did not get placed.
+               </p>
+               <p>
+                  First, without an order in your system, you will need another way to confirm that the user did indeed pay. You can check your TripleA dashboard or reach out to our team via
+                  <a href="mailto:support@triple-a.io">support@triple-a.io</a>.
+               </p>
+               <p>
+                  If the user did indeed pay, you may either refund him from the TripleA dashboard (the process is easy for your and the customer, however note that the refund will be received by the customer after 1-2 business days).
+                  Or you may create a one time use coupon for this user so that he may purchase his products without having to pay the same amount again.
                </p>
             </div>
          </li>
-         <li>
-            <button type="button" class="triplea-faq-collapsible">
-               <strong>General</strong> -- Do you support other cryptocurrencies for payment?
-            </button>
-            <div class="triplea-faq-content">
-               <p>
-                  Not yet, but this is planned.
-               </p>
-            </div>
-         </li>
-
-         <li>
-            <button type="button" class="triplea-faq-collapsible">
-               <strong>Local currency settlement</strong> -- How will you settle to my bank? Where do I provide you with the information?
-            </button>
-            <div class="triplea-faq-content">
-               <p>
-                  Once you sign up here in the plugin, your will receive an email with your TripleA dashboard login details.
-                  You can then login to the dashboard, where you will be asked to provide your bank details.
-               </p>
-            </div>
-         </li>
-         <li>
-            <button type="button" class="triplea-faq-collapsible">
-               <strong>Local currency settlement</strong> -- Do you require any KYC (identity verification) or KYB (business verification)?
-            </button>
-            <div class="triplea-faq-content">
-               <p>
-                  Yes. We will reach out to you via e-mail once you have provided your bank information in the dashboard, or as soon as you start receiving bitcoin payments.
-                  The documents required depend on the type of company or business.
-               </p>
-               <p>
-                  If you are concerned about passing KYC/KYB verification you can easily reach out to us at <a href="mailto:compliance@triple-a.io">compliance@triple-a.io</a>. Meanwhile you can start using the plugin in Sandbox mode or disable the plugin (hide it from your checkout page).
-               </p>
-            </div>
-         </li>
-         <li>
-            <button type="button" class="triplea-faq-collapsible">
-               <strong>Local currency settlement</strong> -- What are all the fees?
-            </button>
-            <div class="triplea-faq-content">
-               <p>
-                  There is only a single fee: when we settle money to your bank account there is a 0.8% commission.
-               </p>
-               <p>
-                  So when a customer pays, they pay their own bitcoin transaction fee. The bitcoin arrives to us, we note how much local currency we owe you for the given order.
-                  We then pay out that owed local currency amount to your bank minus 0.8%.
-               </p>
-               <p>
-                  Note: some banks may charge transfer fees on their end. If you are concerned about this, you may contact us to request weekly or monthly settlements rather than daily.
-               </p>
-            </div>
-         </li>
-         <li>
-            <button type="button" class="triplea-faq-collapsible">
-               <strong>Local currency settlement</strong> -- How often and how quickly do you settle to my bank?
-            </button>
-            <div class="triplea-faq-content">
-               <p>
-                  The minimum threshold for settlement to happen is 100 USD. As soon as the amount due is 100 USD or higher (or equivalent value if in another currency), we will settle on the next business day.
-               </p>
-               <p>
-                  Note: some banks may charge transfer fees on their end. If you are concerned about this, you may contact us to request weekly or monthly settlements rather than daily.
-               </p>
-            </div>
-         </li>
-
-         <li>
-            <button type="button" class="triplea-faq-collapsible">
-               <strong>Bitcoin settlement</strong> -- What is a master public key? Why do you ask for it?
-            </button>
-            <div class="triplea-faq-content">
-               <p>
-                  Bitcoin wallets are controlled by a private and a public master key. The private key allows spending your funds (signing transactions). The public key allows generating bitcoin addresses.
-               </p>
-               <p>
-                  In order to accept payments, a bitcoin address is needed. We use your master public key to generate a unique single-use bitcoin address for each payment. This protects your transaction history from your customers, and protects your customers privacy.
-               </p>
-               <p>
-                  Note: a virtually infinite amount of addresses can be generated, all unique and different but all belong to your bitcoin wallet.
-               </p>
-            </div>
-         </li>
-         <li>
-            <button type="button" class="triplea-faq-collapsible">
-               <strong>Bitcoin settlement</strong> -- Where can I find my master public key?
-            </button>
-            <div class="triplea-faq-content">
-               <p>
-                  If you use a non-custodial bitcoin wallet (one where you manage your own bitcoin, not some 3rd party company or platform) such as Exodus or
-                  <a href="https://electrum.org">Electrum</a>, you can find instructions on Youtube or via a search engine. You will need to go in the settings or look through the menus.
-               </p>
-               <p>
-                  Some online custodial wallets such as blockchain.com also allow you to view and copy your master public key. However, exchange and many custodial wallets won't make this available to you. In that case, you will need to either create a new wallet using Electrum or other such wallet or opt for local currency settlement.
-               </p>
-               <p>
-                  Note: we recommend you create a new wallet for use only with TripleA and your current store. This will avoid mixing notifications in case you receive bitcoin payments from other sources.
-               </p>
-            </div>
-         </li>
-      </ol>-->
+      </ol>
       
       <br>
       <br>
@@ -723,7 +708,6 @@ ob_start();
 				value="/wp-admin/admin.php?page=wc-settings&tab=checkout&section=triplea_payment_gateway">
 	  </p>
    </div>
-   <br>
    <br>
 
    <script>

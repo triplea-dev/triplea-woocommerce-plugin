@@ -146,17 +146,20 @@ class REST {
       //$wc_order = wc_get_order( $order_id );
       $notify_secret = get_post_meta($order_id, '_triplea_notify_secret');
       if (is_array($notify_secret)) $notify_secret = $notify_secret[0];
-      triplea_write_log( 'webhook_update(): notify_secret = '. ($notify_secret? 'true' : 'false'), $debug_log_enabled );
+      //      triplea_write_log( 'webhook_update(): DEBUG notify_secret = '. print_r($notify_secret, TRUE), $debug_log_enabled );
       $verify_signature = hash_hmac("SHA256", $unix_timestamp.'.'.$request->get_body(), $notify_secret);
-      triplea_write_log( 'webhook_update(): input signature = '. $hex_signature, $debug_log_enabled );
-      triplea_write_log( 'webhook_update(): local signature = '. $verify_signature, $debug_log_enabled );
-      if (!$verify_signature) {
+      //      triplea_write_log( 'webhook_update(): DEBUG hmac input 1 = '. $unix_timestamp.'.'.$request->get_body(), $debug_log_enabled );
+      //      triplea_write_log( 'webhook_update(): DEBUG hmac input 2 = '. $notify_secret, $debug_log_enabled );
+      if ($verify_signature !== $hex_signature) {
+         triplea_write_log( 'webhook_update(): notify_secret = '. (!empty($notify_secret) && strlen($notify_secret > 7) ? 'true' : 'false'), $debug_log_enabled );
          triplea_write_log( 'webhook_update(): signature mismatch!', $debug_log_enabled );
+         triplea_write_log( 'webhook_update(): server signature     = '. $hex_signature, $debug_log_enabled );
+         triplea_write_log( 'webhook_update(): calculated signature = '. $verify_signature, $debug_log_enabled );
          return new WP_Error(
             'signature_mismatch',
             'Signature mismatch',
             array(
-               'status'   => 400,
+               'status'   => 401,
             )
          );
       }

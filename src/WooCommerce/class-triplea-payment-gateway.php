@@ -451,28 +451,28 @@ class TripleA_Payment_Gateway extends WC_Payment_Gateway {
          triplea_write_log('Not enabling payments. Active API ID is and remains empty.', $debug_log_enabled);
       }
       elseif ($this->triplea_active_api_id === $this->triplea_btc2btc_api_id) {
-         triplea_write_log('Enabling btc2btc live payment mode', $debug_log_enabled);
+         //triplea_write_log('Enabling btc2btc live payment mode', $debug_log_enabled);
          $this->triplea_payment_mode = 'bitcoin-to-bitcoin';
          $this->update_option('triplea_payment_mode', $this->triplea_payment_mode);
          $this->triplea_sandbox_payment_mode = FALSE;
          $this->update_option('triplea_sandbox_payment_mode', FALSE);
       }
       elseif ($this->triplea_active_api_id === $this->triplea_btc2btc_sandbox_api_id) {
-         triplea_write_log('Enabling btc2btc sandbox payment mode', $debug_log_enabled);
+         //triplea_write_log('Enabling btc2btc sandbox payment mode', $debug_log_enabled);
          $this->triplea_payment_mode = 'bitcoin-to-bitcoin';
          $this->update_option('triplea_payment_mode', $this->triplea_payment_mode);
          $this->triplea_sandbox_payment_mode = TRUE;
          $this->update_option('triplea_sandbox_payment_mode', TRUE);
       }
       elseif ($this->triplea_active_api_id === $this->triplea_btc2fiat_api_id) {
-         triplea_write_log('Enabling btc2fiat live payment mode', $debug_log_enabled);
+         //triplea_write_log('Enabling btc2fiat live payment mode', $debug_log_enabled);
          $this->triplea_payment_mode = 'bitcoin-to-cash';
          $this->update_option('triplea_payment_mode', $this->triplea_payment_mode);
          $this->triplea_sandbox_payment_mode = FALSE;
          $this->update_option('triplea_sandbox_payment_mode', FALSE);
       }
       elseif ($this->triplea_active_api_id === $this->triplea_btc2fiat_sandbox_api_id) {
-         triplea_write_log('Enabling btc2fiat sandbox payment mode', $debug_log_enabled);
+         //triplea_write_log('Enabling btc2fiat sandbox payment mode', $debug_log_enabled);
          $this->triplea_payment_mode = 'bitcoin-to-cash';
          $this->update_option('triplea_payment_mode', $this->triplea_payment_mode);
          $this->triplea_sandbox_payment_mode = TRUE;
@@ -652,7 +652,6 @@ class TripleA_Payment_Gateway extends WC_Payment_Gateway {
       $order_id = $wc_order->get_id();
       $tx_id = get_post_meta($order_id, '_triplea_tx_id');
       
-      
       if (isset($triplea->settings['triplea_woocommerce_order_states']) && isset($triplea->settings['triplea_woocommerce_order_states']['paid'])) {
          $order_status_paid      = $triplea->settings['triplea_woocommerce_order_states']['paid'];
          $order_status_confirmed = $triplea->settings['triplea_woocommerce_order_states']['confirmed'];
@@ -666,6 +665,15 @@ class TripleA_Payment_Gateway extends WC_Payment_Gateway {
          //			$order_status_refunded  = 'wc-refunded';
          $order_status_invalid = 'wc-failed';
       }
+   
+   
+      $block_order_status_update = FALSE;
+      $order_status = $wc_order->get_status();
+      if ('wc-'.$order_status === $order_status_invalid || $order_status === 'failed' || strpos($order_status,'fail') !== FALSE || strpos($order_status,'invalid') !== FALSE) {
+         $block_order_status_update = TRUE;
+         triplea_write_log("update_order_status() : order status is ".$order_status.". The following information is added for logging purposes, the order status will not be updated. Contact us at support@triple-a.io if you think there has been a mistake.", $debug_log_enabled);
+      }
+      
       
       if (isset($payment_data->error)) {
          triplea_write_log("update_order_status() : payment status check returned an ERROR : \n" . print_r($payment_data, TRUE), $debug_log_enabled);
@@ -680,7 +688,9 @@ class TripleA_Payment_Gateway extends WC_Payment_Gateway {
             // However something went wrong. That does not mean the user did not pay...
             // We save the order, mark it as ON HOLD.
             // but!!! we add a note to indicate to the merchant that there might be a problem with this order, not sure if a payment was made or not.
-            $wc_order->update_status($order_status_paid); // on hold, might be paid (but not confirmed)
+            if (!$block_order_status_update) {
+               $wc_order->update_status($order_status_paid); // on hold, might be paid (but not confirmed)
+            }
    
             $notes[] = 'There was a problem when connecting to the TripleA server. The user may or may not have paid.' . '<br>'
                        . 'If a payment was made, this order should automatically update within 10 minutes to 1 hour.';
@@ -714,8 +724,10 @@ class TripleA_Payment_Gateway extends WC_Payment_Gateway {
             case 'none':
                // No payment received yet.
                // Order was placed by front-end but we don't know if there will be a payment or not.
-               $wc_order->update_status($order_status_paid); // on hold, might be paid (but not confirmed)
-   
+               if (!$block_order_status_update) {
+                  $wc_order->update_status($order_status_paid); // on hold, might be paid (but not confirmed)
+               }
+               
                $return_payment_tier = $payment_data->payment_tier;
                $return_order_status = $order_status_paid;
                
@@ -733,9 +745,11 @@ class TripleA_Payment_Gateway extends WC_Payment_Gateway {
                break;
             
             case 'hold':
-               
-               $wc_order->update_status($order_status_paid); // on hold, might be paid (but not confirmed)
    
+               if (!$block_order_status_update) {
+                  $wc_order->update_status($order_status_paid); // on hold, might be paid (but not confirmed)
+               }
+               
                $return_payment_tier = $payment_data->payment_tier;
                $return_order_status = $order_status_paid;
             
@@ -754,9 +768,11 @@ class TripleA_Payment_Gateway extends WC_Payment_Gateway {
                break;
             
             case 'short':
-               
-               $wc_order->update_status($order_status_invalid);
    
+               if (!$block_order_status_update) {
+                  $wc_order->update_status($order_status_invalid);
+               }
+               
                $return_payment_tier = $payment_data->payment_tier;
                $return_order_status = $order_status_invalid;
                
@@ -778,11 +794,16 @@ class TripleA_Payment_Gateway extends WC_Payment_Gateway {
                break;
             
             case 'good':
-               
-               $wc_order->update_status($order_status_confirmed); // on hold, might be paid (but not confirmed)
    
+               if (!$block_order_status_update) {
+                  $wc_order->update_status($order_status_confirmed); // on hold, might be paid (but not confirmed)
+                  $return_order_status = $order_status_confirmed;
+               }
+               else {
+                  $return_order_status = $order_status_invalid;
+               }
+               
                $return_payment_tier = $payment_data->payment_tier;
-               $return_order_status = $order_status_confirmed;
    
                $notes[] = 'Paid: <strong>BTC ' . number_format($crypto_amount_paid, 8) . '</strong>'.'<br>'
                           .'Value: '.$payment_data->order_currency.' '.$order_amount_paid.'<br>'
@@ -797,18 +818,24 @@ class TripleA_Payment_Gateway extends WC_Payment_Gateway {
                      .'If you need assistance, <a href="mailto:support@triple-a.io">simply email us at support@triple-a.io</a>.';
                }
                else {
-                  $notes[] = 'Correct amount paid.';
+                  if (!$block_order_status_update) {
+                     $notes[] = 'Correct amount paid.';
+                  }
                }
-               $notes[] = 'Order completed.';
-               
-               triplea_write_log('update_order_status() : Confirmed that a sufficient payment was made.', $debug_log_enabled);
+   
+               if (!$block_order_status_update) {
+                  $notes[] = 'Order completed.';
+                  triplea_write_log('update_order_status() : Confirmed that a sufficient payment was made.', $debug_log_enabled);
+               }
                
                break;
             
             case 'invalid':
-               
-               $wc_order->update_status($order_status_invalid);
    
+               if (!$block_order_status_update) {
+                  $wc_order->update_status($order_status_invalid);
+               }
+               
                $return_payment_tier = $payment_data->payment_tier;
                $return_order_status = $order_status_invalid;
                
@@ -1556,7 +1583,7 @@ class TripleA_Payment_Gateway extends WC_Payment_Gateway {
          update_post_meta($order_id, '_triplea_tx_id', $tx_id);
          triplea_write_log('process_payment() : Updating order_txid in new order metadata', $debug_log_enabled);
       }
-      
+   
       // Get payment reference from session (don't trust front-end form data).
       $payment_reference = WC()->session->get('triplea_payment_reference');
       if (empty($payment_reference)) {
@@ -1644,7 +1671,36 @@ class TripleA_Payment_Gateway extends WC_Payment_Gateway {
       if ( !isset($payment_data->error) ) {
          $status_info = self::update_order_status($payment_data, $wc_order, TRUE);
       }
+   
+   
+      /**
+       * security check regarding shopping cart contents tampering *
+       */
+      // Which amount was paid? What what the shopping cart's total
+      // value (+tax,shipping,etc) when the payment form was displayed?
+      $cart_total_paid = $payment_data->order_amount; // WC()->session->get('triplea_cart_total');
+      $cart_total_paid_str = sprintf("%.4f", $cart_total_paid);
+   
+      // What is the actual value of the order? Did anything get added to the shopping cart in a separate tab?
+      $order_total_due = $wc_order->get_total();
+      $order_total_due_str = sprintf("%.4f", $order_total_due);
+      $CART_TAMPERED = FALSE;
+      if ($cart_total_paid_str != $order_total_due_str) {
+         $CART_TAMPERED = TRUE;
+         triplea_write_log('process_payment() : shopping cart value during bitcoin payment: '.$cart_total_paid_str, $debug_log_enabled);
+         triplea_write_log('process_payment() : shopping cart value after order placement : '.$order_total_due_str, $debug_log_enabled);
+         triplea_write_log('process_payment() : WARNING! Shopping cart contents were modified between the moment the bitcoin payment form was displayed and the moment the bitcoin payment was made.'.$order_total_due_str, $debug_log_enabled);
+         triplea_write_log('process_payment() : WARNING! Most likely ill intent on the customer\'s part. Order will be marked as invalid, you may refund the customer through your TripleA dashboard.', $debug_log_enabled);
       
+         // Save the order notes, empty the cart, inform the Checkout page the order has been saved.
+         $wc_order->add_order_note(__("Shopping cart contents were modified between the moment the bitcoin payment form was displayed and the moment the bitcoin payment was made.", 'triplea-cryptocurrency-payment-gateway-for-woocommerce'));
+         $wc_order->add_order_note(__("Order will be marked as invalid, you may choose to refund the customer through your TripleA dashboard.", 'triplea-cryptocurrency-payment-gateway-for-woocommerce'));
+      
+         $wc_order->update_status($order_status_invalid);
+      }
+      /** /security check regarding shopping cart contents tampering **/
+   
+   
       if (isset($payment_data->error) || $status_info['error']) {
          wc_add_notice(__('Payment Failed', 'triplea-cryptocurrency-payment-gateway-for-woocommerce'), $notice_type = 'error');
    
@@ -1932,7 +1988,7 @@ public function generate_triplea_pubkeyid_script_html($key, $data) {
       $start_checkout_nonce_url = wp_nonce_url($start_checkout_url, $nonce_action);
       $output_startcheckoutcheck = "<div id='triplea-payment-gateway-start-checkout-check-url' style='display:none;' data-value='$start_checkout_nonce_url'></div>";
       
-      $order_button_text = 'Pay with bitcoin';
+      $order_button_text = __('Pay with Bitcoin', 'triplea-cryptocurrency-payment-gateway-for-woocommerce');
       $output            = '<button type="button"
       style="margin: 0 auto; display: block;"
       class="button alt"
@@ -1944,7 +2000,7 @@ public function generate_triplea_pubkeyid_script_html($key, $data) {
    
       $output            .= '<div style="margin: 0 auto; display: none; text-align: center;"
       id="triplea_embedded_payment_form_loading_txt"
-      >loading...</div>';
+      >'.__('loading...', 'triplea-cryptocurrency-payment-gateway-for-woocommerce').'</div>';
       
       // TODO Remove this debug code
       $output .= '<!--small><pre>' . $paymentform_ajax_nonce_url . '</pre></small-->';
@@ -2212,7 +2268,7 @@ public function generate_triplea_pubkeyid_script_html($key, $data) {
       }
    
       if ($this->triplea_btc2btc_sandbox_client_id === $this->triplea_btc2btc_client_id && $this->triplea_btc2btc_sandbox_client_secret === $this->triplea_btc2btc_client_secret) {
-         triplea_write_log('refreshOauthToken() Sandbox BTC account using same client credentials as Live BTC settlement account. Skipping oauth renewal.', $debug_log_enabled);
+         //triplea_write_log('refreshOauthToken() Sandbox BTC account using same client credentials as Live BTC settlement account. Skipping oauth renewal.', $debug_log_enabled);
          if ($this->triplea_btc2btc_sandbox_oauth_token !== $this->triplea_btc2btc_oauth_token || $this->triplea_btc2btc_sandbox_oauth_token_expiry !== $this->triplea_btc2btc_oauth_token_expiry) {
             triplea_write_log('refreshOauthToken() Different values detected. Syncing oauth token/expiry for Sandbox BTC account with those from Live BTC settlement account.', $debug_log_enabled);
          }

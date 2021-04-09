@@ -1,19 +1,19 @@
-# Translation of Plugins - Bitcoin Payment Gateway for WooCommerce - Stable (latest release) in French (France)
-# This file is distributed under the same license as the Plugins - Bitcoin Payment Gateway for WooCommerce - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2021-04-07 15:01+0800\n"
+"Project-Id-Version: Bitcoin Payment Gateway for WooCommerce\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-04-07 06:15+0000\n"
+"PO-Revision-Date: 2021-04-07 14:33+0800\n"
+"Last-Translator: \n"
+"Language-Team: Dutch\n"
+"Language: nl\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n > 1;\n"
 "X-Generator: Poedit 2.4.2\n"
-"Language: fr\n"
-"Project-Id-Version: Plugins - Bitcoin Payment Gateway for WooCommerce - "
-"Stable (latest release)\n"
-"POT-Creation-Date: \n"
-"Last-Translator: \n"
-"Language-Team: French\n"
+"X-Loco-Version: 2.5.2; wp-5.6.2\n"
+"X-Domain: triplea-cryptocurrency-payment-gateway-for-woocommerce\n"
 
 #: WooCommerce/class-triplea-payment-gateway.php:556
 msgid ""
@@ -29,21 +29,22 @@ msgstr ""
 "TripleA_MainLogo_Transparent-e1596423970124.png\" alt=\"Footer Logo\" class="
 "\"webpexpress-processed\" style=\"max-width: 149px; vertical-align: text-"
 "bottom;display: inline-block;position: relative;top: 5px;margin-right: 15px;"
-"\"> Avec <a href=\"https://triple-a.io\">TripleA</a>, vous pouvez choisir "
-"comment vos paiements en bitcoins vous sont réglés : <strong>en bitcoin</"
-"strong> ou <strong>dans votre monnaie locale</strong>."
+"\"> Met <a href=\"https://triple-a.io\">TripleA</a> kunt u kiezen hoe uw "
+"bitcoinbetalingen aan u worden voldaan: <strong>in bitcoin</strong> of "
+"<strong>in uw lokale munt</strong>."
 
 #: WooCommerce/triplea-payment-gateway-settings-page.php:172
 msgid "Accept bitcoin payments"
-msgstr "Accepter les paiements par bitcoin"
+msgstr "Accepteer bitcoin betalingen"
 
 #: WooCommerce/class-triplea-payment-gateway.php:1070
 msgid "Bad attempt, invalid nonce for checkout_start"
-msgstr "Bad attempt, invalid nonce for checkout_start"
+msgstr "Slechte poging, ongeldige nonce voor checkout_start"
 
 #: WooCommerce/class-triplea-payment-gateway.php:1965
 msgid "Bad attempt, invalid nonce for payment form data request"
-msgstr "Bad attempt, invalid nonce for payment form data request"
+msgstr ""
+"Slechte poging, ongeldige nonce voor verzoek om gegevens betalingsformulier"
 
 #: WooCommerce/class-triplea-payment-gateway.php:1397
 #: WooCommerce/views/triplea-payment-gateway-settings-plugin-options.php:154
@@ -53,59 +54,58 @@ msgstr "Bitcoin"
 
 #: WooCommerce/class-triplea-payment-gateway.php:363
 msgid "Bitcoin Payment Gateway"
-msgstr "Passerelle de paiements par Bitcoin"
+msgstr "Bitcoin betalingsgateway"
 
 #. Name of the plugin
 msgid "Bitcoin Payment Gateway for WooCommerce"
-msgstr "Passerelle de paiement par Bitcoin pour WooCommerce"
+msgstr "Bitcoin betalingsgateway voor WooCommerce"
 
 #: Admin/class-admin.php:114
 msgid "Bitcoin payment settings"
-msgstr "Accepter les paiements par bitcoin"
+msgstr "Bitcoin betalingsinstellingen"
 
 #: WooCommerce/triplea-payment-gateway-settings-page.php:171
 msgid "Bitcoin Payments"
-msgstr "Paiements par Bitcoin"
+msgstr "Bitcoin betalingen"
 
 #: WooCommerce/class-triplea-payment-gateway.php:1236
 msgid "Bitcoin payments disabled, no active wallets."
-msgstr "Paiements de bitcoin désactivés, pas de portefeuille actif."
+msgstr "Bitcoin betalingen uitgeschakeld, geen actieve portemonnees."
 
 #: WooCommerce/class-triplea-payment-gateway.php:1232
 msgid "Bitcoin Payments disabled."
-msgstr "Paiements par bitcoin désactivés."
+msgstr "Bitcoin betalingen uitgeschakeld."
 
 #: WooCommerce/views/triplea-payment-gateway-settings-payment-mode.php:267
 #: WooCommerce/views/triplea-payment-gateway-settings-payment-mode.php:270
 msgid "bitcoin testnet faucets"
-msgstr "robinets de test de bitcoin"
+msgstr "bitcoin testnet faucets"
 
 #: WooCommerce/views/triplea-payment-gateway-settings-payment-mode.php:273
 msgctxt "button label"
 msgid "Show settlement options"
-msgstr "Afficher les options de règlement"
+msgstr "Toon regeling opties"
 
 #: WooCommerce/triplea-payment-gateway-settings-page.php:198
 msgid "Clear debug log"
-msgstr "Effacer le journal de débogage"
+msgstr "Debug log wissen"
 
 #: WooCommerce/triplea-payment-gateway-settings-page.php:199
 msgid ""
 "Clear the debug log (upon saving this form, log is cleared and this option "
 "is then toggled off again)"
 msgstr ""
-"Effacer le journal de débogage (lors de la sauvegarde de ce formulaire, le "
-"journal est effacé et cette option est alors à nouveau désactivée)"
+"Het debug log wissen (bij het opslaan van dit formulier wordt het log gewist "
+"en deze optie wordt dan weer uitgezet)"
 
 #: WooCommerce/triplea-payment-gateway-settings-page.php:159
 msgid "Decide how you want your money to be delivered to you."
-msgstr ""
-"Décidez de la manière dont vous voulez que votre argent vous soit remis."
+msgstr "Beslis hoe u wilt dat uw geld bij u wordt afgeleverd."
 
 #: WooCommerce/triplea-payment-gateway-settings-page.php:191
 #: WooCommerce/triplea-payment-gateway-settings-page.php:192
 msgid "Enable debug log"
-msgstr "Activer le journal de débogage"
+msgstr "Debug log activeren"
 
 #. Author URI of the plugin
 msgid "https://triple-a.io"
@@ -122,11 +122,11 @@ msgstr "Live"
 
 #: WooCommerce/triplea-payment-gateway-settings-page.php:144
 msgid "Live Mode"
-msgstr "Mode Live"
+msgstr "Live mode"
 
 #: WooCommerce/class-triplea-payment-gateway.php:1947
 msgid "loading..."
-msgstr "chargement..."
+msgstr "laden..."
 
 #. Description of the plugin
 msgid ""
@@ -135,74 +135,70 @@ msgid ""
 "directly in your bank account. Enjoy an easy setup, no bitcoin expertise "
 "required. Powered by TripleA."
 msgstr ""
-"Proposez bitcoin comme option de paiement sur votre site web et accédez à "
-"encore plus de clients. Recevez des paiements en bitcoins ou dans votre "
-"monnaie locale, directement sur votre compte bancaire. Profitez d'une "
-"installation facile, sans avoir besoin d'expertise en matière de bitcoins. "
-"Développé par TripleA."
+"Bied bitcoin aan als betaaloptie op uw website en krijg toegang tot nog meer "
+"klanten. Ontvang betalingen in bitcoins of in uw lokale valuta, direct op uw "
+"bankrekening. Geniet van een eenvoudige installatie, geen bitcoinkennis "
+"vereist. Aangedreven door TripleA."
 
 #: WooCommerce/triplea-payment-gateway-settings-page.php:200
 msgid "On production, if you need to debug, clear the log afterwards!"
-msgstr ""
-"Sur un site en ligne, si vous avez besoin de déboguer, effacez le journal "
-"ensuite !"
+msgstr "Op productiesites, als je moet debuggen, wis dan het log achteraf!"
 
 #: WooCommerce/class-triplea-payment-gateway.php:1935
 msgid "Pay with Bitcoin"
-msgstr "Payer avec Bitcoin"
+msgstr "Betaal met Bitcoin"
 
 #: WooCommerce/class-triplea-payment-gateway.php:1649
 msgid "Payment Failed"
-msgstr "Échec du paiement"
+msgstr "Betaling mislukt"
 
 #: WooCommerce/triplea-payment-gateway-settings-page.php:158
 msgid "Payment mode"
-msgstr "Mode de paiement"
+msgstr "Betalingswijze"
 
 #: WooCommerce/triplea-payment-gateway-settings-page.php:183
 msgid "Plugin options"
-msgstr "Options de plugin"
+msgstr "Plugin opties"
 
 #: WooCommerce/triplea-payment-gateway-settings-page.php:184
 msgid "Plugin options input fields and info"
-msgstr "Champs de saisie des options des plugins et informations"
+msgstr "Plugin opties invoervelden en info"
 
 #: WooCommerce/class-triplea-payment-gateway.php:1405
 #: WooCommerce/class-triplea-payment-gateway.php:1414
 #: WooCommerce/views/triplea-payment-gateway-settings-plugin-options.php:201
 #: WooCommerce/views/triplea-payment-gateway-settings-plugin-options.php:743
 msgid "Secure and easy payment with Bitcoin"
-msgstr "Paiement sécurisé et facile par Bitcoin"
+msgstr "Veilig en gemakkelijk betalen met Bitcoin"
 
 #: WooCommerce/class-triplea-payment-gateway.php:375
 msgid "Secure and easy payment with Bitcoin using the Triple-A.io service."
-msgstr ""
-"Paiement sécurisé et facile par Bitcoin en utilisant le service Triple-A.io."
+msgstr "Veilig en gemakkelijk betalen met Bitcoin via de Triple-A.io dienst."
 
 #: WooCommerce/triplea-payment-gateway-settings-page.php:147
 msgid ""
 "Select LIVE mode when ready to accept bitcoin payments from the public. "
 "Payment option will only be visible to Admin users in TEST mode."
 msgstr ""
-"Sélectionnez le mode LIVE lorsque vous êtes prêt à accepter les paiements de "
-"bitcoins du public. L'option de paiement ne sera visible que pour les "
-"utilisateurs Administrateurs en mode TEST."
+"Selecteer de LIVE modus als u klaar bent om bitcoin betalingen te accepteren "
+"van het publiek. Betalingsoptie zal alleen zichtbaar zijn voor Admin "
+"gebruikers in TEST modus."
 
 #: Admin/class-plugins-page.php:41
 msgid "Settings"
-msgstr "Paramètres"
+msgstr "Instellingen"
 
 #: WooCommerce/triplea-payment-gateway-settings-page.php:143
 msgid "Test Mode"
-msgstr "Mode Test"
+msgstr "Testmodus"
 
 #: WooCommerce/triplea-payment-gateway-settings-page.php:140
 msgid "Test or Live Mode"
-msgstr "Mode Live ou Test"
+msgstr "Test of live mode"
 
 #: WooCommerce/views/triplea-payment-gateway-settings-payment-mode.php:261
 msgid "testnet bitcoin wallet"
-msgstr "portefeuille bitcoin testnet"
+msgstr "testnet bitcoin portemonnee"
 
 #. Author of the plugin
 msgid "TripleA"
@@ -210,20 +206,21 @@ msgstr "TripleA"
 
 #. 1. URL link.
 #: Admin/class-admin.php:54
+#, php-format
 msgid ""
 "TripleA Bitcoin Payment Gateway plugin requires WooCommerce to be installed "
 "and active. You can download %s here."
 msgstr ""
-"Le plugin TripleA Bitcoin Payment Gateway nécessite que WooCommerce soit "
-"installé et actif. Vous pouvez télécharger %s ici."
+"TripleA Bitcoin Payment Gateway plugin vereist dat WooCommerce geïnstalleerd "
+"en actief is. U kunt %s hier downloaden."
 
 #: WooCommerce/class-triplea-payment-gateway.php:563
 msgid "TripleA TEST MODE enabled."
-msgstr "MODE TEST TripleA activé."
+msgstr "TripleA TEST MODE ingeschakeld."
 
 #: WooCommerce/triplea-payment-gateway-settings-page.php:192
 msgid "view log"
-msgstr "afficher le journal"
+msgstr "bekijk het log"
 
 #: WooCommerce/views/triplea-payment-gateway-settings-payment-mode.php:267
 #, php-format
@@ -234,18 +231,18 @@ msgid ""
 "View transactions in your own wallet or %s with the credentials you have "
 "received by email."
 msgstr ""
-"Visualisez les transactions dans votre propre portefeuille ou %s avec les "
-"informations d'identification que vous avez reçues par courrier électronique."
+"Bekijk transacties in uw eigen portemonnee of %s met de inloggegevens die u "
+"per e-mail hebt ontvangen."
 
 #: WooCommerce/class-triplea-payment-gateway.php:1228
 msgid "You are now accepting bitcoin payments."
-msgstr "Vous acceptez désormais les paiements par bitcoin."
+msgstr "U aanvaardt nu bitcoin betalingen."
 
 #: WooCommerce/views/triplea-payment-gateway-settings-payment-mode.php:270
 #, php-format
 msgctxt "You can use bitcoin testnet faucets to easily test payments"
 msgid "You can use %s to easily test payments."
-msgstr "Vous pouvez utiliser %s pour tester facilement les paiements."
+msgstr "U kunt %s gebruiken om betalingen gemakkelijk te testen."
 
 #: WooCommerce/views/triplea-payment-gateway-settings-payment-mode.php:261
 #, php-format
@@ -255,5 +252,5 @@ msgctxt ""
 msgid ""
 "You have chosen to receive sandbox bitcoin payments straight in your own %s."
 msgstr ""
-"Vous avez choisi de recevoir des paiements en bitcoins directement dans "
-"votre propre %s."
+"U heeft gekozen om sandbox bitcoin betalingen rechtstreeks in uw eigen %s te "
+"ontvangen."

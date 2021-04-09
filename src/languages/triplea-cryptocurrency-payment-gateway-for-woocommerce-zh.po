@@ -1,19 +1,19 @@
-# Translation of Plugins - Bitcoin Payment Gateway for WooCommerce - Stable (latest release) in French (France)
-# This file is distributed under the same license as the Plugins - Bitcoin Payment Gateway for WooCommerce - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2021-04-07 15:01+0800\n"
+"Project-Id-Version: Bitcoin Payment Gateway for WooCommerce\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-04-07 06:15+0000\n"
+"PO-Revision-Date: 2021-04-07 14:56+0800\n"
+"Last-Translator: \n"
+"Language-Team: Dutch\n"
+"Language: nl\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n > 1;\n"
 "X-Generator: Poedit 2.4.2\n"
-"Language: fr\n"
-"Project-Id-Version: Plugins - Bitcoin Payment Gateway for WooCommerce - "
-"Stable (latest release)\n"
-"POT-Creation-Date: \n"
-"Last-Translator: \n"
-"Language-Team: French\n"
+"X-Loco-Version: 2.5.2; wp-5.6.2\n"
+"X-Domain: triplea-cryptocurrency-payment-gateway-for-woocommerce\n"
 
 #: WooCommerce/class-triplea-payment-gateway.php:556
 msgid ""
@@ -29,13 +29,12 @@ msgstr ""
 "TripleA_MainLogo_Transparent-e1596423970124.png\" alt=\"Footer Logo\" class="
 "\"webpexpress-processed\" style=\"max-width: 149px; vertical-align: text-"
 "bottom;display: inline-block;position: relative;top: 5px;margin-right: 15px;"
-"\"> Avec <a href=\"https://triple-a.io\">TripleA</a>, vous pouvez choisir "
-"comment vos paiements en bitcoins vous sont réglés : <strong>en bitcoin</"
-"strong> ou <strong>dans votre monnaie locale</strong>."
+"\"> 通过<a href=\"https://triple-a.io\">TripleA</a>，您可以选择如何向您结算比"
+"特币付款。<strong>用比特币</strong>或<strong>用当地货币</strong>。"
 
 #: WooCommerce/triplea-payment-gateway-settings-page.php:172
 msgid "Accept bitcoin payments"
-msgstr "Accepter les paiements par bitcoin"
+msgstr "接受比特币支付"
 
 #: WooCommerce/class-triplea-payment-gateway.php:1070
 msgid "Bad attempt, invalid nonce for checkout_start"
@@ -53,59 +52,56 @@ msgstr "Bitcoin"
 
 #: WooCommerce/class-triplea-payment-gateway.php:363
 msgid "Bitcoin Payment Gateway"
-msgstr "Passerelle de paiements par Bitcoin"
+msgstr "比特币支付网关"
 
 #. Name of the plugin
 msgid "Bitcoin Payment Gateway for WooCommerce"
-msgstr "Passerelle de paiement par Bitcoin pour WooCommerce"
+msgstr "WooCommerce的比特币支付网关"
 
 #: Admin/class-admin.php:114
 msgid "Bitcoin payment settings"
-msgstr "Accepter les paiements par bitcoin"
+msgstr "比特币支付设置"
 
 #: WooCommerce/triplea-payment-gateway-settings-page.php:171
 msgid "Bitcoin Payments"
-msgstr "Paiements par Bitcoin"
+msgstr "比特币支付"
 
 #: WooCommerce/class-triplea-payment-gateway.php:1236
 msgid "Bitcoin payments disabled, no active wallets."
-msgstr "Paiements de bitcoin désactivés, pas de portefeuille actif."
+msgstr "比特币支付被禁用，无活动钱包。"
 
 #: WooCommerce/class-triplea-payment-gateway.php:1232
 msgid "Bitcoin Payments disabled."
-msgstr "Paiements par bitcoin désactivés."
+msgstr "比特币支付被禁用。"
 
 #: WooCommerce/views/triplea-payment-gateway-settings-payment-mode.php:267
 #: WooCommerce/views/triplea-payment-gateway-settings-payment-mode.php:270
 msgid "bitcoin testnet faucets"
-msgstr "robinets de test de bitcoin"
+msgstr "比特币测试网水龙头"
 
 #: WooCommerce/views/triplea-payment-gateway-settings-payment-mode.php:273
 msgctxt "button label"
 msgid "Show settlement options"
-msgstr "Afficher les options de règlement"
+msgstr "显示结算方案"
 
 #: WooCommerce/triplea-payment-gateway-settings-page.php:198
 msgid "Clear debug log"
-msgstr "Effacer le journal de débogage"
+msgstr "清除调试日志"
 
 #: WooCommerce/triplea-payment-gateway-settings-page.php:199
 msgid ""
 "Clear the debug log (upon saving this form, log is cleared and this option "
 "is then toggled off again)"
-msgstr ""
-"Effacer le journal de débogage (lors de la sauvegarde de ce formulaire, le "
-"journal est effacé et cette option est alors à nouveau désactivée)"
+msgstr "清除调试日志（保存此表格后，日志会被清除，然后再关闭此选项）。"
 
 #: WooCommerce/triplea-payment-gateway-settings-page.php:159
 msgid "Decide how you want your money to be delivered to you."
-msgstr ""
-"Décidez de la manière dont vous voulez que votre argent vous soit remis."
+msgstr "决定你希望你的钱如何交付给你。"
 
 #: WooCommerce/triplea-payment-gateway-settings-page.php:191
 #: WooCommerce/triplea-payment-gateway-settings-page.php:192
 msgid "Enable debug log"
-msgstr "Activer le journal de débogage"
+msgstr "启用调试日志"
 
 #. Author URI of the plugin
 msgid "https://triple-a.io"
@@ -118,15 +114,15 @@ msgstr "https://triple-a.io/crypto-payments-for-e-commerce"
 #: WooCommerce/views/triplea-payment-gateway-settings-payment-mode.php:280
 msgctxt "Live Bitcoin payments are enabled."
 msgid "Live"
-msgstr "Live"
+msgstr "生活"
 
 #: WooCommerce/triplea-payment-gateway-settings-page.php:144
 msgid "Live Mode"
-msgstr "Mode Live"
+msgstr "实时模式"
 
 #: WooCommerce/class-triplea-payment-gateway.php:1947
 msgid "loading..."
-msgstr "chargement..."
+msgstr "正在加载..."
 
 #. Description of the plugin
 msgid ""
@@ -135,74 +131,68 @@ msgid ""
 "directly in your bank account. Enjoy an easy setup, no bitcoin expertise "
 "required. Powered by TripleA."
 msgstr ""
-"Proposez bitcoin comme option de paiement sur votre site web et accédez à "
-"encore plus de clients. Recevez des paiements en bitcoins ou dans votre "
-"monnaie locale, directement sur votre compte bancaire. Profitez d'une "
-"installation facile, sans avoir besoin d'expertise en matière de bitcoins. "
-"Développé par TripleA."
+"在您的网站上提供比特币作为支付选项，并获得更多的客户。直接在您的银行账户中接"
+"收比特币或当地货币的付款。享受简单的设置，无需比特币专业知识。由 TripleA 提供"
+"技术支持。"
 
 #: WooCommerce/triplea-payment-gateway-settings-page.php:200
 msgid "On production, if you need to debug, clear the log afterwards!"
-msgstr ""
-"Sur un site en ligne, si vous avez besoin de déboguer, effacez le journal "
-"ensuite !"
+msgstr "在生产型网站上，如果需要调试，请在调试后清除日志!"
 
 #: WooCommerce/class-triplea-payment-gateway.php:1935
 msgid "Pay with Bitcoin"
-msgstr "Payer avec Bitcoin"
+msgstr "用比特币支付"
 
 #: WooCommerce/class-triplea-payment-gateway.php:1649
 msgid "Payment Failed"
-msgstr "Échec du paiement"
+msgstr "付款失败"
 
 #: WooCommerce/triplea-payment-gateway-settings-page.php:158
 msgid "Payment mode"
-msgstr "Mode de paiement"
+msgstr "支付方式"
 
 #: WooCommerce/triplea-payment-gateway-settings-page.php:183
 msgid "Plugin options"
-msgstr "Options de plugin"
+msgstr "插件选项"
 
 #: WooCommerce/triplea-payment-gateway-settings-page.php:184
 msgid "Plugin options input fields and info"
-msgstr "Champs de saisie des options des plugins et informations"
+msgstr "插件选项输入字段和信息"
 
 #: WooCommerce/class-triplea-payment-gateway.php:1405
 #: WooCommerce/class-triplea-payment-gateway.php:1414
 #: WooCommerce/views/triplea-payment-gateway-settings-plugin-options.php:201
 #: WooCommerce/views/triplea-payment-gateway-settings-plugin-options.php:743
 msgid "Secure and easy payment with Bitcoin"
-msgstr "Paiement sécurisé et facile par Bitcoin"
+msgstr "使用比特币进行安全、便捷的支付"
 
 #: WooCommerce/class-triplea-payment-gateway.php:375
 msgid "Secure and easy payment with Bitcoin using the Triple-A.io service."
-msgstr ""
-"Paiement sécurisé et facile par Bitcoin en utilisant le service Triple-A.io."
+msgstr "使用比特币进行安全、便捷的支付"
 
 #: WooCommerce/triplea-payment-gateway-settings-page.php:147
 msgid ""
 "Select LIVE mode when ready to accept bitcoin payments from the public. "
 "Payment option will only be visible to Admin users in TEST mode."
 msgstr ""
-"Sélectionnez le mode LIVE lorsque vous êtes prêt à accepter les paiements de "
-"bitcoins du public. L'option de paiement ne sera visible que pour les "
-"utilisateurs Administrateurs en mode TEST."
+"当准备接受公众的比特币支付时，请选择LIVE模式。支付选项只有在TEST模式下对管理"
+"员用户可见。"
 
 #: Admin/class-plugins-page.php:41
 msgid "Settings"
-msgstr "Paramètres"
+msgstr "设置"
 
 #: WooCommerce/triplea-payment-gateway-settings-page.php:143
 msgid "Test Mode"
-msgstr "Mode Test"
+msgstr "测试模式"
 
 #: WooCommerce/triplea-payment-gateway-settings-page.php:140
 msgid "Test or Live Mode"
-msgstr "Mode Live ou Test"
+msgstr "实时模式测试"
 
 #: WooCommerce/views/triplea-payment-gateway-settings-payment-mode.php:261
 msgid "testnet bitcoin wallet"
-msgstr "portefeuille bitcoin testnet"
+msgstr "testnet比特币钱包"
 
 #. Author of the plugin
 msgid "TripleA"
@@ -210,20 +200,20 @@ msgstr "TripleA"
 
 #. 1. URL link.
 #: Admin/class-admin.php:54
+#, php-format
 msgid ""
 "TripleA Bitcoin Payment Gateway plugin requires WooCommerce to be installed "
 "and active. You can download %s here."
 msgstr ""
-"Le plugin TripleA Bitcoin Payment Gateway nécessite que WooCommerce soit "
-"installé et actif. Vous pouvez télécharger %s ici."
+"TripleA比特币支付网关插件需要安装并激活WooCommerce。你可以在这里下载%s。"
 
 #: WooCommerce/class-triplea-payment-gateway.php:563
 msgid "TripleA TEST MODE enabled."
-msgstr "MODE TEST TripleA activé."
+msgstr "启用 TripleA TEST MODE。"
 
 #: WooCommerce/triplea-payment-gateway-settings-page.php:192
 msgid "view log"
-msgstr "afficher le journal"
+msgstr "查看调试日志"
 
 #: WooCommerce/views/triplea-payment-gateway-settings-payment-mode.php:267
 #, php-format
@@ -233,19 +223,17 @@ msgctxt ""
 msgid ""
 "View transactions in your own wallet or %s with the credentials you have "
 "received by email."
-msgstr ""
-"Visualisez les transactions dans votre propre portefeuille ou %s avec les "
-"informations d'identification que vous avez reçues par courrier électronique."
+msgstr "用您通过电子邮件收到的凭证查看自己钱包或%s中的交易。"
 
 #: WooCommerce/class-triplea-payment-gateway.php:1228
 msgid "You are now accepting bitcoin payments."
-msgstr "Vous acceptez désormais les paiements par bitcoin."
+msgstr "您现在接受比特币支付。"
 
 #: WooCommerce/views/triplea-payment-gateway-settings-payment-mode.php:270
 #, php-format
 msgctxt "You can use bitcoin testnet faucets to easily test payments"
 msgid "You can use %s to easily test payments."
-msgstr "Vous pouvez utiliser %s pour tester facilement les paiements."
+msgstr "你可以使用%s来轻松测试支付。"
 
 #: WooCommerce/views/triplea-payment-gateway-settings-payment-mode.php:261
 #, php-format
@@ -254,6 +242,4 @@ msgctxt ""
 "testnet bitcoin wallet."
 msgid ""
 "You have chosen to receive sandbox bitcoin payments straight in your own %s."
-msgstr ""
-"Vous avez choisi de recevoir des paiements en bitcoins directement dans "
-"votre propre %s."
+msgstr "你选择了直接在自己的%s中接收沙盒比特币支付。"
