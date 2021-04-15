@@ -353,6 +353,13 @@ ob_start();
                   For both settlement modes, a TripleA dashboard account will be created where you can issue refunds, view transaction history, send bitcoin payment request links (for invoice payments).
                   If you create several accounts, these will all be available in your TripleA dashboard, linked to the email address used to create the accounts in the plugin.
                </p>
+               <p>
+                  Please note:
+                  <br>
+                  If you are just getting started with bitcoin, we recommend using our local currency wallets, where we eliminate the risk of exchange the volatile exchange rates.
+                  <br>
+                  Receiving Bitcoin in your own wallet is for crypto currency experts. If things are not setup correctly, there is a possibility of loss of funds which we will not be able to help you with.
+               </p>
             </div>
          </li>
          <li>
@@ -534,6 +541,22 @@ ob_start();
       <ol class="triplea-faq-list">
          <li>
             <button type="button" class="triplea-faq-collapsible">
+               Why is local currency settlement "recommended" and bitcoin settlement for "experts"?
+            </button>
+            <div class="triplea-faq-content">
+               <p>
+                  Receiving Bitcoin in your own wallet is for crypto currency experts.
+                  If things are not setup correctly, there is a <strong>possibility of loss</strong> of
+                  funds which we will not be able to help you with.
+               </p>
+               <p>
+                  If you are just getting started with bitcoin, we recommend using our local
+                  currency wallets, where we eliminate the risk of exchange the volatile exchange rates.
+               </p>
+            </div>
+         </li>
+         <li>
+            <button type="button" class="triplea-faq-collapsible">
                What is a master public key? Why do you ask for it?
             </button>
             <div class="triplea-faq-content">
@@ -562,6 +585,17 @@ ob_start();
                </p>
                <p>
                   Note: we recommend you create a new wallet for use only with TripleA and your current store. This will avoid mixing notifications in case you receive bitcoin payments from other sources.
+               </p>
+            </div>
+         </li>
+         <li>
+            <button type="button" class="triplea-faq-collapsible">
+               Do you support multi-signature wallets or 2FA wallets?
+            </button>
+            <div class="triplea-faq-content">
+               <p>
+                  No. We do not support multi-sig or 2FA wallets. If you use such a wallet,
+                  you will need to create a new wallet for use with our plugin.
                </p>
             </div>
          </li>
