@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "78af619212d56febc430f8bc8fda855a",
+    "content-hash": "184428b0aebb7169521ae7796d017c6d",
     "packages": [
         {
             "name": "brianhenryie/wppb-lib",
@@ -20,7 +20,7 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "WPPB\\": "src"
+                    "BrianHenryIE\\WPPB\\": "src"
                 }
             },
             "license": [
@@ -41,9 +41,20 @@
                 "php": ">=5.3.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "*"
+                "cweagans/composer-patches": "^1.0",
+                "dealerdirect/phpcodesniffer-composer-installer": "0.7.0",
+                "phpunit/phpunit": "^7",
+                "squizlabs/php_codesniffer": "dev-master",
+                "wp-coding-standards/wpcs": "^2.3"
             },
             "type": "library",
+            "extra": {
+                "patches": {
+                    "squizlabs/php_codesniffer": {
+                        "Add GitHub Actions Annotations report type": "https://github.com/squizlabs/PHP_CodeSniffer/pull/2918.patch"
+                    }
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "Pablo_Pacheco\\WP_Namespace_Autoloader\\": "src"
@@ -2301,12 +2312,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kporras07/composer-symlinks.git",
-                "reference": "cda2e2059646b06a490092893563af5b70b569bd"
+                "reference": "57fc135ce67be0c9bab613b5239eef3c71a25fb9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kporras07/composer-symlinks/zipball/cda2e2059646b06a490092893563af5b70b569bd",
-                "reference": "cda2e2059646b06a490092893563af5b70b569bd",
+                "url": "https://api.github.com/repos/kporras07/composer-symlinks/zipball/57fc135ce67be0c9bab613b5239eef3c71a25fb9",
+                "reference": "57fc135ce67be0c9bab613b5239eef3c71a25fb9",
                 "shasum": ""
             },
             "require": {
@@ -2348,7 +2359,7 @@
                 "script",
                 "symlink"
             ],
-            "time": "2020-05-08T00:09:07+00:00"
+            "time": "2020-09-15T18:27:34+00:00"
         },
         {
             "name": "league/flysystem",
@@ -3703,6 +3714,7 @@
             "keywords": [
                 "tokenizer"
             ],
+            "abandoned": true,
             "time": "2019-09-17T06:23:10+00:00"
         },
         {
@@ -4077,23 +4089,30 @@
         },
         {
             "name": "rmccue/requests",
-            "version": "v1.7.0",
+            "version": "v1.8.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/rmccue/Requests.git",
-                "reference": "87932f52ffad70504d93f04f15690cf16a089546"
+                "url": "https://github.com/WordPress/Requests.git",
+                "reference": "afbe4790e4def03581c4a0963a1e8aa01f6030f1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rmccue/Requests/zipball/87932f52ffad70504d93f04f15690cf16a089546",
-                "reference": "87932f52ffad70504d93f04f15690cf16a089546",
+                "url": "https://api.github.com/repos/WordPress/Requests/zipball/afbe4790e4def03581c4a0963a1e8aa01f6030f1",
+                "reference": "afbe4790e4def03581c4a0963a1e8aa01f6030f1",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.2"
             },
             "require-dev": {
-                "requests/test-server": "dev-master"
+                "dealerdirect/phpcodesniffer-composer-installer": "^0.7",
+                "php-parallel-lint/php-console-highlighter": "^0.5.0",
+                "php-parallel-lint/php-parallel-lint": "^1.3",
+                "phpcompatibility/php-compatibility": "^9.0",
+                "phpunit/phpunit": "^4.8 || ^5.7 || ^6.5 || ^7.5",
+                "requests/test-server": "dev-master",
+                "squizlabs/php_codesniffer": "^3.5",
+                "wp-coding-standards/wpcs": "^2.0"
             },
             "type": "library",
             "autoload": {
@@ -4112,7 +4131,7 @@
                 }
             ],
             "description": "A HTTP library written in PHP, for human beings.",
-            "homepage": "http://github.com/rmccue/Requests",
+            "homepage": "http://github.com/WordPress/Requests",
             "keywords": [
                 "curl",
                 "fsockopen",
@@ -4122,7 +4141,7 @@
                 "iri",
                 "sockets"
             ],
-            "time": "2016-10-13T00:11:37+00:00"
+            "time": "2021-04-27T11:05:25+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
@@ -4450,6 +4469,7 @@
             ],
             "description": "FinderFacade is a convenience wrapper for Symfony's Finder component.",
             "homepage": "https://github.com/sebastianbergmann/finder-facade",
+            "abandoned": true,
             "time": "2020-01-16T08:08:45+00:00"
         },
         {
@@ -6422,19 +6442,19 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/voku/portable-ascii.git",
-                "reference": "cb93d0c4400a930d50250106c40aba7dc848f856"
+                "reference": "14e3224c1a32e9a9653d2f91a425696029c45426"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/voku/portable-ascii/zipball/cb93d0c4400a930d50250106c40aba7dc848f856",
-                "reference": "cb93d0c4400a930d50250106c40aba7dc848f856",
+                "url": "https://api.github.com/repos/voku/portable-ascii/zipball/14e3224c1a32e9a9653d2f91a425696029c45426",
+                "reference": "14e3224c1a32e9a9653d2f91a425696029c45426",
                 "shasum": ""
             },
             "require": {
                 "php": ">=7.0.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "~6.0 || ~7.0"
+                "phpunit/phpunit": "~6.0 || ~7.0 || ~9.0"
             },
             "suggest": {
                 "ext-intl": "Use Intl for transliterator_transliterate() support"
@@ -6472,6 +6492,10 @@
                     "type": "github"
                 },
                 {
+                    "url": "https://opencollective.com/portable-ascii",
+                    "type": "open_collective"
+                },
+                {
                     "url": "https://www.patreon.com/voku",
                     "type": "patreon"
                 },
@@ -6480,7 +6504,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-06-12T00:05:22+00:00"
+            "time": "2021-04-12T21:31:37+00:00"
         },
         {
             "name": "vria/nodiacritic",
@@ -6535,12 +6559,12 @@
             "version": "1.8.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/webmozart/assert.git",
+                "url": "https://github.com/webmozarts/assert.git",
                 "reference": "ab2cb0b3b559010b75981b1bdce728da3ee90ad6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webmozart/assert/zipball/ab2cb0b3b559010b75981b1bdce728da3ee90ad6",
+                "url": "https://api.github.com/repos/webmozarts/assert/zipball/ab2cb0b3b559010b75981b1bdce728da3ee90ad6",
                 "reference": "ab2cb0b3b559010b75981b1bdce728da3ee90ad6",
                 "shasum": ""
             },
@@ -8760,7 +8784,9 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=7.2"
+        "php": ">=7.2",
+        "ext-json": "*",
+        "ext-openssl": "*"
     },
     "platform-dev": [],
     "plugin-api-version": "1.1.0"
